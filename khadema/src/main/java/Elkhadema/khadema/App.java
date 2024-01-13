@@ -12,6 +12,7 @@ import java.io.IOException;
  * JavaFX App
  */
 public class App extends Application {
+    int test;
     private static Scene scene;
 //testing git on eclipse
     @Override

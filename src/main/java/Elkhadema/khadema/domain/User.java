@@ -17,7 +17,7 @@ public class User {
         this.lastLoginDate = lastLoginDate;
     }
 
-    public User(String username, String password, int id, Profile profile) {
+    public User(String username, String password, int id) {
         this.username = username;
         this.password = password;
         this.id = id;

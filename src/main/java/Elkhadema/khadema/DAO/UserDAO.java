@@ -15,18 +15,18 @@ public class UserDAO implements Dao<User> {
 	@Override
 	public Optional<User> get(long id) {
 		String sql = "SELECT *  FROM `user` WHERE `user_id` = " + id;
+		User user = null;
 		try {
 			ResultSet rs = connection.createStatement().executeQuery(sql);
 			while (rs.next()) {
-				User user = new User(rs.getString(4), rs.getArray(2), rs.getLong(0), new Profile(null, null, null));
-
+				user = new User(rs.getString(4), rs.getString(2), rs.getInt(0));
 			}
 
 		} catch (Exception e) {
 			System.out.println(e);
 
 		}
-		return rs;
+		return Optional.ofNullable(user);
 	}
 
 	@Override

@@ -7,9 +7,7 @@ public interface UserService {
 
 	public User Login(String name, String password);
 
-	public void removeUser(Long userid);
+	public void removeUser(User u);
 
-	public User EditUser(User u);
-	public void BanUser(User u);
-
+	public User EditUser(User u,User newT);
 }

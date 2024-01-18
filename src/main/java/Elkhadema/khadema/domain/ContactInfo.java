@@ -10,21 +10,27 @@ public class ContactInfo {
         this.address = address;
         this.phoneNumber = phoneNumber;
     }
+
     public String getEmail() {
         return email;
     }
+
     public void setEmail(String email) {
         this.email = email;
     }
+
     public String getAddress() {
         return address;
     }
+
     public void setAddress(String address) {
         this.address = address;
     }
+
     public int getPhoneNumber() {
         return phoneNumber;
     }
+
     public void setPhoneNumber(int phoneNumber) {
         this.phoneNumber = phoneNumber;
     }

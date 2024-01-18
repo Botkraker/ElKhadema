@@ -10,6 +10,6 @@ public interface UserService {
 	public void removeUser(Long userid);
 
 	public User EditUser(User u);
-	public void BanUser(User u);
+
 
 }

@@ -29,6 +29,11 @@ public class UserDAO implements Dao<User> {
 		return Optional.ofNullable(user);
 	}
 
+	public Optional<User> getUserByLogInfo(String username, String password) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	@Override
 	public List<User> getAll() {
 		// TODO Auto-generated method stub

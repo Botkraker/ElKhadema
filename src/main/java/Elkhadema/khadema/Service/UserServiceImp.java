@@ -27,10 +27,5 @@ public class UserServiceImp implements UserService {
 		return null;
 	}
 
-	@Override
-	public void BanUser(User u) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }

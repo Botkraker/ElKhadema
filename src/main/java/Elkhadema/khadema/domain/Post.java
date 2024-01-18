@@ -26,7 +26,6 @@ public class Post {
         CreationDate = creationDate;
     }
 
-    
     public User getUser() {
         return user;
     }

@@ -137,5 +137,4 @@ public class UserDAO implements Dao<User> {
 			System.out.println(e);
 		}
 	}
-
 }

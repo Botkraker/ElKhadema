@@ -1,9 +1,9 @@
-package Elkhadema.khadema.DAO.DAOInterfaces;
+package Elkhadema.khadema.DAO.DAOImplemantation;
 
 import java.util.List;
 import java.util.Optional;
 
-import Elkhadema.khadema.DAO.DAOImplemantation.AdminDAOINT;
+import Elkhadema.khadema.DAO.DAOInterfaces.AdminDAOINT;
 import Elkhadema.khadema.domain.User;
 
 public class AdminDAO implements AdminDAOINT {

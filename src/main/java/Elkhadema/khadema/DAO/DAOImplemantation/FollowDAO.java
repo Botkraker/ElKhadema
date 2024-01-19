@@ -1,9 +1,9 @@
-package Elkhadema.khadema.DAO.DAOInterfaces;
+package Elkhadema.khadema.DAO.DAOImplemantation;
 
 import java.util.List;
 import java.util.Optional;
 
-import Elkhadema.khadema.DAO.DAOImplemantation.FollowerDAOINT;
+import Elkhadema.khadema.DAO.DAOInterfaces.FollowerDAOINT;
 import Elkhadema.khadema.domain.Follow;
 
 public class FollowDAO implements FollowerDAOINT{

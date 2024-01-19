@@ -3,7 +3,7 @@ package Elkhadema.khadema.Service.ServiceImplemantation;
 import java.util.List;
 import java.util.Optional;
 
-import Elkhadema.khadema.DAO.DAOInterfaces.UserDAO;
+import Elkhadema.khadema.DAO.DAOImplemantation.UserDAO;
 import Elkhadema.khadema.Service.ServiceInterfaces.UserService;
 import Elkhadema.khadema.domain.User;
 

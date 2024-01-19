@@ -96,10 +96,6 @@ public class PostDAO implements PostDAOINT {
 			System.out.println(e);
 		}
 	}
-	public static void main(String[] args) {
-		PostDAOINT pDao=new PostDAO();
-		pDao.delete(new Post(4, null, null, null, null, null, null));
-	}
-	
+
 
 }

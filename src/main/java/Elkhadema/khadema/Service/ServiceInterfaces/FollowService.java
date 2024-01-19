@@ -1,4 +1,4 @@
-package Elkhadema.khadema.Service;
+package Elkhadema.khadema.Service.ServiceInterfaces;
 
 import java.util.List;
 

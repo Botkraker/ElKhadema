@@ -31,13 +31,12 @@ public class Reaction {
         this.type = type;
         this.creationDate = creationDate;
     }
-    public Post getPost() {
-        return post;
-    }
-    public void setPost(Post post) {
-        this.post = post;
-    }
-    
+	public Post getPost() {
+		return post;
+	}
+	public void setPost(Post post) {
+		this.post = post;
+	}
     
 
 }

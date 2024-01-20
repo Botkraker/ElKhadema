@@ -2,14 +2,13 @@ package Elkhadema.khadema.domain;
 
 import java.util.Date;
 
-public class Company  extends User{
-    public Company(int id, String password, ContactInfo contactInfo, String firstname, String lastname,
-			Date creationDate, Date lastloginDate, boolean is_banned, boolean is_active) {
-		super(id, password, contactInfo, firstname, lastname, creationDate, lastloginDate, is_banned, is_active);
-		// TODO Auto-generated constructor stub
-	}
-	private String companyName;
+public class Company extends User {
+    private String companyName;
 
+    public Company(int id, String companyName,String secondCompanyName) {
+        super(companyName, secondCompanyName, id);
+        this.companyName = companyName;
+    }
     public String getCompanyName() {
         return companyName;
     }
@@ -20,8 +19,9 @@ public class Company  extends User{
 	public String toString() {
 		return "Company [companyName=" + companyName + "]";
 	}
-	public Company(String firstname, String password, int id, String companyName) {
-		super(firstname, password, id);
+	public Company(int id, String password, ContactInfo contactInfo, String firstname, String lastname,
+			Date creationDate, Date lastloginDate, boolean is_banned, boolean is_active, String companyName) {
+		super(id, password, contactInfo, firstname, lastname, creationDate, lastloginDate, is_banned, is_active);
 		this.companyName = companyName;
 	}
 

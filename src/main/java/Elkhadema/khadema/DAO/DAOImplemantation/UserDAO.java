@@ -10,12 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import Elkhadema.khadema.DAO.DAOInterfaces.Dao;
+import Elkhadema.khadema.DAO.DAOInterfaces.UserDAOINT;
 import Elkhadema.khadema.domain.ContactInfo;
 import Elkhadema.khadema.domain.User;
 import Elkhadema.khadema.util.ConexDB;
 
-public class UserDAO implements Dao<User> {
+public class UserDAO implements UserDAOINT {
 	private static Connection connection = ConexDB.getInstance();
 
 	@Override
@@ -113,6 +113,7 @@ public class UserDAO implements Dao<User> {
 	}
 	}
 	
+	@Override
 	public void updateContactinfo(User t,ContactInfo ci) {
 		try {
 			String sql="UPDATE `khademadb`.`contact_info` SET `email` = ?, `phone number` = ?, `address` = ? WHERE `contact_info`.`contact_info_id` = "+t.getId()+";";

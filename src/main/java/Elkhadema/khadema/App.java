@@ -11,9 +11,8 @@ import java.io.IOException;
  * JavaFX App
  */
 public class App extends Application {
-
+    
     private static Scene scene;
-
     @Override
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("primary"), 640, 480);

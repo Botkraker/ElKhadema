@@ -7,6 +7,7 @@ import Elkhadema.khadema.domain.JobOffre;
 
 public interface CompanyService {
     List<JobOffre> getJobOffres(Company Company);
+
     Company getCompanyInfo(Company company);
-    
+
 }

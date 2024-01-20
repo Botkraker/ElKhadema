@@ -1,4 +1,4 @@
-package Elkhadema.khadema.DAO.DAOInterfaces;
+package Elkhadema.khadema.DAO.DAOImplemantation;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import Elkhadema.khadema.DAO.DAOImplemantation.PostDAOINT;
+import Elkhadema.khadema.DAO.DAOInterfaces.PostDAOINT;
 import Elkhadema.khadema.domain.Post;
 import Elkhadema.khadema.domain.User;
 import Elkhadema.khadema.util.ConexDB;

@@ -17,11 +17,11 @@ import Elkhadema.khadema.domain.Reaction;
 import Elkhadema.khadema.domain.User;
 import Elkhadema.khadema.util.ConexDB;
 
-public class ReactionDAO implements ReactionDAOINT {
+public class ReactionDAO  {
 	private static Connection connection = ConexDB.getInstance();
-	@Override
-	public Optional<Reaction> get(long id) {
-		String sql = "SELECT  post_reaction . * , firstname, lastname FROM `post_reaction` , user WHERE `post_id` ="+id+" AND post_reaction.`user_id` = user.user_id";
+
+	public Optional<Reaction> get(User user,Post post) {
+		String sql = "SELECT  post_reaction . * , firstname, lastname FROM `post_reaction` , user WHERE `post_reaction`.`post_id` = "+user.getId()+" AND `post_reaction`.`user_id` = "+post.getId()+" AND post_reaction.`user_id` = user.user_id";
 		Reaction reaction = null;
 		try {
 			ResultSet rs = connection.createStatement().executeQuery(sql);
@@ -36,12 +36,12 @@ public class ReactionDAO implements ReactionDAOINT {
 		return Optional.ofNullable(reaction);
 	}
 
-	@Override
-	public List<Reaction> getAll() {
+	
+	public List<Reaction> getAll(Post post) {
 		Statement stmt=null;
 		ResultSet rs=null;
 		List<Reaction>reactions=new ArrayList<>();
-		String SQL="SELECT  post_reaction . * , firstname, lastname  FROM user,post_reaction WHERE post_reaction.`user_id` = user.user_id  ORDER BY post_id";
+		String SQL="SELECT post_reaction.*,firstname,lastname  FROM `post_reaction`,user WHERE `post_id` = "+post.getId();
 		try {
 			stmt=connection.createStatement();
 			rs=stmt.executeQuery(SQL);
@@ -54,7 +54,7 @@ public class ReactionDAO implements ReactionDAOINT {
 		return reactions;
 	}
 
-	@Override
+	
 	public void save(Reaction t) {
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
@@ -72,7 +72,7 @@ public class ReactionDAO implements ReactionDAOINT {
 		
 	}
 
-	@Override
+	
 	public void update(Reaction t, Reaction newT) {
 		PreparedStatement pstmt=null;
 		try {
@@ -87,7 +87,6 @@ public class ReactionDAO implements ReactionDAOINT {
 		}		
 	}
 
-	@Override
 	public void delete(Reaction t) {
 		try {
 			connection.createStatement().execute("DELETE FROM `post_reaction` WHERE `post_id`="+t.getPost().getId()+" AND `user_id`="+t.getUser().getId());

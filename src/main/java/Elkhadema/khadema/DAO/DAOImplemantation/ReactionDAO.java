@@ -12,6 +12,7 @@ import java.util.Optional;
 
 import Elkhadema.khadema.DAO.DAOInterfaces.ReactionDAOINT;
 import Elkhadema.khadema.domain.ContactInfo;
+import Elkhadema.khadema.domain.Post;
 import Elkhadema.khadema.domain.Reaction;
 import Elkhadema.khadema.domain.User;
 import Elkhadema.khadema.util.ConexDB;
@@ -25,7 +26,7 @@ public class ReactionDAO implements ReactionDAOINT {
 		try {
 			ResultSet rs = connection.createStatement().executeQuery(sql);
 			while (rs.next()) {
-				reaction = new Reaction(new User(rs.getString("firstname"), rs.getString("lastname"), rs.getInt("user_id")), rs.getString("reactiontype"), rs.getDate("creationdate"));
+				reaction = new Reaction(new User(rs.getString("firstname"), rs.getString("lastname"), rs.getInt("user_id")),new Post(rs.getInt("post_id")), rs.getString("reactiontype"),  rs.getDate("creationdate"));
 			}
 
 		} catch (Exception e) {
@@ -45,7 +46,7 @@ public class ReactionDAO implements ReactionDAOINT {
 			stmt=connection.createStatement();
 			rs=stmt.executeQuery(SQL);
 			while (rs.next()) {
-				reactions.add(new Reaction(new User(rs.getString("firstname"), rs.getString("lastname"), rs.getInt("user_id")), rs.getString("reactiontype"),  rs.getDate("creationdate")));
+				reactions.add(new Reaction(new User(rs.getString("firstname"), rs.getString("lastname"), rs.getInt("user_id")),new Post(rs.getInt("post_id")), rs.getString("reactiontype"),  rs.getDate("creationdate")));
 			}
 		} catch (SQLException e) {
 			System.out.println(e);
@@ -60,10 +61,10 @@ public class ReactionDAO implements ReactionDAOINT {
 		try {
 			int cfid = 0;
 			pstmt=connection.prepareStatement("INSERT INTO `khademadb`.`post_reaction` (`post_id`, `user_id`, `reactiontype`, `creationdate`) VALUES (?,?,?,?);",Statement.RETURN_GENERATED_KEYS);
-			// TODO change this pls
-/* 			pstmt.setString(1,t.get().getEmail());
-			pstmt.setInt(2,t.getContactInfo().getPhoneNumber());
-			pstmt.setString(3, t.getContactInfo().getAddress()); */
+			pstmt.setLong(1,t.getPost().getId());
+			pstmt.setLong(2,t.getUser().getId());
+			pstmt.setString(3, t.getType());
+			pstmt.setDate(4,(Date) t.getCreationDate());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 		System.out.println(e.getMessage());
@@ -73,14 +74,28 @@ public class ReactionDAO implements ReactionDAOINT {
 
 	@Override
 	public void update(Reaction t, Reaction newT) {
-		// TODO Auto-generated method stub
-		
+		PreparedStatement pstmt=null;
+		try {
+			pstmt=connection.prepareStatement("UPDATE `khademadb`.`post_reaction` SET `reactiontype` = ?, `creationdate` = ? WHERE `post_reaction`.`post_id` = ? AND `post_reaction`.`user_id` = ?;",Statement.RETURN_GENERATED_KEYS);
+			pstmt.setString(1,newT.getType());
+			pstmt.setDate(2,(Date)newT.getCreationDate());
+			pstmt.setLong(3, t.getPost().getId());
+			pstmt.setLong(4, t.getUser().getId());
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+		System.out.println(e.getMessage());
+		}		
 	}
 
 	@Override
 	public void delete(Reaction t) {
-		// TODO Auto-generated method stub
-		
-	}
+		try {
+			connection.createStatement().execute("DELETE FROM `post_reaction` WHERE `post_id`="+t.getPost().getId()+" AND `user_id`="+t.getUser().getId());
+
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}		
+	
 
 }

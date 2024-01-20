@@ -21,7 +21,9 @@ public class Post {
         this.reactions = reactions;
         this.CreationDate = creationDate;
     }
-
+    public Post(long id) {
+		this.id=id;
+	}
     public Date getCreationDate() {
         return CreationDate;
     }

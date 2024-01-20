@@ -3,6 +3,7 @@ package Elkhadema.khadema.domain;
 import java.util.List;
 
 public class Comment {
+	private int id;
     private String content;
     private User user;
     private List<Reaction> reactions;
@@ -31,10 +32,22 @@ public class Comment {
         this.reactions = reactions;
     }
 
-    public Comment(String content, User user, List<Reaction> reactions) {
+    public Comment(int id,String content, User user, List<Reaction> reactions) {
         this.content = content;
+        this.id=id;
         this.user = user;
         this.reactions = reactions;
     }
+    public Comment(int id) {
+    	this.id=id;
+    }
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	};
 
 }

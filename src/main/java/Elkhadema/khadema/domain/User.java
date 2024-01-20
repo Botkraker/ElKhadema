@@ -91,9 +91,9 @@ public class User {
         this.lastloginDate = lastLoginDate;
     }
 
-    public User(String firstname, String password, int id) {
+    public User(String firstname, String lastname, int id) {
         this.firstname = firstname;
-        this.password = password;
+        this.lastname = lastname;
         this.id = id;
     }
 

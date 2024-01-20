@@ -4,8 +4,10 @@ import java.util.Date;
 
 public class Reaction {
     private User user;
+    private Post post;
     private String type;
     private Date creationDate;
+   
     public User getUser() {
         return user;
     }
@@ -24,11 +26,18 @@ public class Reaction {
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
     }
-    public Reaction(User user, String type, Date creationDate) {
+    public Reaction(User user,String type, Date creationDate) {
         this.user = user;
         this.type = type;
         this.creationDate = creationDate;
     }
+    public Post getPost() {
+        return post;
+    }
+    public void setPost(Post post) {
+        this.post = post;
+    }
+    
     
 
 }

@@ -8,16 +8,22 @@ public class Post {
     private String content;
     private List<Comment> comments;
     private List<Reaction> reactions;
+    private String type;
     private Date CreationDate;
+    private long id;
 
-    public Post(User user, String content, List<Comment> comments, List<Reaction> reactions, Date creationDate) {
+    public Post(long id,User user, String content,String type, List<Comment> comments, List<Reaction> reactions, Date creationDate) {
         this.user = user;
+        this.id=id;
+        this.type=type;
         this.content = content;
         this.comments = comments;
         this.reactions = reactions;
         this.CreationDate = creationDate;
     }
-
+    public Post(long id) {
+		this.id=id;
+	}
     public Date getCreationDate() {
         return CreationDate;
     }
@@ -51,12 +57,34 @@ public class Post {
         this.comments = comments;
     }
 
-    public List<Reaction> getReactions() {
+    public String getType() {
+		return type;
+	}
+
+	@Override
+	public String toString() {
+		return "Post [user=" + user + ", content=" + content + ", comments=" + comments + ", reactions=" + reactions
+				+ ", type=" + type + ", CreationDate=" + CreationDate + ", id=" + id + "]";
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public List<Reaction> getReactions() {
         return reactions;
     }
 
     public void setReactions(List<Reaction> reactions) {
         this.reactions = reactions;
     }
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
 
 }

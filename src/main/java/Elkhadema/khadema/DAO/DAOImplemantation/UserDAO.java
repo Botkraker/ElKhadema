@@ -25,7 +25,7 @@ public class UserDAO implements Dao<User> {
 		try {
 			ResultSet rs = connection.createStatement().executeQuery(sql);
 			while (rs.next()) {
-				user = new User(rs.getInt("user_id"), rs.getString("password_encrypted"),new ContactInfo(rs.getString("email"), rs.getString("address"), rs.getInt("phone number")),rs.getString("firstname"),rs.getString("lastname"),rs.getDate("creationdate"),rs.getDate("last_login"),rs.getBoolean("banned"),rs.getBoolean("is_active"));
+				user = new User(rs.getInt("user_id"), rs.getString("password_encrypted"),new ContactInfo(id,rs.getString("email"), rs.getString("address"), rs.getInt("phone number")),rs.getString("firstname"),rs.getString("lastname"),rs.getDate("creationdate"),rs.getDate("last_login"),rs.getBoolean("banned"),rs.getBoolean("is_active"));
 			}
 
 		} catch (Exception e) {
@@ -47,7 +47,7 @@ public class UserDAO implements Dao<User> {
 			while (rs.next()) {
 				int id=rs.getInt("user_id");
 				String password=rs.getString("password_encrypted");
-				ContactInfo cf=new ContactInfo(rs.getString("email"), rs.getString("address"), rs.getInt("phone number"));
+				ContactInfo cf=new ContactInfo(id,rs.getString("email"), rs.getString("address"), rs.getInt("phone number"));
 				users.add(new User(id, password, cf,rs.getString("firstname"),rs.getString("lastname"),rs.getDate("creationdate"),rs.getDate("last_login"),rs.getBoolean("banned"),rs.getBoolean("is_active")));
 			}
 		} catch (SQLException e) {

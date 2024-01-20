@@ -1,23 +1,17 @@
 package Elkhadema.khadema.domain;
 
-public class Company  {
+public class Company extends User {
     private String companyName;
-    private String password;
-    public Company(String companyName, String password) {
+
+    public Company(String firstname, String password, int id, String companyName) {
+        super(firstname, password, id);
         this.companyName = companyName;
-        this.password = password;
     }
     public String getCompanyName() {
         return companyName;
     }
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
-    }
-    public String getPassword() {
-        return password;
-    }
-    public void setPassword(String password) {
-        this.password = password;
     }
     
     

@@ -60,9 +60,10 @@ public class ReactionDAO implements ReactionDAOINT {
 		try {
 			int cfid = 0;
 			pstmt=connection.prepareStatement("INSERT INTO `khademadb`.`post_reaction` (`post_id`, `user_id`, `reactiontype`, `creationdate`) VALUES (?,?,?,?);",Statement.RETURN_GENERATED_KEYS);
-			pstmt.setString(1,t.get().getEmail());
+			// TODO change this pls
+/* 			pstmt.setString(1,t.get().getEmail());
 			pstmt.setInt(2,t.getContactInfo().getPhoneNumber());
-			pstmt.setString(3, t.getContactInfo().getAddress());
+			pstmt.setString(3, t.getContactInfo().getAddress()); */
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 		System.out.println(e.getMessage());

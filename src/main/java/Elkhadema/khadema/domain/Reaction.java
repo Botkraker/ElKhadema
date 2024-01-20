@@ -26,11 +26,18 @@ public class Reaction {
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
     }
-    public Reaction(User user,Post post, String type, Date creationDate) {
+    public Reaction(User user,String type, Date creationDate) {
         this.user = user;
         this.type = type;
         this.creationDate = creationDate;
     }
+    public Post getPost() {
+        return post;
+    }
+    public void setPost(Post post) {
+        this.post = post;
+    }
+    
     
 
 }

@@ -64,7 +64,7 @@ public class ReactionDAO implements ReactionDAOINT {
 			pstmt.setLong(1,t.getPost().getId());
 			pstmt.setLong(2,t.getUser().getId());
 			pstmt.setString(3, t.getType());
-			pstmt.setDate(3,(Date) t.getCreationDate());
+			pstmt.setDate(4,(Date) t.getCreationDate());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 		System.out.println(e.getMessage());

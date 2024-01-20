@@ -74,14 +74,28 @@ public class ReactionDAO implements ReactionDAOINT {
 
 	@Override
 	public void update(Reaction t, Reaction newT) {
-		// TODO Auto-generated method stub
-		
+		PreparedStatement pstmt=null;
+		try {
+			pstmt=connection.prepareStatement("UPDATE `khademadb`.`post_reaction` SET `reactiontype` = ?, `creationdate` = ? WHERE `post_reaction`.`post_id` = ? AND `post_reaction`.`user_id` = ?;",Statement.RETURN_GENERATED_KEYS);
+			pstmt.setString(1,newT.getType());
+			pstmt.setDate(2,(Date)newT.getCreationDate());
+			pstmt.setLong(3, t.getPost().getId());
+			pstmt.setLong(4, t.getUser().getId());
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+		System.out.println(e.getMessage());
+		}		
 	}
 
 	@Override
 	public void delete(Reaction t) {
-		// TODO Auto-generated method stub
-		
-	}
+		try {
+			connection.createStatement().execute("DELETE FROM `post_reaction` WHERE `post_id`="+t.getPost().getId()+" AND `user_id`="+t.getUser().getId());
+
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}		
+	
 
 }

@@ -1,4 +1,4 @@
-package Elkhadema.khadema.DAO.DAOImplemantation;
+package Elkhadema.khadema.DAO.DAOInterfaces;
 
 import java.util.List;
 

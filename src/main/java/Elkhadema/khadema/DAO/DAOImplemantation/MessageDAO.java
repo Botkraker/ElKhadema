@@ -1,9 +1,9 @@
-package Elkhadema.khadema.DAO.DAOInterfaces;
+package Elkhadema.khadema.DAO.DAOImplemantation;
 
 import java.util.List;
 import java.util.Optional;
 
-import Elkhadema.khadema.DAO.DAOImplemantation.MessageDAOINT;
+import Elkhadema.khadema.DAO.DAOInterfaces.MessageDAOINT;
 import Elkhadema.khadema.domain.Message;
 
 public class MessageDAO implements MessageDAOINT{

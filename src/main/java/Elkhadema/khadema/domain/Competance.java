@@ -37,7 +37,13 @@ public class Competance {
     public int getNiveau() {
         return niveau;
     }
-    public void setNiveau(int niveau) {
+    public long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
+	}
+	public void setNiveau(int niveau) {
         this.niveau = niveau;
     }
 

@@ -1,7 +1,6 @@
 package Elkhadema.khadema.domain;
 
 import java.util.Date;
-import java.util.List;
 
 public class User {
     private int id;

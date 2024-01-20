@@ -29,15 +29,8 @@ public class Reaction {
     public Reaction(User user,Post post, String type, Date creationDate) {
         this.user = user;
         this.type = type;
-        this.post=post;
         this.creationDate = creationDate;
     }
-	public Post getPost() {
-		return post;
-	}
-	public void setPost(Post post) {
-		this.post = post;
-	}
     
 
 }

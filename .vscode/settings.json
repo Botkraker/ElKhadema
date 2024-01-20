@@ -17,5 +17,6 @@
         }
     ],
     "java.project.explorer.showNonJavaResources": false,
-    "java.debug.settings.onBuildFailureProceed": true
+    "java.debug.settings.onBuildFailureProceed": true,
+    "java.configuration.updateBuildConfiguration": "interactive"
 }

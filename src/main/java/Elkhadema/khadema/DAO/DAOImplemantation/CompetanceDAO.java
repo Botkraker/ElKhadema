@@ -1,9 +1,9 @@
-package Elkhadema.khadema.DAO.DAOInterfaces;
+package Elkhadema.khadema.DAO.DAOImplemantation;
 
 import java.util.List;
 import java.util.Optional;
 
-import Elkhadema.khadema.DAO.DAOImplemantation.CompanyDAOINT;
+import Elkhadema.khadema.DAO.DAOInterfaces.CompanyDAOINT;
 import Elkhadema.khadema.domain.Company;
 
 public class CompetanceDAO implements CompanyDAOINT {

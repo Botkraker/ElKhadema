@@ -1,9 +1,9 @@
-package Elkhadema.khadema.DAO.DAOInterfaces;
+package Elkhadema.khadema.DAO.DAOImplemantation;
 
 import java.util.List;
 import java.util.Optional;
 
-import Elkhadema.khadema.DAO.DAOImplemantation.JobofferDAOINT;
+import Elkhadema.khadema.DAO.DAOInterfaces.JobofferDAOINT;
 import Elkhadema.khadema.domain.JobOffre;
 
 public class JobofferDAO implements JobofferDAOINT {

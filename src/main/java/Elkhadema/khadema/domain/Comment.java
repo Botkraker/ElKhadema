@@ -4,7 +4,9 @@ import java.util.List;
 
 public class Comment {
 	private int id;
+	private Post post;
     private String content;
+    private String contenttype;
     private User user;
     private List<Reaction> reactions;
 
@@ -32,9 +34,11 @@ public class Comment {
         this.reactions = reactions;
     }
 
-    public Comment(int id,String content, User user, List<Reaction> reactions) {
+    public Comment(int id,String content,Post post, User user, String contenttype,List<Reaction> reactions) {
         this.content = content;
         this.id=id;
+        this.contenttype=contenttype;
+        this.post=post;
         this.user = user;
         this.reactions = reactions;
     }
@@ -48,6 +52,22 @@ public class Comment {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public Post getPost() {
+		return post;
+	}
+
+	public void setPost(Post post) {
+		this.post = post;
+	}
+
+	public String getContenttype() {
+		return contenttype;
+	}
+
+	public void setContenttype(String contenttype) {
+		this.contenttype = contenttype;
 	};
 
 }

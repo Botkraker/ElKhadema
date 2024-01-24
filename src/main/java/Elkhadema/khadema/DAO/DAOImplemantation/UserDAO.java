@@ -139,4 +139,19 @@ public class UserDAO implements UserDAOINT {
 			System.out.println(e);
 		}
 	}
+	public Optional<User> Login(String firstname,String password) {
+		String sql = "SELECT *  FROM `user` WHERE `password_encrypted`="+firstname+" AND `firstname`="+password;
+		User user = null;
+		try {
+			ResultSet rs = connection.createStatement().executeQuery(sql);
+			while (rs.next()) {
+				user = new User(rs.getInt("user_id"), rs.getString("password_encrypted"),new ContactInfo(rs.getInt("contact_info_id"),rs.getString("email"), rs.getString("address"), rs.getInt("phone number")),rs.getString("firstname"),rs.getString("lastname"),rs.getDate("creationdate"),rs.getDate("last_login"),rs.getBoolean("banned"),rs.getBoolean("is_active"));
+			}
+
+		} catch (Exception e) {
+			System.out.println(e);
+
+		}
+		return Optional.ofNullable(user);
+	}
 }

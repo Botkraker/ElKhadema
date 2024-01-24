@@ -28,6 +28,7 @@ public class Reaction {
     }
     public Reaction(User user,Post post, String type, Date creationDate) {
         this.user = user;
+        this.post=post;
         this.type = type;
         this.creationDate = creationDate;
     }

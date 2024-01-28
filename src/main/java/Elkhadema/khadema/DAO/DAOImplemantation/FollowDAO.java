@@ -6,7 +6,7 @@ import java.util.Optional;
 import Elkhadema.khadema.DAO.DAOInterfaces.FollowerDAOINT;
 import Elkhadema.khadema.domain.Follow;
 
-public class FollowDAO implements FollowerDAOINT{
+public class FollowDAO implements FollowerDAOINT {
 
 	@Override
 	public Optional<Follow> get(long id) {
@@ -23,19 +23,19 @@ public class FollowDAO implements FollowerDAOINT{
 	@Override
 	public void save(Follow t) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void update(Follow t, Follow newT) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void delete(Follow t) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override

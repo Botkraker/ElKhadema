@@ -6,33 +6,12 @@ import java.util.List;
 public class Post {
     private User user;
     private String content;
-    private List<Comment> comments;
     private List<Reaction> reactions;
+    private long parentPostId;
     private String type;
     private Date CreationDate;
     private long id;
 
-    public Post(long id,User user, String content,String type, List<Comment> comments, List<Reaction> reactions, Date creationDate) {
-        this.user = user;
-        this.id=id;
-        this.type=type;
-        this.content = content;
-        this.comments = comments;
-        this.reactions = reactions;
-        this.CreationDate = creationDate;
-    }
-    public Post(long id) {
-		this.id=id;
-	}
-    public Date getCreationDate() {
-        return CreationDate;
-    }
-
-    public void setCreationDate(Date creationDate) {
-        CreationDate = creationDate;
-    }
-
-    
     public User getUser() {
         return user;
     }
@@ -49,29 +28,7 @@ public class Post {
         this.content = content;
     }
 
-    public List<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
-    }
-
-    public String getType() {
-		return type;
-	}
-
-	@Override
-	public String toString() {
-		return "Post [user=" + user + ", content=" + content + ", comments=" + comments + ", reactions=" + reactions
-				+ ", type=" + type + ", CreationDate=" + CreationDate + ", id=" + id + "]";
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	public List<Reaction> getReactions() {
+    public List<Reaction> getReactions() {
         return reactions;
     }
 
@@ -79,12 +36,47 @@ public class Post {
         this.reactions = reactions;
     }
 
-	public long getId() {
-		return id;
-	}
+    public long getParentPostId() {
+        return parentPostId;
+    }
 
-	public void setId(long id) {
-		this.id = id;
-	}
+    public void setParentPostId(long parentPostId) {
+        this.parentPostId = parentPostId;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Date getCreationDate() {
+        return CreationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        CreationDate = creationDate;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Post(User user, String content, List<Reaction> reactions, long parentPostId, String type, Date creationDate,
+            long id) {
+        this.user = user;
+        this.content = content;
+        this.reactions = reactions;
+        this.parentPostId = parentPostId;
+        this.type = type;
+        CreationDate = creationDate;
+        this.id = id;
+    }
 
 }

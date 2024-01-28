@@ -2,9 +2,10 @@ package Elkhadema.khadema.domain;
 
 import java.util.List;
 
+@Deprecated
 public class Comment {
-	private int id;
-	private Post post;
+    private int id;
+    private Post post;
     private String content;
     private String contenttype;
     private User user;
@@ -34,40 +35,41 @@ public class Comment {
         this.reactions = reactions;
     }
 
-    public Comment(int id,String content,Post post, User user, String contenttype,List<Reaction> reactions) {
+    public Comment(int id, String content, Post post, User user, String contenttype, List<Reaction> reactions) {
         this.content = content;
-        this.id=id;
-        this.contenttype=contenttype;
-        this.post=post;
+        this.id = id;
+        this.contenttype = contenttype;
+        this.post = post;
         this.user = user;
         this.reactions = reactions;
     }
+
     public Comment(int id) {
-    	this.id=id;
+        this.id = id;
     }
 
-	public int getId() {
-		return id;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public Post getPost() {
-		return post;
-	}
+    public Post getPost() {
+        return post;
+    }
 
-	public void setPost(Post post) {
-		this.post = post;
-	}
+    public void setPost(Post post) {
+        this.post = post;
+    }
 
-	public String getContenttype() {
-		return contenttype;
-	}
+    public String getContenttype() {
+        return contenttype;
+    }
 
-	public void setContenttype(String contenttype) {
-		this.contenttype = contenttype;
-	};
+    public void setContenttype(String contenttype) {
+        this.contenttype = contenttype;
+    };
 
 }

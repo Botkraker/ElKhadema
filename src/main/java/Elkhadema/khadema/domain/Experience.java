@@ -1,20 +1,21 @@
 package Elkhadema.khadema.domain;
 
 public class Experience {
-	private long id;
+    private long id;
     private String description;
     private String mission;
     private String type;
     private String technologie;
 
-    public Experience(long id,String description, String mission, String type, String technologie) {
+    public Experience(long id, String description, String mission, String type, String technologie) {
         this.description = description;
         this.mission = mission;
         this.type = type;
         this.technologie = technologie;
     }
+
     public Experience(long id) {
-    	this.id=id;
+        this.id = id;
     }
 
     public String getDescription() {
@@ -26,12 +27,14 @@ public class Experience {
     }
 
     public long getId() {
-		return id;
-	}
-	public void setId(long id) {
-		this.id = id;
-	}
-	public String getMission() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getMission() {
         return mission;
     }
 
@@ -55,5 +58,4 @@ public class Experience {
         this.technologie = technologie;
     }
 
-    
 }

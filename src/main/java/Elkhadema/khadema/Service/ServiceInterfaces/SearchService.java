@@ -9,9 +9,13 @@ import Elkhadema.khadema.domain.User;
 
 public interface SearchService {
     List<Object> search(String searchWord);
+
     List<User> searchByUsers(String searchWord);
+
     List<Post> searchByPosts(String searchWord);
+
     List<Company> searchByCompanies(String searchWord);
+
     List<JobOffre> searchByJobOffres(String searchWord);
 
 }

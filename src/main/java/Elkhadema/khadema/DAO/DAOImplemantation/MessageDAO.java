@@ -6,23 +6,23 @@ import java.util.Optional;
 import Elkhadema.khadema.DAO.DAOInterfaces.MessageDAOINT;
 import Elkhadema.khadema.domain.Message;
 
-public class MessageDAO implements MessageDAOINT{
+public class MessageDAO implements MessageDAOINT {
 	@Override
 	public void save(Message t) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void update(Message t, Message newT) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void delete(Message t) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override

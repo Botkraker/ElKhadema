@@ -9,8 +9,12 @@ import Elkhadema.khadema.domain.User;
 
 public interface PostService {
     List<Post> getPostsByUser(User user);
+
     List<Comment> getPostComments(Post post);
+
     void makePost(Post post);
-    void addCommentToPost(Post post,Comment comment);
+
+    void addCommentToPost(Post post, Comment comment);
+
     List<Reaction> getPostReactions(Post post);
 }

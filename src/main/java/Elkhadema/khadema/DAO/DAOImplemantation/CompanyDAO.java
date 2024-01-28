@@ -6,7 +6,7 @@ import java.util.Optional;
 import Elkhadema.khadema.DAO.DAOInterfaces.CompanyDAOINT;
 import Elkhadema.khadema.domain.Company;
 
-public class CompanyDAO implements CompanyDAOINT{
+public class CompanyDAO implements CompanyDAOINT {
 
 	@Override
 	public Optional<Company> get(long id) {
@@ -23,19 +23,19 @@ public class CompanyDAO implements CompanyDAOINT{
 	@Override
 	public void save(Company t) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void update(Company t, Company newT) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void delete(Company t) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

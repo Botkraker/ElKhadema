@@ -23,37 +23,37 @@ public class AdminDAO implements AdminDAOINT {
 	@Override
 	public void save(User t) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void update(User t, User newT) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void delete(User t) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void banUserByid(long id) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void deletePostByid(long id) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void deleteComment(long id) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

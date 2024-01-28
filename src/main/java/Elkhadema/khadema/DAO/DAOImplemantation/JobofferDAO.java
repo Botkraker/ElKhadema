@@ -23,19 +23,19 @@ public class JobofferDAO implements JobofferDAOINT {
 	@Override
 	public void save(JobOffre t) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void update(JobOffre t, JobOffre newT) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void delete(JobOffre t) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

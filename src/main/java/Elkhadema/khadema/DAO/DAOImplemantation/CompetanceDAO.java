@@ -23,19 +23,19 @@ public class CompetanceDAO implements CompanyDAOINT {
 	@Override
 	public void save(Company t) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void update(Company t, Company newT) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void delete(Company t) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

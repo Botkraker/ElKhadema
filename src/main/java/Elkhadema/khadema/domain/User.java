@@ -3,19 +3,74 @@ package Elkhadema.khadema.domain;
 import java.util.Date;
 
 public class User {
-    private int id;
-    private String password;
-    private ContactInfo contactInfo;
-    private String firstname;
-    private String lastname;
-    private Date creationDate;
-    private Date lastloginDate;
-    public boolean is_banned=false;
-    public boolean is_active=false;
+	private int id;
+	private String password;
+	private ContactInfo contactInfo;
+	private String userName;
+	private Date creationDate;
+	private Date lastloginDate;
+	/**
+	 * could be a url or file path can
+	 * be changed later by a dedicated class for images
+	 */
+	private String photo;
+	public boolean is_banned = false;
+	public boolean is_active = false;
 
+	public int getId() {
+		return id;
+	}
 
-    public String getFirstname() {
-		return firstname;
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public ContactInfo getContactInfo() {
+		return contactInfo;
+	}
+
+	public void setContactInfo(ContactInfo contactInfo) {
+		this.contactInfo = contactInfo;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
+
+	public Date getLastloginDate() {
+		return lastloginDate;
+	}
+
+	public void setLastloginDate(Date lastloginDate) {
+		this.lastloginDate = lastloginDate;
+	}
+
+	public String getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
 	}
 
 	public boolean isIs_banned() {
@@ -34,85 +89,23 @@ public class User {
 		this.is_active = is_active;
 	}
 
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
-	}
-
-	public String getLastname() {
-		return lastname;
-	}
-
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
-	}
-
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", password=" + password + ", contactInfo=" + contactInfo + ", firstname=" + firstname
-				+ ", lastname=" + lastname + ", creationDate=" + creationDate + ", lastloginDate=" + lastloginDate
-				+ ", is_banned=" + is_banned + ", is_active=" + is_active + "]";
-	}
-
-	public Date getCreationDate() {
-		return creationDate;
-	}
-
-	public void setCreationDate(Date creationDate) {
-		this.creationDate = creationDate;
-	}
-
-	public ContactInfo getContactInfo() {
-		return contactInfo;
-	}
-
-	public User(int id, String password, ContactInfo contactInfo, String firstname, String lastname, Date creationDate,
-			Date lastloginDate, boolean is_banned, boolean is_active) {
-		super();
+	public User(int id, String password, ContactInfo contactInfo, String userName, Date creationDate,
+			Date lastloginDate, String photo, boolean is_banned, boolean is_active) {
 		this.id = id;
 		this.password = password;
 		this.contactInfo = contactInfo;
-		this.firstname = firstname;
-		this.lastname = lastname;
+		this.userName = userName;
 		this.creationDate = creationDate;
 		this.lastloginDate = lastloginDate;
+		this.photo = photo;
 		this.is_banned = is_banned;
 		this.is_active = is_active;
 	}
 
-	public void setContactInfo(ContactInfo contactInfo) {
-		this.contactInfo = contactInfo;
+	public User(int id, String password, String userName) {
+		this.id = id;
+		this.password = password;
+		this.userName = userName;
 	}
 
-	public Date getLastLoginDate() {
-        return lastloginDate;
-    }
-
-    public void setLastLoginDate(Date lastLoginDate) {
-        this.lastloginDate = lastLoginDate;
-    }
-
-    public User(String firstname, String lastname, int id) {
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.id = id;
-    }
-
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    
 }

@@ -14,7 +14,7 @@ import Elkhadema.khadema.DAO.DAOInterfaces.PostDAOINT;
 import Elkhadema.khadema.domain.Post;
 import Elkhadema.khadema.domain.User;
 import Elkhadema.khadema.util.ConexDB;
-
+// TODO pls add a way to get posts by parent post to replace comments
 public class PostDAO implements PostDAOINT {
 	private static Connection connection = ConexDB.getInstance();
 

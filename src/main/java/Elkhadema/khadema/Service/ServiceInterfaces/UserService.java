@@ -8,6 +8,7 @@ public interface UserService {
 	 * @param user user to add
 	 * @param type either person or company
 	 * @return the user if succesfuly added 
+	 * else null for aleardy user in db
 	 */
 	public User Signin(User user, String type);
 
@@ -21,5 +22,11 @@ public interface UserService {
 
 	public void removeUser(User u);
 
-	public User EditUser(User u, User newT) throws UserNotFoundException;
+	/**
+	 * @param user the old user
+	 * @param newUser updated user info like password, email or username pls don't touch id
+	 * @return user if changed
+	 * @throws UserNotFoundException when the user is not in the DB
+	 */
+	public User EditUser(User user, User newUser) throws UserNotFoundException;
 }

@@ -81,7 +81,7 @@ public class PersonDAO {
 
 	public void update(Person t, Person newT) {
 		try {
-			String sql = "UPDATE `khademadb`.`user` SET `first_name`=?,`last_name`=? WHERE `person`.`user_id` = "
+			String sql = "UPDATE `khademadb`.`person` SET `first_name`=?,`last_name`=? WHERE `person`.`user_id` = "
 					+ t.getId() + ";";
 
 			PreparedStatement p = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);

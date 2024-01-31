@@ -1,10 +1,15 @@
 package Elkhadema.khadema.Service.ServiceInterfaces;
 
-import Elkhadema.khadema.domain.Comment;
+import Elkhadema.khadema.domain.Admin;
+import Elkhadema.khadema.domain.Post;
 import Elkhadema.khadema.domain.User;
 
 public interface AdminService {
+    boolean isAdmin(User user);
+
+    Admin addAdmin(Admin admin);
+
     void BanUser(User user);
 
-    void deleteComment(Comment Comment);
+    void deletePost(Post post);
 }

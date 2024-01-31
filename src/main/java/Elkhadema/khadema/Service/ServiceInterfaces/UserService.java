@@ -21,5 +21,5 @@ public interface UserService {
 
 	public void removeUser(User u);
 
-	public User EditUser(User u, User newT);
+	public User EditUser(User u, User newT) throws UserNotFoundException;
 }

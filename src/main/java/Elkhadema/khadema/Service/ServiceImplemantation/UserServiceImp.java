@@ -18,8 +18,8 @@ public class UserServiceImp implements UserService {
 	CompanyDAO companyDao = new CompanyDAO();
 
 	@Override
-	public User Signin(User user, String type)  {
-		if (userDao.get(user.getId()).isPresent())  {
+	public User Signin(User user, String type) {
+		if (userDao.get(user.getId()).isPresent()) {
 			return null;
 		}
 		userDao.save(user);
@@ -53,9 +53,13 @@ public class UserServiceImp implements UserService {
 	}
 
 	@Override
-	public User EditUser(User u, User newUser) {
+	public User EditUser(User u, User newUser) throws UserNotFoundException {
+		Optional<User> user=userDao.get(u.getId());
+		if (!user.isPresent()) {
+			throw new UserNotFoundException();
+		}
 		userDao.update(u, newUser);
-		return userDao.get(u.getId()).get();
+		return newUser;
 	}
 
 }

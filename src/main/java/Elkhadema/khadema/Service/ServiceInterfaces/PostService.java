@@ -15,5 +15,8 @@ public interface PostService {
 
     void addCommentToPost(Post post, Post comment);
 
+    void removeCommentFromPost(Post post, Post comment);
+
     List<Reaction> getPostReactions(Post post);
-}
+    void removePost(Post post);
+    void removeReactionFromPost(Post post, Reaction reaction);}

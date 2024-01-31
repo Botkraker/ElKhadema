@@ -10,12 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import Elkhadema.khadema.DAO.DAOInterfaces.Dao;
 import Elkhadema.khadema.domain.Comment;
 import Elkhadema.khadema.domain.CommentReaction;
 import Elkhadema.khadema.domain.User;
 import Elkhadema.khadema.util.ConexDB;
 
+@Deprecated
 public class ReactionCommentDAO {
 	private static Connection connection = ConexDB.getInstance();
 
@@ -40,14 +40,15 @@ public class ReactionCommentDAO {
 		Statement stmt = null;
 		ResultSet rs = null;
 		List<CommentReaction> reactions = new ArrayList<>();
-		String SQL = "SELECT  post_reaction . * , firstname, lastname  FROM user,post_reaction WHERE post_reaction.`user_id` = user.user_id  ORDER BY post_id";
+		String SQL = "SELECT  post_reaction . * , username  FROM user,post_reaction WHERE post_reaction.`user_id` = user.user_id  ORDER BY post_id";
 		try {
 			stmt = connection.createStatement();
 			rs = stmt.executeQuery(SQL);
 			while (rs.next()) {
-				reactions.add(new CommentReaction(
-						new User(rs.getString("firstname"), rs.getString("lastname"), rs.getInt("user_id")), comment,
-						rs.getString("reactiontype"), rs.getDate("creationdate")));
+				reactions.add(
+						new CommentReaction(
+								new User(rs.getInt("user_id"), "", rs.getString("username")), comment,
+								rs.getString("reactiontype"), rs.getDate("creationdate")));
 			}
 		} catch (SQLException e) {
 			System.out.println(e);

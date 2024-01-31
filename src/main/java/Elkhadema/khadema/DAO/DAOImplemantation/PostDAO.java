@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -26,11 +25,12 @@ public class PostDAO implements PostDAOINT {
 		try {
 			ResultSet rs = connection.createStatement().executeQuery(sql);
 			while (rs.next()) {
-				post = new Post(rs.getLong("post_id"),
-						new User(rs.getInt("user_id"), null, null, rs.getString("firstname"), rs.getString("lastname"),
-								rs.getDate("creationdate"), rs.getDate("last_login"), rs.getBoolean("banned"),
+				post = new Post(
+						new User(rs.getInt("user_id"), null, null, rs.getString("firstname"), rs.getDate("last_login"),
+								rs.getDate("creationdate"), rs.getString("lastname"), rs.getBoolean("banned"),
 								rs.getBoolean("is_active")),
-						rs.getString("content"), rs.getString("type"), null, null, rs.getDate("creationdate"));
+						rs.getString("content"), null, 0, rs.getString("type"), rs.getDate("creationdate"),
+						rs.getLong("post_id"));
 			}
 
 		} catch (Exception e) {
@@ -51,12 +51,13 @@ public class PostDAO implements PostDAOINT {
 			rs = stmt.executeQuery(SQL);
 			while (rs.next()) {
 				int id = rs.getInt("user_id");
-				posts.add(new Post(rs.getLong("post_id"),
+				// TODO change it later
+				/* posts.add(new Post(rs.getLong("post_id"),
 						new User(id, null, null, rs.getString("firstname"), rs.getString("lastname"),
 								rs.getDate("creationdate"), rs.getDate("last_login"), rs.getBoolean("banned"),
 								rs.getBoolean("is_active")),
 						rs.getString("content"), rs.getString("type"), null, null, rs.getDate("creationdate")));
-			}
+			 */}
 		} catch (SQLException e) {
 			System.out.println(e);
 		}

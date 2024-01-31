@@ -9,10 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import Elkhadema.khadema.DAO.DAOInterfaces.CompanyDAOINT;
 import Elkhadema.khadema.domain.Company;
 import Elkhadema.khadema.domain.ContactInfo;
-import Elkhadema.khadema.domain.Person;
 import Elkhadema.khadema.util.ConexDB;
 
 public class CompanyDAO {

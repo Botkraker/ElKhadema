@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import Elkhadema.khadema.DAO.DAOInterfaces.ReactionDAOINT;
-import Elkhadema.khadema.domain.ContactInfo;
 import Elkhadema.khadema.domain.Post;
 import Elkhadema.khadema.domain.Reaction;
 import Elkhadema.khadema.domain.User;
@@ -29,7 +27,7 @@ public class ReactionDAO {
 			ResultSet rs = connection.createStatement().executeQuery(sql);
 			while (rs.next()) {
 				reaction = new Reaction(
-						new User(rs.getString("firstname"), rs.getString("lastname"), rs.getInt("user_id")),
+						new User(rs.getInt("user_id"), "", rs.getString("username")),
 						new Post(rs.getInt("post_id")), rs.getString("reactiontype"), rs.getDate("creationdate"));
 			}
 
@@ -51,7 +49,7 @@ public class ReactionDAO {
 			rs = stmt.executeQuery(SQL);
 			while (rs.next()) {
 				reactions.add(new Reaction(
-						new User(rs.getString("firstname"), rs.getString("lastname"), rs.getInt("user_id")),
+						new User(rs.getInt("user_id"), "", rs.getString("username")),
 						new Post(rs.getInt("post_id")), rs.getString("reactiontype"), rs.getDate("creationdate")));
 			}
 		} catch (SQLException e) {
@@ -62,7 +60,6 @@ public class ReactionDAO {
 
 	public void save(Reaction t) {
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		try {
 			int cfid = 0;
 			pstmt = connection.prepareStatement(

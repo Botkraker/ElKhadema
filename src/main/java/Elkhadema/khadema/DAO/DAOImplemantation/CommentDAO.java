@@ -1,7 +1,6 @@
 package Elkhadema.khadema.DAO.DAOImplemantation;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,10 +12,10 @@ import java.util.Optional;
 import Elkhadema.khadema.DAO.DAOInterfaces.Dao;
 import Elkhadema.khadema.domain.Comment;
 import Elkhadema.khadema.domain.Post;
-import Elkhadema.khadema.domain.Reaction;
 import Elkhadema.khadema.domain.User;
 import Elkhadema.khadema.util.ConexDB;
 
+@Deprecated
 public class CommentDAO implements Dao<Comment> {
 	private static Connection connection = ConexDB.getInstance();
 
@@ -28,8 +27,8 @@ public class CommentDAO implements Dao<Comment> {
 		try {
 			ResultSet rs = connection.createStatement().executeQuery(sql);
 			while (rs.next()) {
-				comment = new Comment(rs.getInt("comment_id"), rs.getString("content"), new Post(rs.getInt("post_id")),
-						new User(rs.getString("firstname"), rs.getString("lastname"), rs.getInt("user_id")),
+				comment = new Comment(rs.getInt("comment_id"), rs.getString("content"), new Post(null, "", null, 0, "", null, 0),
+						new User(rs.getInt("user_id"), "", ""),
 						rs.getString("typecontent"), null);
 			}
 		} catch (Exception e) {
@@ -50,8 +49,8 @@ public class CommentDAO implements Dao<Comment> {
 			rs = stmt.executeQuery(SQL);
 			while (rs.next()) {
 				comment.add(
-						new Comment(rs.getInt("comment_id"), rs.getString("content"), new Post(rs.getInt("post_id")),
-								new User(rs.getString("firstname"), rs.getString("lastname"), rs.getInt("user_id")),
+						new Comment(rs.getInt("comment_id"), rs.getString("content"), new Post(null, "", null, 0, "", null, 0),
+								new User(rs.getInt("user_id"), "", ""),
 								rs.getString("typecontent"), null));
 			}
 		} catch (SQLException e) {

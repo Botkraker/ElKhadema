@@ -8,8 +8,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import Elkhadema.khadema.domain.Company;
-import Elkhadema.khadema.domain.Competance;
 import Elkhadema.khadema.domain.Experience;
 import Elkhadema.khadema.domain.User;
 import Elkhadema.khadema.util.ConexDB;

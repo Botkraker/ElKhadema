@@ -1,13 +1,8 @@
 package Elkhadema.khadema.DAO.DAOImplemantation;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import Elkhadema.khadema.domain.Admin;
@@ -17,7 +12,10 @@ import Elkhadema.khadema.util.ConexDB;
 public class AdminDAO {
 
 	private static Connection connection = ConexDB.getInstance();
-	//is admin checks if the user is admin ,if yes return the user as an optional of  admin and if not will return an empty optional
+	/**
+	 * @param user to check if admin
+	 * @return the user as optional of Admin else empty optional
+	 */
 	public Optional<Admin> isAdmin(User user) {
 		String sql = "SELECT *  FROM `user`,`admin` WHERE `user_id` = " + user.getId();
 		Admin admin = null;

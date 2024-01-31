@@ -1,7 +1,6 @@
 package Elkhadema.khadema.DAO.DAOImplemantation;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,7 +11,6 @@ import java.util.Optional;
 
 import Elkhadema.khadema.domain.ContactInfo;
 import Elkhadema.khadema.domain.Person;
-import Elkhadema.khadema.domain.User;
 import Elkhadema.khadema.util.ConexDB;
 
 public class PersonDAO {

@@ -79,4 +79,8 @@ public class Post {
         this.id = id;
     }
 
+    public Post(int int1) {
+        //TODO Auto-generated constructor stub
+    }
+
 }

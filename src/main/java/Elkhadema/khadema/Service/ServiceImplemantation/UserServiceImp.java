@@ -9,6 +9,7 @@ import Elkhadema.khadema.Service.ServiceInterfaces.UserService;
 import Elkhadema.khadema.domain.Company;
 import Elkhadema.khadema.domain.Person;
 import Elkhadema.khadema.domain.User;
+import Elkhadema.khadema.util.PasswordEncryptor;
 import Elkhadema.khadema.util.Session;
 import Elkhadema.khadema.util.Exception.UserNotFoundException;
 
@@ -22,6 +23,8 @@ public class UserServiceImp implements UserService {
 		if (userDao.get(user.getId()).isPresent()) {
 			return null;
 		}
+		String encryptedPassword=PasswordEncryptor.encryptPassword(user.getUserName(), user.getPassword());
+		user.setPassword(encryptedPassword);
 		userDao.save(user);
 		switch (type) {
 			case "company":
@@ -39,10 +42,14 @@ public class UserServiceImp implements UserService {
 
 	@Override
 	public User Login(String name, String password) throws UserNotFoundException {
-		Optional<User> user = userDao.Login(name, password);
+		Optional<User> user = userDao.Login(name);
 		if (!user.isPresent()) {
 			throw new UserNotFoundException();
 		}
+		if (!PasswordEncryptor.verifyPassword(name, password, user.getPassword())) {
+			return null;
+		}
+
 		Session.setUser(user.get());
 		return user.get();
 	}

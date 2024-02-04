@@ -1,6 +1,8 @@
 package Elkhadema.khadema.controller;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import Elkhadema.khadema.Service.ServiceImplemantation.UserServiceImp;
 import Elkhadema.khadema.Service.ServiceInterfaces.UserService;
@@ -10,7 +12,11 @@ import Elkhadema.khadema.Service.validateInfo.PhoneNumberValidate;
 import Elkhadema.khadema.Service.validateInfo.UsernameValidator;
 import Elkhadema.khadema.domain.ContactInfo;
 import Elkhadema.khadema.domain.User;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -18,13 +24,15 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
+
 // TODO this class still needs a way to add images
-public class LoginController {
+public class LoginController implements Initializable {
     // new user to add
     User user = new User(0, null, null);
     ContactInfo contactInfo = new ContactInfo(0);
     // service
-    UserService userService=new UserServiceImp();
+    UserService userService = new UserServiceImp();
     // content holder
     @FXML
     HBox infoUserBox;
@@ -70,8 +78,33 @@ public class LoginController {
     @FXML
     Text invalid;
 
-    private void init() {
-        // TODO later to init the counts using the dao
+    private int userCount = 0;
+    private int maxUserCount = 100;
+    private Timeline timeline;
+
+    // TODO later to init the counts using the dao
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        startUserCountAnimation();
+    }
+
+    private void startUserCountAnimation() {
+        timeline = new Timeline(
+                new KeyFrame(Duration.millis(maxUserCount/10), e -> updateUserCount()));
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
+    }
+
+    private void updateUserCount() {
+        if (userCount < maxUserCount) {
+            // Simulating an increase in user count
+            userCount++;
+            // Update the label with the new count
+            usersText.setText(String.valueOf(userCount));
+        } else {
+            // Stop the animation when the maximum value is reached
+            timeline.stop();
+        }
     }
 
     @FXML
@@ -136,4 +169,5 @@ public class LoginController {
         // TODO add the change to the login page
         System.out.println("user = " + user);
     }
+
 }

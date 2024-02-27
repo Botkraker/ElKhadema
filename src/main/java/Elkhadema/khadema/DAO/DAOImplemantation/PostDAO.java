@@ -11,25 +11,115 @@ import java.util.List;
 import java.util.Optional;
 
 import Elkhadema.khadema.DAO.DAOInterfaces.PostDAOINT;
+import Elkhadema.khadema.domain.ContactInfo;
 import Elkhadema.khadema.domain.Post;
 import Elkhadema.khadema.domain.User;
 import Elkhadema.khadema.util.ConexDB;
 // TODO pls add a way to get posts by parent post to replace comments
-public class PostDAO implements PostDAOINT {
+public class PostDAO {
 	private static Connection connection = ConexDB.getInstance();
 
-	@Override
-	public Optional<Post> get(long id) {
+	public List<Post> getPostsById(long id) {
 		String sql = "SELECT * FROM `user` , `posts` WHERE posts.user_id = user.user_id And user.user_id=" + id;
+		List<Post> post = new ArrayList<>();
+		try {
+			ResultSet rs = connection.createStatement().executeQuery(sql);
+			while (rs.next()) {
+				post.add(new Post(
+						new User(rs.getInt("user_id"), null, null, rs.getString("firstname"), rs.getDate("last_login"),
+								rs.getDate("creationdate"), rs.getString("lastname"), rs.getBoolean("banned"),
+								rs.getBoolean("is_active")),
+						rs.getString("content"), null, rs.getInt("post_parent"), rs.getString("type"), rs.getDate("creationdate"),
+						rs.getLong("post_id")));
+			}
+
+		} catch (Exception e) {
+			System.out.println(e);
+
+		}
+		return post;
+	}
+
+	public List<Post> getAllPostsUnderParent(long idparent) {
+		String sql = "SELECT * FROM `user` , `posts` WHERE posts.user_id = user.user_id And user.post_parent=" + idparent;
+		List<Post> post = new ArrayList<>();
+		try {
+			ResultSet rs = connection.createStatement().executeQuery(sql);
+			while (rs.next()) {
+				post.add(new Post(
+						new User(rs.getInt("user_id"), null, null, rs.getString("firstname"), rs.getDate("last_login"),
+								rs.getDate("creationdate"), rs.getString("lastname"), rs.getBoolean("banned"),
+								rs.getBoolean("is_active")),
+						rs.getString("content"), null, rs.getInt("post_parent"), rs.getString("type"), rs.getDate("creationdate"),
+						rs.getLong("post_id")));
+			}
+
+		} catch (Exception e) {
+			System.out.println(e);
+
+		}
+		return post;
+	}
+
+
+	public void save(Post t) {
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = connection.prepareStatement(
+					"INSERT INTO `khademadb`.`posts` (`post_id`, `user_id`, `type`, `creationdate`, `content`,`post_parent`) VALUES (NULL, ?, ?, ?, ?,?);",
+					Statement.RETURN_GENERATED_KEYS);
+			pstmt.setInt(1, t.getUser().getId());
+			pstmt.setString(2, t.getType());
+			pstmt.setDate(3, (Date) t.getCreationDate());
+			pstmt.setString(4, t.getContent());
+			pstmt.setLong(5, t.getParentPostId());
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+
+	}
+
+
+	public void update(Post t, Post newT) {
+		try {
+			String sql = "UPDATE `khademadb`.`posts` SET  `type` = ?, `creationdate` = ?, `content` = ?,`post_parent`=? WHERE `posts`.`post_id` = "
+					+ t.getId() + ";";
+
+			PreparedStatement p = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			p.setString(1, newT.getType());
+			p.setDate(2, (Date) newT.getCreationDate());
+			p.setString(3, newT.getContent());
+			p.setLong(4, newT.getParentPostId());
+			p.executeUpdate();
+			p.getGeneratedKeys();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
+
+	
+	public void delete(Post t) {
+		try {
+			connection.createStatement().execute("DELETE FROM `posts` WHERE `posts`.post_id =" + t.getId());
+
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
+
+	
+	public Optional<Post> get(long id) {
+		String sql = "SELECT * FROM `user` , `posts` WHERE posts.user_id = user.user_id And post_id=" + id;
 		Post post = null;
 		try {
 			ResultSet rs = connection.createStatement().executeQuery(sql);
 			while (rs.next()) {
-				post = new Post(
+				post =new Post(
 						new User(rs.getInt("user_id"), null, null, rs.getString("firstname"), rs.getDate("last_login"),
 								rs.getDate("creationdate"), rs.getString("lastname"), rs.getBoolean("banned"),
 								rs.getBoolean("is_active")),
-						rs.getString("content"), null, 0, rs.getString("type"), rs.getDate("creationdate"),
+						rs.getString("content"), null, rs.getInt("post_parent"), rs.getString("type"), rs.getDate("creationdate"),
 						rs.getLong("post_id"));
 			}
 
@@ -40,73 +130,5 @@ public class PostDAO implements PostDAOINT {
 		return Optional.ofNullable(post);
 	}
 
-	@Override
-	public List<Post> getAll() {
-		Statement stmt = null;
-		ResultSet rs = null;
-		List<Post> posts = new ArrayList<>();
-		String SQL = "SELECT * FROM `user` , `posts` WHERE posts.user_id = user.user_id";
-		try {
-			stmt = connection.createStatement();
-			rs = stmt.executeQuery(SQL);
-			while (rs.next()) {
-				int id = rs.getInt("user_id");
-				// TODO change it later
-				/* posts.add(new Post(rs.getLong("post_id"),
-						new User(id, null, null, rs.getString("firstname"), rs.getString("lastname"),
-								rs.getDate("creationdate"), rs.getDate("last_login"), rs.getBoolean("banned"),
-								rs.getBoolean("is_active")),
-						rs.getString("content"), rs.getString("type"), null, null, rs.getDate("creationdate")));
-			 */}
-		} catch (SQLException e) {
-			System.out.println(e);
-		}
-		return posts;
-	}
-
-	@Override
-	public void save(Post t) {
-		PreparedStatement pstmt = null;
-		try {
-			pstmt = connection.prepareStatement(
-					"INSERT INTO `khademadb`.`posts` (`post_id`, `user_id`, `type`, `creationdate`, `content`) VALUES (NULL, ?, ?, ?, ?);",
-					Statement.RETURN_GENERATED_KEYS);
-			pstmt.setInt(1, t.getUser().getId());
-			pstmt.setString(2, t.getType());
-			pstmt.setDate(3, (Date) t.getCreationDate());
-			pstmt.setString(4, t.getContent());
-			pstmt.executeUpdate();
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-		}
-
-	}
-
-	@Override
-	public void update(Post t, Post newT) {
-		try {
-			String sql = "UPDATE `khademadb`.`posts` SET  `type` = ?, `creationdate` = ?, `content` = ? WHERE `posts`.`post_id` = "
-					+ t.getId() + ";";
-
-			PreparedStatement p = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			p.setString(1, newT.getType());
-			p.setDate(2, (Date) newT.getCreationDate());
-			p.setString(3, newT.getContent());
-			p.executeUpdate();
-			p.getGeneratedKeys();
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-	}
-
-	@Override
-	public void delete(Post t) {
-		try {
-			connection.createStatement().execute("DELETE FROM `posts` WHERE `posts`.post_id =" + t.getId());
-
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-	}
 
 }

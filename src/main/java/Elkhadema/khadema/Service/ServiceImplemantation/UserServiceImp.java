@@ -46,7 +46,7 @@ public class UserServiceImp implements UserService {
 		if (!user.isPresent()) {
 			throw new UserNotFoundException();
 		}
-		if (!PasswordEncryptor.verifyPassword(name, password, user.getPassword())) {
+		if (!PasswordEncryptor.verifyPassword(name, password, user.get().getPassword())) {
 			return null;
 		}
 

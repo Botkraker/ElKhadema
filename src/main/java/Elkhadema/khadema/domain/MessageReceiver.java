@@ -3,12 +3,30 @@ package Elkhadema.khadema.domain;
 public class MessageReceiver {
     private Message message;
     private User user;
-    private boolean read;
+    private int read;
+    private int id;
 
-    public MessageReceiver(Message message, User user, boolean read) {
+    public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public MessageReceiver(Message message, User user, int read, int id) {
+		super();
+		this.message = message;
+		this.user = user;
+		this.read = read;
+		this.id = id;
+	}
+
+	public MessageReceiver(Message message, User user, int read) {
         this.message = message;
         this.user = user;
         this.read = read;
+        
     }
 
     public Message getMessage() {
@@ -27,11 +45,11 @@ public class MessageReceiver {
         this.user = user;
     }
 
-    public boolean isRead() {
+    public int isRead() {
         return read;
     }
 
-    public void setRead(boolean read) {
+    public void setRead(int read) {
         this.read = read;
     }
 

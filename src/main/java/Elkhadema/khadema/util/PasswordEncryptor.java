@@ -45,5 +45,5 @@ public class PasswordEncryptor {
         boolean passwordMatches = verifyPassword(username, userInputPassword, storedPassword);
         System.out.println("Password matches: " + passwordMatches);
     }
-    
+
 }

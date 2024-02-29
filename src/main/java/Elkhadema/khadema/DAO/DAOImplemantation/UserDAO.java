@@ -117,8 +117,8 @@ public class UserDAO  {
 		}
 	}
 
-	public Optional<User> Login(String firstname, String password) {
-		String sql = "SELECT *  FROM `user` WHERE `password_encrypted`=" + firstname + " AND `firstname`=" + password;
+	public Optional<User> Login(String firstname) {
+		String sql = "SELECT *  FROM `user` WHERE `firstname`="+firstname ;
 		User user = null;
 		try {
 			ResultSet rs = connection.createStatement().executeQuery(sql);

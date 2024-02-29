@@ -1,12 +1,14 @@
+package Elkhadema.khadema.util;
+
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.nio.charset.StandardCharsets;
 
 public class PasswordEncryptor {
 
     public static String encryptPassword(String username, String password) {
         try {
-            String salt = username; 
+            String salt = username;
             String saltedPassword = password + salt;
 
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
@@ -43,4 +45,5 @@ public class PasswordEncryptor {
         boolean passwordMatches = verifyPassword(username, userInputPassword, storedPassword);
         System.out.println("Password matches: " + passwordMatches);
     }
+    
 }

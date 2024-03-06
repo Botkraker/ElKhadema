@@ -19,7 +19,7 @@ public class UserServiceImp implements UserService {
 	CompanyDAO companyDao = new CompanyDAO();
 
 	@Override
-	public User Signin(User user, String type) {
+	public User SignUp(User user, String type) {
 		if (userDao.get(user.getId()).isPresent()) {
 			return null;
 		}
@@ -46,12 +46,15 @@ public class UserServiceImp implements UserService {
 		if (!user.isPresent()) {
 			throw new UserNotFoundException();
 		}
-		if (!PasswordEncryptor.verifyPassword(name, password, user.get().getPassword())) {
+		User user2=user.get();
+		if (!PasswordEncryptor.verifyPassword(name, password, user2.getPassword())|| user2.isIs_banned()) {
 			return null;
 		}
 
-		Session.setUser(user.get());
-		return user.get();
+		user2.setIs_active(true);
+		userDao.update(user2, user2);
+		Session.setUser(user2);
+		return user2;
 	}
 
 	@Override

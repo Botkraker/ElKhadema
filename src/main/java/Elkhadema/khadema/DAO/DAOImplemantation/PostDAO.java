@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import Elkhadema.khadema.DAO.DAOInterfaces.PostDAOINT;
-import Elkhadema.khadema.domain.ContactInfo;
 import Elkhadema.khadema.domain.Post;
 import Elkhadema.khadema.domain.User;
 import Elkhadema.khadema.util.ConexDB;
@@ -98,7 +96,7 @@ public class PostDAO {
 		}
 	}
 
-	
+
 	public void delete(Post t) {
 		try {
 			connection.createStatement().execute("DELETE FROM `posts` WHERE `posts`.post_id =" + t.getId());
@@ -108,7 +106,7 @@ public class PostDAO {
 		}
 	}
 
-	
+
 	public Optional<Post> get(long id) {
 		String sql = "SELECT * FROM `user` , `posts` WHERE posts.user_id = user.user_id And post_id=" + id;
 		Post post = null;
@@ -129,6 +127,7 @@ public class PostDAO {
 		}
 		return Optional.ofNullable(post);
 	}
+	
 
 
 }

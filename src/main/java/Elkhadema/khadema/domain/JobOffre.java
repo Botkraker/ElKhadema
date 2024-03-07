@@ -20,7 +20,11 @@ public class JobOffre {
         this.location = location;
     }
 
-    public long getId() {
+    public JobOffre(long id) {
+    	this.id=id;
+    }
+
+	public long getId() {
         return id;
     }
 

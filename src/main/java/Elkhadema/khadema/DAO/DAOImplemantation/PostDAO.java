@@ -109,7 +109,7 @@ public class PostDAO {
 	}
 
 	
-	public Optional<Post> get(long id) {
+	public Optional<Post> getPostByPostId(long id) {
 		String sql = "SELECT * FROM `user` , `posts` WHERE posts.user_id = user.user_id And post_id=" + id;
 		Post post = null;
 		try {

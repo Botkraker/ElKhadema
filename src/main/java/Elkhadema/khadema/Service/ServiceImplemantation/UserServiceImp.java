@@ -1,5 +1,6 @@
 package Elkhadema.khadema.Service.ServiceImplemantation;
 
+import java.util.Date;
 import java.util.Optional;
 
 import Elkhadema.khadema.DAO.DAOImplemantation.CompanyDAO;
@@ -50,7 +51,7 @@ public class UserServiceImp implements UserService {
 		if (!PasswordEncryptor.verifyPassword(name, password, user2.getPassword())|| user2.isIs_banned()) {
 			return null;
 		}
-
+		user2.setLastloginDate(new Date());
 		user2.setIs_active(true);
 		userDao.update(user2, user2);
 		Session.setUser(user2);

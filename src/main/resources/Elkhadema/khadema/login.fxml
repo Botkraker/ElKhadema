@@ -32,7 +32,7 @@
                <children>
                   <TextField fx:id="name" layoutX="100.0" layoutY="172.0" promptText="User Name" style="-fx-background-color: transparent; -fx-border-color: #2C0F95; -fx-border-width: 0px 0px 2px 0px;" />
                   <PasswordField fx:id="password" layoutX="100.0" layoutY="243.0" promptText="Password" style="-fx-background-color: transaparent; -fx-border-color: #2C0F95; -fx-border-width: 0px 0px 2px 0px;" />
-                  <!--<FontAwesomeIcon fill="#2c0f95" glyphName="USERS" layoutX="76.0" layoutY="208.0" size="1.5em" />-->
+                  <FontAwesomeIcon fill="#2c0f95" glyphName="USERS" layoutX="76.0" layoutY="208.0" size="1.5em" />
                   <!--<FontAwesomeIcon fill="#2c0f95" glyphName="KEY" layoutX="73.0" layoutY="279.0" size="1.5em" />-->
                   <Button layoutX="190.0" layoutY="341.0" mnemonicParsing="false" onAction="#login" prefHeight="23.0" prefWidth="166.0" style="-fx-background-color: #2C0F95; -fx-background-radius: 15px;" text="Login" textFill="#fcf6f6" />
                   <Hyperlink layoutX="101.0" layoutY="294.0" prefHeight="29.0" prefWidth="163.0" text="Forgot your password?" />
@@ -49,7 +49,7 @@
                      </font>
                   </CheckBox>
                   <Text fill="#2c0f95" layoutX="73.0" layoutY="420.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Not a member?" />
-                  <Hyperlink layoutX="186.0" layoutY="400.0" onAction="#signup" text="Signup now" />
+                  <Hyperlink layoutX="186.0" layoutY="400.0" onAction="#signUp" text="Signup now" />
                   <Text fx:id="invalid" fill="RED" layoutX="145.0" layoutY="396.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                </children>
             </AnchorPane>

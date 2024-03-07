@@ -10,7 +10,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
-// TODO this class still needs a way to add images
 public class LoginController {
     // new user to add
     User user = new User(0, null, null);

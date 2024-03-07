@@ -1,9 +1,11 @@
 package Elkhadema.khadema.controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import Elkhadema.khadema.App;
 import Elkhadema.khadema.Service.ServiceImplemantation.UserServiceImp;
 import Elkhadema.khadema.Service.ServiceInterfaces.UserService;
 import Elkhadema.khadema.Service.validateInfo.EmailValidator;
@@ -16,9 +18,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.TextField;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 public class SignUpController implements Initializable {
@@ -47,7 +47,7 @@ public class SignUpController implements Initializable {
     ComboBox<String> country;
 
     @FXML
-    public void register() {
+    public void register() throws IOException {
         String vemail = email.getText();
         if (!EmailValidator.isValidEmail(vemail)) {
             invalid.setText("*email invalid");
@@ -78,6 +78,7 @@ public class SignUpController implements Initializable {
         }
         contactInfo.setPhoneNumber(Integer.parseInt(phoneNumber));
         this.userService.SignUp(user, "person");
+        App.setRoot("login");
     }
 
     @Override

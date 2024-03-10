@@ -27,7 +27,7 @@
             </AnchorPane>
          </left>
          <center>
-            <AnchorPane prefHeight="500.0" prefWidth="516.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+            <AnchorPane prefHeight="500.0" prefWidth="516.0" style="-fx-background-color: white;" stylesheets="@../../css/style.css" BorderPane.alignment="CENTER">
                <children>
                   <Text fill="#2c0f95" layoutX="106.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sign Up">
                      <font>
@@ -51,7 +51,7 @@
                   <Text fill="#2c0f95" layoutX="14.0" layoutY="306.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select your country" />
                   <Text fill="#2c0f95" layoutX="16.0" layoutY="365.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password" />
                   <Text fill="#2c0f95" layoutX="11.0" layoutY="417.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Confirm Password" />
-                  <ComboBox fx:id="country" layoutX="168.0" layoutY="294.0" prefHeight="31.0" prefWidth="181.0" style="-fx-background-radius: 15px; -fx-background-color: #2C0F95; -fx-prompt-text-fill: white; -fx-text-fill: white;" />
+                  <ComboBox fx:id="country" layoutX="168.0" layoutY="294.0" prefHeight="31.0" prefWidth="181.0" style="-fx-background-radius: 15px; -fx-background-color: #2C0F95; -fx-prompt-text-fill: white; -fx-text-fill: white;" stylesheets="@../../css/style.css" />
                   <Text fill="RED" layoutX="93.0" layoutY="366.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*" />
                   <Text fill="RED" layoutX="137.0" layoutY="417.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*" />
                   <Button fx:id="register" layoutX="103.0" layoutY="448.0" mnemonicParsing="false" onAction="#register" prefHeight="31.0" prefWidth="174.0" style="-fx-background-color: #2C0F95; -fx-background-radius: 15px;" text="Register" textFill="WHITE" />

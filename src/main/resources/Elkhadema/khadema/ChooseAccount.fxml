@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox alignment="CENTER" style="-fx-background-color: linear-gradient(to bottom, #0000cc 0%, #0099ff 100%);" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Elkhadema.khadema.controller.ChooseAccountController">
+<VBox alignment="CENTER" style="-fx-background-color: linear-gradient(to bottom, #0000cc 0%, #0099ff 100%);" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0">
          <left>
@@ -60,6 +60,16 @@
                   </Text>
                   <Text layoutX="14.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose the account type that fits your needs:" />
                   <Text layoutX="14.0" layoutY="202.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" Either an enterprise account for professionals or a user account." />
+                  <Text fill="#2c0f95" layoutX="57.0" layoutY="603.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Don't you have an account?">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Text>
+                  <Hyperlink layoutX="296.0" layoutY="576.0" text="Sign Up">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Hyperlink>
                </children>
             </AnchorPane>
          </right>

@@ -9,10 +9,12 @@ import Elkhadema.khadema.App;
 import Elkhadema.khadema.Service.ServiceImplemantation.UserServiceImp;
 import Elkhadema.khadema.Service.ServiceInterfaces.UserService;
 import Elkhadema.khadema.Service.validateInfo.EmailValidator;
+import Elkhadema.khadema.Service.validateInfo.PasswordValidator;
 import Elkhadema.khadema.Service.validateInfo.PhoneNumberValidate;
 import Elkhadema.khadema.Service.validateInfo.UsernameValidator;
 import Elkhadema.khadema.domain.ContactInfo;
 import Elkhadema.khadema.domain.User;
+import Elkhadema.khadema.util.PasswordEncryptor;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -59,12 +61,16 @@ public class SignUpUserController implements Initializable {
             invalid.setText("*username invalid");
             return;
         }
-        if(country.getValue()=="Select your country"){
-            invalid.setText("confirm your password");
+        if(country.getValue()==null){
+            invalid.setText("choose a country");
             return;
         }
 
         user.setUserName(username);
+        if (PasswordValidator.isValidPassword(password.getText())) {
+            invalid.setText("password invalid");
+            return;
+        }
         String confirmPassword = confirm.getText();
         if (!confirmPassword.equals(password.getText())) {
             invalid.setText("confirm your password");
@@ -85,13 +91,13 @@ public class SignUpUserController implements Initializable {
     public void initialize(URL arg0, ResourceBundle arg1) {
         ObservableList<String> countries=FXCollections.observableArrayList();
         String[] countryCodes = Locale.getISOCountries();
-        countries.add("choose a country");
         for (String countryCode : countryCodes) {
             Locale locale = new Locale("", countryCode);
             countries.add( locale.getDisplayCountry());
         }
-        
+        country.setPromptText("choose a country");
         country.setItems(countries);
     }
+
 
 }

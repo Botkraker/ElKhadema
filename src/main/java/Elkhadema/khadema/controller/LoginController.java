@@ -39,6 +39,6 @@ public class LoginController {
     }
     @FXML
     public void signUp() throws IOException{
-        App.setRoot("signUp");
+        App.setRoot("ChooseAccount");
     }
 }

@@ -11,18 +11,12 @@ public class ChooseAccountController {
 
     @FXML
     public void user() throws IOException{
-        App.setRoot("login");
+        App.setRoot("SignUp");
     }
 
     @FXML
     public void company() throws IOException{
-        App.setRoot("LoginCompany");
+        App.setRoot("SignUpCompany");
     }
-
-    @FXML
-    public void signUp() throws IOException{
-        App.setRoot("SignUp");
-    }
-
 
 }

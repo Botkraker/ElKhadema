@@ -21,7 +21,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
-public class SignUpController implements Initializable {
+public class SignUpUserController implements Initializable {
     UserService userService = new UserServiceImp();
 
     User user = new User(0, null, null);
@@ -85,10 +85,12 @@ public class SignUpController implements Initializable {
     public void initialize(URL arg0, ResourceBundle arg1) {
         ObservableList<String> countries=FXCollections.observableArrayList();
         String[] countryCodes = Locale.getISOCountries();
+        countries.add("choose a country");
         for (String countryCode : countryCodes) {
             Locale locale = new Locale("", countryCode);
             countries.add( locale.getDisplayCountry());
         }
+        
         country.setItems(countries);
     }
 

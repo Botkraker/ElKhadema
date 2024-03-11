@@ -112,8 +112,6 @@ public class SignUpCompanyController implements Initializable {
         }
         ZoneId defaultZoneId = ZoneId.systemDefault();
         company.setCreationDate(Date.from(creationDate.atStartOfDay(defaultZoneId).toInstant()));
-        userService.SignUp(company, "company");
-        App.setRoot("login");
         if(industry.getValue()==null){
           invalid.setText("choose an industry");
             return;}

@@ -18,5 +18,9 @@
     ],
     "java.project.explorer.showNonJavaResources": false,
     "java.debug.settings.onBuildFailureProceed": true,
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "/home/username/lib/foo.jar"
+    ]
 }

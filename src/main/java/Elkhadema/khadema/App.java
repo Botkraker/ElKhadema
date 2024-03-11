@@ -6,17 +6,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
-
 /**
  * JavaFX App
  */
 public class App extends Application {
-
     private static Scene scene;
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("login"), 1280, 720);
+        scene = new Scene(loadFXML("login"), 700, 500);
         stage.setScene(scene);
         stage.show();
     }

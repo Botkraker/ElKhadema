@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import de.jensd.fx.glyphs.fontawesome.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.image.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<VBox alignment="CENTER" style="-fx-background-color: linear-gradient(to bottom, #0000cc 0%, #0099ff 100%);" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="CENTER" style="-fx-background-color: linear-gradient(to bottom, #0000cc 0%, #0099ff 100%);" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Elkhadema.khadema.controller.ChooseAccountController">
    <children>
       <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0">
          <left>
@@ -15,7 +19,7 @@
                <children>
                   <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="82.0" layoutY="86.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../Users/Kallel/Downloads/dzjnbdj-removebg-preview.png" />
+                        <Image url="@../../images/icon.png" />
                      </image>
                   </ImageView>
                </children>
@@ -27,7 +31,7 @@
                   <Pane layoutX="36.0" layoutY="284.0" prefHeight="246.0" prefWidth="217.0" style="-fx-background-color: linear-gradient(to bottom, #ff00ff 0%, #ffffff 100%); -fx-background-radius: 20px;">
                      <children>
                         <FontAwesomeIcon glyphName="USER" layoutX="82.0" layoutY="82.0" size="4.5em" />
-                        <Hyperlink layoutX="86.0" layoutY="182.0" text="User">
+                        <Hyperlink layoutX="86.0" layoutY="182.0" onAction="#user" text="User">
                            <font>
                               <Font size="17.0" />
                            </font>
@@ -37,7 +41,7 @@
                   <Pane layoutX="343.0" layoutY="284.0" prefHeight="245.0" prefWidth="217.0" style="-fx-background-color: linear-gradient(to bottom, #ff00ff 0%, #ffffff 100%); -fx-background-radius: 20px;">
                      <children>
                         <FontAwesomeIcon glyphName="USERS" layoutX="72.0" layoutY="80.0" size="4.5em" />
-                        <Hyperlink layoutX="67.0" layoutY="182.0" text="Company">
+                        <Hyperlink layoutX="67.0" layoutY="182.0" onAction="#company" text="Company">
                            <font>
                               <Font size="17.0" />
                            </font>

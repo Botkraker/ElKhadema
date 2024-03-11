@@ -23,6 +23,7 @@
             "request": "launch",
             "mainClass": "Elkhadema.khadema/Elkhadema.khadema.App",
             "projectName": "khadema"
-        }
+        },
     ]
+
 }

@@ -7,10 +7,10 @@ public interface UserService {
 	/**
 	 * @param user user to add
 	 * @param type either person or company
-	 * @return the user if succesfuly added 
+	 * @return the user if succesfuly added
 	 * else null for aleardy user in db
 	 */
-	public User Signin(User user, String type);
+	public User SignUp(User user, String type);
 
 	/**
 	 * @param name username of user

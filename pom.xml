@@ -11,13 +11,11 @@
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
     <dependencies>
-
         <dependency>
             <groupId>com.luhuiguo</groupId>
             <artifactId>aspose-pdf</artifactId>
             <version>23.1</version>
         </dependency>
-
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>

@@ -28,10 +28,10 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.text.Text;
 
 public class SignUpCompanyController implements Initializable {
-    UserService userService = new UserServiceImp();
+    private UserService userService = new UserServiceImp();
 
-    Company company = new Company(0, null, null);
-    ContactInfo contactInfo = new ContactInfo(0);
+    private Company company = new Company(0, null, null);
+    private ContactInfo contactInfo = new ContactInfo(0);
 
     @FXML
     private TextField textName;
@@ -42,7 +42,7 @@ public class SignUpCompanyController implements Initializable {
     @FXML
     private PasswordField textConfirm;
     @FXML
-    private TextArea textDescription;
+    private TextArea textdescription;
     @FXML
     private ToggleGroup type;
     @FXML
@@ -57,7 +57,7 @@ public class SignUpCompanyController implements Initializable {
     private Text invalid;
 
     @FXML
-    public void ChooseAccount() throws IOException {
+    public void chooseAccount() throws IOException {
         App.setRoot("ChooseAccount");
     }
 
@@ -90,7 +90,7 @@ public class SignUpCompanyController implements Initializable {
             return;
         }
         company.setPassword(password);
-        String description = textDescription.getText();
+        String description = textdescription.getText();
         company.setDescription(description);
         if (publ.isSelected()) {
             company.setSpeciality("public");
@@ -106,7 +106,7 @@ public class SignUpCompanyController implements Initializable {
         if (creationDate.isAfter(LocalDate.now())) {
             invalid.setText("date invalid");
         }
-        ZoneId defaultZoneId=ZoneId.systemDefault();
+        ZoneId defaultZoneId = ZoneId.systemDefault();
         company.setCreationDate(Date.from(creationDate.atStartOfDay(defaultZoneId).toInstant()));
         userService.SignUp(company, "company");
         App.setRoot("login");

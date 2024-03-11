@@ -37,6 +37,7 @@ public class LoginController {
         }
         App.setRoot("home");
     }
+    
     @FXML
     public void signUp() throws IOException{
         App.setRoot("ChooseAccount");

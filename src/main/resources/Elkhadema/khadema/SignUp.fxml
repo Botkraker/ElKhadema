@@ -20,7 +20,7 @@
                <children>
                   <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="88.0" layoutY="77.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../Users/Kallel/Downloads/dzjnbdj-removebg-preview.png" />
+                        <Image url="@../../images/icon.png" />
                      </image>
                   </ImageView>
                </children>

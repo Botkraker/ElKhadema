@@ -42,7 +42,7 @@ public class SignUpCompanyController implements Initializable {
     @FXML
     private PasswordField textConfirm;
     @FXML
-    private TextArea textdescription;
+    private TextArea Textdescription;
     @FXML
     private ToggleGroup type;
     @FXML
@@ -69,6 +69,10 @@ public class SignUpCompanyController implements Initializable {
     @FXML
     public void signUp() throws IOException {
         String name = textName.getText();
+        if (name=="") {
+            invalid.setText("name empty");
+            return;
+        }
         company.setUserName(name);
         company.setCompanyName(name);
 
@@ -90,7 +94,7 @@ public class SignUpCompanyController implements Initializable {
             return;
         }
         company.setPassword(password);
-        String description = textdescription.getText();
+        String description = Textdescription.getText();
         company.setDescription(description);
         if (publ.isSelected()) {
             company.setSpeciality("public");
@@ -108,6 +112,13 @@ public class SignUpCompanyController implements Initializable {
         }
         ZoneId defaultZoneId = ZoneId.systemDefault();
         company.setCreationDate(Date.from(creationDate.atStartOfDay(defaultZoneId).toInstant()));
+        userService.SignUp(company, "company");
+        App.setRoot("login");
+        if(industry.getValue()==null){
+          invalid.setText("choose an industry");
+            return;}
+        company.setIndustry(industry.getValue());
+        company.setContactInfo(contactInfo);
         userService.SignUp(company, "company");
         App.setRoot("login");
     }

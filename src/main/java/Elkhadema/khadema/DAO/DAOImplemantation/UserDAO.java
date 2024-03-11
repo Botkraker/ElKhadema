@@ -96,14 +96,13 @@ public class UserDAO  {
 					+ t.getId() + ";";
 
 			PreparedStatement p = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			p.setString(3, newT.getUserName());
+			p.setString(2, newT.getUserName());
 			p.setString(1, newT.getPassword());
-			p.setDate(4, (Date) newT.getCreationDate());
-			p.setLong(2, newT.getContactInfo().getId());
-			p.setDate(5, (Date) newT.getLastloginDate());
-			p.setBoolean(6, newT.is_banned);
-			p.setBoolean(7, newT.is_active);
-			p.setString(8, newT.getPhoto());
+			p.setDate(3, new java.sql.Date(t.getCreationDate().getTime()));
+			p.setDate(4,new java.sql.Date(t.getLastloginDate().getTime()));
+			p.setBoolean(5, newT.is_banned);
+			p.setBoolean(6, newT.is_active);
+			p.setString(7, newT.getPhoto());
 			p.executeUpdate();
 			p.getGeneratedKeys();
 		} catch (Exception e) {
@@ -122,7 +121,7 @@ public class UserDAO  {
 	}
 
 	public Optional<User> Login(String firstname) {
-		String sql = "SELECT *  FROM `user` WHERE `firstname`="+firstname ;
+		String sql = "SELECT *  FROM `user` WHERE `username`='"+firstname+"'" ;
 		User user = null;
 		try {
 			ResultSet rs = connection.createStatement().executeQuery(sql);

@@ -35,6 +35,7 @@ public class LoginController {
         if (user==null) {
             invalid.setText("password invalid");
         }
+        
         App.setRoot("home");
     }
     

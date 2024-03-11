@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import java.io.IOException;
 /**
@@ -14,8 +15,9 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("login"), 1280, 720);
+        scene = new Scene(loadFXML("SignUpCompany"), 1280, 720);
         stage.setScene(scene);
+        stage.getIcons().add(new Image("file:src//main//resources//images//elkhadema.png"));
         stage.show();
     }
 

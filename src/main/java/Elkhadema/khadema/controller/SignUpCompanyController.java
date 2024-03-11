@@ -112,10 +112,6 @@ public class SignUpCompanyController implements Initializable {
         }
         ZoneId defaultZoneId = ZoneId.systemDefault();
         company.setCreationDate(Date.from(creationDate.atStartOfDay(defaultZoneId).toInstant()));
-<<<<<<< HEAD
-       
-=======
->>>>>>> branch 'main' of https://github.com/Botkraker/ElKhadema
         if(industry.getValue()==null){
           invalid.setText("choose an industry");
             return;}

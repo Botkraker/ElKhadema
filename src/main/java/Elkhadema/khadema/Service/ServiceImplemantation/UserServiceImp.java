@@ -24,7 +24,6 @@ public class UserServiceImp implements UserService {
 		if (userDao.get(user.getId()).isPresent()) {
 			return null;
 		}
-		user.setLastloginDate(new Date());
 		String encryptedPassword=PasswordEncryptor.encryptPassword(user.getUserName(), user.getPassword());
 		user.setPassword(encryptedPassword);
 		userDao.save(user);

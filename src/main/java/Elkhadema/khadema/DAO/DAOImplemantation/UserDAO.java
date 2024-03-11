@@ -63,20 +63,24 @@ public class UserDAO  {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
+			ContactInfoDAO ci = new ContactInfoDAO();
+			System.out.println(t.getContactInfo().getEmail());
+			System.out.println(t.getCreationDate());
+			ci.save(t.getContactInfo());
 			pstmt = connection.prepareStatement(
 					"INSERT INTO `khademadb`.`user` (`password_encrypted`, `contact_info_id`, `username`, `creationdate`, `last_login`, `banned`, `is_active`,`photo`) VALUES (?, ?, ?, ?, ?, ?, ?,?);",
 					Statement.RETURN_GENERATED_KEYS);
 			pstmt.setString(3, t.getUserName());
 			pstmt.setString(1, t.getPassword());
-			pstmt.setDate(4, (Date) t.getCreationDate());
+			pstmt.setDate(4,new java.sql.Date(t.getCreationDate().getTime()));
 			pstmt.setLong(2, t.getContactInfo().getId());
-			pstmt.setDate(5, (Date) t.getLastloginDate());
+			pstmt.setDate(5, new java.sql.Date(t.getLastloginDate().getTime()));
 			pstmt.setBoolean(6, false);
 			pstmt.setBoolean(7, false);
 			pstmt.setString(8, t.getPhoto());
 			pstmt.executeUpdate();
 			rs = pstmt.getGeneratedKeys();
-			if (rs.next()) {
+			if (rs.next()) {	
 				t.setId(rs.getInt(1));
 			}
 

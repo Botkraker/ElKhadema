@@ -83,7 +83,10 @@ public class Post {
 		super();
 		this.id = id;
 	}
-    
-    
+
+    public long getCountReactions() {
+        return this.reactions.stream().count();
+    }
+
 
 }

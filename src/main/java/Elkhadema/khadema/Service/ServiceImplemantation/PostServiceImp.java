@@ -72,14 +72,12 @@ public class PostServiceImp implements PostService {
 
     @Override
     public void removePost(Post post) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'removePost'");
+        postDAO.delete(post);
     }
 
     @Override
     public void removeReactionFromPost(Post post, Reaction reaction) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'removeReactionFromPost'");
+        reactionDAO.delete(reaction);
     }
 
 }

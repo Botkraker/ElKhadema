@@ -1,7 +1,6 @@
 package Elkhadema.khadema.DAO.DAOImplemantation;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,12 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import Elkhadema.khadema.DAO.DAOInterfaces.JobofferDAOINT;
 import Elkhadema.khadema.domain.Company;
 import Elkhadema.khadema.domain.JobOffre;
 import Elkhadema.khadema.domain.JobRequest;
-import Elkhadema.khadema.domain.Post;
-import Elkhadema.khadema.domain.Reaction;
 import Elkhadema.khadema.domain.SavedJob;
 import Elkhadema.khadema.domain.User;
 import Elkhadema.khadema.util.ConexDB;
@@ -83,7 +79,7 @@ public class JobsDAO{
 
 		} catch (Exception e) {
 			System.out.println(e);
-		
+
 	}
 }
 	public Optional<JobOffre> getJobOfferByid(long id) {
@@ -117,7 +113,7 @@ public class JobsDAO{
 
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
-		}	
+		}
 	}
 	public List<JobRequest> getJobRequestsByUser(User user) {
 		Statement stmt = null;
@@ -164,14 +160,14 @@ public class JobsDAO{
 			System.out.println(e.getMessage());
 		}
 	}
-	
+
 	public void deleteJobRequest(JobRequest t) {
 		try {
 			connection.createStatement().execute("DELETE FROM `job_request` WHERE `offer_id`="+t.getJobOffre().getId()+" and `user_id`="+t.getUser().getId());
 
 		} catch (Exception e) {
 			System.out.println(e);
-		
+
 	}}
 	//SAVED JOB SECTION
 	public void saveJob(SavedJob job) {
@@ -186,7 +182,7 @@ public class JobsDAO{
 
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
-		}	
+		}
 	}
 	public List<SavedJob> getSavedJobsByUser(User user) {
 		Statement stmt = null;
@@ -210,8 +206,6 @@ public class JobsDAO{
 
 		} catch (Exception e) {
 			System.out.println(e);
-		
 	}
-		
 	}
 }

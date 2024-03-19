@@ -2,39 +2,35 @@ package Elkhadema.khadema.Service.ServiceImplemantation;
 
 import java.util.List;
 
+import Elkhadema.khadema.DAO.DAOImplemantation.FollowDAO;
 import Elkhadema.khadema.Service.ServiceInterfaces.FollowService;
 import Elkhadema.khadema.domain.User;
-//TODO do it later
+import Elkhadema.khadema.domain.Follow;
 public class FollowServiceImp implements FollowService{
-
+    FollowDAO followDAO=new FollowDAO();
     @Override
     public List<User> getFollowers(User user) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getFollowers'");
+        return followDAO.getAllFollowersById(user.getId()).stream().map(Follow::getFollower).toList();
     }
 
     @Override
     public List<User> getfollowing(User user) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getfollowing'");
+        return followDAO.getfollowingByid(user.getId()).stream().map(Follow::getFollowing).toList();
     }
 
     @Override
     public boolean isFollowing(User user, User following) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isFollowing'");
+        return  followDAO.getfollowingByid(user.getId()).stream().map(Follow::getFollowing).anyMatch(t -> following.equals(t));
     }
 
     @Override
     public void Follow(User user, User following) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'Follow'");
+        followDAO.save(new Follow(user, following));
     }
 
     @Override
     public void unFollow(User user, User following) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'unFollow'");
+        followDAO.delete(new Follow(user, following));
     }
 
 }

@@ -125,9 +125,34 @@ public class MessageDAO{
 	}
 
     public List<Message> getMessageByUserId(int id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getMessageByUserId'");
-    }
+        
+    	String sql = "SELECT * FROM `messages` WHERE `sender_id`="+id;
+    	List<Message> messages = new ArrayList<>();
+		try {
+			ResultSet rs = connection.createStatement().executeQuery(sql);
+			while (rs.next()) {
+				messages.add(new Message(rs.getLong("message_id"),new User(rs.getInt("sender_id"),"", ""),rs.getString("content"),rs.getDate("creation_date"),rs.getInt("parent_message_id")));
+			}
 
+		} catch (Exception e) {
+			System.out.println(e);
 
+		}
+		return messages;
+		}
+public List<User> getlistofChatsByUserId(int id) {
+    	String sql = "SELECT DISTINCT m.user_id FROM message_receiver m JOIN messages e ON e.message_id = m.message_id WHERE e.sender_id ="+id+" ORDER BY e.creation_date ASC";
+    	List<User> users = new ArrayList<>();
+		try {
+			ResultSet rs = connection.createStatement().executeQuery(sql);
+			while (rs.next()) {
+				users.add(new User(rs.getInt("user_id"),null,null));
+			}
+
+		} catch (Exception e) {
+			System.out.println(e);
+
+		}
+		return users;
+	}
 }

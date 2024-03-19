@@ -24,6 +24,7 @@ public class UserServiceImp implements UserService {
 		if (userDao.get(user.getId()).isPresent()) {
 			return null;
 		}
+		user.setCreationDate(new Date());
 		user.setLastloginDate(new Date());
 		String encryptedPassword=PasswordEncryptor.encryptPassword(user.getUserName(), user.getPassword());
 		user.setPassword(encryptedPassword);
@@ -57,7 +58,14 @@ public class UserServiceImp implements UserService {
 		Session.setUser(user2);
 		return user2;
 	}
+	@Override
+	public void logOut(User user){
+		User user2=userDao.get(user.getId()).get();
+		user.setIs_active(false);
+		user.setLastloginDate(new Date());
+		userDao.update(user2, user);
 
+	}
 	@Override
 	public void removeUser(User u) {
 		userDao.delete(u);

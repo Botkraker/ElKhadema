@@ -29,4 +29,5 @@ public interface UserService {
 	 * @throws UserNotFoundException when the user is not in the DB
 	 */
 	public User EditUser(User user, User newUser) throws UserNotFoundException;
+	public void logOut(User user);
 }

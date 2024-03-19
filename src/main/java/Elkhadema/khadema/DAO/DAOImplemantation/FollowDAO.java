@@ -7,19 +7,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
-import Elkhadema.khadema.DAO.DAOInterfaces.FollowerDAOINT;
 import Elkhadema.khadema.domain.Follow;
-import Elkhadema.khadema.domain.Post;
-import Elkhadema.khadema.domain.Reaction;
 import Elkhadema.khadema.domain.User;
 import Elkhadema.khadema.util.ConexDB;
 
 public class FollowDAO  {
 	private static Connection connection = ConexDB.getInstance();
 	public List<Follow> getAllFollowersById(long id) {
-		
+
 		Statement stmt = null;
 		ResultSet rs = null;
 		List<Follow> follows = new ArrayList<>();

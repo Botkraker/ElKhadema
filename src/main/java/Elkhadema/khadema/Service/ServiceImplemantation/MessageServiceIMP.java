@@ -26,7 +26,15 @@ public class MessageServiceIMP implements MessageService {
 
 	@Override
 	public List<Message> chat(User currentUser, User otherUser) {
-		return mdao.getconversation(currentUser, otherUser);
+		return mdao.getconversation(currentUser, otherUser).stream()
+		.map(t -> {if(t.getSender().getId()==currentUser.getId()) {
+				t.setSender(currentUser);
+				}
+				else {t.setSender(otherUser);
+				}return t;
+		}).collect(Collectors.toList());
+	
+		
 	}
 
 	@Override

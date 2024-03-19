@@ -1,18 +1,16 @@
 package Elkhadema.khadema.Service.ServiceImplemantation;
 
-import java.util.List;
-
+import Elkhadema.khadema.DAO.DAOImplemantation.CompanyDAO;
 import Elkhadema.khadema.Service.ServiceInterfaces.CompanyService;
 import Elkhadema.khadema.domain.Company;
-import Elkhadema.khadema.domain.JobOffre;
 import Elkhadema.khadema.domain.User;
 
-public class CompanyServiceImp implements CompanyService{
+public class CompanyServiceImp implements CompanyService {
+    CompanyDAO companyDAO = new CompanyDAO();
 
     @Override
     public boolean isCompany(User user) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isCompany'");
+        return companyDAO.get(user.getId()).isPresent();
     }
 
     @Override
@@ -22,15 +20,8 @@ public class CompanyServiceImp implements CompanyService{
     }
 
     @Override
-    public List<JobOffre> getJobOffres(Company Company) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getJobOffres'");
-    }
-
-    @Override
     public Company getCompanyInfo(Company company) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getCompanyInfo'");
+        return companyDAO.get(company.getId()).get();
     }
 
 }

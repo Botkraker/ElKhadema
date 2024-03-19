@@ -7,7 +7,7 @@ import Elkhadema.khadema.domain.User;
 public interface AdminService {
     boolean isAdmin(User user);
 
-    Admin addAdmin(Admin admin);
+    Admin addAdmin(User user);
 
     void BanUser(User user);
 

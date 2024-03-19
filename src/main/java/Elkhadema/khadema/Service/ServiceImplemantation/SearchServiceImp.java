@@ -1,7 +1,6 @@
 package Elkhadema.khadema.Service.ServiceImplemantation;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -14,7 +13,6 @@ import Elkhadema.khadema.domain.Company;
 import Elkhadema.khadema.domain.JobOffre;
 import Elkhadema.khadema.domain.Post;
 import Elkhadema.khadema.domain.User;
-import javafx.geometry.Pos;
 
 public class SearchServiceImp implements SearchService {
     UserDAO userDAO = new UserDAO();

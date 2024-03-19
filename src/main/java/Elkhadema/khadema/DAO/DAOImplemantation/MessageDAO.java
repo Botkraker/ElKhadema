@@ -42,7 +42,7 @@ public class MessageDAO{
 			pstmt.setInt(2, mr.getUser().getId());
 			pstmt.setInt(3, mr.isRead());
 			pstmt.executeUpdate();
-			
+
 
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -123,6 +123,11 @@ public class MessageDAO{
 		}
 		return Optional.ofNullable(message);
 	}
-	
+
+    public List<Message> getMessageByUserId(int id) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getMessageByUserId'");
+    }
+
 
 }

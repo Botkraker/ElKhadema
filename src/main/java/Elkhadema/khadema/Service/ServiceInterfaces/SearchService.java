@@ -1,6 +1,6 @@
 package Elkhadema.khadema.Service.ServiceInterfaces;
 
-import java.util.List;
+import java.util.Set;
 
 import Elkhadema.khadema.domain.Company;
 import Elkhadema.khadema.domain.JobOffre;
@@ -8,14 +8,14 @@ import Elkhadema.khadema.domain.Post;
 import Elkhadema.khadema.domain.User;
 
 public interface SearchService {
-    List<Object> search(String searchWord);
+    Set<Object> search(String searchWord);
 
-    List<User> searchByUsers(String searchWord);
+    Set<User> searchByUsers(String searchWord);
 
-    List<Post> searchByPosts(String searchWord);
+    Set<Post> searchByPosts(String searchWord);
 
-    List<Company> searchByCompanies(String searchWord);
+    Set<Company> searchByCompanies(String searchWord);
 
-    List<JobOffre> searchByJobOffres(String searchWord);
+    Set<JobOffre> searchByJobOffres(String searchWord);
 
 }

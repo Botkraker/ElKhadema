@@ -26,7 +26,7 @@ public class UserServiceImp implements UserService {
 		}
 		user.setCreationDate(new Date());
 		user.setLastloginDate(new Date());
-		String encryptedPassword=PasswordEncryptor.encryptPassword(user.getUserName(), user.getPassword());
+		String encryptedPassword = PasswordEncryptor.encryptPassword(user.getUserName(), user.getPassword());
 		user.setPassword(encryptedPassword);
 		userDao.save(user);
 		switch (type) {
@@ -49,8 +49,8 @@ public class UserServiceImp implements UserService {
 		if (!user.isPresent()) {
 			throw new UserNotFoundException();
 		}
-		User user2=user.get();
-		if (!PasswordEncryptor.verifyPassword(name, password, user2.getPassword())|| user2.isIs_banned()) {
+		User user2 = user.get();
+		if (!PasswordEncryptor.verifyPassword(name, password, user2.getPassword()) || user2.isIs_banned()) {
 			return null;
 		}
 		user2.setIs_active(true);
@@ -58,14 +58,16 @@ public class UserServiceImp implements UserService {
 		Session.setUser(user2);
 		return user2;
 	}
+
 	@Override
-	public void logOut(User user){
-		User user2=userDao.get(user.getId()).get();
+	public void logOut(User user) {
+		User user2 = userDao.get(user.getId()).get();
 		user.setIs_active(false);
 		user.setLastloginDate(new Date());
 		userDao.update(user2, user);
 
 	}
+
 	@Override
 	public void removeUser(User u) {
 		userDao.delete(u);
@@ -73,7 +75,7 @@ public class UserServiceImp implements UserService {
 
 	@Override
 	public User EditUser(User u, User newUser) throws UserNotFoundException {
-		Optional<User> user=userDao.get(u.getId());
+		Optional<User> user = userDao.get(u.getId());
 		if (!user.isPresent()) {
 			throw new UserNotFoundException();
 		}

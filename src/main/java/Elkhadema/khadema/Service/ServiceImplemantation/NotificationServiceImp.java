@@ -27,7 +27,8 @@ public class NotificationServiceImp implements NotificationService {
         return messageDAO.getMessageByUserId(user.getId()).stream()
                 .filter(message -> message.getCreationDate().after(user.getLastloginDate()))
                 .sorted(Comparator.comparing(Message::getCreationDate))
-                .map(message -> new Notification("message", message.getContent(), message.getSender(),message.getCreationDate()))
+                .map(message -> new Notification("message", message.getContent(), message.getSender(),
+                        message.getCreationDate()))
                 .toList();
     }
 
@@ -39,7 +40,7 @@ public class NotificationServiceImp implements NotificationService {
                 .flatMap(user2 -> postDAO.getPostsById(user2.getId()).stream())
                 .filter(post -> post.getCreationDate().after(user.getLastloginDate()))
                 .sorted(Comparator.comparing(Post::getCreationDate))
-                .map(post -> new Notification("post", post.getContent(), post.getUser(),post.getCreationDate()))
+                .map(post -> new Notification("post", post.getContent(), post.getUser(), post.getCreationDate()))
                 .toList();
 
     }
@@ -55,9 +56,10 @@ public class NotificationServiceImp implements NotificationService {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'jobNotifications'");
     }
+
     @Override
-    public List<Notification> allNotifications(User user){
-        List<Notification> notifications=new ArrayList<>();
+    public List<Notification> allNotifications(User user) {
+        List<Notification> notifications = new ArrayList<>();
         notifications.addAll(messageNotifications(user));
         notifications.addAll(postNotifications(user));
         return notifications.stream().sorted(Comparator.comparing(Notification::getDate)).toList();

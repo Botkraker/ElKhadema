@@ -18,15 +18,18 @@ import Elkhadema.khadema.util.Session;
 public class PostServiceImp implements PostService {
     PostDAO postDAO = new PostDAO();
     ReactionDAO reactionDAO = new ReactionDAO();
-    FollowDAO followDAO=new FollowDAO();
+    FollowDAO followDAO = new FollowDAO();
+
     @Override
     public List<Post> getPostsByUser(User user) {
         return postDAO.getPostsById(user.getId());
     }
-    public List<Post> feed(){
-        List<Follow> followings =followDAO.getfollowingByid(Session.getUser().getId());
-        List <User> users= followings.stream().map(Follow::getFollowing).toList();
-        List<Post> posts=users.stream().flatMap(user-> getPostsByUser(user).stream()).sorted(Comparator.comparing(Post::getCreationDate)).toList();
+
+    public List<Post> feed() {
+        List<Follow> followings = followDAO.getfollowingByid(Session.getUser().getId());
+        List<User> users = followings.stream().map(Follow::getFollowing).toList();
+        List<Post> posts = users.stream().flatMap(user -> getPostsByUser(user).stream())
+                .sorted(Comparator.comparing(Post::getCreationDate)).toList();
         return posts;
     }
 

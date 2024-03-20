@@ -14,7 +14,6 @@ import Elkhadema.khadema.Service.validateInfo.PhoneNumberValidate;
 import Elkhadema.khadema.Service.validateInfo.UsernameValidator;
 import Elkhadema.khadema.domain.ContactInfo;
 import Elkhadema.khadema.domain.User;
-import Elkhadema.khadema.util.PasswordEncryptor;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -28,7 +27,8 @@ public class SignUpUserController implements Initializable {
 
     User user = new User(0, null, null);
     ContactInfo contactInfo = new ContactInfo(0);
-
+    @FXML
+    TextField userNameField;
     @FXML
     TextField firstname;
     @FXML
@@ -65,7 +65,6 @@ public class SignUpUserController implements Initializable {
             invalid.setText("choose a country");
             return;
         }
-
         user.setUserName(username);
         if (PasswordValidator.isValidPassword(password.getText())) {
             invalid.setText("password invalid");

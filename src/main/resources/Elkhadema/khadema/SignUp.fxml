@@ -27,24 +27,24 @@
             </AnchorPane>
          </left>
          <center>
-            <AnchorPane prefHeight="500.0" prefWidth="516.0" style="-fx-background-color: white;" stylesheets="@../../css/style.css" BorderPane.alignment="CENTER">
+            <AnchorPane prefHeight="518.0" prefWidth="418.0" style="-fx-background-color: white;" stylesheets="@../../css/style.css" BorderPane.alignment="CENTER">
                <children>
                   <Text fill="#2c0f95" layoutX="106.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sign Up">
                      <font>
                         <Font name="Andalus" size="52.0" />
                      </font>
                   </Text>
-                  <TextField fx:id="firstname" layoutX="79.0" layoutY="103.0" prefHeight="33.0" prefWidth="122.0" promptText="First Name" style="-fx-background-color: transaparent; -fx-border-color: #2C0F95; -fx-border-width: 0px 0px 2px 0px;" />
-                  <TextField fx:id="lastname" layoutX="219.0" layoutY="103.0" prefHeight="33.0" prefWidth="122.0" promptText="Last Name" style="-fx-background-color: transparent; -fx-border-color: #2C0F95; -fx-border-width: 0px 0px 2px 0px;" />
-                  <Text fill="#2c0f95" layoutX="17.0" layoutY="136.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name" />
-                  <TextField fx:id="email" layoutX="79.0" layoutY="166.0" prefHeight="33.0" prefWidth="203.0" promptText="example@email.com" style="-fx-background-color: transparent; -fx-border-color: #2C0F95; -fx-border-width: 0px 0px 2px 0px;" />
-                  <Text fill="#2c0f95" layoutX="19.0" layoutY="199.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email" />
+                  <TextField fx:id="firstname" layoutX="80.0" layoutY="86.0" prefHeight="33.0" prefWidth="122.0" promptText="First Name" style="-fx-background-color: transaparent; -fx-border-color: #2C0F95; -fx-border-width: 0px 0px 2px 0px;" />
+                  <TextField fx:id="lastname" layoutX="220.0" layoutY="86.0" prefHeight="33.0" prefWidth="122.0" promptText="Last Name" style="-fx-background-color: transparent; -fx-border-color: #2C0F95; -fx-border-width: 0px 0px 2px 0px;" />
+                  <Text fill="#2c0f95" layoutX="17.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name" />
+                  <TextField fx:id="email" layoutX="88.0" layoutY="182.0" prefHeight="33.0" prefWidth="203.0" promptText="example@email.com" style="-fx-background-color: transparent; -fx-border-color: #2C0F95; -fx-border-width: 0px 0px 2px 0px;" />
+                  <Text fill="#2c0f95" layoutX="18.0" layoutY="204.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email" />
                   <Text fill="#2c0f95" layoutX="16.0" layoutY="256.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Phone" />
                   <TextField fx:id="code" layoutX="85.0" layoutY="224.0" prefHeight="33.0" prefWidth="89.0" promptText="Area Code" style="-fx-background-color: transparent; -fx-border-color: #2C0F95; -fx-border-width: 0px 0px 2px 0px;" />
                   <TextField fx:id="phone" layoutX="193.0" layoutY="224.0" prefHeight="33.0" prefWidth="174.0" promptText="Phone Number" style="-fx-background-color: transparent; -fx-border-color: #2C0F95; -fx-border-width: 0px 0px 2px 0px;" />
-                  <Text fill="RED" layoutX="65.0" layoutY="199.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*" />
+                  <Text fill="RED" layoutX="56.0" layoutY="196.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*" />
                   <Text fill="RED" layoutX="68.0" layoutY="256.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*" />
-                  <Text fill="RED" layoutX="65.0" layoutY="136.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*" />
+                  <Text fill="RED" layoutX="76.0" layoutY="148.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*" />
                   <Text layoutX="30.0" layoutY="358.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                   <PasswordField fx:id="password" layoutX="154.0" layoutY="335.0" promptText="Type your password" style="-fx-background-color: transparent; -fx-border-color: #2C0F95; -fx-border-width: 0px 0px 2px 0px;" />
                   <PasswordField fx:id="confirm" layoutX="154.0" layoutY="385.0" promptText="Confirm your password" style="-fx-background-color: transparent; -fx-border-color: #2C0F95; -fx-border-width: 0px 0px 2px 0px;" />
@@ -56,6 +56,8 @@
                   <Text fill="RED" layoutX="137.0" layoutY="417.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*" />
                   <Button fx:id="register" layoutX="103.0" layoutY="448.0" mnemonicParsing="false" onAction="#register" prefHeight="31.0" prefWidth="174.0" style="-fx-background-color: #2C0F95; -fx-background-radius: 15px;" text="Register" textFill="WHITE" />
                   <Text fx:id="invalid" layoutX="168.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="49.599945068359375" />
+                  <Text fill="#2c0f95" layoutX="15.0" layoutY="157.0" strokeType="OUTSIDE" strokeWidth="0.0" text="username" />
+                  <TextField fx:id="userNameField" layoutX="91.0" layoutY="134.0" prefHeight="34.0" prefWidth="167.0" promptText="username" style="-fx-background-color: transaparent; -fx-border-color: #2C0F95; -fx-border-width: 0px 0px 2px 0px;" />
                </children>
             </AnchorPane>
          </center>

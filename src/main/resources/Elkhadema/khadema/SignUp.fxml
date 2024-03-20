@@ -55,7 +55,7 @@
                   <Text fill="RED" layoutX="93.0" layoutY="366.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*" />
                   <Text fill="RED" layoutX="137.0" layoutY="417.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*" />
                   <Button fx:id="register" layoutX="103.0" layoutY="448.0" mnemonicParsing="false" onAction="#register" prefHeight="31.0" prefWidth="174.0" style="-fx-background-color: #2C0F95; -fx-background-radius: 15px;" text="Register" textFill="WHITE" />
-                  <Text fx:id="invalid" layoutX="168.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="49.599945068359375" />
+                  <Text fx:id="invalid" layoutX="121.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="136.80001831054688" />
                </children>
             </AnchorPane>
          </center>

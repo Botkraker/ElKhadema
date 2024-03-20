@@ -1,0 +1,21 @@
+.navb {
+    -fx-background-color: #0095fe;
+
+}
+
+.navbarbuttons {
+ -fx-background-color: #2f1c6400;
+ 
+}
+.navbarbuttons:hover {
+    -fx-background-color: #226697;
+  }
+
+.postButton {
+    -fx-background-color: #0095fe;
+    -fx-background-radus : 30;
+}
+.likebutton {
+    -fx-background-color: #00000000;
+    
+}

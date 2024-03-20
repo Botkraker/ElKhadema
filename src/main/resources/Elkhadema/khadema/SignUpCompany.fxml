@@ -67,7 +67,7 @@
                   <Text fill="RED" layoutX="142.0" layoutY="269.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*" />
                   <DatePicker fx:id="creationDatePicker" layoutX="180.0" layoutY="477.0" />
                   <Text fill="RED" layoutX="149.0" layoutY="631.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-                  <Text fx:id="invalid" layoutX="248.0" layoutY="575.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                  <Text fx:id="invalid" fill="RED" layoutX="205.0" layoutY="575.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="125.5999755859375" />
                </children>
             </AnchorPane>
          </right>

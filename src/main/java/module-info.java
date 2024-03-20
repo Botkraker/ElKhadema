@@ -3,6 +3,9 @@ module Elkhadema.khadema {
     requires javafx.fxml;
     requires java.sql;
     requires javafx.graphics;
+	requires kernel;
+	requires io;
+	requires layout;
     opens Elkhadema.khadema to javafx.fxml;
     opens Elkhadema.khadema.controller to javafx.fxml;
 

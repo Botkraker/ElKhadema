@@ -19,6 +19,7 @@ public class App extends Application {
         stage.setScene(scene);
         stage.getIcons().add(new Image("file:src//main//resources//images//elkhadema.png"));
         stage.show();
+        
     }
 
     public static void setRoot(String fxml) throws IOException {

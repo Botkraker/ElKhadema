@@ -59,8 +59,8 @@
                   <PasswordField fx:id="textConfirm" layoutX="179.0" layoutY="236.0" promptText="Confirm Password" style="-fx-background-color: transparent; -fx-border-color: #2c0f95; -fx-border-width: 0px 0px 2px 0px;" />
                   <Text fill="#2c0f95" layoutX="59.0" layoutY="647.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Already have an account?" />
                   <Hyperlink layoutX="226.0" layoutY="627.0" onAction="#login" prefHeight="29.0" prefWidth="106.0" text="Login" />
-                  <Button layoutX="321.0" layoutY="579.0" mnemonicParsing="false" onAction="#signUp" prefHeight="31.0" prefWidth="116.0" style="-fx-background-color: #2c0f95; -fx-background-radius: 15px;" text="Register" textFill="WHITE" />
-                  <Button layoutX="108.0" layoutY="579.0" mnemonicParsing="false" onAction="#chooseAccount" prefHeight="31.0" prefWidth="104.0" style="-fx-background-color: #2c0f95; -fx-background-radius: 15px;" text="Cancel" textFill="WHITE" />
+                  <Button layoutX="252.0" layoutY="579.0" mnemonicParsing="false" onAction="#signUp" prefHeight="31.0" prefWidth="185.0" style="-fx-background-color: #2c0f95; -fx-background-radius: 15px;" text="Register" textFill="WHITE" />
+                  <Button layoutX="48.0" layoutY="579.0" mnemonicParsing="false" onAction="#chooseAccount" prefHeight="31.0" prefWidth="104.0" style="-fx-background-color: #2c0f95; -fx-background-radius: 15px;" text="Back" textFill="WHITE" />
                   <Text fill="RED" layoutX="59.0" layoutY="111.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*" />
                   <Text fill="RED" layoutX="59.0" layoutY="167.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*" />
                   <Text fill="RED" layoutX="86.0" layoutY="216.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*" />

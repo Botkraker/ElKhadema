@@ -49,6 +49,10 @@ public class SignUpUserController implements Initializable {
     ComboBox<String> country;
 
     @FXML
+    public void chooseAccount() throws IOException {
+        App.setRoot("ChooseAccount");
+    }
+    @FXML
     public void register() throws IOException {
         String vemail = email.getText();
         if (!EmailValidator.isValidEmail(vemail)) {

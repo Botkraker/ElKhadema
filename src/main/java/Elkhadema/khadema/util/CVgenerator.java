@@ -32,8 +32,8 @@ public class CVgenerator {
 		PdfDocument pdfDocument=new PdfDocument(pdfWriter);
 		pdfDocument.setDefaultPageSize(PageSize.A4);
 		Document document=new Document(pdfDocument);
-        Color color1 = new DeviceRgb(135, 206, 235); // Light blue
-        Color color2 = new DeviceRgb(72, 61, 139);   // Dark blue
+        Color color1 = new DeviceRgb(0, 149, 254); // Light blue
+        Color color2 = new DeviceRgb(0, 24, 212);   // Dark purple
         int steps = 100;
         float stepSize = PageSize.A4.getWidth() / steps;
         PdfCanvas canvas = new PdfCanvas(pdfDocument.addNewPage());

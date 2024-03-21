@@ -17,7 +17,6 @@ import Elkhadema.khadema.domain.Post;
 import Elkhadema.khadema.domain.User;
 import Elkhadema.khadema.util.Session;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;

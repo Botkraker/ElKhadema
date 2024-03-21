@@ -80,7 +80,7 @@ public class UserDAO  {
 			pstmt.setString(8, t.getPhoto());
 			pstmt.executeUpdate();
 			rs = pstmt.getGeneratedKeys();
-			if (rs.next()) {	
+			if (rs.next()) {
 				t.setId(rs.getInt(1));
 			}
 

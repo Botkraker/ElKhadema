@@ -13,8 +13,7 @@ import Elkhadema.khadema.Service.validateInfo.PasswordValidator;
 import Elkhadema.khadema.Service.validateInfo.PhoneNumberValidate;
 import Elkhadema.khadema.Service.validateInfo.UsernameValidator;
 import Elkhadema.khadema.domain.ContactInfo;
-import Elkhadema.khadema.domain.User;
-import Elkhadema.khadema.util.PasswordEncryptor;
+import Elkhadema.khadema.domain.Person;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -26,9 +25,8 @@ import javafx.scene.text.Text;
 public class SignUpUserController implements Initializable {
     UserService userService = new UserServiceImp();
 
-    User user = new User(0, null, null);
+    Person user = new Person(0, null, null);
     ContactInfo contactInfo = new ContactInfo(0);
-
     @FXML
     TextField firstname;
     @FXML
@@ -54,23 +52,26 @@ public class SignUpUserController implements Initializable {
     }
     @FXML
     public void register() throws IOException {
+        user.setContactInfo(contactInfo);
         String vemail = email.getText();
         if (!EmailValidator.isValidEmail(vemail)) {
             invalid.setText("*email invalid");
             return;
         }
         contactInfo.setEmail(vemail);
-        String username = firstname.getText() + " " + lastname.getText();
+        String username = firstname.getText() + "" + lastname.getText();
         if (!UsernameValidator.isValidUsername(username)) {
             invalid.setText("*username invalid");
             return;
         }
+        user.setFirstName(firstname.getText());
+        user.setLastName(lastname.getText());
+        user.setUserName(username);
         if(country.getValue()==null){
             invalid.setText("choose a country");
             return;
         }
-
-        user.setUserName(username);
+        contactInfo.setAddress(country.getValue());
         if (PasswordValidator.isValidPassword(password.getText())) {
             invalid.setText("password invalid");
             return;

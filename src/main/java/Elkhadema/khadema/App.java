@@ -15,11 +15,11 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("SignUpCompany"), 1280, 720);
+        scene = new Scene(loadFXML("SignUp"), 1280, 720);
         stage.setScene(scene);
         stage.getIcons().add(new Image("file:src//main//resources//images//elkhadema.png"));
         stage.show();
-        
+
     }
 
     public static void setRoot(String fxml) throws IOException {

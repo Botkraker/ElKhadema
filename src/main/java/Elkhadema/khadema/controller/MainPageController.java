@@ -1,5 +1,6 @@
 package Elkhadema.khadema.controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,22 +17,32 @@ import Elkhadema.khadema.Service.ServiceInterfaces.PostService;
 import Elkhadema.khadema.domain.Post;
 import Elkhadema.khadema.domain.User;
 import Elkhadema.khadema.util.Session;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-
+import javafx.stage.Stage;
 import javafx.scene.control.TextArea;
 public class MainPageController implements Initializable {
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
     FollowService followService=new FollowServiceImp();
     UserService userService=new UserServiceImp();
     UserDAO userDAO=new UserDAO();
@@ -169,11 +180,18 @@ public class MainPageController implements Initializable {
         for (User user : follwing) {
             User tmp = userDAO.get(user.getId()).get();
             Text text = new Text(tmp.getUserName());
-            text.setStyle("-fx-text-fill:white;-fx-font-size:15px;");
+            text.setStyle("-fx-fill:white;-fx-font-size:15px;");
             ImageView imageView = new ImageView(new Image("file:src//main//resources//images//user.png"));
             imageView.setFitHeight(46);
             imageView.setFitWidth(46);
             HBox hBox = new HBox(imageView, text);
+            hBox.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+                    try {
+                        openprofile(event);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                 });
             hBox.setAlignment(Pos.BASELINE_RIGHT);
             ButtonBar buttonBar = new ButtonBar();
             buttonBar.getButtons().addAll(hBox);
@@ -182,6 +200,25 @@ public class MainPageController implements Initializable {
             hBoxs.add(vBox);
         }
         vContacts.getChildren().addAll(hBoxs);
+    }
+    public void openprofile(MouseEvent event) throws IOException{
+        FXMLLoader loader=new FXMLLoader(getClass().getResource("/Elkhadema/khadema/mainpage.fxml"));
+        ProfileController profileController=loader.getController();
+        HBox hbox=(HBox)event.getSource();
+        ObservableList<Node>textList= hbox.getChildren();
+        String username=new String();
+        for (Node node : textList) {
+            if (node instanceof Text) {
+                username=((Text)node).getText();
+            }
+        }
+        User user=userDAO.Login(username).get();
+        profileController.displayProfile(user);
+        root =loader.load();
+        stage=(Stage)((Node)event.getSource()).getScene().getWindow();
+        scene=new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
 }

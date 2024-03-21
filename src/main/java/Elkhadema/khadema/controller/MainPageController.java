@@ -112,6 +112,7 @@ public class MainPageController implements Initializable {
             hBoxs.add(vBox);
         }
         vContacts.getChildren().addAll(hBoxs);
+        initContacts();
     }
     public void showpost(Post post) {
 		ImageView profileimg=new ImageView(new Image("file:src//main//resources//images//user.png"));
@@ -130,17 +131,17 @@ public class MainPageController implements Initializable {
 		postscontent.setMinHeight(150);
 		postscontent.setFont(Font.font(13));
 		postscontent.getStyleClass().add("postTxtField");
-		Text likenumber=new Text("0"); 
+		Text likenumber=new Text("0");
 		likenumber.setFont(Font.font(16));
 		likenumber.setFill(Color.WHITE);
-		Button likebutton=new Button("like ♥"); 
+		Button likebutton=new Button("like ♥");
 		likebutton.getStyleClass().add("likebutton");
 		likebutton.setFont(Font.font(19));
 		likebutton.setTextFill(Color.WHITE);
-		Text commentnumber=new Text("0"); 
+		Text commentnumber=new Text("0");
 		commentnumber.setFont(Font.font(16));
 		commentnumber.setFill(Color.WHITE);
-		Button commentbutton=new Button("comments ☁"); 
+		Button commentbutton=new Button("comments ☁");
 		commentbutton.getStyleClass().add("likebutton");
 		commentbutton.setFont(Font.font(19));
 		commentbutton.setTextFill(Color.WHITE);
@@ -158,7 +159,29 @@ public class MainPageController implements Initializable {
 		posts.setFillWidth(true);
 		profilebar.setAlignment(Pos.CENTER_LEFT);
 		postholder.getChildren().add(lastlayerBox);
-		
+
 	}
+
+    private void initContacts() {
+        List<User> follwing = followService.getfollowing(Session.getUser());
+        List<VBox> hBoxs = new ArrayList<>();
+
+        for (User user : follwing) {
+            User tmp = userDAO.get(user.getId()).get();
+            Text text = new Text(tmp.getUserName());
+            text.setStyle("-fx-text-fill:white;-fx-font-size:15px;");
+            ImageView imageView = new ImageView(new Image("file:src//main//resources//images//user.png"));
+            imageView.setFitHeight(46);
+            imageView.setFitWidth(46);
+            HBox hBox = new HBox(imageView, text);
+            hBox.setAlignment(Pos.BASELINE_RIGHT);
+            ButtonBar buttonBar = new ButtonBar();
+            buttonBar.getButtons().addAll(hBox);
+            VBox vBox = new VBox(buttonBar);
+            vBox.getStyleClass().add("posts");
+            hBoxs.add(vBox);
+        }
+        vContacts.getChildren().addAll(hBoxs);
+    }
 
 }

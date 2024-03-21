@@ -3,9 +3,11 @@ package Elkhadema.khadema.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicBoolean;
+
 
 import Elkhadema.khadema.DAO.DAOImplemantation.UserDAO;
 import Elkhadema.khadema.Service.ServiceImplemantation.FollowServiceImp;
@@ -15,6 +17,7 @@ import Elkhadema.khadema.Service.ServiceInterfaces.UserService;
 import Elkhadema.khadema.Service.ServiceImplemantation.PostServiceImp;
 import Elkhadema.khadema.Service.ServiceInterfaces.PostService;
 import Elkhadema.khadema.domain.Post;
+import Elkhadema.khadema.domain.Reaction;
 import Elkhadema.khadema.domain.User;
 import Elkhadema.khadema.util.Session;
 import javafx.collections.ObservableList;
@@ -53,7 +56,7 @@ public class MainPageController implements Initializable {
     @FXML
     VBox postholder;
     User session = Session.getUser();
-    PostService ps = new PostServiceImp();
+    PostServiceImp ps = new PostServiceImp();
     @FXML
     TextArea postcontent;
 
@@ -94,7 +97,7 @@ public class MainPageController implements Initializable {
             Post post = new Post(session, content, null, 0, "text", null, 0);
             ps.makePost(post);
             System.out.println("post made");
-            showpost(post);
+            resetfeed();
         }
     }
 
@@ -102,12 +105,17 @@ public class MainPageController implements Initializable {
     public void likePost() {
 
     }
-
+    public void resetfeed() {
+    	postholder.getChildren().clear();
+        ps.feed().forEach(t -> showpost(t));;
+	}
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         initContacts();
+        resetfeed();
     }
     public void showpost(Post post) {
+    	
 		ImageView profileimg=new ImageView(new Image("file:src//main//resources//images//user.png"));
 		profileimg.setFitHeight(46);
 		profileimg.setFitWidth(46);
@@ -144,6 +152,7 @@ public class MainPageController implements Initializable {
 		likeandcommentBox.setAlignment(Pos.CENTER_LEFT);
 		likeandcommentBox.setStyle("-fx-padding: 0 0 0 10px;");
 		HBox.setMargin(likebutton, new Insets(0,11,0,11));
+		HBox.setMargin(profileimg,new Insets(0,5,0,8));
 		HBox.setMargin(commentnumber, new Insets(0,5,0,5));
 		HBox.setMargin(commentbutton, new Insets(0,5,0,5));
 		likeandcommentBox.setTranslateX(5);
@@ -158,11 +167,13 @@ public class MainPageController implements Initializable {
 	}
     public void likeapost(Post post,AtomicBoolean isliked) {
     	if(isliked.get()) {
-    		System.out.println("liked");
+    		ps.getPostReactions(post).stream().filter(t -> t.getUser().getUserName().compareTo(session.getUserName())==0).forEach( t -> ps.removeReactionFromPost(post, t));
     		 isliked.set(false);
     	}
     	else {
-			System.out.println("disliked");
+    		System.out.println(post.getContent());
+    		Reaction r=new Reaction(session, post, "like",new Date());
+    		ps.addReactionPost(post, r);
 			isliked.set(true);;
 		}
 	}

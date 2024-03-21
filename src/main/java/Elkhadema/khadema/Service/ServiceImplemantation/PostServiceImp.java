@@ -15,6 +15,7 @@ import Elkhadema.khadema.domain.Post;
 import Elkhadema.khadema.domain.Reaction;
 import Elkhadema.khadema.domain.User;
 import Elkhadema.khadema.util.Session;
+import javafx.geometry.Pos;
 
 public class PostServiceImp implements PostService {
     PostDAO postDAO = new PostDAO();
@@ -78,7 +79,11 @@ public class PostServiceImp implements PostService {
     public void removePost(Post post) {
         postDAO.delete(post);
     }
-
+    @Override
+    public void addReactionPost(Post post,Reaction reaction){
+        reaction.setPost(post);
+        reactionDAO.save(reaction);
+    }
     @Override
     public void removeReactionFromPost(Post post, Reaction reaction) {
         reactionDAO.delete(reaction);

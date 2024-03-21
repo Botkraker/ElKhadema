@@ -6,9 +6,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 
 import Elkhadema.khadema.domain.Post;
 import Elkhadema.khadema.domain.User;
@@ -68,7 +70,8 @@ public class PostDAO {
 					Statement.RETURN_GENERATED_KEYS);
 			pstmt.setInt(1, t.getUser().getId());
 			pstmt.setString(2, t.getType());
-			pstmt.setDate(3, new Date(t.getCreationDate().getTime()));
+			System.out.println(new Timestamp(t.getCreationDate().getTime()));
+			pstmt.setTimestamp(3, new Timestamp(t.getCreationDate().getTime()));
 			pstmt.setString(4, t.getContent());
 			pstmt.setLong(5, t.getParentPostId());
 			pstmt.executeUpdate();

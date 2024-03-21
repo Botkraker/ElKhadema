@@ -32,6 +32,8 @@ public class PostServiceImp implements PostService {
         List<User> users = followings.stream().map(Follow::getFollowing).collect(Collectors.toList());
         List<Post> posts = users.stream().flatMap(user -> getPostsByUser(user).stream())
                 .sorted(Comparator.comparing(Post::getCreationDate)).collect(Collectors.toList());
+        getPostsByUser(Session.getUser()).forEach(t->posts.add(t));
+        posts.stream().sorted((o1, o2) -> o1.getCreationDate().compareTo(o2.getCreationDate()));
         return posts;
     }
 

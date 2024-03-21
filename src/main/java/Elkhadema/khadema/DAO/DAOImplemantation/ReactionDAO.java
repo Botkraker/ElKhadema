@@ -19,7 +19,7 @@ public class ReactionDAO {
 	private static Connection connection = ConexDB.getInstance();
 
 	public Optional<Reaction> get(User user, Post post) {
-		String sql = "SELECT  post_reaction . * , firstname, lastname FROM `post_reaction` , user WHERE `post_reaction`.`post_id` = "
+		String sql = "SELECT  post_reaction . * , username FROM `post_reaction` , user WHERE `post_reaction`.`post_id` = "
 				+ user.getId() + " AND `post_reaction`.`user_id` = " + post.getId()
 				+ " AND post_reaction.`user_id` = user.user_id";
 		Reaction reaction = null;
@@ -42,7 +42,7 @@ public class ReactionDAO {
 		Statement stmt = null;
 		ResultSet rs = null;
 		List<Reaction> reactions = new ArrayList<>();
-		String SQL = "SELECT post_reaction.*,firstname,lastname  FROM `post_reaction`,user WHERE `post_id` = "
+		String SQL = "SELECT post_reaction.*,username  FROM `post_reaction`,user WHERE `post_id` = "
 				+ post.getId();
 		try {
 			stmt = connection.createStatement();
@@ -68,7 +68,7 @@ public class ReactionDAO {
 			pstmt.setLong(1, t.getPost().getId());
 			pstmt.setLong(2, t.getUser().getId());
 			pstmt.setString(3, t.getType());
-			pstmt.setDate(4, (Date) t.getCreationDate());
+			pstmt.setDate(4, new Date (t.getCreationDate().getTime()));
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());

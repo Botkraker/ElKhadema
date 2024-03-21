@@ -29,7 +29,7 @@ public class PostDAO {
 						new User(rs.getInt("user_id"), null, null, rs.getString("username"), rs.getDate("creationdate"),
 								rs.getDate("last_login"), rs.getString("photo"), rs.getBoolean("banned"),
 								rs.getBoolean("is_active")),
-						rs.getString("content"), null, rs.getInt("post_parent"), rs.getString("type"), rs.getDate("creationdate"),
+						rs.getString("content"), null, rs.getInt("post_parent"), rs.getString("type"), rs.getTimestamp("posts.creationdate"),
 						rs.getLong("post_id")));
 			}
 

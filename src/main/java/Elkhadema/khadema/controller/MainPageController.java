@@ -130,11 +130,12 @@ public class MainPageController implements Initializable {
 		postscontent.setMinHeight(150);
 		postscontent.setFont(Font.font(13));
 		postscontent.getStyleClass().add("postTxtField");
-		Text likenumber=new Text("0"); 
+		Text likenumber=new Text(""+post.getCountReactions()); 
 		likenumber.setFont(Font.font(16));
 		likenumber.setFill(Color.WHITE);
 		Button likebutton=new Button("like ♥"); 
 		likebutton.getStyleClass().add("likebutton");
+		likebutton.setOnAction(e -> likepost(post));
 		likebutton.setFont(Font.font(19));
 		likebutton.setTextFill(Color.WHITE);
 		Text commentnumber=new Text("0"); 
@@ -158,6 +159,9 @@ public class MainPageController implements Initializable {
 		posts.setFillWidth(true);
 		profilebar.setAlignment(Pos.CENTER_LEFT);
 		postholder.getChildren().add(lastlayerBox);
+		
+	}
+    public void likepost(Post post) {
 		
 	}
 

@@ -26,10 +26,10 @@ public class PostServiceImp implements PostService {
     public List<Post> getPostsByUser(User user) {
         return postDAO.getPostsById(user.getId());
     }
-
+    @Override
     public List<Post> feed() {
         List<Follow> followings = followDAO.getfollowingByid(Session.getUser().getId());
-        List<User> users = followings.stream().map(Follow::getFollowing).collect(Collectors.toList());
+        List<User> users = followings.stream().map(Follow::getFollower).collect(Collectors.toList());
         List<Post> posts = users.stream().flatMap(user -> getPostsByUser(user).stream())
                 .sorted(Comparator.comparing(Post::getCreationDate)).collect(Collectors.toList());
         return posts;

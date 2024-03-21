@@ -12,7 +12,7 @@ public interface PostService {
     List<Post> getPostComments(Post post);
 
     void makePost(Post post);
-
+    List<Post> feed();
     void addCommentToPost(Post post, Post comment);
 
     void removeCommentFromPost(Post post, Post comment);

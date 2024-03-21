@@ -6,8 +6,10 @@ import Elkhadema.khadema.DAO.DAOImplemantation.FollowDAO;
 import Elkhadema.khadema.Service.ServiceInterfaces.FollowService;
 import Elkhadema.khadema.domain.User;
 import Elkhadema.khadema.domain.Follow;
-public class FollowServiceImp implements FollowService{
-    FollowDAO followDAO=new FollowDAO();
+
+public class FollowServiceImp implements FollowService {
+    FollowDAO followDAO = new FollowDAO();
+
     @Override
     public List<User> getFollowers(User user) {
         return followDAO.getAllFollowersById(user.getId()).stream().map(Follow::getFollower).toList();
@@ -20,7 +22,8 @@ public class FollowServiceImp implements FollowService{
 
     @Override
     public boolean isFollowing(User user, User following) {
-        return  followDAO.getfollowingByid(user.getId()).stream().map(Follow::getFollowing).anyMatch(t -> following.equals(t));
+        return followDAO.getfollowingByid(user.getId()).stream().map(Follow::getFollowing)
+                .anyMatch(t -> following.equals(t));
     }
 
     @Override

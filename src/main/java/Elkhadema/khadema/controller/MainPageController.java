@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import Elkhadema.khadema.DAO.DAOImplemantation.UserDAO;
 import Elkhadema.khadema.Service.ServiceImplemantation.FollowServiceImp;
@@ -106,61 +107,66 @@ public class MainPageController implements Initializable {
     public void initialize(URL arg0, ResourceBundle arg1) {
         initContacts();
     }
-
     public void showpost(Post post) {
-        ImageView profileimg = new ImageView(new Image("file:src//main//resources//images//user.png"));
-        profileimg.setFitHeight(46);
-        profileimg.setFitWidth(46);
-        Text profilename = new Text(post.getUser().getUserName());
-        profilename.setFont(Font.font("SansSerif", 15));
-        profilename.setTranslateX(5);
-        profilename.setFill(Color.WHITE);
-        HBox profilebar = new HBox(profileimg, profilename);
-        profilebar.setSpacing(5);
-        TextArea postscontent = new TextArea(post.getContent());
-        postscontent.setDisable(true);
-        postscontent.setWrapText(true);
-        postscontent.setOpacity(1);
-        postscontent.setMinHeight(150);
-        postscontent.setFont(Font.font(13));
-        postscontent.getStyleClass().add("postTxtField");
-        Text likenumber = new Text("" + post.getCountReactions());
-        likenumber.setFont(Font.font(16));
-        likenumber.setFill(Color.WHITE);
-        Button likebutton = new Button("like ♥");
-        likebutton.getStyleClass().add("likebutton");
-        likebutton.setOnAction(e -> likepost(post));
-        likebutton.setFont(Font.font(19));
-        likebutton.setTextFill(Color.WHITE);
-        Text commentnumber = new Text("0");
-        commentnumber.setFont(Font.font(16));
-        commentnumber.setFill(Color.WHITE);
-        Button commentbutton = new Button("comments ☁");
-        commentbutton.getStyleClass().add("likebutton");
-        commentbutton.setFont(Font.font(19));
-        commentbutton.setTextFill(Color.WHITE);
-        HBox likeandcommentBox = new HBox(likenumber, likebutton, commentnumber, commentbutton);
-        likeandcommentBox.setAlignment(Pos.CENTER_LEFT);
-        likeandcommentBox.setStyle("-fx-padding: 0 0 0 10px;");
-        HBox.setMargin(likebutton, new Insets(0, 11, 0, 11));
-        HBox.setMargin(commentnumber, new Insets(0, 5, 0, 5));
-        HBox.setMargin(commentbutton, new Insets(0, 5, 0, 5));
-        likeandcommentBox.setTranslateX(5);
-        VBox posts = new VBox(profilebar, postscontent, likeandcommentBox);
-        VBox lastlayerBox = new VBox(posts);
-        lastlayerBox.setFillWidth(true);
-        posts.getStyleClass().add("posts");
-        posts.setFillWidth(true);
-        profilebar.setAlignment(Pos.CENTER_LEFT);
-        postholder.getChildren().add(lastlayerBox);
+		ImageView profileimg=new ImageView(new Image("file:src//main//resources//images//user.png"));
+		profileimg.setFitHeight(46);
+		profileimg.setFitWidth(46);
+		Text profilename=new Text(post.getUser().getUserName());
+		profilename.setFont(Font.font("SansSerif",15));
+		profilename.setTranslateX(5);
+		profilename.setFill(Color.WHITE);
+		HBox profilebar=new HBox(profileimg,profilename);
+		profilebar.setSpacing(5);
+		TextArea postscontent =new TextArea(post.getContent());
+		postscontent.setDisable(true);
+		postscontent.setWrapText(true);
+		postscontent.setOpacity(1);
+		postscontent.setMinHeight(150);
+		postscontent.setFont(Font.font(13));
+		postscontent.getStyleClass().add("postTxtField");
+		Text likenumber=new Text("0");
+		likenumber.setFont(Font.font(16));
+		likenumber.setFill(Color.WHITE);
+		Button likebutton=new Button("like ♥");
+		AtomicBoolean isliked = new AtomicBoolean(false);
+		likebutton.setOnAction(event -> {likeapost(post,isliked);});
+		likebutton.getStyleClass().add("likebutton");
+		likebutton.setFont(Font.font(19));
+		likebutton.setTextFill(Color.WHITE);
+		Text commentnumber=new Text("0");
+		commentnumber.setFont(Font.font(16));
+		commentnumber.setFill(Color.WHITE);
+		Button commentbutton=new Button("comments ☁");
+		commentbutton.getStyleClass().add("likebutton");
+		commentbutton.setFont(Font.font(19));
+		commentbutton.setTextFill(Color.WHITE);
+		HBox likeandcommentBox= new HBox(likenumber,likebutton,commentnumber,commentbutton);
+		likeandcommentBox.setAlignment(Pos.CENTER_LEFT);
+		likeandcommentBox.setStyle("-fx-padding: 0 0 0 10px;");
+		HBox.setMargin(likebutton, new Insets(0,11,0,11));
+		HBox.setMargin(commentnumber, new Insets(0,5,0,5));
+		HBox.setMargin(commentbutton, new Insets(0,5,0,5));
+		likeandcommentBox.setTranslateX(5);
+		VBox posts= new VBox(profilebar,postscontent,likeandcommentBox);
+		VBox lastlayerBox = new VBox(posts);
+		lastlayerBox.setFillWidth(true);
+		posts.getStyleClass().add("posts");
+		posts.setFillWidth(true);
+		profilebar.setAlignment(Pos.CENTER_LEFT);
+		postholder.getChildren().add(lastlayerBox);
 
-    }
-
-    public void likepost(Post post) {
-
-    }
-
-    private void initContacts() {
+	}
+    public void likeapost(Post post,AtomicBoolean isliked) {
+    	if(isliked.get()) {
+    		System.out.println("liked");
+    		 isliked.set(false);
+    	}
+    	else {
+			System.out.println("disliked");
+			isliked.set(true);;
+		}
+	}
+   private void initContacts() {
         List<User> follwing = followService.getfollowing(Session.getUser());
         List<VBox> hBoxs = new ArrayList<>();
 
@@ -209,5 +215,4 @@ public class MainPageController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
-
 }

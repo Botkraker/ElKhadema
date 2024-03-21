@@ -24,8 +24,8 @@ public class PostDAO {
 			ResultSet rs = connection.createStatement().executeQuery(sql);
 			while (rs.next()) {
 				post.add(new Post(
-						new User(rs.getInt("user_id"), null, null, rs.getString("firstname"), rs.getDate("last_login"),
-								rs.getDate("creationdate"), rs.getString("lastname"), rs.getBoolean("banned"),
+						new User(rs.getInt("user_id"), null, null, rs.getString("username"), rs.getDate("creationdate"),
+								rs.getDate("last_login"), rs.getString("photo"), rs.getBoolean("banned"),
 								rs.getBoolean("is_active")),
 						rs.getString("content"), null, rs.getInt("post_parent"), rs.getString("type"), rs.getDate("creationdate"),
 						rs.getLong("post_id")));

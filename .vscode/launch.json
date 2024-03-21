@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CVgenerator",
+            "request": "launch",
+            "mainClass": "Elkhadema.khadema/Elkhadema.khadema.util.CVgenerator",
+            "projectName": "khadema"
+        },
+        {
+            "type": "java",
             "name": "khadema/App",
             "request": "launch",
             "mainClass": "Elkhadema.khadema/App",
@@ -23,7 +30,7 @@
             "request": "launch",
             "mainClass": "Elkhadema.khadema/Elkhadema.khadema.App",
             "projectName": "khadema"
-        },
+        }
     ]
 
 }

@@ -47,7 +47,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"  fx:controller="Elkhadema.khadema.controller.MainPageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Elkhadema.khadema.controller.MainPageController">
     <children>
       <BorderPane layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
@@ -521,7 +521,7 @@
                            <children>
                               <VBox prefHeight="657.0" prefWidth="340.0">
                                  <children>
-                                    <Text fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-effect: dropshadow(three-pass-box, #444444e8, 10, 0.5, 3, 3);;" text="Contant" wrappingWidth="96.13671875">
+                                    <Text fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-effect: dropshadow(three-pass-box, #444444e8, 10, 0.5, 3, 3);;" text="Contact" wrappingWidth="96.13671875">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -529,14 +529,14 @@
                                           <Insets left="7.0" top="6.0" />
                                        </VBox.margin>
                                     </Text>
-                                    <VBox prefHeight="627.0" prefWidth="340.0">
+                                    <VBox fx:id="vContacts" prefHeight="627.0" prefWidth="340.0">
                                        <padding>
                                           <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                                        </padding>
                                        <children>
                                           <VBox prefHeight="50.0" prefWidth="593.0" styleClass="posts">
                                              <children>
-                                                <ButtonBar>
+                                                <ButtonBar fx:id="listContact">
                                                    <buttons>
                                                       <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="593.0">
                                                          <children>
@@ -588,4 +588,3 @@
       </BorderPane>
    </children>
 </AnchorPane>
-

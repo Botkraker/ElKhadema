@@ -1,6 +1,7 @@
 package Elkhadema.khadema.Service.ServiceImplemantation;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import Elkhadema.khadema.DAO.DAOImplemantation.FollowDAO;
 import Elkhadema.khadema.Service.ServiceInterfaces.FollowService;
@@ -12,12 +13,12 @@ public class FollowServiceImp implements FollowService {
 
     @Override
     public List<User> getFollowers(User user) {
-        return followDAO.getAllFollowersById(user.getId()).stream().map(Follow::getFollower).toList();
+        return followDAO.getAllFollowersById(user.getId()).stream().map(Follow::getFollower).collect(Collectors.toList());
     }
 
     @Override
     public List<User> getfollowing(User user) {
-        return followDAO.getfollowingByid(user.getId()).stream().map(Follow::getFollowing).toList();
+        return followDAO.getfollowingByid(user.getId()).stream().map(Follow::getFollower).collect(Collectors.toList());
     }
 
     @Override

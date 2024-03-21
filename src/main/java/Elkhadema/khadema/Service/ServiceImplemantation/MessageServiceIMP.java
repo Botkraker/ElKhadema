@@ -33,8 +33,8 @@ public class MessageServiceIMP implements MessageService {
 				else {t.setSender(otherUser);
 				}return t;
 		}).collect(Collectors.toList());
-	
-		
+
+
 	}
 
 	@Override

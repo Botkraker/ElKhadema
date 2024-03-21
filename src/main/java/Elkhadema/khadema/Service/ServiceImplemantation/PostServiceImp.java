@@ -4,6 +4,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import Elkhadema.khadema.DAO.DAOImplemantation.FollowDAO;
 import Elkhadema.khadema.DAO.DAOImplemantation.PostDAO;
@@ -27,9 +28,9 @@ public class PostServiceImp implements PostService {
 
     public List<Post> feed() {
         List<Follow> followings = followDAO.getfollowingByid(Session.getUser().getId());
-        List<User> users = followings.stream().map(Follow::getFollowing).toList();
+        List<User> users = followings.stream().map(Follow::getFollowing).collect(Collectors.toList());
         List<Post> posts = users.stream().flatMap(user -> getPostsByUser(user).stream())
-                .sorted(Comparator.comparing(Post::getCreationDate)).toList();
+                .sorted(Comparator.comparing(Post::getCreationDate)).collect(Collectors.toList());
         return posts;
     }
 
@@ -38,7 +39,7 @@ public class PostServiceImp implements PostService {
         List<Post> posts = postDAO.getAllPostsUnderParent(post.getId());
         posts = posts.stream()
                 .sorted(Comparator.comparingLong(Post::getCountReactions))
-                .toList();
+                .collect(Collectors.toList());
         return posts;
     }
 

@@ -3,6 +3,7 @@ package Elkhadema.khadema.Service.ServiceImplemantation;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import Elkhadema.khadema.DAO.DAOImplemantation.FollowDAO;
 import Elkhadema.khadema.DAO.DAOImplemantation.JobsDAO;
@@ -29,19 +30,19 @@ public class NotificationServiceImp implements NotificationService {
                 .sorted(Comparator.comparing(Message::getCreationDate))
                 .map(message -> new Notification("message", message.getContent(), message.getSender(),
                         message.getCreationDate()))
-                .toList();
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<Notification> postNotifications(User user) {
         List<Follow> followings = followDAO.getfollowingByid(Session.getUser().getId());
-        List<User> users = followings.stream().map(Follow::getFollowing).toList();
+        List<User> users = followings.stream().map(Follow::getFollowing).collect(Collectors.toList());
         return users.stream()
                 .flatMap(user2 -> postDAO.getPostsById(user2.getId()).stream())
                 .filter(post -> post.getCreationDate().after(user.getLastloginDate()))
                 .sorted(Comparator.comparing(Post::getCreationDate))
                 .map(post -> new Notification("post", post.getContent(), post.getUser(), post.getCreationDate()))
-                .toList();
+                .collect(Collectors.toList());
 
     }
 
@@ -62,7 +63,7 @@ public class NotificationServiceImp implements NotificationService {
         List<Notification> notifications = new ArrayList<>();
         notifications.addAll(messageNotifications(user));
         notifications.addAll(postNotifications(user));
-        return notifications.stream().sorted(Comparator.comparing(Notification::getDate)).toList();
+        return notifications.stream().sorted(Comparator.comparing(Notification::getDate)).collect(Collectors.toList());
 
     }
 }

@@ -159,6 +159,7 @@ public class MainPageController implements Initializable {
 		VBox posts= new VBox(profilebar,postscontent,likeandcommentBox);
 		VBox lastlayerBox = new VBox(posts);
 		lastlayerBox.setFillWidth(true);
+		VBox.setMargin(posts,new Insets(2.5f,0,2.5f,0));
 		posts.getStyleClass().add("posts");
 		posts.setFillWidth(true);
 		profilebar.setAlignment(Pos.CENTER_LEFT);

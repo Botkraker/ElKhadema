@@ -10,6 +10,9 @@ import Elkhadema.khadema.Service.ServiceImplemantation.FollowServiceImp;
 import Elkhadema.khadema.Service.ServiceImplemantation.UserServiceImp;
 import Elkhadema.khadema.Service.ServiceInterfaces.FollowService;
 import Elkhadema.khadema.Service.ServiceInterfaces.UserService;
+import Elkhadema.khadema.Service.ServiceImplemantation.PostServiceImp;
+import Elkhadema.khadema.Service.ServiceInterfaces.PostService;
+import Elkhadema.khadema.domain.Post;
 import Elkhadema.khadema.domain.User;
 import Elkhadema.khadema.util.Session;
 import javafx.fxml.FXML;
@@ -22,6 +25,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
+import javafx.scene.control.TextArea;
 public class MainPageController implements Initializable {
     FollowService followService=new FollowServiceImp();
     UserService userService=new UserServiceImp();
@@ -30,6 +34,11 @@ public class MainPageController implements Initializable {
     ButtonBar listContact;
     @FXML
     VBox vContacts;
+
+	User session= Session.getUser();
+	PostService ps= new PostServiceImp();
+	@FXML
+	TextArea postcontent;
     @FXML
     public void goHome() {
 
@@ -58,6 +67,16 @@ public class MainPageController implements Initializable {
     @FXML
     public void postMsg() {
 
+    }
+
+    @FXML
+    public void createPost() {
+    	String content= postcontent.getText();
+    	if (content.length()>0) {
+    		Post post=new Post(session, content, null, 0, "text", null, 0);
+    		ps.makePost(post);
+    		System.out.println("post made");
+    	}
     }
 
     @FXML

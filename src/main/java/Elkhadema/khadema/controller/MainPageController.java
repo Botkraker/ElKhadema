@@ -132,16 +132,16 @@ public class MainPageController implements Initializable {
 		postscontent.setMinHeight(150);
 		postscontent.setFont(Font.font(13));
 		postscontent.getStyleClass().add("postTxtField");
-		Text likenumber=new Text("0");
+		Text likenumber= new Text(""+ps.getPostReactions(post).size());
 		likenumber.setFont(Font.font(16));
 		likenumber.setFill(Color.WHITE);
 		Button likebutton=new Button("like ♥");
 		AtomicBoolean isliked = new AtomicBoolean(false);
-		likebutton.setOnAction(event -> {likeapost(post,isliked);});
+		likebutton.setOnAction(event -> {likeapost(post,isliked,likenumber);});
 		likebutton.getStyleClass().add("likebutton");
 		likebutton.setFont(Font.font(19));
 		likebutton.setTextFill(Color.WHITE);
-		Text commentnumber=new Text("0");
+		Text commentnumber=new Text(""+ps.getPostComments(post).size());
 		commentnumber.setFont(Font.font(16));
 		commentnumber.setFill(Color.WHITE);
 		Button commentbutton=new Button("comments ☁");
@@ -165,15 +165,17 @@ public class MainPageController implements Initializable {
 		postholder.getChildren().add(lastlayerBox);
 
 	}
-    public void likeapost(Post post,AtomicBoolean isliked) {
+    public void likeapost(Post post,AtomicBoolean isliked,Text likenumber) {
     	if(isliked.get()) {
     		ps.getPostReactions(post).stream().filter(t -> t.getUser().getUserName().compareTo(session.getUserName())==0).forEach( t -> ps.removeReactionFromPost(post, t));
-    		 isliked.set(false);
+    		likenumber.setText(""+ps.getPostReactions(post).size());
+    		isliked.set(false);
     	}
     	else {
-    		System.out.println(post.getContent());
+    
     		Reaction r=new Reaction(session, post, "like",new Date());
     		ps.addReactionPost(post, r);
+    		likenumber.setText(""+ps.getPostReactions(post).size());
 			isliked.set(true);;
 		}
 	}

@@ -67,6 +67,10 @@ public class MainPageController implements Initializable {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
+        initContacts();
+    }
+
+    private void initContacts() {
         List<User>follwing= followService.getfollowing(Session.getUser());
         List<VBox> hBoxs=new ArrayList<>();
 

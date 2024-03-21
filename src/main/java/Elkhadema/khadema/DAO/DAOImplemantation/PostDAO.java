@@ -68,7 +68,7 @@ public class PostDAO {
 					Statement.RETURN_GENERATED_KEYS);
 			pstmt.setInt(1, t.getUser().getId());
 			pstmt.setString(2, t.getType());
-			pstmt.setDate(3, (Date) t.getCreationDate());
+			pstmt.setDate(3, new Date(t.getCreationDate().getTime()));
 			pstmt.setString(4, t.getContent());
 			pstmt.setLong(5, t.getParentPostId());
 			pstmt.executeUpdate();

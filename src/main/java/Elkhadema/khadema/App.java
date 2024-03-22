@@ -36,6 +36,7 @@ public class App extends Application {
             }
             event.consume();
             logout(stage);
+            Session.setUser(null);
         });
 
     }

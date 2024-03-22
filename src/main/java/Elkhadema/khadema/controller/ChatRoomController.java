@@ -65,7 +65,7 @@ public class ChatRoomController implements Initializable {
     Button sendBtn;
     @FXML
     VBox messageVBox;
-    
+
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         messageText.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -78,11 +78,8 @@ public class ChatRoomController implements Initializable {
         initContacts();
         try {
             currentMessageReciver=contacts.get(0);
-            ObservableList<Node> children = vContacts.getChildren();
-            Node node=children.get(1);
-            node=((ButtonBar)node).getChildrenUnmodifiable().get(0);
-            node.setStyle("-fx-background-color:black;");
             messageVBox.getChildren().clear();
+
             loadMessages(currentMessageReciver);
         } catch (Exception e) {
             currentMessageReciver=null;
@@ -179,14 +176,6 @@ public class ChatRoomController implements Initializable {
         userService.logOut(Session.getUser());
     }
 
-    public void returnHome(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/mainpage.fxml"));
-        root = loader.load();
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
     @FXML
     public void postMsg(){
         Message message=new Message(0, Session.getUser(), messageText.getText(), null, parentMessageId);
@@ -194,5 +183,13 @@ public class ChatRoomController implements Initializable {
         afficheMessage(message);
         messageText.setText("");
 
+    }
+    public void returnHome(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/mainpage.fxml"));
+        root = loader.load();
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 }

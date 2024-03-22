@@ -21,6 +21,7 @@ import Elkhadema.khadema.domain.Reaction;
 import Elkhadema.khadema.domain.User;
 import Elkhadema.khadema.util.Session;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -59,7 +60,16 @@ public class MainPageController implements Initializable {
     PostServiceImp ps = new PostServiceImp();
     @FXML
     TextArea postcontent;
-
+    @FXML
+        public void goChat(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/chatroom.fxml"));
+        ChatRoomController chatRoomController=loader.getController();
+        root = loader.load();
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
     @FXML
     public void goHome() {
 

@@ -10,14 +10,18 @@ import java.util.stream.Collectors;
 import Elkhadema.khadema.DAO.DAOImplemantation.UserDAO;
 import Elkhadema.khadema.Service.ServiceImplemantation.FollowServiceImp;
 import Elkhadema.khadema.Service.ServiceImplemantation.MessageServiceIMP;
+import Elkhadema.khadema.Service.ServiceImplemantation.NotificationServiceImp;
 import Elkhadema.khadema.Service.ServiceImplemantation.UserServiceImp;
 import Elkhadema.khadema.Service.ServiceInterfaces.FollowService;
 import Elkhadema.khadema.Service.ServiceInterfaces.MessageService;
+import Elkhadema.khadema.Service.ServiceInterfaces.NotificationService;
 import Elkhadema.khadema.Service.ServiceInterfaces.UserService;
 import Elkhadema.khadema.domain.Message;
+import Elkhadema.khadema.domain.Notification;
 import Elkhadema.khadema.domain.User;
 import Elkhadema.khadema.util.Session;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -79,11 +83,24 @@ public class ChatRoomController implements Initializable {
         try {
             currentMessageReciver=contacts.get(0);
             messageVBox.getChildren().clear();
-
             loadMessages(currentMessageReciver);
         } catch (Exception e) {
             currentMessageReciver=null;
         }
+        Task<Void> backgroundTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                for (int i = 0; i < 10; i++) {
+                    Thread.sleep(500);
+                    List<Message>messages= messageService.chat(Session.getUser(), currentMessageReciver);
+                    messages.stream().filter(message-> message.getRead()==1).forEach(message->afficheMessage(message));
+                }
+                return null;
+            }
+        };
+        Thread thread = new Thread(backgroundTask);
+        thread.setDaemon(true);
+        thread.start();
     }
     private void loadMessages(User user){
         List<Message> messages=messageService.chat(Session.getUser(),user );
@@ -123,6 +140,9 @@ public class ChatRoomController implements Initializable {
 		contentText.getStyleClass().add("postTxtField");
         VBox vBox = new VBox(hBox,contentText);
         messageVBox.getChildren().add(vBox);
+        if (message.getSender()!=Session.getUser()) {
+            messageService.MessageRead(message, Session.getUser());
+        }
 
 
     }

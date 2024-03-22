@@ -144,8 +144,10 @@ public class MessageDAO {
 		try {
 			ResultSet rs = connection.createStatement().executeQuery(sql);
 			while (rs.next()) {
-				messages.add(new Message(rs.getLong("message_id"), new User(rs.getInt("sender_id"), "", ""),
-						rs.getString("content"), rs.getDate("creation_date"), rs.getInt("parent_message_id")));
+				Message message=new Message(rs.getLong("message_id"), new User(rs.getInt("sender_id"), "", ""),
+						rs.getString("content"), rs.getDate("creation_date"), rs.getInt("parent_message_id"));
+						message.setRead(rs.getInt("is_read"));
+				messages.add(message);
 			}
 
 		} catch (Exception e) {

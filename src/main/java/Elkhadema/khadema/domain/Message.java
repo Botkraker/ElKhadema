@@ -8,6 +8,14 @@ public class Message {
     private String content;
     private Date creationDate;
     private int parentMessageId;
+    private int read;
+    public int getRead(){
+        return read;
+    }
+    public void setRead(int read){
+        this.read=read;
+    }
+
 
     public Message(long id, User sender, String content, Date creationDate, int parentMessageId) {
         this.id = id;

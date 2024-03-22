@@ -49,5 +49,10 @@ public class MessageServiceIMP implements MessageService {
 	public List<User> getListoflastmessagers(User user){
 		return mdao.getlistofChatsByUserId(user.getId()).stream().map(t -> uDao.get(t.getId()).get()).collect(Collectors.toList());
 	}
+	@Override
+	public void MessageRead(Message message,User user){
+		MessageReceiver messageReceiver=new MessageReceiver(message, user, 1);
+		mdao.updateReciverMessage(new MessageReceiver(message, user, 0), messageReceiver);
+	}
 
 }

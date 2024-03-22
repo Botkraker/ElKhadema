@@ -11,4 +11,5 @@ public interface MessageService {
     List<Message> chat(User currentUser, User otherUser);
     // this service gives you a list of all chats between the current user and another user with the most recent message
     List<Message> listOfChats(User user);
+    void MessageRead(Message message,User user);
 }

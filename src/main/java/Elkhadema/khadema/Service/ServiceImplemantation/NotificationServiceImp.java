@@ -29,7 +29,7 @@ public class NotificationServiceImp implements NotificationService {
                 .filter(message -> message.getCreationDate().after(user.getLastloginDate()))
                 .sorted(Comparator.comparing(Message::getCreationDate))
                 .map(message -> new Notification("message", message.getContent(), message.getSender(),
-                        message.getCreationDate()))
+                        message.getCreationDate(),message.getId()))
                 .collect(Collectors.toList());
     }
 
@@ -41,7 +41,7 @@ public class NotificationServiceImp implements NotificationService {
                 .flatMap(user2 -> postDAO.getPostsById(user2.getId()).stream())
                 .filter(post -> post.getCreationDate().after(user.getLastloginDate()))
                 .sorted(Comparator.comparing(Post::getCreationDate))
-                .map(post -> new Notification("post", post.getContent(), post.getUser(), post.getCreationDate()))
+                .map(post -> new Notification("post", post.getContent(), post.getUser(), post.getCreationDate(),post.getId()))
                 .collect(Collectors.toList());
 
     }

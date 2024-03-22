@@ -4,13 +4,21 @@ import java.util.Date;
 
 public class Notification {
     private String type;
+    private int id;
     private String content;
-    private User user;
     private Date date;
-    
-    public Notification(String type, String content, User user, Date date) {
+    private User user;
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Notification(String type, String string, User user, Date date, long l) {
         this.type = type;
-        this.content = content;
+        this.id = (int)l;
+        this.content = string;
         this.user = user;
         this.date = date;
     }

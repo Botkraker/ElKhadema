@@ -4,13 +4,14 @@ import java.util.Date;
 import java.util.List;
 
 public class Post {
+	private long id;
     private User user;
     private String content;
     private List<Reaction> reactions;
     private long parentPostId;
     private String type;
     private Date CreationDate;
-    private long id;
+    private List<Media> postMedias;
 
     public User getUser() {
         return user;
@@ -87,6 +88,14 @@ public class Post {
     public long getCountReactions() {
         return this.reactions.stream().count();
     }
+
+	public List<Media> getPostMedias() {
+		return postMedias;
+	}
+
+	public void setPostMedias(List<Media> postMedias) {
+		this.postMedias = postMedias;
+	}
 
 
 }

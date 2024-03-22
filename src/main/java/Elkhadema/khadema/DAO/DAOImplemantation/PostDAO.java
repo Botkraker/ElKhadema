@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-
+import Elkhadema.khadema.domain.Media;
 import Elkhadema.khadema.domain.Post;
 import Elkhadema.khadema.domain.User;
 import Elkhadema.khadema.util.ConexDB;
@@ -25,12 +25,14 @@ public class PostDAO {
 		try {
 			ResultSet rs = connection.createStatement().executeQuery(sql);
 			while (rs.next()) {
-				post.add(new Post(
+				Post addedpost=new Post(
 						new User(rs.getInt("user_id"), null, null, rs.getString("username"), rs.getDate("creationdate"),
 								rs.getDate("last_login"), rs.getString("photo"), rs.getBoolean("banned"),
 								rs.getBoolean("is_active")),
 						rs.getString("content"), null, rs.getInt("post_parent"), rs.getString("type"), rs.getTimestamp("posts.creationdate"),
-						rs.getLong("post_id")));
+						rs.getLong("post_id"));
+				addedpost.setPostMedias(getallmediafrompost(addedpost));
+				post.add(addedpost);
 			}
 
 		} catch (Exception e) {
@@ -38,6 +40,34 @@ public class PostDAO {
 
 		}
 		return post;
+	}
+	public List<Media> getallmediafrompost(Post post) {
+		String sql = "SELECT * FROM `images` WHERE post_id="+post.getId() ;
+		List<Media> media = new ArrayList<>();
+		ResultSet rs;
+		try {
+			rs = connection.createStatement().executeQuery(sql);
+			while (rs.next()) {
+				media.add(new Media(post,rs.getBytes("image"),"img"));
+			}
+
+		} catch (Exception e) {
+			System.out.println(e);
+
+		}
+		sql = "SELECT *  FROM `videos` WHERE `post_id` ="+post.getId() ;
+		try {
+			rs = connection.createStatement().executeQuery(sql);
+			while (rs.next()) {
+				media.add(new Media(post,rs.getBytes("video"),"vid"));
+			}
+
+		} catch (Exception e) {
+			System.out.println(e);
+
+		}
+		
+		return media;
 	}
 
 	public List<Post> getAllPostsUnderParent(long idparent) {
@@ -122,6 +152,7 @@ public class PostDAO {
 								rs.getBoolean("is_active")),
 						rs.getString("content"), null, rs.getInt("post_parent"), rs.getString("type"), rs.getDate("creationdate"),
 						rs.getLong("post_id"));
+				post.setPostMedias(getallmediafrompost(post));
 			}
 
 		} catch (Exception e) {

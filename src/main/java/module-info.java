@@ -6,6 +6,7 @@ module Elkhadema.khadema {
 	requires kernel;
 	requires io;
 	requires layout;
+	requires javafx.media;
     opens Elkhadema.khadema to javafx.fxml;
     opens Elkhadema.khadema.controller to javafx.fxml;
 

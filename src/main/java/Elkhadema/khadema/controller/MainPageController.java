@@ -4,10 +4,14 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
+import com.itextpdf.layout.border.SolidBorder;
 
 import Elkhadema.khadema.DAO.DAOImplemantation.UserDAO;
 import Elkhadema.khadema.Service.ServiceImplemantation.FollowServiceImp;
@@ -34,8 +38,12 @@ import javafx.scene.control.ButtonBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -115,7 +123,7 @@ public class MainPageController implements Initializable {
         resetfeed();
     }
     public void showpost(Post post) {
-
+    	
 		ImageView profileimg=new ImageView(new Image("file:src//main//resources//images//user.png"));
 		profileimg.setFitHeight(46);
 		profileimg.setFitWidth(46);
@@ -129,9 +137,23 @@ public class MainPageController implements Initializable {
 		postscontent.setDisable(true);
 		postscontent.setWrapText(true);
 		postscontent.setOpacity(1);
-		postscontent.setMinHeight(150);
 		postscontent.setFont(Font.font(13));
 		postscontent.getStyleClass().add("postTxtField");
+		postscontent.setStyle("-fx-border-width: 0;");
+		List<HBox> displayedimges =displayimages(post);
+		displayedimges.forEach(t->{t.setSpacing(5);t.setAlignment(Pos.TOP_CENTER);});
+		VBox iMGHOLDER=new VBox(displayedimges.toArray(new HBox[0]));
+		iMGHOLDER.getStyleClass().add("postTxtField");
+		iMGHOLDER.setAlignment(Pos.CENTER);
+		iMGHOLDER.setSpacing(5);
+		try {
+			MediaPlayer mediaPlayer=post.getPostMedias().stream().filter(t -> t.getMediatype().equals("vid")).map(Elkhadema.khadema.domain.Media::getVideo).findFirst().get();
+			MediaView mediaView=new MediaView(mediaPlayer);
+			iMGHOLDER.getChildren().add(mediaView);
+			System.out.println("fama"+post.getContent());
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 		Text likenumber= new Text(""+ps.getPostReactions(post).size());
 		likenumber.setFont(Font.font(16));
 		likenumber.setFill(Color.WHITE);
@@ -156,7 +178,7 @@ public class MainPageController implements Initializable {
 		HBox.setMargin(commentnumber, new Insets(0,5,0,5));
 		HBox.setMargin(commentbutton, new Insets(0,5,0,5));
 		likeandcommentBox.setTranslateX(5);
-		VBox posts= new VBox(profilebar,postscontent,likeandcommentBox);
+		VBox posts= new VBox(profilebar,postscontent,iMGHOLDER,likeandcommentBox);
 		VBox lastlayerBox = new VBox(posts);
 		lastlayerBox.setFillWidth(true);
 		VBox.setMargin(posts,new Insets(2.5f,0,2.5f,0));
@@ -165,6 +187,33 @@ public class MainPageController implements Initializable {
 		profilebar.setAlignment(Pos.CENTER_LEFT);
 		postholder.getChildren().add(lastlayerBox);
 
+	}
+    public List<HBox> displayimages(Post post) {
+    	List<Image> imgs=post.getPostMedias().stream().map(Elkhadema.khadema.domain.Media::getImage).filter(t -> t!=null).collect(Collectors.toList());
+    	List<HBox> imgsview=new ArrayList<HBox>();
+    	List<ImageView> imgViews=new ArrayList<ImageView>();
+    	ImageView tempimg;
+    	int displayforthree =imgs.size()/3;
+    	for (int i = 0; i < displayforthree; i++) {
+    		for (int j = i; j < i+3; j++) {
+    			tempimg=new ImageView(imgs.get(j));
+    			tempimg.setFitWidth(150);
+    	        tempimg.setPreserveRatio(true);
+    			imgViews.add(tempimg);
+    			HBox.setHgrow(tempimg, javafx.scene.layout.Priority.ALWAYS);
+    		}
+    		imgsview.add(new HBox(imgViews.toArray(new ImageView[0])));
+		}
+    	imgViews=new ArrayList<ImageView>();
+    	for (int i=displayforthree*3;i<imgs.size();i++) {
+    		tempimg=new ImageView(imgs.get(i));
+			tempimg.setFitWidth(450/(imgs.size()-displayforthree*3));
+	        tempimg.setPreserveRatio(true);
+
+			imgViews.add(tempimg);
+    	}
+    	imgsview.add(new HBox(imgViews.toArray(new ImageView[0])));
+		return imgsview;
 	}
     public void likeapost(Post post,AtomicBoolean isliked,Text likenumber) {
     	if(isliked.get()) {

@@ -21,8 +21,9 @@
     
 }
 .likebutton:hover {
-    -fx-background-color: #0000002c;
-    -fx-background-radius: 80px;
+    -fx-border-width: 0 0 1 0; -fx-border-color: rgba(75, 73, 73, 0.808);
+    -fx-transition: color 0.3s;
+
     
 }
 .bgcol {
@@ -70,4 +71,22 @@
     -fx-background-color: #0000002a;
     -fx-background-radius: 20px;
 
+}
+
+.scrollerbar {
+    -fx-control-inner-background: transparent;
+    -fx-background-color: transparent;
+    -fx-background : transparent;
+}
+
+.shadoweffect {
+    -fx-effect: dropshadow(three-pass-box, #444444e8, 10, 0.5, 3, 3)
+}
+
+.borderleft {
+    -fx-border-width: 0 1 0 0; -fx-border-color: rgba(75, 73, 73, 0.808);
+}
+
+.hideimg{
+    -fx-opacity: 0.5; -fx-effect: grayscale;
 }

@@ -65,6 +65,7 @@ public class ChatRoomController implements Initializable {
     Button sendBtn;
     @FXML
     VBox messageVBox;
+    
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         messageText.textProperty().addListener((observable, oldValue, newValue) -> {

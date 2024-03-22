@@ -25,13 +25,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        UserService userService = new UserServiceImp();
-        try {
-            userService.Login("company", "company");
-        } catch (UserNotFoundException e) {
-            e.printStackTrace();
-        }
-        scene = new Scene(loadFXML("chatroom"), 1280, 720);
+        scene = new Scene(loadFXML("login"), 1280, 720);
         scene.getStylesheets().add(getClass().getResource("/Elkhadema/khadema/style.css").toExternalForm());
         stage.setScene(scene);
         stage.getIcons().add(new Image("file:src//main//resources//images//elkhadema.png"));

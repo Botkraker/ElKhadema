@@ -115,7 +115,7 @@ public class MainPageController implements Initializable {
         resetfeed();
     }
     public void showpost(Post post) {
-    	
+
 		ImageView profileimg=new ImageView(new Image("file:src//main//resources//images//user.png"));
 		profileimg.setFitHeight(46);
 		profileimg.setFitWidth(46);
@@ -208,8 +208,6 @@ public class MainPageController implements Initializable {
     }
 
     public void openprofile(MouseEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/mainpage.fxml"));
-        ProfileController profileController = loader.getController();
         HBox hbox = (HBox) event.getSource();
         ObservableList<Node> textList = hbox.getChildren();
         String username = new String();
@@ -219,6 +217,8 @@ public class MainPageController implements Initializable {
             }
         }
         User user = userDAO.Login(username).get();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/mainpage.fxml"));
+        ProfileController profileController = loader.getController();
         profileController.displayProfile(user);
         root = loader.load();
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

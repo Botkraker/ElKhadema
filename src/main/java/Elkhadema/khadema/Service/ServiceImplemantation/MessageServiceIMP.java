@@ -1,5 +1,6 @@
 package Elkhadema.khadema.Service.ServiceImplemantation;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,8 +15,10 @@ public class MessageServiceIMP implements MessageService {
 	MessageDAO mdao= new MessageDAO();
 	UserDAO uDao = new UserDAO();
 	@Override
-	public void sendMessage(User user, Message message) {
-		MessageReceiver mr = new MessageReceiver(message, user, 0, 0);
+	public void sendMessage(User reciever, Message message) {
+		message.setCreationDate(new Date());
+		Date date=new Date();
+		MessageReceiver mr = new MessageReceiver(message, reciever, 0, 0);
 		mdao.save(message, mr);
 	}
 
@@ -26,13 +29,15 @@ public class MessageServiceIMP implements MessageService {
 
 	@Override
 	public List<Message> chat(User currentUser, User otherUser) {
-		return mdao.getconversation(currentUser, otherUser).stream()
+		List<Message> collect = mdao.getconversation(currentUser, otherUser).stream()
 		.map(t -> {if(t.getSender().getId()==currentUser.getId()) {
 				t.setSender(currentUser);
 				}
 				else {t.setSender(otherUser);
 				}return t;
 		}).collect(Collectors.toList());
+		return collect;
+
 
 
 	}

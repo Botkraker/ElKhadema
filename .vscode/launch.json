@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Test2",
+            "request": "launch",
+            "mainClass": "Elkhadema.khadema/Elkhadema.khadema.Test2",
+            "projectName": "khadema"
+        },
+        {
+            "type": "java",
+            "name": "Test",
+            "request": "launch",
+            "mainClass": "Elkhadema.khadema/Elkhadema.khadema.Test",
+            "projectName": "khadema"
+        },
+        {
+            "type": "java",
             "name": "test",
             "request": "launch",
             "mainClass": "Elkhadema.khadema/Elkhadema.khadema.test",

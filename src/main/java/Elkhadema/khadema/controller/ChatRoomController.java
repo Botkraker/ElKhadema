@@ -20,6 +20,7 @@ import Elkhadema.khadema.domain.Message;
 import Elkhadema.khadema.domain.Notification;
 import Elkhadema.khadema.domain.User;
 import Elkhadema.khadema.util.Session;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -92,8 +93,10 @@ public class ChatRoomController implements Initializable {
             protected Void call() throws Exception {
                 for (int i = 0; i < 10; i++) {
                     Thread.sleep(500);
-                    List<Message>messages= messageService.chat(Session.getUser(), currentMessageReciver);
-                    messages.stream().filter(message-> message.getRead()==1).forEach(message->afficheMessage(message));
+                    Platform.runLater(() -> {
+                        List<Message>messages= messageService.chat(Session.getUser(), currentMessageReciver);
+                        messages.stream().filter(message-> message.getRead()==1).forEach(message->afficheMessage(message));
+                    });
                 }
                 return null;
             }

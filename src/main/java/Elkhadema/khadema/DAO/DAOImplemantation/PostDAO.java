@@ -41,7 +41,7 @@ public class PostDAO {
 	}
 
 	public List<Post> getAllPostsUnderParent(long idparent) {
-		String sql = "SELECT * FROM `user` , `posts` WHERE posts.user_id = user.user_id And user.post_parent=" + idparent;
+		String sql = "SELECT * FROM `user` , `posts` WHERE posts.user_id = user.user_id And posts.post_parent=" + idparent;
 		List<Post> post = new ArrayList<>();
 		try {
 			ResultSet rs = connection.createStatement().executeQuery(sql);

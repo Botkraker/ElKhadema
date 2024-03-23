@@ -4,14 +4,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
-
-import com.itextpdf.layout.border.SolidBorder;
 
 import Elkhadema.khadema.DAO.DAOImplemantation.UserDAO;
 import Elkhadema.khadema.Service.ServiceImplemantation.FollowServiceImp;
@@ -19,7 +15,6 @@ import Elkhadema.khadema.Service.ServiceImplemantation.UserServiceImp;
 import Elkhadema.khadema.Service.ServiceInterfaces.FollowService;
 import Elkhadema.khadema.Service.ServiceInterfaces.UserService;
 import Elkhadema.khadema.Service.ServiceImplemantation.PostServiceImp;
-import Elkhadema.khadema.Service.ServiceInterfaces.PostService;
 import Elkhadema.khadema.domain.Post;
 import Elkhadema.khadema.domain.Reaction;
 import Elkhadema.khadema.domain.User;
@@ -38,10 +33,8 @@ import javafx.scene.control.ButtonBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
@@ -123,7 +116,7 @@ public class MainPageController implements Initializable {
         resetfeed();
     }
     public void showpost(Post post) {
-    	
+
 		ImageView profileimg=new ImageView(new Image("file:src//main//resources//images//user.png"));
 		profileimg.setFitHeight(46);
 		profileimg.setFitWidth(46);
@@ -222,7 +215,7 @@ public class MainPageController implements Initializable {
     		isliked.set(false);
     	}
     	else {
-    
+
     		Reaction r=new Reaction(session, post, "like",new Date());
     		ps.addReactionPost(post, r);
     		likenumber.setText(""+ps.getPostReactions(post).size());

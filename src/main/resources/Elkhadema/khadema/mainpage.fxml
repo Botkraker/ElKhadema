@@ -188,14 +188,30 @@
                                           <Insets left="5.0" right="5.0" top="5.0" />
                                        </VBox.margin>
                                     </TextArea>
-                                    <Button alignment="CENTER" mnemonicParsing="false" onAction="#createPost" prefHeight="25.0" prefWidth="99.0" styleClass="postButton" text="Post" textFill="WHITE">
-                                       <font>
-                                          <Font name="SansSerif Bold" size="15.0" />
-                                       </font>
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" right="5.0" top="7.0" />
-                                       </VBox.margin>
-                                    </Button>
+                                    <HBox fx:id="HboxforAttachments1" prefHeight="100.0" prefWidth="200.0" />
+                                    <HBox fx:id="vidcontainer" prefHeight="100.0" prefWidth="200.0" />
+                                    <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="591.0">
+                                       <children>
+                                          <HBox alignment="CENTER_LEFT" prefHeight="44.0" prefWidth="488.0">
+                                             <children>
+                                                <Button fx:id="buttontoaddattach" mnemonicParsing="false" onAction="#AddMediabutton" styleClass="likebutton" text="📷" textFill="WHITE">
+                                                   <font>
+                                                      <Font size="19.0" />
+                                                   </font>
+                                                </Button>
+                                             </children>
+                                          </HBox>
+                                          <Button alignment="CENTER" mnemonicParsing="false" onAction="#createPost" prefHeight="25.0" prefWidth="99.0" styleClass="postButton" text="Post" textFill="WHITE">
+                                             <font>
+                                                <Font name="SansSerif Bold" size="15.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets right="5.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="100.0" prefWidth="200.0" />
                                  </children>
                               </VBox>
                               <VBox fx:id="postscontainer" prefHeight="496.0" prefWidth="593.0">
@@ -244,7 +260,7 @@
                                                    <children>
                                                       <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="CENTER" wrappingWidth="23.46875">
                                                          <HBox.margin>
-                                                            <Insets left="7.0" />
+                                                            <Insets bottom="2.0" left="7.0" />
                                                          </HBox.margin>
                                                          <font>
                                                             <Font size="16.0" />
@@ -255,12 +271,12 @@
                                                             <Font size="19.0" />
                                                          </font>
                                                          <HBox.margin>
-                                                            <Insets left="5.0" />
+                                                            <Insets bottom="2.0" left="5.0" />
                                                          </HBox.margin>
                                                       </Button>
                                                       <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="CENTER" wrappingWidth="33.46875">
                                                          <HBox.margin>
-                                                            <Insets left="5.0" />
+                                                            <Insets bottom="2.0" left="5.0" />
                                                          </HBox.margin>
                                                          <font>
                                                             <Font size="16.0" />
@@ -270,6 +286,9 @@
                                                          <font>
                                                             <Font size="19.0" />
                                                          </font>
+                                                         <HBox.margin>
+                                                            <Insets bottom="2.0" />
+                                                         </HBox.margin>
                                                       </Button>
                                                    </children>
                                                 </HBox>

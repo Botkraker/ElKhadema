@@ -1,5 +1,7 @@
 package Elkhadema.khadema.DAO.DAOImplemantation;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -48,7 +50,7 @@ public class PostDAO {
 		try {
 			rs = connection.createStatement().executeQuery(sql);
 			while (rs.next()) {
-				media.add(new Media(post,rs.getBytes("image"),"img"));
+				media.add(new Media(post,Media.ImageDecompress(rs.getBytes("image")),"img"));
 			}
 
 		} catch (Exception e) {
@@ -59,7 +61,7 @@ public class PostDAO {
 		try {
 			rs = connection.createStatement().executeQuery(sql);
 			while (rs.next()) {
-				media.add(new Media(post,rs.getBytes("video"),"vid"));
+				media.add(new Media(post,Media.decompressVideo(rs.getBytes("video")),"vid"));
 			}
 
 		} catch (Exception e) {
@@ -94,6 +96,7 @@ public class PostDAO {
 
 	public void save(Post t) {
 		PreparedStatement pstmt = null;
+		ResultSet rs=null;
 		try {
 			pstmt = connection.prepareStatement(
 					"INSERT INTO `khademadb`.`posts` (`post_id`, `user_id`, `type`, `creationdate`, `content`,`post_parent`) VALUES (NULL, ?, ?, ?, ?,?);",
@@ -105,12 +108,65 @@ public class PostDAO {
 			pstmt.setString(4, t.getContent());
 			pstmt.setLong(5, t.getParentPostId());
 			pstmt.executeUpdate();
+			rs=pstmt.getGeneratedKeys();
+			if (rs.next()) {
+				t.setId(rs.getInt(1));
+			}
+			savemediatopost(t);
+			
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
 
 	}
+	public void savemediatopost(Post post) throws SQLException { 
+		try {
+		    connection.setAutoCommit(false); // Start transaction
+		    post.getPostMedias().forEach(t -> {
+		        if (t.getMediatype().equals("img")) {
+		            try (PreparedStatement pstmt = connection.prepareStatement(
+		                    "INSERT INTO `khademadb`.`images` (`post_id`, `image`) VALUES (?, ?)",
+		                    Statement.RETURN_GENERATED_KEYS)) {
 
+		                pstmt.setInt(1, (int) post.getId());
+		                pstmt.setBlob(2, new ByteArrayInputStream(t.ImageCompression()));
+
+		                int affectedRows = pstmt.executeUpdate();
+		                if (affectedRows == 0) {
+		                    throw new SQLException("Inserting image failed, no rows affected.");
+		                }
+		            } catch (SQLException e) {
+		                e.printStackTrace();
+		            } catch (IOException e) {
+						e.printStackTrace();
+					}
+		        } else {
+		        	try {
+		        		PreparedStatement pstmt = connection.prepareStatement(
+								"INSERT INTO `khademadb`.`videos` (`video`) VALUES (?);",
+								Statement.RETURN_GENERATED_KEYS);
+						pstmt.setBlob(1,new ByteArrayInputStream(t.compressVideo()));
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+		        }
+		    });
+		    connection.commit();
+		} catch (SQLException e) {
+		    try {
+		        connection.rollback(); 
+		    } catch (SQLException ex) {
+		        ex.printStackTrace();
+		    }
+		    e.printStackTrace();
+		} finally {
+		    try {
+		        connection.setAutoCommit(true);
+		    } catch (SQLException ex) {
+		        ex.printStackTrace();
+		    }
+		}
+	}
 
 	public void update(Post t, Post newT) {
 		try {

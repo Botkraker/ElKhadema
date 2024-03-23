@@ -1,8 +1,21 @@
 package Elkhadema.khadema.domain;
 
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Iterator;
+
+import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
+import javax.imageio.ImageWriteParam;
+import javax.imageio.ImageWriter;
+import javax.imageio.stream.ImageInputStream;
+import javax.imageio.stream.ImageOutputStream;
+
 
 import javafx.scene.image.Image;
 import javafx.scene.media.MediaPlayer;
@@ -71,5 +84,129 @@ public class Media {
 			return null;
 		}
 	}
-	
+	public byte[] ImageCompression() throws IOException {
+		 try {
+	            // Read the image
+	            BufferedImage image = ImageIO.read(new ByteArrayInputStream(media));
+
+	            // Prepare output stream
+	            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+	            ImageOutputStream imageOutputStream = ImageIO.createImageOutputStream(outputStream);
+
+	            // Get available ImageWriters
+	            Iterator<ImageWriter> writers = ImageIO.getImageWritersByFormatName("jpg");
+	            ImageWriter writer = writers.next();
+	            writer.setOutput(imageOutputStream);
+
+	            // Set compression parameters
+	            ImageWriteParam params = writer.getDefaultWriteParam();
+	            params.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+	            params.setCompressionQuality(0.5f); // Set the compression quality (0.0 - 1.0)
+
+	            // Write the image with compression
+	            writer.write(null, new javax.imageio.IIOImage(image, null, null), params);
+
+	            // Cleanup
+	            imageOutputStream.close();
+	            writer.dispose();
+
+	            System.out.println("Image compression successful.");
+
+	            return outputStream.toByteArray();
+	        } catch (IOException e) {
+	            System.out.println("Error: " + e);
+	            return null;
+	        }
+	}
+	public static byte[] ImageDecompress(byte[] compressedImageData) {
+		 try {
+	            // Prepare input stream
+	            ByteArrayInputStream inputStream = new ByteArrayInputStream(compressedImageData);
+	            ImageInputStream imageInputStream = ImageIO.createImageInputStream(inputStream);
+
+	            // Get available ImageReaders
+	            Iterator<ImageReader> readers = ImageIO.getImageReaders(imageInputStream);
+	            ImageReader reader = readers.next();
+	            reader.setInput(imageInputStream);
+
+	            // Read the image
+	            BufferedImage image = reader.read(0);
+	            
+	            // Convert BufferedImage to byte array
+	            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+	            ImageIO.write(image, "jpg", outputStream);
+	            
+	            // Cleanup
+	            imageInputStream.close();
+	            reader.dispose();
+
+	            System.out.println("Image decompression successful.");
+
+	            return outputStream.toByteArray();
+	        } catch (IOException e) {
+	            System.out.println("Error: " + e);
+	            return null;
+	        }
+		}
+		public  byte[] compressVideo() {
+			try {
+	            ProcessBuilder processBuilder = new ProcessBuilder("ffmpeg", "-i", "pipe:0", "-c:v", "libx264", "-preset", "ultrafast", "-f", "mp4", "pipe:1");
+	            processBuilder.redirectErrorStream(true);
+	            Process process = processBuilder.start();
+
+	            try (InputStream inputStream = new ByteArrayInputStream(media);
+	                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+
+	                // Feed input video to FFmpeg process
+	                byte[] buffer = new byte[1024];
+	                int length;
+	                while ((length = inputStream.read(buffer)) != -1) {
+	                    process.getOutputStream().write(buffer, 0, length);
+	                }
+	                process.getOutputStream().close();
+
+	                // Read compressed video from FFmpeg process
+	                while ((length = process.getInputStream().read(buffer)) != -1) {
+	                    outputStream.write(buffer, 0, length);
+	                }
+
+	                process.waitFor(); // Wait for FFmpeg process to finish
+	                return outputStream.toByteArray();
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            return null;
+	        }
+    }
+
+    public static byte[] decompressVideo(byte[] compressedVideoData) {
+    	 try {
+             ProcessBuilder processBuilder = new ProcessBuilder("ffmpeg", "-i", "pipe:0", "-c:v", "copy", "-f", "rawvideo", "pipe:1");
+             processBuilder.redirectErrorStream(true);
+             Process process = processBuilder.start();
+
+             try (InputStream inputStream = new ByteArrayInputStream(compressedVideoData);
+                  ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+
+                 // Feed input video to FFmpeg process
+                 byte[] buffer = new byte[1024];
+                 int length;
+                 while ((length = inputStream.read(buffer)) != -1) {
+                     process.getOutputStream().write(buffer, 0, length);
+                 }
+                 process.getOutputStream().close();
+
+                 // Read decompressed video from FFmpeg process
+                 while ((length = process.getInputStream().read(buffer)) != -1) {
+                     outputStream.write(buffer, 0, length);
+                 }
+
+                 process.waitFor(); // Wait for FFmpeg process to finish
+                 return outputStream.toByteArray();
+             }
+         } catch (Exception e) {
+             e.printStackTrace();
+             return null;
+         }
+    	 }
 }

@@ -1,5 +1,6 @@
 package Elkhadema.khadema.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -15,11 +16,14 @@ import Elkhadema.khadema.Service.ServiceImplemantation.UserServiceImp;
 import Elkhadema.khadema.Service.ServiceInterfaces.FollowService;
 import Elkhadema.khadema.Service.ServiceInterfaces.UserService;
 import Elkhadema.khadema.Service.ServiceImplemantation.PostServiceImp;
+import Elkhadema.khadema.domain.Media;
 import Elkhadema.khadema.domain.Post;
 import Elkhadema.khadema.domain.Reaction;
 import Elkhadema.khadema.domain.User;
+import Elkhadema.khadema.util.MediaChooser;
 import Elkhadema.khadema.util.Session;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -40,6 +44,7 @@ import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.control.TextArea;
 
@@ -60,11 +65,18 @@ public class MainPageController implements Initializable {
     PostServiceImp ps = new PostServiceImp();
     @FXML
     TextArea postcontent;
-
+    @FXML
+    private HBox vidcontainer;
+    List<Media> attachedMedias=new ArrayList<Media>();
     @FXML
     public void goHome() {
 
     }
+    @FXML
+    private HBox HboxforAttachments;
+
+    @FXML
+    private Button buttontoaddattach;
 
     @FXML
     public void goJobsList() {
@@ -96,9 +108,13 @@ public class MainPageController implements Initializable {
         String content = postcontent.getText();
         if (content.length() > 0) {
             Post post = new Post(session, content, null, 0, "text", null, 0);
+            post.setPostMedias(attachedMedias);
             ps.makePost(post);
             System.out.println("post made");
+            attachedMedias=new ArrayList<Media>();
             resetfeed();
+            HboxforAttachments.getChildren().clear();
+            postcontent.setText("");
         }
     }
 
@@ -252,6 +268,30 @@ public class MainPageController implements Initializable {
         vContacts.getChildren().addAll(hBoxs);
     }
 
+   @FXML
+   void AddMediabutton(ActionEvent event) {
+	   Media m=MediaChooser.Choose(event);
+	   if (m.getMediatype().equals("img")) {
+		   attachedMedias.add(m);
+		   ImageView img=new ImageView(m.getImage());
+		   HboxforAttachments.getChildren().add(img);
+		   HboxforAttachments.getChildren().forEach(t -> ((ImageView)t).setFitWidth(HboxforAttachments.getWidth()/(double)attachedMedias.size()/3));
+		   img.setPreserveRatio(true);
+	}
+	   else {
+		   try {
+				MediaPlayer mediaPlayer=m.getVideo();
+				MediaView mediaView=new MediaView(mediaPlayer);
+				attachedMedias.add(m);
+				vidcontainer.getChildren().add(mediaView);
+				mediaView.setFitWidth(vidcontainer.getWidth()/2);
+				mediaView.setPreserveRatio(true);
+
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+	}
+   }
     public void openprofile(MouseEvent event) throws IOException {
         HBox hbox = (HBox) event.getSource();
         ObservableList<Node> textList = hbox.getChildren();

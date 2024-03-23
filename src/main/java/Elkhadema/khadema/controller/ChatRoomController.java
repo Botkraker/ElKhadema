@@ -81,13 +81,6 @@ public class ChatRoomController implements Initializable {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        messageText.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null && !newValue.trim().isEmpty()) {
-                sendBtn.setDisable(false);
-            } else {
-                sendBtn.setDisable(true);
-            }
-        });
         initContacts();
         try {
             currentMessageReciver = contacts.get(0);
@@ -99,11 +92,19 @@ public class ChatRoomController implements Initializable {
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
             List<Message> messages = messageService.chat(Session.getUser(), currentMessageReciver);
             messages.stream().dropWhile(message -> message.getId() != lastMessageId)
-                    .skip(1)
-                    .forEach(message -> afficheMessage(message));
+            .skip(1)
+            .forEach(message -> afficheMessage(message));
         }));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
+        messageText.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null && !newValue.trim().isEmpty()) {
+                sendBtn.setDisable(false);
+            } else {
+                sendBtn.setDisable(true);
+            }
+        });
+        sendBtn.setDisable(true);
     }
 
     private void loadMessages(User user) {
@@ -219,6 +220,7 @@ public class ChatRoomController implements Initializable {
         messageService.sendMessage(currentMessageReciver, message);
         afficheMessage(message);
         messageText.setText("");
+        messageText.requestFocus();
 
     }
 

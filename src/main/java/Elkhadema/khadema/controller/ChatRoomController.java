@@ -3,8 +3,11 @@ package Elkhadema.khadema.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.concurrent.CountDownLatch;
 import java.util.stream.Collectors;
 
 import Elkhadema.khadema.DAO.DAOImplemantation.UserDAO;
@@ -22,6 +25,7 @@ import Elkhadema.khadema.domain.User;
 import Elkhadema.khadema.util.Session;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -54,7 +58,7 @@ public class ChatRoomController implements Initializable {
     private Scene scene;
     private Parent root;
     private User currentMessageReciver;
-
+    private Date lastCheckDate = new Date();
     private MessageService messageService = new MessageServiceIMP();
     private FollowService followService = new FollowServiceImp();
     private UserDAO userDAO = new UserDAO();
@@ -82,39 +86,56 @@ public class ChatRoomController implements Initializable {
         });
         initContacts();
         try {
-            currentMessageReciver=contacts.get(0);
+            currentMessageReciver = contacts.get(0);
             messageVBox.getChildren().clear();
             loadMessages(currentMessageReciver);
         } catch (Exception e) {
-            currentMessageReciver=null;
+            currentMessageReciver = null;
         }
-        Task<Void> backgroundTask = new Task<Void>() {
+        Service<Void> service = new Service<Void>() {
             @Override
-            protected Void call() throws Exception {
-                for (int i = 0; i < 10; i++) {
-                    Thread.sleep(500);
-                    Platform.runLater(() -> {
-                        List<Message>messages= messageService.chat(Session.getUser(), currentMessageReciver);
-                        messages.stream().filter(message-> message.getRead()==1).forEach(message->afficheMessage(message));
-                    });
-                }
-                return null;
+            protected Task<Void> createTask() {
+                return new Task<Void>() {
+                    @Override
+                    protected Void call() throws Exception {
+                        List<Message> messages = messageService.chat(Session.getUser(), currentMessageReciver);
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (!messages.isEmpty()) {
+                                    List<Message> toShowMessages = messages.stream()
+                                            .filter(message -> message.getCreationDate().after(lastCheckDate)
+                                                    || message.getCreationDate().equals(lastCheckDate))
+                                            .collect(Collectors.toList());
+                                    for (Message message2 : toShowMessages) {
+                                        afficheMessage(message2);
+                                    }
+                                }
+                            }
+                        });
+                        return null;
+                    }
+                };
             }
         };
-        Thread thread = new Thread(backgroundTask);
-        thread.setDaemon(true);
-        thread.start();
+        service.start();
     }
-    private void loadMessages(User user){
-        List<Message> messages=messageService.chat(Session.getUser(),user );
+
+    private void loadMessages(User user) {
+        List<Message> messages = messageService.chat(Session.getUser(), user);
         for (Message message : messages) {
             afficheMessage(message);
         }
-
+        if (messages.isEmpty()) {
+            return;
+        }
+        Optional<Message> message = messages.isEmpty() ? Optional.empty()
+                : Optional.of(messages.get(messages.size() - 1));
+        lastCheckDate = message.get().getCreationDate();
     }
 
     private void afficheMessage(Message message) {
-        ImageView imageView=new ImageView(new Image("file:src//main//resources//images//user.png"));
+        ImageView imageView = new ImageView(new Image("file:src//main//resources//images//user.png"));
         imageView.setFitHeight(46);
         imageView.setFitWidth(46);
         HBox hBox;
@@ -122,36 +143,41 @@ public class ChatRoomController implements Initializable {
             Text text = new Text(Session.getUser().getUserName());
             text.setFill(Color.WHITE);
             text.setFont(new Font("SansSerif", 15));
-            text.setTranslateX(10);
-            hBox=new HBox(text,imageView);
+            text.setTranslateX(-Session.getUser().getUserName().length() + 3);
+            hBox = new HBox(text, imageView);
             hBox.setAlignment(Pos.CENTER_RIGHT);
         } else {
             Text text = new Text(currentMessageReciver.getUserName());
             text.setFill(Color.WHITE);
-            text.setTranslateX(-10);
+            text.setTranslateX(currentMessageReciver.getUserName().length() - 3);
             text.setFont(new Font("SansSerif", 15));
-            hBox=new HBox(imageView,text);
+            hBox = new HBox(imageView, text);
             hBox.setAlignment(Pos.CENTER_LEFT);
         }
-        TextArea contentText=new TextArea(message.getContent());
-        contentText.getStyleClass().add("postTxtField");
+        TextArea contentText = new TextArea(message.getContent());
         contentText.setDisable(true);
-		contentText.setWrapText(true);
-		contentText.setOpacity(1);
-		contentText.setMinHeight(150);
-		contentText.setFont(Font.font(13));
-		contentText.getStyleClass().add("postTxtField");
-        VBox vBox = new VBox(hBox,contentText);
+        contentText.setWrapText(true);
+        contentText.setOpacity(1);
+        contentText.setStyle(
+                "-fx-font-family: 'Helvetica';" +
+                        "-fx-font-size: 14px;" +
+                        "-fx-padding: 10px;" +
+                        "-fx-background-color: #f5f6f7;" +
+                        "-fx-border-width: 1px;" +
+                        "-fx-text-fill: black;"
+                        +"-fx-control-inner-background: transparent;"+
+                        "-fx-background : transparent;");
+        VBox vBox = new VBox(hBox, contentText);
         messageVBox.getChildren().add(vBox);
-        if (message.getSender()!=Session.getUser()) {
+        if (message.getSender() != Session.getUser()) {
             messageService.MessageRead(message, Session.getUser());
         }
 
-
     }
+
     private void initContacts() {
         List<VBox> hBoxs = new ArrayList<>();
-        contacts= contacts.stream().map(user -> userDAO.get(user.getId()).get()).collect(Collectors.toList());
+        contacts = contacts.stream().map(user -> userDAO.get(user.getId()).get()).collect(Collectors.toList());
         for (User user : contacts) {
             Text text = new Text(user.getUserName());
             text.setStyle("-fx-fill:white;-fx-font-size:15px;");
@@ -163,7 +189,7 @@ public class ChatRoomController implements Initializable {
             HBox hBox = new HBox(imageView, text);
             hBox.setPadding(new Insets(5, 0, 5, 0));
             hBox.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-                currentMessageReciver=user;
+                currentMessageReciver = user;
                 messageVBox.getChildren().clear();
                 loadMessages(currentMessageReciver);
             });
@@ -200,13 +226,14 @@ public class ChatRoomController implements Initializable {
     }
 
     @FXML
-    public void postMsg(){
-        Message message=new Message(0, Session.getUser(), messageText.getText(), null, parentMessageId);
+    public void postMsg() {
+        Message message = new Message(0, Session.getUser(), messageText.getText(), null, parentMessageId);
         messageService.sendMessage(currentMessageReciver, message);
         afficheMessage(message);
         messageText.setText("");
 
     }
+
     public void returnHome(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/mainpage.fxml"));
         root = loader.load();

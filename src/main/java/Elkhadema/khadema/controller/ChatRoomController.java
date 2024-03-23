@@ -65,7 +65,7 @@ public class ChatRoomController implements Initializable {
     Button sendBtn;
     @FXML
     VBox messageVBox;
-    
+
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         messageText.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -77,19 +77,20 @@ public class ChatRoomController implements Initializable {
         });
         initContacts();
         try {
-            currentMessageReciver=contacts.get(0);
+            currentMessageReciver = contacts.get(0);
             ObservableList<Node> children = vContacts.getChildren();
-            Node node=children.get(1);
-            node=((ButtonBar)node).getChildrenUnmodifiable().get(0);
+            Node node = children.get(1);
+            node = ((ButtonBar) node).getChildrenUnmodifiable().get(0);
             node.setStyle("-fx-background-color:black;");
             messageVBox.getChildren().clear();
             loadMessages(currentMessageReciver);
         } catch (Exception e) {
-            currentMessageReciver=null;
+            currentMessageReciver = null;
         }
     }
-    private void loadMessages(User user){
-        List<Message> messages=messageService.chat(Session.getUser(),user );
+
+    private void loadMessages(User user) {
+        List<Message> messages = messageService.chat(Session.getUser(), user);
         for (Message message : messages) {
             afficheMessage(message);
         }
@@ -97,7 +98,7 @@ public class ChatRoomController implements Initializable {
     }
 
     private void afficheMessage(Message message) {
-        ImageView imageView=new ImageView(new Image("file:src//main//resources//images//user.png"));
+        ImageView imageView = new ImageView(new Image("file:src//main//resources//images//user.png"));
         imageView.setFitHeight(46);
         imageView.setFitWidth(46);
         HBox hBox;
@@ -106,32 +107,32 @@ public class ChatRoomController implements Initializable {
             text.setFill(Color.WHITE);
             text.setFont(new Font("SansSerif", 15));
             text.setTranslateX(10);
-            hBox=new HBox(text,imageView);
+            hBox = new HBox(text, imageView);
             hBox.setAlignment(Pos.CENTER_RIGHT);
         } else {
             Text text = new Text(currentMessageReciver.getUserName());
             text.setFill(Color.WHITE);
             text.setTranslateX(-10);
             text.setFont(new Font("SansSerif", 15));
-            hBox=new HBox(imageView,text);
+            hBox = new HBox(imageView, text);
             hBox.setAlignment(Pos.CENTER_LEFT);
         }
-        TextArea contentText=new TextArea(message.getContent());
+        TextArea contentText = new TextArea(message.getContent());
         contentText.getStyleClass().add("postTxtField");
         contentText.setDisable(true);
-		contentText.setWrapText(true);
-		contentText.setOpacity(1);
-		contentText.setMinHeight(150);
-		contentText.setFont(Font.font(13));
-		contentText.getStyleClass().add("postTxtField");
-        VBox vBox = new VBox(hBox,contentText);
+        contentText.setWrapText(true);
+        contentText.setOpacity(1);
+        contentText.setMinHeight(150);
+        contentText.setFont(Font.font(13));
+        contentText.getStyleClass().add("postTxtField");
+        VBox vBox = new VBox(hBox, contentText);
         messageVBox.getChildren().add(vBox);
 
-
     }
+
     private void initContacts() {
         List<VBox> hBoxs = new ArrayList<>();
-        contacts= contacts.stream().map(user -> userDAO.get(user.getId()).get()).collect(Collectors.toList());
+        contacts = contacts.stream().map(user -> userDAO.get(user.getId()).get()).collect(Collectors.toList());
         for (User user : contacts) {
             Text text = new Text(user.getUserName());
             text.setStyle("-fx-fill:white;-fx-font-size:15px;");
@@ -143,7 +144,7 @@ public class ChatRoomController implements Initializable {
             HBox hBox = new HBox(imageView, text);
             hBox.setPadding(new Insets(5, 0, 5, 0));
             hBox.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-                currentMessageReciver=user;
+                currentMessageReciver = user;
                 messageVBox.getChildren().clear();
                 loadMessages(currentMessageReciver);
             });
@@ -187,9 +188,10 @@ public class ChatRoomController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+
     @FXML
-    public void postMsg(){
-        Message message=new Message(0, Session.getUser(), messageText.getText(), null, parentMessageId);
+    public void postMsg() {
+        Message message = new Message(0, Session.getUser(), messageText.getText(), null, parentMessageId);
         messageService.sendMessage(currentMessageReciver, message);
         afficheMessage(message);
         messageText.setText("");

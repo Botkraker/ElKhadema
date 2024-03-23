@@ -2,29 +2,30 @@ package Elkhadema.khadema.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.concurrent.CountDownLatch;
 import java.util.stream.Collectors;
 
 import Elkhadema.khadema.DAO.DAOImplemantation.UserDAO;
 import Elkhadema.khadema.Service.ServiceImplemantation.FollowServiceImp;
 import Elkhadema.khadema.Service.ServiceImplemantation.MessageServiceIMP;
-import Elkhadema.khadema.Service.ServiceImplemantation.NotificationServiceImp;
 import Elkhadema.khadema.Service.ServiceImplemantation.UserServiceImp;
 import Elkhadema.khadema.Service.ServiceInterfaces.FollowService;
 import Elkhadema.khadema.Service.ServiceInterfaces.MessageService;
-import Elkhadema.khadema.Service.ServiceInterfaces.NotificationService;
 import Elkhadema.khadema.Service.ServiceInterfaces.UserService;
 import Elkhadema.khadema.domain.Message;
-import Elkhadema.khadema.domain.Notification;
 import Elkhadema.khadema.domain.User;
 import Elkhadema.khadema.util.Session;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -38,7 +39,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -49,6 +50,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 /**
  * ChatRoomController
@@ -58,7 +60,7 @@ public class ChatRoomController implements Initializable {
     private Scene scene;
     private Parent root;
     private User currentMessageReciver;
-    private Date lastCheckDate = new Date();
+    private long lastMessageId = 0;
     private MessageService messageService = new MessageServiceIMP();
     private FollowService followService = new FollowServiceImp();
     private UserDAO userDAO = new UserDAO();
@@ -74,6 +76,8 @@ public class ChatRoomController implements Initializable {
     Button sendBtn;
     @FXML
     VBox messageVBox;
+    @FXML
+    ScrollPane messagePane;
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
@@ -92,49 +96,29 @@ public class ChatRoomController implements Initializable {
         } catch (Exception e) {
             currentMessageReciver = null;
         }
-        Service<Void> service = new Service<Void>() {
-            @Override
-            protected Task<Void> createTask() {
-                return new Task<Void>() {
-                    @Override
-                    protected Void call() throws Exception {
-                        List<Message> messages = messageService.chat(Session.getUser(), currentMessageReciver);
-                        Platform.runLater(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (!messages.isEmpty()) {
-                                    List<Message> toShowMessages = messages.stream()
-                                            .filter(message -> message.getCreationDate().after(lastCheckDate)
-                                                    || message.getCreationDate().equals(lastCheckDate))
-                                            .collect(Collectors.toList());
-                                    for (Message message2 : toShowMessages) {
-                                        afficheMessage(message2);
-                                    }
-                                }
-                            }
-                        });
-                        return null;
-                    }
-                };
-            }
-        };
-        service.start();
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+            List<Message> messages = messageService.chat(Session.getUser(), currentMessageReciver);
+            messages.stream().dropWhile(message -> message.getId() != lastMessageId)
+                    .skip(1)
+                    .forEach(message -> afficheMessage(message));
+        }));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
     }
 
     private void loadMessages(User user) {
         List<Message> messages = messageService.chat(Session.getUser(), user);
-        for (Message message : messages) {
-            afficheMessage(message);
-        }
         if (messages.isEmpty()) {
             return;
         }
-        Optional<Message> message = messages.isEmpty() ? Optional.empty()
-                : Optional.of(messages.get(messages.size() - 1));
-        lastCheckDate = message.get().getCreationDate();
+        for (Message message : messages) {
+            afficheMessage(message);
+        }
+        Platform.runLater(() -> messagePane.setVvalue(1.0));
     }
 
     private void afficheMessage(Message message) {
+        boolean tmp = messagePane.getVvalue() == 1.0;
         ImageView imageView = new ImageView(new Image("file:src//main//resources//images//user.png"));
         imageView.setFitHeight(46);
         imageView.setFitWidth(46);
@@ -164,15 +148,19 @@ public class ChatRoomController implements Initializable {
                         "-fx-padding: 10px;" +
                         "-fx-background-color: #f5f6f7;" +
                         "-fx-border-width: 1px;" +
-                        "-fx-text-fill: black;"
-                        +"-fx-control-inner-background: transparent;"+
-                        "-fx-background : transparent;");
+                        "-fx-text-fill: black;" +
+                        "-fx-background : transparent;" +
+                        "-fx-background-radius: 10px;");
         VBox vBox = new VBox(hBox, contentText);
         messageVBox.getChildren().add(vBox);
         if (message.getSender() != Session.getUser()) {
             messageService.MessageRead(message, Session.getUser());
         }
-
+        lastMessageId = message.getId();
+        Platform.runLater(() -> {
+            if (tmp)
+                messagePane.setVvalue(1.0);
+        });
     }
 
     private void initContacts() {

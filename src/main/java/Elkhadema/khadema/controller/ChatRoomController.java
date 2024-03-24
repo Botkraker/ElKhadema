@@ -2,8 +2,14 @@ package Elkhadema.khadema.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
@@ -17,7 +23,11 @@ import Elkhadema.khadema.Service.ServiceInterfaces.UserService;
 import Elkhadema.khadema.domain.Message;
 import Elkhadema.khadema.domain.User;
 import Elkhadema.khadema.util.Session;
-import javafx.collections.ObservableList;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,7 +39,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -40,6 +50,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 /**
  * ChatRoomController
@@ -49,7 +60,7 @@ public class ChatRoomController implements Initializable {
     private Scene scene;
     private Parent root;
     private User currentMessageReciver;
-
+    private long lastMessageId = 0;
     private MessageService messageService = new MessageServiceIMP();
     private FollowService followService = new FollowServiceImp();
     private UserDAO userDAO = new UserDAO();
@@ -66,8 +77,27 @@ public class ChatRoomController implements Initializable {
     @FXML
     VBox messageVBox;
 
+    @FXML
+    ScrollPane messagePane;
+
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
+        initContacts();
+        try {
+            currentMessageReciver = contacts.get(0);
+            messageVBox.getChildren().clear();
+            loadMessages(currentMessageReciver);
+        } catch (Exception e) {
+            currentMessageReciver = null;
+        }
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+            List<Message> messages = messageService.chat(Session.getUser(), currentMessageReciver);
+            messages.stream().dropWhile(message -> message.getId() != lastMessageId)
+            .skip(1)
+            .forEach(message -> afficheMessage(message));
+        }));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
         messageText.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null && !newValue.trim().isEmpty()) {
                 sendBtn.setDisable(false);
@@ -75,29 +105,22 @@ public class ChatRoomController implements Initializable {
                 sendBtn.setDisable(true);
             }
         });
-        initContacts();
-        try {
-            currentMessageReciver = contacts.get(0);
-            ObservableList<Node> children = vContacts.getChildren();
-            Node node = children.get(1);
-            node = ((ButtonBar) node).getChildrenUnmodifiable().get(0);
-            node.setStyle("-fx-background-color:black;");
-            messageVBox.getChildren().clear();
-            loadMessages(currentMessageReciver);
-        } catch (Exception e) {
-            currentMessageReciver = null;
-        }
+        sendBtn.setDisable(true);
     }
 
     private void loadMessages(User user) {
         List<Message> messages = messageService.chat(Session.getUser(), user);
+        if (messages.isEmpty()) {
+            return;
+        }
         for (Message message : messages) {
             afficheMessage(message);
         }
-
+        Platform.runLater(() -> messagePane.setVvalue(1.0));
     }
 
     private void afficheMessage(Message message) {
+        boolean tmp = messagePane.getVvalue() == 1.0;
         ImageView imageView = new ImageView(new Image("file:src//main//resources//images//user.png"));
         imageView.setFitHeight(46);
         imageView.setFitWidth(46);
@@ -106,28 +129,40 @@ public class ChatRoomController implements Initializable {
             Text text = new Text(Session.getUser().getUserName());
             text.setFill(Color.WHITE);
             text.setFont(new Font("SansSerif", 15));
-            text.setTranslateX(10);
+            text.setTranslateX(-Session.getUser().getUserName().length() + 3);
             hBox = new HBox(text, imageView);
             hBox.setAlignment(Pos.CENTER_RIGHT);
         } else {
             Text text = new Text(currentMessageReciver.getUserName());
             text.setFill(Color.WHITE);
-            text.setTranslateX(-10);
+            text.setTranslateX(currentMessageReciver.getUserName().length() - 3);
             text.setFont(new Font("SansSerif", 15));
             hBox = new HBox(imageView, text);
             hBox.setAlignment(Pos.CENTER_LEFT);
         }
         TextArea contentText = new TextArea(message.getContent());
-        contentText.getStyleClass().add("postTxtField");
         contentText.setDisable(true);
         contentText.setWrapText(true);
         contentText.setOpacity(1);
-        contentText.setMinHeight(150);
-        contentText.setFont(Font.font(13));
-        contentText.getStyleClass().add("postTxtField");
+        contentText.setStyle(
+                "-fx-font-family: 'Helvetica';" +
+                        "-fx-font-size: 14px;" +
+                        "-fx-padding: 10px;" +
+                        "-fx-background-color: #f5f6f7;" +
+                        "-fx-border-width: 1px;" +
+                        "-fx-text-fill: black;" +
+                        "-fx-background : transparent;" +
+                        "-fx-background-radius: 10px;");
         VBox vBox = new VBox(hBox, contentText);
         messageVBox.getChildren().add(vBox);
-
+        if (message.getSender() != Session.getUser()) {
+            messageService.MessageRead(message, Session.getUser());
+        }
+        lastMessageId = message.getId();
+        Platform.runLater(() -> {
+            if (tmp)
+                messagePane.setVvalue(1.0);
+        });
     }
 
     private void initContacts() {
@@ -180,6 +215,16 @@ public class ChatRoomController implements Initializable {
         userService.logOut(Session.getUser());
     }
 
+    @FXML
+    public void postMsg() {
+        Message message = new Message(0, Session.getUser(), messageText.getText(), null, parentMessageId);
+        messageService.sendMessage(currentMessageReciver, message);
+        afficheMessage(message);
+        messageText.setText("");
+        messageText.requestFocus();
+
+    }
+
     public void returnHome(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/mainpage.fxml"));
         root = loader.load();
@@ -187,14 +232,5 @@ public class ChatRoomController implements Initializable {
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-    }
-
-    @FXML
-    public void postMsg() {
-        Message message = new Message(0, Session.getUser(), messageText.getText(), null, parentMessageId);
-        messageService.sendMessage(currentMessageReciver, message);
-        afficheMessage(message);
-        messageText.setText("");
-
     }
 }

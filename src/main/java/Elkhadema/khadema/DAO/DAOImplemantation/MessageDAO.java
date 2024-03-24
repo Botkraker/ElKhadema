@@ -32,7 +32,7 @@ public class MessageDAO {
 			if (t.getParentMessageId() != 0) {
 				pstmt.setInt(4, t.getParentMessageId());
 			} else
-				pstmt.setInt(4, java.sql.Types.INTEGER);
+				pstmt.setNull(4, java.sql.Types.INTEGER);
 
 			pstmt.executeUpdate();
 			ResultSet rs = pstmt.getGeneratedKeys();
@@ -72,7 +72,7 @@ public class MessageDAO {
 
 	public void updateReciverMessage(MessageReceiver mr, MessageReceiver newmr) {
 		try {
-			String sql = "UPDATE `khademadb`.`message_receiver` SET  `is_read` = ?, `user_id` = ?,`message_id`=?  WHERE `messages`.`message_id` = "
+			String sql = "UPDATE `khademadb`.`message_receiver` SET  `is_read` = ?, `user_id` = ?,`message_id`=?  WHERE `message_id` = "
 					+ mr.getMessage().getId() + ";";
 
 			PreparedStatement p = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -144,8 +144,10 @@ public class MessageDAO {
 		try {
 			ResultSet rs = connection.createStatement().executeQuery(sql);
 			while (rs.next()) {
-				messages.add(new Message(rs.getLong("message_id"), new User(rs.getInt("sender_id"), "", ""),
-						rs.getString("content"), rs.getDate("creation_date"), rs.getInt("parent_message_id")));
+				Message message=new Message(rs.getLong("message_id"), new User(rs.getInt("sender_id"), "", ""),
+						rs.getString("content"), rs.getDate("creation_date"), rs.getInt("parent_message_id"));
+						message.setRead(rs.getInt("is_read"));
+				messages.add(message);
 			}
 
 		} catch (Exception e) {

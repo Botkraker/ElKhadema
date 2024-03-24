@@ -130,7 +130,7 @@
             </VBox>
          </left>
          <center>
-            <VBox onMouseClicked="#postMsg" prefHeight="655.0" prefWidth="556.0" BorderPane.alignment="CENTER">
+            <VBox  prefHeight="655.0" prefWidth="556.0" BorderPane.alignment="CENTER">
                <children>
                   <ScrollPane fx:id="messagePane" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" prefHeight="655.0" prefWidth="556.0" styleClass="scrollerbar" VBox.vgrow="ALWAYS">
                      <content>

@@ -69,6 +69,16 @@ public class MainPageController implements Initializable {
     private HBox vidcontainer;
     List<Media> attachedMedias=new ArrayList<Media>();
     @FXML
+        public void goChat(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/chatroom.fxml"));
+        ChatRoomController chatRoomController=loader.getController();
+        root = loader.load();
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+    @FXML
     public void goHome() {
 
     }

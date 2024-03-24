@@ -10,6 +10,8 @@ import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
+
+import Elkhadema.khadema.App;
 import Elkhadema.khadema.DAO.DAOImplemantation.UserDAO;
 import Elkhadema.khadema.Service.ServiceImplemantation.FollowServiceImp;
 import Elkhadema.khadema.Service.ServiceImplemantation.UserServiceImp;
@@ -22,11 +24,15 @@ import Elkhadema.khadema.domain.Reaction;
 import Elkhadema.khadema.domain.User;
 import Elkhadema.khadema.util.MediaChooser;
 import Elkhadema.khadema.util.Session;
+import javafx.beans.binding.DoubleExpression;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -34,10 +40,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
@@ -113,7 +121,10 @@ public class MainPageController implements Initializable {
             System.out.println("post made");
             attachedMedias=new ArrayList<Media>();
             resetfeed();
-            HboxforAttachments.getChildren().clear();
+            try {
+                HboxforAttachments.getChildren().clear();
+			} catch (Exception e) {
+				System.out.println(e);			}
             postcontent.setText("");
         }
     }
@@ -142,9 +153,10 @@ public class MainPageController implements Initializable {
 		profilename.setFill(Color.WHITE);
 		HBox profilebar=new HBox(profileimg,profilename);
 		profilebar.setSpacing(5);
-		TextArea postscontent =new TextArea(post.getContent());
+		Text postscontent =new Text(post.getContent());
 		postscontent.setDisable(true);
-		postscontent.setWrapText(true);
+		postscontent.setWrappingWidth(500);
+	    postscontent.setFill(Color.WHITE);
 		postscontent.setOpacity(1);
 		postscontent.setFont(Font.font(13));
 		postscontent.getStyleClass().add("postTxtField");
@@ -179,6 +191,11 @@ public class MainPageController implements Initializable {
 		commentbutton.getStyleClass().add("likebutton");
 		commentbutton.setFont(Font.font(19));
 		commentbutton.setTextFill(Color.WHITE);
+		commentbutton.setOnAction(event -> {try {
+			commentToPost(post);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}});
 		HBox likeandcommentBox= new HBox(likenumber,likebutton,commentnumber,commentbutton);
 		likeandcommentBox.setAlignment(Pos.CENTER_LEFT);
 		likeandcommentBox.setStyle("-fx-padding: 0 0 0 10px;");
@@ -190,12 +207,41 @@ public class MainPageController implements Initializable {
 		VBox posts= new VBox(profilebar,postscontent,iMGHOLDER,likeandcommentBox);
 		VBox lastlayerBox = new VBox(posts);
 		lastlayerBox.setFillWidth(true);
+		VBox.setMargin(postscontent, new Insets(5,0,5,10));
 		VBox.setMargin(posts,new Insets(2.5f,0,2.5f,0));
 		posts.getStyleClass().add("posts");
+		
 		posts.setFillWidth(true);
 		profilebar.setAlignment(Pos.CENTER_LEFT);
 		postholder.getChildren().add(lastlayerBox);
+	
+        postscontent.wrappingWidthProperty().bind(postholder.widthProperty());
 
+	}
+    private int getlines(Post post,VBox t) {
+    	String content=post.getContent();
+    	int lines=0;
+    	int linecount=0;
+    	double width=t.getScene().getWindow().getWidth();
+    	for (int i = 0; i < content.length()-1; i++) {
+			if((""+content.charAt(i)+content.charAt(i+1)).equals("\n")) {
+				lines++;
+				linecount=0;
+			}else if (linecount>(width)) {
+				lines++;
+				linecount=0;
+			}else {
+				linecount++;
+			}
+			
+		}
+		return lines;
+	}
+
+
+    public void commentToPost(Post post) throws IOException {
+    	CommentsPageController.setCommentedpost(post);
+		App.setRoot("comment");
 	}
     public List<HBox> displayimages(Post post) {
     	List<Image> imgs=post.getPostMedias().stream().map(Elkhadema.khadema.domain.Media::getImage).filter(t -> t!=null).collect(Collectors.toList());

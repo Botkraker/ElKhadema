@@ -75,15 +75,18 @@ public class PostDAO {
 	public List<Post> getAllPostsUnderParent(long idparent) {
 		String sql = "SELECT * FROM `user` , `posts` WHERE posts.user_id = user.user_id And posts.post_parent=" + idparent;
 		List<Post> post = new ArrayList<>();
+		Post temPost;
 		try {
 			ResultSet rs = connection.createStatement().executeQuery(sql);
 			while (rs.next()) {
-				post.add(new Post(
-						new User(rs.getInt("user_id"), null, null, rs.getString("firstname"), rs.getDate("last_login"),
-								rs.getDate("creationdate"), rs.getString("lastname"), rs.getBoolean("banned"),
+				temPost=new Post(
+						new User(rs.getInt("user_id"), null, null, rs.getString("username"), rs.getDate("creationdate"),
+								rs.getDate("last_login"), rs.getString("photo"), rs.getBoolean("banned"),
 								rs.getBoolean("is_active")),
-						rs.getString("content"), null, rs.getInt("post_parent"), rs.getString("type"), rs.getDate("creationdate"),
-						rs.getLong("post_id")));
+						rs.getString("content"), null, rs.getInt("post_parent"), rs.getString("type"), rs.getTimestamp("posts.creationdate"),
+						rs.getLong("post_id"));
+				temPost.setPostMedias(getallmediafrompost(temPost));
+				post.add(temPost);
 			}
 
 		} catch (Exception e) {
@@ -106,14 +109,16 @@ public class PostDAO {
 			System.out.println(new Timestamp(t.getCreationDate().getTime()));
 			pstmt.setTimestamp(3, new Timestamp(t.getCreationDate().getTime()));
 			pstmt.setString(4, t.getContent());
+			System.out.println(t.getParentPostId());
 			pstmt.setLong(5, t.getParentPostId());
 			pstmt.executeUpdate();
 			rs=pstmt.getGeneratedKeys();
 			if (rs.next()) {
 				t.setId(rs.getInt(1));
 			}
-			savemediatopost(t);
-			
+			if (t.getPostMedias()!=null) {
+				savemediatopost(t);
+			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
@@ -203,11 +208,11 @@ public class PostDAO {
 			ResultSet rs = connection.createStatement().executeQuery(sql);
 			while (rs.next()) {
 				post =new Post(
-						new User(rs.getInt("user_id"), null, null, rs.getString("firstname"), rs.getDate("last_login"),
-								rs.getDate("creationdate"), rs.getString("lastname"), rs.getBoolean("banned"),
+						new User(rs.getInt("user_id"), null, null, rs.getString("username"), rs.getDate("creationdate"),
+								rs.getDate("last_login"), rs.getString("photo"), rs.getBoolean("banned"),
 								rs.getBoolean("is_active")),
-						rs.getString("content"), null, rs.getInt("post_parent"), rs.getString("type"), rs.getDate("creationdate"),
-						rs.getLong("post_id"));
+						rs.getString("content"), null, rs.getInt("post_parent"), rs.getString("type"), rs.getTimestamp("posts.creationdate"),
+						rs.getLong("post_id"));;
 				post.setPostMedias(getallmediafrompost(post));
 			}
 

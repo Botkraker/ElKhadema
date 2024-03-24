@@ -3,6 +3,7 @@ package Elkhadema.khadema.domain;
 import java.util.Date;
 import java.util.List;
 
+
 public class Post {
 	private long id;
     private User user;
@@ -86,6 +87,9 @@ public class Post {
 	}
 
     public long getCountReactions() {
+    	if(this.reactions==null) {
+    		return 0;
+    	}
         return this.reactions.stream().count();
     }
 

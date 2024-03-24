@@ -24,6 +24,7 @@ import Elkhadema.khadema.domain.Reaction;
 import Elkhadema.khadema.domain.User;
 import Elkhadema.khadema.util.MediaChooser;
 import Elkhadema.khadema.util.Session;
+import javafx.application.Platform;
 import javafx.beans.binding.DoubleExpression;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -41,6 +42,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -57,12 +59,23 @@ import javafx.stage.Stage;
 import javafx.scene.control.TextArea;
 
 public class MainPageController implements Initializable {
+	
+    @Override
+    public void initialize(URL arg0, ResourceBundle arg1) {
+        initContacts();
+        Platform.runLater(() -> {
+            resetfeed();
+        });
+    }
     private Stage stage;
     private Scene scene;
     private Parent root;
     FollowService followService = new FollowServiceImp();
     UserService userService = new UserServiceImp();
     UserDAO userDAO = new UserDAO();
+    @FXML
+    private ScrollPane CC;
+
     @FXML
     ButtonBar listContact;
     @FXML
@@ -135,13 +148,10 @@ public class MainPageController implements Initializable {
     }
     public void resetfeed() {
     	postholder.getChildren().clear();
-        ps.feed().forEach(t -> showpost(t));;
+        ps.feed().forEach(t -> showpost(t));
+
 	}
-    @Override
-    public void initialize(URL arg0, ResourceBundle arg1) {
-        initContacts();
-        resetfeed();
-    }
+
     public void showpost(Post post) {
 
 		ImageView profileimg=new ImageView(new Image("file:src//main//resources//images//user.png"));
@@ -155,7 +165,6 @@ public class MainPageController implements Initializable {
 		profilebar.setSpacing(5);
 		Text postscontent =new Text(post.getContent());
 		postscontent.setDisable(true);
-		postscontent.setWrappingWidth(500);
 	    postscontent.setFill(Color.WHITE);
 		postscontent.setOpacity(1);
 		postscontent.setFont(Font.font(13));
@@ -210,34 +219,20 @@ public class MainPageController implements Initializable {
 		VBox.setMargin(postscontent, new Insets(5,0,5,10));
 		VBox.setMargin(posts,new Insets(2.5f,0,2.5f,0));
 		posts.getStyleClass().add("posts");
-		
+		System.out.println(posts.getWidth());
+		System.out.println(postholder.getWidth());
+        postscontent.setWrappingWidth(postholder.getWidth());
+		CC.widthProperty().addListener((observable, oldValue, newValue) -> {
+           // Update the wrapping width of the Text node
+			System.out.println(CC.getWidth());
+            postscontent.setWrappingWidth(CC.getWidth());
+        });		
 		posts.setFillWidth(true);
 		profilebar.setAlignment(Pos.CENTER_LEFT);
 		postholder.getChildren().add(lastlayerBox);
 	
-        postscontent.wrappingWidthProperty().bind(postholder.widthProperty());
-
 	}
-    private int getlines(Post post,VBox t) {
-    	String content=post.getContent();
-    	int lines=0;
-    	int linecount=0;
-    	double width=t.getScene().getWindow().getWidth();
-    	for (int i = 0; i < content.length()-1; i++) {
-			if((""+content.charAt(i)+content.charAt(i+1)).equals("\n")) {
-				lines++;
-				linecount=0;
-			}else if (linecount>(width)) {
-				lines++;
-				linecount=0;
-			}else {
-				linecount++;
-			}
-			
-		}
-		return lines;
-	}
-
+ 
 
     public void commentToPost(Post post) throws IOException {
     	CommentsPageController.setCommentedpost(post);
@@ -252,7 +247,7 @@ public class MainPageController implements Initializable {
     	for (int i = 0; i < displayforthree; i++) {
     		for (int j = i; j < i+3; j++) {
     			tempimg=new ImageView(imgs.get(j));
-    			tempimg.setFitWidth(150);
+    			tempimg.setFitWidth(CC.getWidth()/3-50);
     	        tempimg.setPreserveRatio(true);
     			imgViews.add(tempimg);
     			HBox.setHgrow(tempimg, javafx.scene.layout.Priority.ALWAYS);
@@ -262,7 +257,7 @@ public class MainPageController implements Initializable {
     	imgViews=new ArrayList<ImageView>();
     	for (int i=displayforthree*3;i<imgs.size();i++) {
     		tempimg=new ImageView(imgs.get(i));
-			tempimg.setFitWidth(450/(imgs.size()-displayforthree*3));
+			tempimg.setFitWidth((CC.getWidth()-50)/(imgs.size()-displayforthree*3));
 	        tempimg.setPreserveRatio(true);
 
 			imgViews.add(tempimg);

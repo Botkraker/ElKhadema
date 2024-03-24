@@ -134,7 +134,7 @@
          <center>
             <VBox onMouseClicked="#postMsg" prefHeight="655.0" prefWidth="556.0" BorderPane.alignment="CENTER">
                <children>
-                  <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" prefHeight="655.0" prefWidth="556.0" VBox.vgrow="ALWAYS">
+                  <ScrollPane fx:id="CC" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" prefHeight="655.0" prefWidth="556.0" VBox.vgrow="ALWAYS">
                      <content>
                         <VBox prefHeight="656.0" prefWidth="593.0" styleClass="feedcolor">
                            <children>
@@ -177,6 +177,16 @@
                                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                              </HBox.margin>
                                           </Button>
+                                       </children>
+                                    </HBox>
+                                    <HBox>
+                                       <children>
+                                          <Button fx:id="buttontoaddattach" mnemonicParsing="false" onAction="#AddMediabutton" styleClass="likebutton" text="📷" textFill="WHITE">
+                                             <font>
+                                                <Font size="19.0" />
+                                             </font>
+                                          </Button>
+                                          <HBox fx:id="HboxforAttachments" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
                                        </children>
                                     </HBox>
                                  </children>

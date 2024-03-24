@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+
 import Elkhadema.khadema.DAO.DAOImplemantation.FollowDAO;
 import Elkhadema.khadema.DAO.DAOImplemantation.PostDAO;
 import Elkhadema.khadema.DAO.DAOImplemantation.ReactionDAO;
@@ -26,6 +27,9 @@ public class PostServiceImp implements PostService {
     public List<Post> getPostsByUser(User user) {
         return postDAO.getPostsById(user.getId());
     }
+    public Post getPostById(Post post) {
+		return postDAO.get(post.getId()).get();
+	}
     @Override
     public List<Post> feed() {
         List<Follow> followings = followDAO.getfollowingByid(Session.getUser().getId());
@@ -39,9 +43,11 @@ public class PostServiceImp implements PostService {
     @Override
     public List<Post> getPostComments(Post post) {
         List<Post> posts = postDAO.getAllPostsUnderParent(post.getId());
+        posts.forEach(t -> t.setReactions(reactionDAO.getAll(t)));
         posts = posts.stream()
-                .sorted(Comparator.comparingLong(Post::getCountReactions))
+                .sorted(Comparator.comparingLong(Post::getCountReactions).reversed())
                 .collect(Collectors.toList());
+        posts.forEach(t -> System.out.println(t.getCountReactions()));
         return posts;
     }
 

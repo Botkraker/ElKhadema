@@ -19,7 +19,9 @@ import Elkhadema.khadema.domain.Media;
 import Elkhadema.khadema.domain.Post;
 import Elkhadema.khadema.domain.Reaction;
 import Elkhadema.khadema.domain.User;
+import Elkhadema.khadema.util.MediaChooser;
 import Elkhadema.khadema.util.Session;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -31,6 +33,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -54,6 +57,13 @@ public class CommentsPageController implements Initializable {
     User session = Session.getUser();
     PostServiceImp ps = new PostServiceImp();
     @FXML
+    private ScrollPane CC;
+    List<Media> attachedMedias=new ArrayList<Media>();
+    @FXML
+    private HBox HboxforAttachments;
+    @FXML
+    private Button buttontoaddattach;
+    @FXML
     private VBox commentedPostcontainer;
     @FXML
     private TextArea postcontent;
@@ -61,7 +71,8 @@ public class CommentsPageController implements Initializable {
     private Text replyindexing;
     @FXML
     VBox vContacts;
-
+    @FXML
+    private HBox vidcontainer;
     @FXML
     private VBox comment_holder;
 
@@ -101,16 +112,49 @@ public class CommentsPageController implements Initializable {
 
     }
     @FXML
+    void AddMediabutton(ActionEvent event) {
+ 	   Media m=MediaChooser.Choose(event);
+ 	   if (m.getMediatype().equals("img")) {
+ 		   attachedMedias.add(m);
+ 		   ImageView img=new ImageView(m.getImage());
+ 		   HboxforAttachments.getChildren().add(img);
+ 		   HboxforAttachments.getChildren().forEach(t -> ((ImageView)t).setFitWidth(HboxforAttachments.getWidth()/(double)attachedMedias.size()/3));
+ 		   img.setPreserveRatio(true);
+ 	}
+ 	   else {
+ 		   try {
+ 				MediaPlayer mediaPlayer=m.getVideo();
+ 				MediaView mediaView=new MediaView(mediaPlayer);
+ 				attachedMedias.add(m);
+ 				vidcontainer.getChildren().add(mediaView);
+ 				mediaView.setFitWidth(vidcontainer.getWidth()/2);
+ 				mediaView.setPreserveRatio(true);
+
+ 			} catch (Exception e) {
+ 				System.out.println(e);
+ 			}
+ 	}
+    }
+    public String getlink() {
+    	String link=commentedpost.getUser().getUserName();
+    	Post post=commentedpost;
+    	while (post.getParentPostId()!=0) {
+			post=ps.getPostById(new Post(post.getParentPostId()));
+			link=post.getUser().getUserName()+"/"+link;
+		}
+    	return link;
+	}
+    @FXML
     void postCommentButton(ActionEvent event) {
     	String content = postcontent.getText();
         if (content.length() > 0) {
             Post post = new Post(session, content, null, commentedpost.getId(), "text", null, 0);
-            //post.setPostMedias(attachedMedias);
+            post.setPostMedias(attachedMedias);
             ps.makePost(post);
             System.out.println("post made");
-            //attachedMedias=new ArrayList<Media>();
+            attachedMedias=new ArrayList<Media>();
             resetComment();
-            //HboxforAttachments.getChildren().clear();
+            HboxforAttachments.getChildren().clear();
             postcontent.setText("");
         }
     }
@@ -119,7 +163,7 @@ public class CommentsPageController implements Initializable {
         ps.getPostComments(commentedpost).forEach(t -> showpost(t));;
 	}
     public void showpost(Post post) {
-		ImageView profileimg=new ImageView(new Image("file:src//main//resources//images//user.png"));
+    	ImageView profileimg=new ImageView(new Image("file:src//main//resources//images//user.png"));
 		profileimg.setFitHeight(46);
 		profileimg.setFitWidth(46);
 		Text profilename=new Text(post.getUser().getUserName());
@@ -128,21 +172,21 @@ public class CommentsPageController implements Initializable {
 		profilename.setFill(Color.WHITE);
 		HBox profilebar=new HBox(profileimg,profilename);
 		profilebar.setSpacing(5);
-		TextArea postscontent =new TextArea(post.getContent());
+		Text postscontent =new Text(post.getContent());
 		postscontent.setDisable(true);
-		postscontent.setWrapText(true);
-		postscontent.setPrefRowCount(1);
-		postcontent.textProperty().addListener((observable, oldValue, newValue) -> {
-	            postscontent.setPrefRowCount(Math.max(postcontent.getParagraphs().size(), 1));
-	        });
+	    postscontent.setFill(Color.WHITE);
 		postscontent.setOpacity(1);
 		postscontent.setFont(Font.font(13));
 		postscontent.getStyleClass().add("postTxtField");
 		postscontent.setStyle("-fx-border-width: 0;");
-		List<HBox> displayedimges =new ArrayList<HBox>();
-		if (post.getPostMedias()!=null) {
-		displayedimges =displayimages(post);
-		displayedimges.forEach(t->{t.setSpacing(5);t.setAlignment(Pos.TOP_CENTER);});}
+		List<HBox> displayedimges= new ArrayList<HBox>();
+		try {
+			displayedimges =displayimages(post);
+			displayedimges.forEach(t->{t.setSpacing(5);
+			t.setAlignment(Pos.TOP_CENTER);});
+		} catch (Exception e2) {
+			System.out.println(e2);
+		}
 		VBox iMGHOLDER=new VBox(displayedimges.toArray(new HBox[0]));
 		iMGHOLDER.getStyleClass().add("postTxtField");
 		iMGHOLDER.setAlignment(Pos.CENTER);
@@ -187,8 +231,16 @@ public class CommentsPageController implements Initializable {
 		VBox posts= new VBox(profilebar,postscontent,iMGHOLDER,likeandcommentBox);
 		VBox lastlayerBox = new VBox(posts);
 		lastlayerBox.setFillWidth(true);
+		VBox.setMargin(postscontent, new Insets(5,0,5,10));
 		VBox.setMargin(posts,new Insets(2.5f,0,2.5f,0));
 		posts.getStyleClass().add("posts");
+		System.out.println(posts.getWidth());
+        postscontent.setWrappingWidth(commentedPostcontainer.getWidth());
+		CC.widthProperty().addListener((observable, oldValue, newValue) -> {
+           // Update the wrapping width of the Text node
+			System.out.println(CC.getWidth());
+            postscontent.setWrappingWidth(CC.getWidth());
+        });		
 		posts.setFillWidth(true);
 		profilebar.setAlignment(Pos.CENTER_LEFT);
 		comment_holder.getChildren().add(lastlayerBox);
@@ -243,7 +295,10 @@ public class CommentsPageController implements Initializable {
     public void initialize(URL arg0, ResourceBundle arg1) {
     	setupparentpost();
         initContacts();
-        resetComment();
+        replyindexing.setText("Replying To "+getlink());
+        Platform.runLater(() -> {
+        	resetComment();
+        });
     }
     private void setupparentpost() {
     	ImageView profileimg=new ImageView(new Image("file:src//main//resources//images//user.png"));
@@ -255,19 +310,21 @@ public class CommentsPageController implements Initializable {
 		profilename.setFill(Color.WHITE);
 		HBox profilebar=new HBox(profileimg,profilename);
 		profilebar.setSpacing(5);
-		TextArea postscontent =new TextArea(commentedpost.getContent());
+		Text postscontent =new Text(commentedpost.getContent());
 		postscontent.setDisable(true);
-		postscontent.setWrapText(true);
-		postscontent.setPrefRowCount(1);
-		postcontent.textProperty().addListener((observable, oldValue, newValue) -> {
-	            postscontent.setPrefRowCount(Math.max(postcontent.getParagraphs().size(), 1));
-	        });
+	    postscontent.setFill(Color.WHITE);
 		postscontent.setOpacity(1);
 		postscontent.setFont(Font.font(13));
 		postscontent.getStyleClass().add("postTxtField");
 		postscontent.setStyle("-fx-border-width: 0;");
-		List<HBox> displayedimges =displayimages(commentedpost);
-		displayedimges.forEach(t->{t.setSpacing(5);t.setAlignment(Pos.TOP_CENTER);});
+		List<HBox> displayedimges= new ArrayList<HBox>();
+		try {
+			displayedimges =displayimages(commentedpost);
+			displayedimges.forEach(t->{t.setSpacing(5);
+			t.setAlignment(Pos.TOP_CENTER);});
+		} catch (Exception e2) {
+			// TODO: handle exception
+		}
 		VBox iMGHOLDER=new VBox(displayedimges.toArray(new HBox[0]));
 		iMGHOLDER.getStyleClass().add("postTxtField");
 		iMGHOLDER.setAlignment(Pos.CENTER);
@@ -289,21 +346,29 @@ public class CommentsPageController implements Initializable {
 		likebutton.getStyleClass().add("likebutton");
 		likebutton.setFont(Font.font(19));
 		likebutton.setTextFill(Color.WHITE);
-		HBox like= new HBox(likenumber,likebutton);
-		like.setAlignment(Pos.CENTER_LEFT);
-		like.setStyle("-fx-padding: 0 0 0 10px;");
+		HBox likeandcommentBox= new HBox(likenumber,likebutton);
+		likeandcommentBox.setAlignment(Pos.CENTER_LEFT);
+		likeandcommentBox.setStyle("-fx-padding: 0 0 0 10px;");
 		HBox.setMargin(likebutton, new Insets(0,11,0,11));
 		HBox.setMargin(profileimg,new Insets(0,5,0,8));
-	
-		like.setTranslateX(5);
-		VBox posts= new VBox(profilebar,postscontent,iMGHOLDER,like);
+		likeandcommentBox.setTranslateX(5);
+		VBox posts= new VBox(profilebar,postscontent,iMGHOLDER,likeandcommentBox);
 		VBox lastlayerBox = new VBox(posts);
 		lastlayerBox.setFillWidth(true);
+		VBox.setMargin(postscontent, new Insets(5,0,5,10));
 		VBox.setMargin(posts,new Insets(2.5f,0,2.5f,0));
 		posts.getStyleClass().add("posts");
+		System.out.println(posts.getWidth());
+        postscontent.setWrappingWidth(commentedPostcontainer.getWidth());
+		CC.widthProperty().addListener((observable, oldValue, newValue) -> {
+           // Update the wrapping width of the Text node
+			System.out.println(CC.getWidth());
+            postscontent.setWrappingWidth(CC.getWidth());
+        });		
 		posts.setFillWidth(true);
 		profilebar.setAlignment(Pos.CENTER_LEFT);
 		commentedPostcontainer.getChildren().add(lastlayerBox);
+
 
 	}
 

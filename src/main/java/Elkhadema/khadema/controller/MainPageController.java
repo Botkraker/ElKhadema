@@ -57,11 +57,28 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.control.TextArea;
+import javafx.scene.effect.BlurType;
+import javafx.scene.effect.DropShadow;
+
 
 public class MainPageController implements Initializable {
-	
+	public void customizescrollpane() {
+    	CC.getStyleClass().add("custom-scroll-pane");
+		DropShadow dropShadow = new DropShadow();
+        dropShadow.setColor(Color.rgb(0, 0, 0, 0.3)); 
+        dropShadow.setWidth(6);        
+        dropShadow.setHeight(6);         
+        dropShadow.setRadius(6);        
+        dropShadow.setOffsetX(0);        
+        dropShadow.setOffsetY(0);        
+        dropShadow.setSpread(0);         
+        dropShadow.setBlurType(BlurType.GAUSSIAN); 
+        CC.setEffect(dropShadow);
+	}
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
+    	postcontent.setWrapText(true);
+    	customizescrollpane();
         initContacts();
         Platform.runLater(() -> {
             resetfeed();
@@ -221,12 +238,16 @@ public class MainPageController implements Initializable {
 		posts.getStyleClass().add("posts");
 		System.out.println(posts.getWidth());
 		System.out.println(postholder.getWidth());
+		
         postscontent.setWrappingWidth(postholder.getWidth());
+        posts.setMinWidth(CC.getWidth()-50);
 		CC.widthProperty().addListener((observable, oldValue, newValue) -> {
            // Update the wrapping width of the Text node
 			System.out.println(CC.getWidth());
+			posts.setMinWidth(CC.getWidth()-50);
             postscontent.setWrappingWidth(CC.getWidth());
         });		
+		
 		posts.setFillWidth(true);
 		profilebar.setAlignment(Pos.CENTER_LEFT);
 		postholder.getChildren().add(lastlayerBox);
@@ -351,5 +372,6 @@ public class MainPageController implements Initializable {
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-    }
+    }  
+    
 }

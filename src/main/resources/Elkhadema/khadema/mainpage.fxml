@@ -175,9 +175,9 @@
                      <content>
                         <VBox prefHeight="656.0" prefWidth="593.0" styleClass="feedcolor">
                            <children>
-                              <VBox alignment="TOP_RIGHT" prefHeight="167.0" prefWidth="593.0">
+                              <VBox alignment="TOP_RIGHT" minHeight="150.0">
                                  <children>
-                                    <TextArea fx:id="postcontent" prefHeight="119.0" prefWidth="578.0" promptText="What is on your mind ?" styleClass="txtfield" wrapText="true">
+                                    <TextArea fx:id="postcontent" prefHeight="47.0" prefWidth="581.0" promptText="What is on your mind ?" styleClass="txtfield" wrapText="true" VBox.vgrow="ALWAYS">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -188,8 +188,8 @@
                                           <Insets left="5.0" right="5.0" top="5.0" />
                                        </VBox.margin>
                                     </TextArea>
-                                    <HBox fx:id="HboxforAttachments" prefHeight="100.0" prefWidth="200.0" />
-                                    <HBox fx:id="vidcontainer" prefHeight="100.0" prefWidth="200.0" />
+                                    <HBox fx:id="HboxforAttachments" />
+                                    <HBox fx:id="vidcontainer" />
                                     <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="591.0">
                                        <children>
                                           <HBox alignment="CENTER_LEFT" prefHeight="44.0" prefWidth="488.0" HBox.hgrow="ALWAYS">
@@ -214,7 +214,6 @@
                                           </Button>
                                        </children>
                                     </HBox>
-                                    <HBox prefHeight="100.0" prefWidth="200.0" />
                                  </children>
                               </VBox>
                               <VBox fx:id="postscontainer" prefHeight="496.0" prefWidth="593.0">
@@ -318,9 +317,9 @@
             </VBox>
          </center>
          <right>
-            <VBox prefHeight="655.0" prefWidth="347.0" style="-fx-effect: blur;" styleClass="navb" BorderPane.alignment="CENTER">
+            <VBox prefHeight="655.0" prefWidth="347.0" style="-fx-effect: blur;" styleClass="feedcolor" BorderPane.alignment="CENTER">
                <children>
-                  <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" styleClass="navb" VBox.vgrow="ALWAYS">
+                  <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" styleClass="feedcolor" VBox.vgrow="ALWAYS">
                      <content>
                         <VBox prefHeight="656.0" prefWidth="593.0" styleClass="feedcolor">
                            <children>

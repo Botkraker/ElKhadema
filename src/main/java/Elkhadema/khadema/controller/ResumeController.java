@@ -9,6 +9,8 @@ import java.util.List;
 import Elkhadema.khadema.DAO.DAOImplemantation.CompetanceDAO;
 import Elkhadema.khadema.DAO.DAOImplemantation.ExperienceDAO;
 import Elkhadema.khadema.DAO.DAOImplemantation.PersonDAO;
+import Elkhadema.khadema.Service.ServiceImplemantation.UserServiceImp;
+import Elkhadema.khadema.Service.ServiceInterfaces.UserService;
 import Elkhadema.khadema.domain.Competance;
 import Elkhadema.khadema.domain.Experience;
 import Elkhadema.khadema.domain.Media;
@@ -16,6 +18,7 @@ import Elkhadema.khadema.domain.Person;
 import Elkhadema.khadema.domain.User;
 import Elkhadema.khadema.util.MediaChooser;
 import Elkhadema.khadema.util.Session;
+import Elkhadema.khadema.util.Exception.UserNotFoundException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -32,6 +35,7 @@ import javafx.scene.text.Text;
 public class ResumeController {
     User session = Session.getUser();
     PersonDAO personDAO = new PersonDAO();
+    UserService userService=new UserServiceImp();
     ExperienceDAO experienceDAO=new ExperienceDAO();
     CompetanceDAO competanceDAO=new CompetanceDAO();
     User currentUser;
@@ -164,7 +168,7 @@ public class ResumeController {
         return dateText;
     }
     @FXML
-    void addImage(ActionEvent event){
+    void addImage(ActionEvent event) throws UserNotFoundException{
         Media m=MediaChooser.Choose(event);
         if (m.getImage()==null) {
             profileImg.setImage(new Image("user.jpg.png"));
@@ -174,6 +178,8 @@ public class ResumeController {
             return;
         }
         profileImg.setImage(m.getImage());
-        currentUser.setPhoto("user.jpg.png");
+        //TODO later pls make take a image instead of a string
+        displayUser.setPhoto("user.jpg.png");
+        userService.EditUser(displayUser, displayUser);
     }
 }

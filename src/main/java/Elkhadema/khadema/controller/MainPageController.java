@@ -376,7 +376,7 @@ public class MainPageController implements Initializable {
         }
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/mainpage.fxml"));
         ResumeController profileController = loader.getController();
-        profileController.init((Person) user);
+        profileController.init(user);
         root = loader.load();
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);

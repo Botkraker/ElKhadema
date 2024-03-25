@@ -34,7 +34,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Bounds;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -95,14 +97,19 @@ public class MainPageController implements Initializable {
 
     @FXML
     ButtonBar listContact;
+    
     @FXML
     VBox vContacts;
+    @FXML
+    HBox mother;
     @FXML
     VBox postholder;
     User session = Session.getUser();
     PostServiceImp ps = new PostServiceImp();
     @FXML
     TextArea postcontent;
+    @FXML
+    VBox mothersofmother;
     @FXML
     private HBox vidcontainer;
     List<Media> attachedMedias=new ArrayList<Media>();
@@ -164,7 +171,7 @@ public class MainPageController implements Initializable {
             try {
                 HboxforAttachments.getChildren().clear();
 			} catch (Exception e) {
-				System.out.println(e);			}
+				System.out.println(e);}
             postcontent.setText("");
         }
     }
@@ -173,23 +180,85 @@ public class MainPageController implements Initializable {
     public void likePost() {
 
     }
+    boolean loadingMorePosts = false;
+    int postindex=30;
+    int sum=0;
     public void resetfeed() {
     	postholder.getChildren().clear();
-        ps.feed().forEach(t -> showpost(t));
+        List<Post> posts=ps.feed();
+        System.out.println(posts.size());
+        List<VBox> postboxs=posts.stream().map(t -> showpost(t)).collect(Collectors.toList());
+        postboxs.stream().limit(30).forEach(t -> postholder.getChildren().add(t));
+        CC.vvalueProperty().addListener((observable, oldValue, newValue) -> {
+
+        	 double scrollValue = newValue.doubleValue();          
+
+             if (scrollValue >= 1 && !loadingMorePosts && postindex<posts.size()) {
+                 loadingMorePosts = true;
+                 VBox lastBox=(VBox) postholder.getChildren().get(postholder.getChildren().size()-1);
+                 postboxs.stream().skip(postindex).limit(15).forEach(t -> {
+                	 postholder.getChildren().add(t);
+                 });
+
+                 System.out.println(((Text)lastBox.getChildren().get(1)).getText());
+                 postholder.getChildren().remove(0,15);
+                 Platform.runLater(() -> {
+                	 System.out.println(lastBox.localToScene(0,0).getY());
+                	 while (lastBox.localToScene(0,0).getY()<0) {
+						CC.setVvalue(CC.getVvalue()-0.1);
+					}
+                 });
+            	 
+
+
+                 if (postindex<posts.size()-15) {
+                	 postindex+=15;
+				}else {
+	                 postholder.getChildren().remove(0, posts.size()-postindex);
+					postindex+=posts.size()-postindex;
+				}
+              
+
+                 
+                 System.out.println(postindex);
+                 loadingMorePosts = false;
+             }
+             if (scrollValue <=0.2 &&   !loadingMorePosts && postindex>30) {
+                 VBox firstBox=(VBox) postholder.getChildren().get(0);
+
+                 loadingMorePosts = true;
+                 postholder.getChildren().clear();
+                 if (postindex-15>30) {
+                	 postindex-=15;
+                     postboxs.stream().skip(postindex-15).limit(30).forEach(t -> postholder.getChildren().add(t));
+				}else {
+					postindex=30;
+					postboxs.stream().limit(30).forEach(t -> postholder.getChildren().add(t));
+				}
+                System.out.println(postindex);
+                loadingMorePosts = false;
+             
+                Platform.runLater(() -> {
+                	System.out.println(firstBox.localToScene(0,0).getY()+"vvalue:"+CC.getVvalue());
+                	while (firstBox.localToScene(0,0).getY()>0 && CC.getVvalue()!=1) {
+                		CC.setVvalue(CC.getVvalue()+0.1);
+				}
+             });}
+        });
 
 	}
 
-    public void showpost(Post post) {
+    public VBox showpost(Post post) {
     	Image image=post.getUser().getPhoto().getImage();
     	ImageView profileimg;
-    	if(image==null) {profileimg=new ImageView(new Image("file:src//main//resources//images//user.png"));
-		}else {
+    	if(image==null) {
+    	profileimg=new ImageView(new Image("file:src//main//resources//images//user.png"));
+    	}else {
 			 profileimg=new ImageView(image);
 		}
-    	
-    	
-		profileimg.setFitHeight(46);
+    	profileimg.setStyle("-fx-border-radius: 20px");
 		profileimg.setFitWidth(46);
+		profileimg.setPreserveRatio(true);
 		Text profilename=new Text(post.getUser().getUserName());
 		profilename.setFont(Font.font("SansSerif",15));
 		profilename.setTranslateX(5);
@@ -266,7 +335,9 @@ public class MainPageController implements Initializable {
 		
 		posts.setFillWidth(true);
 		profilebar.setAlignment(Pos.CENTER_LEFT);
-		postholder.getChildren().add(lastlayerBox);
+		return posts;
+
+        
 	
 	}
  

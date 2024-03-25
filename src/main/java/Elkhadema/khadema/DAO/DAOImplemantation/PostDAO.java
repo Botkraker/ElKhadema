@@ -29,7 +29,7 @@ public class PostDAO {
 			while (rs.next()) {
 				Post addedpost=new Post(
 						new User(rs.getInt("user_id"), null, null, rs.getString("username"), rs.getDate("creationdate"),
-								rs.getDate("last_login"), new Media(null,Media.ImageDecompress(rs.getBytes("photo")),"img"), rs.getBoolean("banned"),
+								rs.getDate("last_login"), new Media(null,(rs.getBytes("photo")),"img"), rs.getBoolean("banned"),
 								rs.getBoolean("is_active")),
 						rs.getString("content"), null, rs.getInt("post_parent"), rs.getString("type"), rs.getTimestamp("posts.creationdate"),
 						rs.getLong("post_id"));
@@ -209,7 +209,7 @@ public class PostDAO {
 			while (rs.next()) {
 				post =new Post(
 						new User(rs.getInt("user_id"), null, null, rs.getString("username"), rs.getDate("creationdate"),
-								rs.getDate("last_login"),new Media(null,Media.ImageDecompress(rs.getBytes("photo")),"img"), rs.getBoolean("banned"),
+								rs.getDate("last_login"),new Media(null,(rs.getBytes("photo")),"img"), rs.getBoolean("banned"),
 								rs.getBoolean("is_active")),
 						rs.getString("content"), null, rs.getInt("post_parent"), rs.getString("type"), rs.getTimestamp("posts.creationdate"),
 						rs.getLong("post_id"));;

@@ -179,7 +179,7 @@ public class ResumeController {
         }
         profileImg.setImage(m.getImage());
         //TODO later pls make take a image instead of a string
-        displayUser.setPhoto("user.jpg.png");
+        displayUser.setPhoto(m);
         userService.EditUser(displayUser, displayUser);
     }
 }

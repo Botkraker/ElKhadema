@@ -8,6 +8,7 @@ public class Person extends User {
     private int age;
     private String job;
     private String sexe;
+    private String about;
 
     public Person(int id, String password, ContactInfo contactInfo, String userName, Date creationDate,
             Date lastloginDate, String photo, boolean is_banned, boolean is_active, String firstName, String lastName,
@@ -18,6 +19,25 @@ public class Person extends User {
         this.age = age;
         this.job = job;
         this.sexe = sexe;
+    }
+
+    public Person(int id, String password, ContactInfo contactInfo, String userName, Date creationDate,
+            Date lastloginDate, String photo, boolean is_banned, boolean is_active, String firstName, String lastName) {
+        super(id, password, contactInfo, userName, creationDate, lastloginDate, photo, is_banned, is_active);
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    public Person(int id, String password, String userName) {
+        super(id, password, userName);
+    }
+
+    public String getAbout() {
+        return about;
+    }
+
+    public void setAbout(String about) {
+        this.about = about;
     }
 
     public String getFirstName() {
@@ -34,17 +54,6 @@ public class Person extends User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public Person(int id, String password, ContactInfo contactInfo, String userName, Date creationDate,
-            Date lastloginDate, String photo, boolean is_banned, boolean is_active, String firstName, String lastName) {
-        super(id, password, contactInfo, userName, creationDate, lastloginDate, photo, is_banned, is_active);
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
-
-    public Person(int id, String password, String userName) {
-        super(id, password, userName);
     }
 
     public int getAge() {

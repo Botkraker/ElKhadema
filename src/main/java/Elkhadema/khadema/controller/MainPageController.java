@@ -19,6 +19,7 @@ import Elkhadema.khadema.Service.ServiceInterfaces.FollowService;
 import Elkhadema.khadema.Service.ServiceInterfaces.UserService;
 import Elkhadema.khadema.Service.ServiceImplemantation.PostServiceImp;
 import Elkhadema.khadema.domain.Media;
+import Elkhadema.khadema.domain.Person;
 import Elkhadema.khadema.domain.Post;
 import Elkhadema.khadema.domain.Reaction;
 import Elkhadema.khadema.domain.User;
@@ -65,14 +66,14 @@ public class MainPageController implements Initializable {
 	public void customizescrollpane() {
     	CC.getStyleClass().add("custom-scroll-pane");
 		DropShadow dropShadow = new DropShadow();
-        dropShadow.setColor(Color.rgb(0, 0, 0, 0.3)); 
-        dropShadow.setWidth(6);        
-        dropShadow.setHeight(6);         
-        dropShadow.setRadius(6);        
-        dropShadow.setOffsetX(0);        
-        dropShadow.setOffsetY(0);        
-        dropShadow.setSpread(0);         
-        dropShadow.setBlurType(BlurType.GAUSSIAN); 
+        dropShadow.setColor(Color.rgb(0, 0, 0, 0.3));
+        dropShadow.setWidth(6);
+        dropShadow.setHeight(6);
+        dropShadow.setRadius(6);
+        dropShadow.setOffsetX(0);
+        dropShadow.setOffsetY(0);
+        dropShadow.setSpread(0);
+        dropShadow.setBlurType(BlurType.GAUSSIAN);
         CC.setEffect(dropShadow);
 	}
     @Override
@@ -248,7 +249,7 @@ public class MainPageController implements Initializable {
 		posts.getStyleClass().add("posts");
 		System.out.println(posts.getWidth());
 		System.out.println(postholder.getWidth());
-		
+
         postscontent.setWrappingWidth(postholder.getWidth());
         posts.setMinWidth(CC.getWidth()-50);
 		CC.widthProperty().addListener((observable, oldValue, newValue) -> {
@@ -256,14 +257,14 @@ public class MainPageController implements Initializable {
 			System.out.println(CC.getWidth());
 			posts.setMinWidth(CC.getWidth()-50);
             postscontent.setWrappingWidth(CC.getWidth());
-        });		
-		
+        });
+
 		posts.setFillWidth(true);
 		profilebar.setAlignment(Pos.CENTER_LEFT);
 		postholder.getChildren().add(lastlayerBox);
-	
+
 	}
- 
+
 
     public void commentToPost(Post post) throws IOException {
     	CommentsPageController.setCommentedpost(post);
@@ -327,7 +328,7 @@ public class MainPageController implements Initializable {
             hBox.setPadding(new Insets(5, 0, 5, 0));
             hBox.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
                 try {
-                    openprofile(event);
+                    openprofile(event,user);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -364,7 +365,7 @@ public class MainPageController implements Initializable {
 			}
 	}
    }
-    public void openprofile(MouseEvent event) throws IOException {
+    public void openprofile(MouseEvent event,User user) throws IOException {
         HBox hbox = (HBox) event.getSource();
         ObservableList<Node> textList = hbox.getChildren();
         String username = new String();
@@ -373,15 +374,14 @@ public class MainPageController implements Initializable {
                 username = ((Text) node).getText();
             }
         }
-        User user = userDAO.Login(username).get();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/mainpage.fxml"));
-        ProfileController profileController = loader.getController();
-        profileController.displayProfile(user);
+        ResumeController profileController = loader.getController();
+        profileController.init((Person) user);
         root = loader.load();
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-    }  
-    
+    }
+
 }

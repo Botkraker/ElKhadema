@@ -23,7 +23,6 @@ import Elkhadema.khadema.domain.User;
 import Elkhadema.khadema.util.MediaChooser;
 import Elkhadema.khadema.util.Session;
 import javafx.application.Platform;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

@@ -16,6 +16,7 @@ import Elkhadema.khadema.Service.ServiceImplemantation.UserServiceImp;
 import Elkhadema.khadema.Service.ServiceInterfaces.FollowService;
 import Elkhadema.khadema.Service.ServiceInterfaces.UserService;
 import Elkhadema.khadema.domain.Media;
+import Elkhadema.khadema.domain.Person;
 import Elkhadema.khadema.domain.Post;
 import Elkhadema.khadema.domain.Reaction;
 import Elkhadema.khadema.domain.User;
@@ -240,7 +241,7 @@ public class CommentsPageController implements Initializable {
            // Update the wrapping width of the Text node
 			System.out.println(CC.getWidth());
             postscontent.setWrappingWidth(CC.getWidth());
-        });		
+        });
 		posts.setFillWidth(true);
 		profilebar.setAlignment(Pos.CENTER_LEFT);
 		comment_holder.getChildren().add(lastlayerBox);
@@ -364,7 +365,7 @@ public class CommentsPageController implements Initializable {
            // Update the wrapping width of the Text node
 			System.out.println(CC.getWidth());
             postscontent.setWrappingWidth(CC.getWidth());
-        });		
+        });
 		posts.setFillWidth(true);
 		profilebar.setAlignment(Pos.CENTER_LEFT);
 		commentedPostcontainer.getChildren().add(lastlayerBox);
@@ -412,8 +413,8 @@ public class CommentsPageController implements Initializable {
         }
         User user = userDAO.Login(username).get();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/mainpage.fxml"));
-        ProfileController profileController = loader.getController();
-        profileController.displayProfile(user);
+        ResumeController profileController = loader.getController();
+        profileController.init((Person) user);
         root = loader.load();
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
@@ -421,7 +422,7 @@ public class CommentsPageController implements Initializable {
         stage.show();
     }
 
-    
+
 	public static Post getCommentedpost() {
 		return commentedpost;
 	}

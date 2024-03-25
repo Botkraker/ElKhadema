@@ -180,8 +180,14 @@ public class MainPageController implements Initializable {
 	}
 
     public void showpost(Post post) {
-
-		ImageView profileimg=new ImageView(new Image("file:src//main//resources//images//user.png"));
+    	Image image=post.getUser().getPhoto().getImage();
+    	ImageView profileimg;
+    	if(image==null) {profileimg=new ImageView(new Image("file:src//main//resources//images//user.png"));
+		}else {
+			 profileimg=new ImageView(image);
+		}
+    	
+    	
 		profileimg.setFitHeight(46);
 		profileimg.setFitWidth(46);
 		Text profilename=new Text(post.getUser().getUserName());
@@ -327,7 +333,7 @@ public class MainPageController implements Initializable {
             hBox.setPadding(new Insets(5, 0, 5, 0));
             hBox.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
                 try {
-                    openprofile(event);
+                    openprofile(event,tmp);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -364,16 +370,8 @@ public class MainPageController implements Initializable {
 			}
 	}
    }
-    public void openprofile(MouseEvent event) throws IOException {
-        HBox hbox = (HBox) event.getSource();
-        ObservableList<Node> textList = hbox.getChildren();
-        String username = new String();
-        for (Node node : textList) {
-            if (node instanceof Text) {
-                username = ((Text) node).getText();
-            }
-        }
-        User user = userDAO.Login(username).get();
+    public void openprofile(MouseEvent event,User tmp) throws IOException {
+        User user =tmp;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/mainpage.fxml"));
         ProfileController profileController = loader.getController();
         profileController.displayProfile(user);

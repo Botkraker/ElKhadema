@@ -1,5 +1,6 @@
 package Elkhadema.khadema.Service.ServiceImplemantation;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.Optional;
 
@@ -28,7 +29,11 @@ public class UserServiceImp implements UserService {
 		user.setLastloginDate(new Date());
 		String encryptedPassword = PasswordEncryptor.encryptPassword(user.getUserName(), user.getPassword());
 		user.setPassword(encryptedPassword);
-		userDao.save(user);
+		try {
+			userDao.save(user);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		switch (type) {
 			case "company":
 				Company company = (Company) user;
@@ -45,7 +50,8 @@ public class UserServiceImp implements UserService {
 
 	@Override
 	public User Login(String name, String password) throws UserNotFoundException {
-		Optional<User> user = userDao.Login(name);
+		Optional<User> user = userDao.Login(name,PasswordEncryptor.encryptPassword(name, password));
+		System.out.println("houni");
 		if (!user.isPresent()) {
 			throw new UserNotFoundException();
 		}

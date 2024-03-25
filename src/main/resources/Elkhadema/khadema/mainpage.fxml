@@ -180,7 +180,7 @@
                      <content>
                         <VBox prefHeight="656.0" prefWidth="593.0" styleClass="feedcolor">
                            <children>
-                              <VBox alignment="TOP_RIGHT" minHeight="150.0">
+                              <VBox alignment="TOP_RIGHT">
                                  <children>
                                     <TextArea fx:id="postcontent" prefHeight="47.0" prefWidth="581.0" promptText="What is on your mind ?" styleClass="txtfield" wrapText="true" VBox.vgrow="ALWAYS">
                                        <font>
@@ -193,8 +193,8 @@
                                           <Insets left="5.0" right="5.0" top="5.0" />
                                        </VBox.margin>
                                     </TextArea>
-                                    <HBox fx:id="HboxforAttachments" />
-                                    <HBox fx:id="vidcontainer" />
+                                    <HBox fx:id="HboxforAttachments" VBox.vgrow="ALWAYS" />
+                                    <HBox fx:id="vidcontainer" VBox.vgrow="ALWAYS" />
                                     <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="591.0">
                                        <children>
                                           <HBox alignment="CENTER_LEFT" prefHeight="44.0" prefWidth="488.0" HBox.hgrow="ALWAYS">

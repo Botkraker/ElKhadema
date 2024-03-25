@@ -10,7 +10,7 @@ public class Person extends User {
     private String sexe;
 
     public Person(int id, String password, ContactInfo contactInfo, String userName, Date creationDate,
-            Date lastloginDate, String photo, boolean is_banned, boolean is_active, String firstName, String lastName,
+            Date lastloginDate, Media photo, boolean is_banned, boolean is_active, String firstName, String lastName,
             int age, String job, String sexe) {
         super(id, password, contactInfo, userName, creationDate, lastloginDate, photo, is_banned, is_active);
         this.firstName = firstName;
@@ -37,7 +37,7 @@ public class Person extends User {
     }
 
     public Person(int id, String password, ContactInfo contactInfo, String userName, Date creationDate,
-            Date lastloginDate, String photo, boolean is_banned, boolean is_active, String firstName, String lastName) {
+            Date lastloginDate, Media photo, boolean is_banned, boolean is_active, String firstName, String lastName) {
         super(id, password, contactInfo, userName, creationDate, lastloginDate, photo, is_banned, is_active);
         this.firstName = firstName;
         this.lastName = lastName;

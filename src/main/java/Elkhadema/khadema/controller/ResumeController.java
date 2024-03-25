@@ -6,18 +6,24 @@ import java.time.Period;
 import java.time.ZoneId;
 import java.util.List;
 
+import Elkhadema.khadema.DAO.DAOImplemantation.CompetanceDAO;
 import Elkhadema.khadema.DAO.DAOImplemantation.ExperienceDAO;
 import Elkhadema.khadema.DAO.DAOImplemantation.PersonDAO;
 import Elkhadema.khadema.domain.Competance;
 import Elkhadema.khadema.domain.Experience;
+import Elkhadema.khadema.domain.Media;
 import Elkhadema.khadema.domain.Person;
 import Elkhadema.khadema.domain.User;
+import Elkhadema.khadema.util.MediaChooser;
 import Elkhadema.khadema.util.Session;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -27,8 +33,10 @@ public class ResumeController {
     User session = Session.getUser();
     PersonDAO personDAO = new PersonDAO();
     ExperienceDAO experienceDAO=new ExperienceDAO();
+    CompetanceDAO competanceDAO=new CompetanceDAO();
     User currentUser;
-
+    @FXML
+    ImageView profileImg;
     User displayUser;
     @FXML
     Text nameText;
@@ -70,9 +78,15 @@ public class ResumeController {
         if (experiences.size()>0) {
             afficheExperience(experiences.get(experiences.size()-1));
         }
-
-
-
+        List<Competance>competances=   competanceDAO.getAll(user);
+        for (int i = 0; i < competances.size()-1; i++) {
+            afficheCompetance(competances.get(i));
+            Separator separator = new Separator();
+            competanceVBox.getChildren().add(separator);
+        }
+        if (competances.size()>0) {
+            afficheCompetance(competances.get(competances.size()-1));
+        }
     }
 
     public void afficheabout(Person person) {
@@ -149,5 +163,17 @@ public class ResumeController {
         Text dateText = new Text(dateString);
         return dateText;
     }
-
+    @FXML
+    void addImage(ActionEvent event){
+        Media m=MediaChooser.Choose(event);
+        if (m.getImage()==null) {
+            profileImg.setImage(new Image("user.jpg.png"));
+            return;
+        }
+        if (!m.getMediatype().equals("img")) {
+            return;
+        }
+        profileImg.setImage(m.getImage());
+        currentUser.setPhoto("user.jpg.png");
+    }
 }

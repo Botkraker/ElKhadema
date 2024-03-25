@@ -16,7 +16,7 @@ public class Company extends User {
     }
 
     public Company(int id, String password, ContactInfo contactInfo, String userName, Date creationDate,
-            Date lastloginDate, String photo, boolean is_banned, boolean is_active, String companyName,
+            Date lastloginDate, Media photo, boolean is_banned, boolean is_active, String companyName,
             String description, String industry, String website, int comapnySize, String address, String speciality) {
         super(id, password, contactInfo, userName, creationDate, lastloginDate, photo, is_banned, is_active);
         this.companyName = companyName;

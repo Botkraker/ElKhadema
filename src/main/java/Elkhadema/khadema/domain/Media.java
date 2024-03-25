@@ -119,6 +119,7 @@ public class Media {
 	        }
 	}
 	public static byte[] ImageDecompress(byte[] compressedImageData) {
+		if (compressedImageData!=null) {
 		 try {
 	            // Prepare input stream
 	            ByteArrayInputStream inputStream = new ByteArrayInputStream(compressedImageData);
@@ -147,6 +148,8 @@ public class Media {
 	            System.out.println("Error: " + e);
 	            return null;
 	        }
+		}
+		 return null;
 		}
 		public  byte[] compressVideo() {
 			try {

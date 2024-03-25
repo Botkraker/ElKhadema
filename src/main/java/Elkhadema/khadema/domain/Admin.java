@@ -11,7 +11,7 @@ public class Admin extends User {
     private int adminLevel;
 
     public Admin(int id, String password, ContactInfo contactInfo, String userName, Date creationDate,
-            Date lastloginDate, String photo, boolean is_banned, boolean is_active, int adminLevel) {
+            Date lastloginDate, Media photo, boolean is_banned, boolean is_active, int adminLevel) {
         super(id, password, contactInfo, userName, creationDate, lastloginDate, photo, is_banned, is_active);
         this.adminLevel = adminLevel;
     }

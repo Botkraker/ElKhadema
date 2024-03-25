@@ -1,5 +1,7 @@
 package Elkhadema.khadema.DAO.DAOImplemantation;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,7 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+
 import Elkhadema.khadema.domain.ContactInfo;
+import Elkhadema.khadema.domain.Media;
 import Elkhadema.khadema.domain.User;
 import Elkhadema.khadema.util.ConexDB;
 
@@ -26,7 +30,7 @@ public class UserDAO  {
 				user = new User(rs.getInt("user_id"), rs.getString("password_encrypted"),
 						new ContactInfo(rs.getInt("contact_info_id")),
 						rs.getString("userName"), rs.getDate("creationdate"),
-						rs.getDate("last_login"),rs.getString("photo"),
+						rs.getDate("last_login"),new Media(null,Media.ImageDecompress(rs.getBytes("photo")),"img"),
 						rs.getBoolean("banned"), rs.getBoolean("is_active"));
 			}
 
@@ -49,7 +53,7 @@ public class UserDAO  {
 				users.add(new User(rs.getInt("user_id"), rs.getString("password_encrypted"),
 						new ContactInfo(rs.getInt("contact_info_id")),
 						rs.getString("userName"), rs.getDate("creationdate"),
-						rs.getDate("last_login"),rs.getString("photo"),
+						rs.getDate("last_login"),new Media(null,Media.ImageDecompress(rs.getBytes("photo")),"img"),
 						rs.getBoolean("banned"), rs.getBoolean("is_active")));
 			}
 		} catch (SQLException e) {
@@ -58,7 +62,7 @@ public class UserDAO  {
 		return users;
 	}
 
-	public void save(User t) {
+	public void save(User t) throws IOException {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
@@ -76,7 +80,7 @@ public class UserDAO  {
 			pstmt.setDate(5, new java.sql.Date(t.getLastloginDate().getTime()));
 			pstmt.setBoolean(6, false);
 			pstmt.setBoolean(7, false);
-			pstmt.setString(8, t.getPhoto());
+			pstmt.setBlob(8,  new ByteArrayInputStream(t.getPhoto().ImageCompression()));
 			pstmt.executeUpdate();
 			rs = pstmt.getGeneratedKeys();
 			if (rs.next()) {
@@ -101,7 +105,7 @@ public class UserDAO  {
 			p.setDate(4,new java.sql.Date(t.getLastloginDate().getTime()));
 			p.setBoolean(5, newT.is_banned);
 			p.setBoolean(6, newT.is_active);
-			p.setString(7, newT.getPhoto());
+			p.setBlob(7,  new ByteArrayInputStream(t.getPhoto().ImageCompression()));
 			p.executeUpdate();
 			p.getGeneratedKeys();
 		} catch (Exception e) {
@@ -119,17 +123,19 @@ public class UserDAO  {
 		}
 	}
 
-	public Optional<User> Login(String firstname) {
-		String sql = "SELECT *  FROM `user` WHERE `username`='"+firstname+"'" ;
+	public Optional<User> Login(String username,String password) {
+		String sql = "SELECT *  FROM `user` WHERE `username`='"+username+"'AND `password_encrypted`='"+password+"'" ;
 		User user = null;
 		try {
 			ResultSet rs = connection.createStatement().executeQuery(sql);
 			while (rs.next()) {
+
 				user = new User(rs.getInt("user_id"), rs.getString("password_encrypted"),
 						new ContactInfo(rs.getInt("contact_info_id")),
 						rs.getString("userName"), rs.getDate("creationdate"),
-						rs.getDate("last_login"),rs.getString("photo"),
-						rs.getBoolean("banned"), rs.getBoolean("is_active"));}
+						rs.getDate("last_login"),new Media(null,Media.ImageDecompress(rs.getBytes("photo")),"img"),
+						rs.getBoolean("banned"), rs.getBoolean("is_active"));
+						  }
 
 		} catch (Exception e) {
 			System.out.println(e);

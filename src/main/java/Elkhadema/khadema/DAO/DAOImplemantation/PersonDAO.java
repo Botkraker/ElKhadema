@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 import Elkhadema.khadema.domain.ContactInfo;
+import Elkhadema.khadema.domain.Media;
 import Elkhadema.khadema.domain.Person;
 import Elkhadema.khadema.util.ConexDB;
 
@@ -25,7 +26,7 @@ public class PersonDAO {
 				person = new Person(rs.getInt("user_id"), rs.getString("password_encrypted"),
 						new ContactInfo(rs.getInt("contact_info_id")),
 						rs.getString("userName"), rs.getDate("creationdate"),
-						rs.getDate("last_login"),rs.getString("photo"),
+						rs.getDate("last_login"),new Media(null,Media.ImageDecompress(rs.getBytes("photo")),"img"),
 						rs.getBoolean("banned"), rs.getBoolean("is_active"),
 						rs.getString("first_name"),rs.getString("last_name"));
 			}
@@ -49,7 +50,7 @@ public class PersonDAO {
 				persons.add(new Person(rs.getInt("user_id"), rs.getString("password_encrypted"),
 						new ContactInfo(rs.getInt("contact_info_id")),
 						rs.getString("userName"), rs.getDate("creationdate"),
-						rs.getDate("last_login"),rs.getString("photo"),
+						rs.getDate("last_login"),new Media(null,Media.ImageDecompress(rs.getBytes("photo")),"img"),
 						rs.getBoolean("banned"), rs.getBoolean("is_active"),
 						rs.getString("first_name"),rs.getString("last_name")));
 			}

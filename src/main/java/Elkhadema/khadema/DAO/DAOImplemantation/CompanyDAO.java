@@ -11,6 +11,7 @@ import java.util.Optional;
 
 import Elkhadema.khadema.domain.Company;
 import Elkhadema.khadema.domain.ContactInfo;
+import Elkhadema.khadema.domain.Media;
 import Elkhadema.khadema.util.ConexDB;
 
 public class CompanyDAO {
@@ -26,7 +27,7 @@ public class CompanyDAO {
 			while (rs.next()) {
 				company = new Company(rs.getInt("user_id"), rs.getString("password_encrypted"),
 						new ContactInfo(rs.getInt("contact_info_id")), rs.getString("userName"),
-						rs.getDate("creationdate"), rs.getDate("last_login"), rs.getString("photo"),
+						rs.getDate("creationdate"), rs.getDate("last_login"),new Media(null,Media.ImageDecompress(rs.getBytes("photo")),"img"),
 						rs.getBoolean("banned"), rs.getBoolean("is_active"), rs.getString("company_name"),
 						rs.getString("description"), rs.getString("industry"), rs.getString("website"),
 						rs.getInt("company_size"), rs.getString("address"), rs.getString("speciality"));
@@ -50,7 +51,7 @@ public class CompanyDAO {
 			while (rs.next()) {
 				companies.add(new Company(rs.getInt("user_id"), rs.getString("password_encrypted"),
 						new ContactInfo(rs.getInt("contact_info_id")), rs.getString("userName"),
-						rs.getDate("creationdate"), rs.getDate("last_login"), rs.getString("photo"),
+						rs.getDate("creationdate"), rs.getDate("last_login"),new Media(null,Media.ImageDecompress(rs.getBytes("photo")),"img"),
 						rs.getBoolean("banned"), rs.getBoolean("is_active"), rs.getString("company_name"),
 						rs.getString("description"), rs.getString("industry"), rs.getString("website"),
 						rs.getInt("company_size"), rs.getString("address"), rs.getString("speciality")));

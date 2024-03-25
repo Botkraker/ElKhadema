@@ -181,8 +181,14 @@ public class MainPageController implements Initializable {
 	}
 
     public void showpost(Post post) {
+    	Image image=post.getUser().getPhoto().getImage();
+    	ImageView profileimg;
+    	if(image==null) {profileimg=new ImageView(new Image("file:src//main//resources//images//user.png"));
+		}else {
+			 profileimg=new ImageView(image);
+		}
 
-		ImageView profileimg=new ImageView(new Image("file:src//main//resources//images//user.png"));
+
 		profileimg.setFitHeight(46);
 		profileimg.setFitWidth(46);
 		Text profilename=new Text(post.getUser().getUserName());
@@ -328,7 +334,7 @@ public class MainPageController implements Initializable {
             hBox.setPadding(new Insets(5, 0, 5, 0));
             hBox.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
                 try {
-                    openprofile(event,user);
+                    openprofile(event,tmp);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -365,15 +371,8 @@ public class MainPageController implements Initializable {
 			}
 	}
    }
-    public void openprofile(MouseEvent event,User user) throws IOException {
-        HBox hbox = (HBox) event.getSource();
-        ObservableList<Node> textList = hbox.getChildren();
-        String username = new String();
-        for (Node node : textList) {
-            if (node instanceof Text) {
-                username = ((Text) node).getText();
-            }
-        }
+    public void openprofile(MouseEvent event,User tmp) throws IOException {
+        User user =tmp;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/mainpage.fxml"));
         ResumeController profileController = loader.getController();
         profileController.init(user);

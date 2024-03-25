@@ -390,7 +390,7 @@ public class CommentsPageController implements Initializable {
             hBox.setPadding(new Insets(5, 0, 5, 0));
             hBox.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
                 try {
-                    openprofile(event);
+                    openprofile(event,tmp);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -402,16 +402,8 @@ public class CommentsPageController implements Initializable {
         }
         vContacts.getChildren().addAll(hBoxs);
     }
-    public void openprofile(MouseEvent event) throws IOException {
-        HBox hbox = (HBox) event.getSource();
-        ObservableList<Node> textList = hbox.getChildren();
-        String username = new String();
-        for (Node node : textList) {
-            if (node instanceof Text) {
-                username = ((Text) node).getText();
-            }
-        }
-        User user = userDAO.Login(username).get();
+	public void openprofile(MouseEvent event,User tmp) throws IOException {
+        User user =tmp;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/mainpage.fxml"));
         ResumeController profileController = loader.getController();
         profileController.init((Person) user);
@@ -421,7 +413,6 @@ public class CommentsPageController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
-
 
 	public static Post getCommentedpost() {
 		return commentedpost;

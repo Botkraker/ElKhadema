@@ -13,7 +13,7 @@ public class User {
 	 * could be a url or file path can
 	 * be changed later by a dedicated class for images
 	 */
-	private String photo;
+	private Media photo;
 	public boolean is_banned = false;
 	public boolean is_active = false;
 
@@ -65,11 +65,11 @@ public class User {
 		this.lastloginDate = lastloginDate;
 	}
 
-	public String getPhoto() {
+	public Media getPhoto() {
 		return photo;
 	}
 
-	public void setPhoto(String photo) {
+	public void setPhoto(Media photo) {
 		this.photo = photo;
 	}
 
@@ -90,7 +90,7 @@ public class User {
 	}
 
 	public User(int id, String password, ContactInfo contactInfo, String userName, Date creationDate,
-			Date lastloginDate, String photo, boolean is_banned, boolean is_active) {
+			Date lastloginDate, Media photo, boolean is_banned, boolean is_active) {
 		this.id = id;
 		this.password = password;
 		this.contactInfo = contactInfo;

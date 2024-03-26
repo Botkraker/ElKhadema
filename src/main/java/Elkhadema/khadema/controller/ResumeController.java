@@ -40,7 +40,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class ResumeController {
+public class ResumeController extends NavbarController{
     User session = Session.getUser();
     PersonDAO personDAO = new PersonDAO();
     UserService userService = new UserServiceImp();

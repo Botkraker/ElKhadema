@@ -7,6 +7,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 
 import javax.imageio.ImageIO;
@@ -24,8 +26,6 @@ public class Media {
 	private Post post_id;
 	private byte[] media;
 	private String mediatype;
-	private static int NumberofVidtemps;
-	private int numbervidintemp=NumberofVidtemps+1;
 	public Post getPost_id() {
 		return post_id;
 	}
@@ -66,14 +66,11 @@ public class Media {
 	}
 	public MediaPlayer getVideo() {
 		if (mediatype.compareTo("vid")==0) {
+			String path = new String(media, StandardCharsets.UTF_8);
+			System.out.println(path);
 	        try {
-	        	File tempFile = File.createTempFile("temp/"+numbervidintemp, ".mp4");
-	            tempFile.deleteOnExit();
-	            try (FileOutputStream fos = new FileOutputStream(tempFile)) {
-	                fos.write(media);
-	            }
-	            NumberofVidtemps++;
-	            return new MediaPlayer(new javafx.scene.media.Media(tempFile.toURI().toString()));
+	        	File file = new File(path);
+	        	return new MediaPlayer(new javafx.scene.media.Media(file.toURI().toString()));
 	        } catch (Exception e) {
 	            e.printStackTrace();
 	            return null;
@@ -88,31 +85,59 @@ public class Media {
 		 try {
 	            // Read the image
 	            BufferedImage image = ImageIO.read(new ByteArrayInputStream(media));
+	            System.out.println(image);
+	            if (image.getType()==6) {
+	                // Prepare output stream
+	                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+	                ImageOutputStream imageOutputStream = ImageIO.createImageOutputStream(outputStream);
 
-	            // Prepare output stream
-	            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-	            ImageOutputStream imageOutputStream = ImageIO.createImageOutputStream(outputStream);
+	                // Get available ImageWriters
+	                Iterator<ImageWriter> writers = ImageIO.getImageWritersByFormatName("png"); 
+	                ImageWriter writer = writers.next();
+	                writer.setOutput(imageOutputStream);
 
-	            // Get available ImageWriters
-	            Iterator<ImageWriter> writers = ImageIO.getImageWritersByFormatName("jpg");
-	            ImageWriter writer = writers.next();
-	            writer.setOutput(imageOutputStream);
+	                // Set compression parameters for PNG
+	                ImageWriteParam params = writer.getDefaultWriteParam();
+	                params.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+	                params.setCompressionQuality(1.0f); 
 
-	            // Set compression parameters
-	            ImageWriteParam params = writer.getDefaultWriteParam();
-	            params.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
-	            params.setCompressionQuality(0.5f); // Set the compression quality (0.0 - 1.0)
+	                // Write the image with compression
+	                writer.write(null, new javax.imageio.IIOImage(image, null, null), params);
 
-	            // Write the image with compression
-	            writer.write(null, new javax.imageio.IIOImage(image, null, null), params);
+	                // Cleanup
+	                imageOutputStream.close();
+	                writer.dispose();
 
-	            // Cleanup
-	            imageOutputStream.close();
-	            writer.dispose();
+	                System.out.println("Image compression successful.");
 
-	            System.out.println("Image compression successful.");
+	                return outputStream.toByteArray();
+	            } else {
+	            	 // Prepare output stream
+		            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		            ImageOutputStream imageOutputStream = ImageIO.createImageOutputStream(outputStream);
 
-	            return outputStream.toByteArray();
+		            // Get available ImageWriters
+		            Iterator<ImageWriter> writers = ImageIO.getImageWritersByFormatName("jpg");
+		            ImageWriter writer = writers.next();
+		            writer.setOutput(imageOutputStream);
+
+		            // Set compression parameters
+		            ImageWriteParam params = writer.getDefaultWriteParam();
+		            params.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+		            params.setCompressionQuality(0.5f); // Set the compression quality (0.0 - 1.0)
+
+		            // Write the image with compression
+		            writer.write(null, new javax.imageio.IIOImage(image, null, null), params);
+
+		            // Cleanup
+		            imageOutputStream.close();
+		            writer.dispose();
+
+		            System.out.println("Image compression successful.");
+
+		            return outputStream.toByteArray();
+	            }
+	           
 	        } catch (IOException e) {
 	            System.out.println("Error: " + e);
 	            return null;
@@ -136,7 +161,10 @@ public class Media {
 	            // Convert BufferedImage to byte array
 	            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 	            ImageIO.write(image, "jpg", outputStream);
-	            
+	            if (outputStream.size()==0) {
+		            ImageIO.write(image, "png", outputStream);
+		            
+				}
 	            // Cleanup
 	            imageInputStream.close();
 	            reader.dispose();

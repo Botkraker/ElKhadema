@@ -192,21 +192,29 @@ public class MainPageController implements Initializable {
                 posts.stream().skip(postindex).limit(5).map(t -> showpost(t)).forEach(t -> {
                     if (maxPosts <= loadPosts) {
                         postholder.getChildren().remove(0);
+                        loadPosts--;
                     }
                     postholder.getChildren().add(t);
+                    loadPosts++;
                     postindex++;
+                    Platform.runLater(() -> {CC.setVvalue(0.8);});
                 });
             }
-            if (scrollValue <= 0.2 && postindex>20) {
-                addPostTop(posts.get(postindex-20));
+            if (scrollValue <= 0.2 && loadPosts >15) {
+                addPostTop(posts.get(postindex - loadPosts));
 
             }
         });
     }
-    public void addPostTop(Post post){
+
+    public void addPostTop(Post post) {
         postholder.getChildren().add(0, showpost(post));
-        postholder.getChildren().remove(20);
-        postindex--;
+        loadPosts++;
+        if (loadPosts>=20) {
+            postholder.getChildren().remove(postholder.getChildren().size()-1);
+            loadPosts--;
+            postindex--;
+        }
     }
 
     public void initPostShow() {

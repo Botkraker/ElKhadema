@@ -1,17 +1,17 @@
 package Elkhadema.khadema.domain;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Experience {
     private long id;
     private String description;
     private String mission;
     private String type;
-    private Date startDate;
-    private Date endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private String technologie;
 
-    public Experience(long id, String description, String mission, String type, Date startDate, Date endDate,
+    public Experience(long id, String description, String mission, String type, LocalDate startDate, LocalDate endDate,
             String technologie) {
         this.id = id;
         this.description = description;
@@ -73,19 +73,19 @@ public class Experience {
         this.technologie = technologie;
     }
 
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 

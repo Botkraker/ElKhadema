@@ -10,8 +10,11 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class EditBioController {
+    @FXML
     private TextField jobField;
+    @FXML
     private TextField ageField;
+    @FXML
     private ComboBox<String> sexeComboBox;
     String job;
     int age;

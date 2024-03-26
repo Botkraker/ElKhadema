@@ -32,6 +32,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -94,21 +95,29 @@ public class ResumeController {
         afficheabout(person);
         List<Experience> experiences = experienceDAO.getAll(user);
         for (int i = 0; i < experiences.size() - 1; i++) {
-            afficheExperience(experiences.get(i));
+            VBox experienceBox=new VBox();
+            afficheExperience(experiences.get(i),experienceBox);
+            experienceVBox.getChildren().add(experienceBox);
             Separator separator = new Separator();
             experienceVBox.getChildren().add(separator);
         }
         if (experiences.size() > 0) {
-            afficheExperience(experiences.get(experiences.size() - 1));
+            VBox experienceBox=new VBox();
+            afficheExperience(experiences.get(experiences.size() - 1),experienceBox);
+            experienceVBox.getChildren().add(experienceBox);
         }
         List<Competance> competances = competanceDAO.getAll(user);
         for (int i = 0; i < competances.size() - 1; i++) {
-            afficheCompetance(competances.get(i));
+            VBox competanceBox=new VBox();
+            afficheCompetance(competances.get(i),competanceBox);
+            competanceVBox.getChildren().add(competanceBox);
             Separator separator = new Separator();
             competanceVBox.getChildren().add(separator);
         }
         if (competances.size() > 0) {
-            afficheCompetance(competances.get(competances.size() - 1));
+            VBox competanceBox=new VBox();
+            afficheCompetance(competances.get(competances.size() - 1),competanceBox);
+            competanceVBox.getChildren().add(competanceBox);
         }
         // event
         aboutTextArea.setOnKeyPressed(event -> {
@@ -149,7 +158,7 @@ public class ResumeController {
         experienceVBox.getChildren().add(textArea);
     }
 
-    private void afficheExperience(Experience experience) {
+    private void afficheExperience(Experience experience, VBox vBox) {
         Text technologieText = new Text(experience.getTechnologie());
         technologieText.setFont(Font.font("SansSerif", 18));
         technologieText.setFill(Color.WHITE);
@@ -162,14 +171,13 @@ public class ResumeController {
         dateText.setFill(Color.WHITE);
         TextArea descriptionArea = new TextArea(experience.getDescription());
         descriptionArea.getStyleClass().add("postTxtField");
-        VBox vBox = new VBox(technologieText, missionText, dateText);
+        vBox = new VBox(technologieText, missionText, dateText);
         if (currentUser.getId() == session.getId()) {
-            addEditButtonExperience();
+            addEditButtonExperience(vBox);
         }
-        experienceVBox.getChildren().add(vBox);
     }
 
-    public void afficheCompetance(Competance competance) {
+    private void afficheCompetance(Competance competance, VBox competanceBox) {
         Text technologieText = new Text(competance.getTechnologie());
         technologieText.setFont(Font.font("SansSerif", 14));
         technologieText.setFill(Color.WHITE);
@@ -178,17 +186,54 @@ public class ResumeController {
         titreText.setFill(Color.WHITE);
         VBox vBox = new VBox(titreText, technologieText);
         if (currentUser.getId() == session.getId()) {
-            addEditButtonCompetance();
+            addEditButtonCompetance(vBox);
         }
-        competanceVBox.getChildren().add(vBox);
     }
 
-    private void addEditButtonCompetance() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addEditButtonCompetance'");
+    private void addEditButtonCompetance(VBox vBox) {
+        Button editButton = new Button("🖉");
+        editButton.getStyleClass().add("postButton");
+        vBox.getChildren().add(editButton);
+        editButton.setOnAction(ActionEvent -> {
+            Stage popUpStage = new Stage();
+            popUpStage.initModality(Modality.APPLICATION_MODAL);
+            popUpStage.setTitle("Edit Bio");
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("editBio.fxml"));
+            Scene popUpScreen = new Scene(new Pane());
+            try {
+                popUpScreen = new Scene(loader.load());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            EditExperienceController editExperienceController = loader.getController();
+            popUpStage.setScene(popUpScreen);
+            Experience experience = editExperienceController.getExperience();
+            vBox.getChildren().clear();
+            afficheExperience(experience, vBox);
+        });
     }
 
-    private void addEditButtonExperience() {
+    private void addEditButtonExperience(VBox vBox) {
+        Button editButton = new Button("🖉");
+        editButton.getStyleClass().add("postButton");
+        vBox.getChildren().add(editButton);
+        editButton.setOnAction(ActionEvent -> {
+            Stage popUpStage = new Stage();
+            popUpStage.initModality(Modality.APPLICATION_MODAL);
+            popUpStage.setTitle("Edit Bio");
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("editBio.fxml"));
+            Scene popUpScreen = new Scene(new Pane());
+            try {
+                popUpScreen = new Scene(loader.load());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            EditExperienceController editExperienceController = loader.getController();
+            popUpStage.setScene(popUpScreen);
+            Experience experience = editExperienceController.getExperience();
+            vBox.getChildren().clear();
+            afficheExperience(experience, vBox);
+        });
     }
 
     private Text getDateExperience(Experience experience) {
@@ -199,12 +244,12 @@ public class ResumeController {
         if (experience.getEndDate() == null) {
             tmp = "present";
         } else {
-            localDate = experience.getEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            localDate = experience.getEndDate();
             tmp = simpleDateFormat.format(experience.getEndDate());
         }
         dateString.concat(" - " + tmp);
         Period period = Period
-                .between(experience.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), localDate);
+                .between(experience.getStartDate(), localDate);
         int years = period.getYears();
         int months = period.getMonths();
         int days = period.getDays();
@@ -229,7 +274,6 @@ public class ResumeController {
             return;
         }
         profileImg.setImage(m.getImage());
-        // TODO later pls make take a image instead of a string
         currentUser.setPhoto(m);
         userService.EditUser(currentUser, currentUser);
     }

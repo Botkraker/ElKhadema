@@ -2,7 +2,7 @@ module Elkhadema.khadema {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;
-    requires javafx.graphics;
+    requires transitive javafx.graphics;
 	requires kernel;
 	requires io;
 	requires layout;
@@ -13,4 +13,7 @@ module Elkhadema.khadema {
 
     exports Elkhadema.khadema;
     exports Elkhadema.khadema.controller;
+    exports Elkhadema.khadema.domain;
+    exports Elkhadema.khadema.DAO.DAOImplemantation;
+
 }

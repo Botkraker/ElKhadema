@@ -22,7 +22,6 @@ import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.TextAlignment;
 
 import Elkhadema.khadema.domain.Competance;
-import Elkhadema.khadema.domain.ContactInfo;
 import Elkhadema.khadema.domain.Experience;
 import Elkhadema.khadema.domain.Person;
 

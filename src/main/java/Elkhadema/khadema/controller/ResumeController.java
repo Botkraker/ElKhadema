@@ -20,6 +20,7 @@ import Elkhadema.khadema.util.MediaChooser;
 import Elkhadema.khadema.util.Session;
 import Elkhadema.khadema.util.Exception.UserNotFoundException;
 import javafx.event.ActionEvent;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Separator;
@@ -57,6 +58,8 @@ public class ResumeController {
     @FXML
     VBox competanceVBox;
     @FXML
+    Button changeImg;
+    @FXML
     public void init(User user) {
         currentUser =user;
         Person person = personDAO.get(user.getId()).get();
@@ -66,6 +69,8 @@ public class ResumeController {
             followbutton.getStyleClass().add("postbtn");
             Button chatButton = new Button("chat");
             chatButton.getStyleClass().add("postbtn");
+            changeImg.setDisable(true);
+            changeImg.setVisible(true);
         }
         Button generateCVbutton = new Button("get pdf");
         generateCVbutton.getStyleClass().add("postbtn");

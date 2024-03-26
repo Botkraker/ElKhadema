@@ -1,6 +1,7 @@
 package Elkhadema.khadema.controller;
 
 import Elkhadema.khadema.Service.validateInfo.JobNameValidator;
+import Elkhadema.khadema.domain.Person;
 import Elkhadema.khadema.domain.User;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -12,11 +13,28 @@ public class EditBioController {
     private TextField jobField;
     private TextField ageField;
     private ComboBox<String> sexeComboBox;
-    User user;
     String job;
     int age;
+    boolean closedHow;
+    public boolean isClosedHow() {
+        return closedHow;
+    }
+
+    public void setClosedHow(boolean closedHow) {
+        this.closedHow = closedHow;
+    }
+
     String sexe;
     private Stage stage;
+    private Person person;
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
+    }
 
     public String getJob() {
         return job;
@@ -51,10 +69,17 @@ public class EditBioController {
     }
 
     @FXML
-    private void initialize(User user) {
+    public void initialize(Person person) {
+        this.person=person;
         sexeComboBox.setItems(FXCollections.observableArrayList(
                 "male",
                 "female"));
+        if (person.getSexe() == "male") {
+            sexeComboBox.getSelectionModel().select(0);
+        } else
+            sexeComboBox.getSelectionModel().select(1);
+        jobField.setText(person.getJob());
+        ageField.setText(String.valueOf(person.getAge()));
     }
 
     public void submitForm() {
@@ -71,6 +96,7 @@ public class EditBioController {
             return;
         }
         age = Integer.parseInt(ageField.getText());
+        closedHow=true;
         stage.close();
 
     }

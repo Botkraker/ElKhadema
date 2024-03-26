@@ -32,7 +32,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -46,8 +45,7 @@ public class ResumeController {
     UserService userService = new UserServiceImp();
     ExperienceDAO experienceDAO = new ExperienceDAO();
     CompetanceDAO competanceDAO = new CompetanceDAO();
-    User currentUser;
-    User displayUser;
+    Person currentUser;
     @FXML
     ImageView profileImg;
     @FXML
@@ -66,26 +64,33 @@ public class ResumeController {
     VBox competanceVBox;
     @FXML
     Button changeImg;
+    @FXML
+    TextArea aboutTextArea;
+    @FXML
+    Button editBioBtn;
+    @FXML
+    Button editAboutBtn;
 
     @FXML
     public void init(User user) {
-        currentUser = user;
         Person person = personDAO.get(user.getId()).get();
+        currentUser = person;
         if (person.getUserName() != session.getUserName()) {
-            displayUser = person;
             Button followbutton = new Button("follow");
             followbutton.getStyleClass().add("postbtn");
             Button chatButton = new Button("chat");
             chatButton.getStyleClass().add("postbtn");
             btnVbox.getChildren().addAll(followbutton, chatButton);
             changeImg.setDisable(true);
-            changeImg.setVisible(true);
+            changeImg.setVisible(false);
+            editBioBtn.setDisable(true);
+            editBioBtn.setVisible(false);
+            editBioBtn.setDisable(true);
+            editBioBtn.setVisible(false);
         }
         Button generateCVbutton = new Button("get pdf");
         generateCVbutton.getStyleClass().add("postbtn");
-        ageText.setText(String.valueOf(person.getAge()));
-        jobText.setText(person.getJob());
-        sexeText.setText(person.getSexe());
+        afficheBio(person);
         afficheabout(person);
         List<Experience> experiences = experienceDAO.getAll(user);
         for (int i = 0; i < experiences.size() - 1; i++) {
@@ -105,15 +110,46 @@ public class ResumeController {
         if (competances.size() > 0) {
             afficheCompetance(competances.get(competances.size() - 1));
         }
+        // event
+        aboutTextArea.setOnKeyPressed(event -> {
+            if (event.getCode().isWhitespaceKey() && !event.isShiftDown()) {
+                person.setAbout(aboutTextArea.getText());
+                try {
+                    userService.EditUser(person, person);
+                } catch (UserNotFoundException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                aboutTextArea.setDisable(true);
+            }
+        });
+        aboutTextArea.focusedProperty().addListener((observale, oldValue, newValue) -> {
+            if (!newValue) {
+                person.setAbout(aboutTextArea.getText());
+                try {
+                    userService.EditUser(person, person);
+                } catch (UserNotFoundException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                aboutTextArea.setDisable(true);
+            }
+        });
     }
 
-    public void afficheabout(Person person) {
+    private void afficheBio(Person person) {
+        ageText.setText(String.valueOf(person.getAge()));
+        jobText.setText(person.getJob());
+        sexeText.setText(person.getSexe());
+    }
+
+    private void afficheabout(Person person) {
         TextArea textArea = new TextArea(person.getAbout());
         textArea.getStyleClass().add("postTxtField");
         experienceVBox.getChildren().add(textArea);
     }
 
-    public void afficheExperience(Experience experience) {
+    private void afficheExperience(Experience experience) {
         Text technologieText = new Text(experience.getTechnologie());
         technologieText.setFont(Font.font("SansSerif", 18));
         technologieText.setFill(Color.WHITE);
@@ -194,19 +230,35 @@ public class ResumeController {
         }
         profileImg.setImage(m.getImage());
         // TODO later pls make take a image instead of a string
-        displayUser.setPhoto(m);
-        userService.EditUser(displayUser, displayUser);
+        currentUser.setPhoto(m);
+        userService.EditUser(currentUser, currentUser);
     }
 
-    private void openPopUp() throws IOException {
+    @FXML
+    private void editBio() throws IOException, UserNotFoundException {
         Stage popUpStage = new Stage();
         popUpStage.initModality(Modality.APPLICATION_MODAL);
         popUpStage.setTitle("Edit Bio");
-        Scene popUpScreen=new Scene((new FXMLLoader(App.class.getResource("editBio.fxml"))).load(), 200, 200);
-        Button closeButton = new Button("Close Pop-up");
-        closeButton.setOnAction(e -> popUpStage.close());
-        
+        FXMLLoader loader = new FXMLLoader(App.class.getResource("editBio.fxml"));
+        Scene popUpScreen = new Scene(loader.load());
+        EditBioController editBioController = loader.getController();
         popUpStage.setScene(popUpScreen);
+        editBioController.setStage(popUpStage);
+        editBioController.initialize(currentUser);
         popUpStage.showAndWait();
+        if (editBioController.isClosedHow() == false) {
+            return;
+        }
+        currentUser.setAge(editBioController.getAge());
+        currentUser.setJob(editBioController.getJob());
+        currentUser.setSexe(editBioController.getSexe());
+        userService.EditUser(currentUser, currentUser);
+    }
+
+    @FXML
+    private void editAbout() {
+        aboutTextArea.setDisable(false);
+        aboutTextArea.addEventHandler(null, null);
+
     }
 }

@@ -188,7 +188,7 @@
                                                 </VBox>
                                                 <VBox fx:id="btnVbox" alignment="CENTER" prefHeight="102.0" prefWidth="563.0">
                                                    <children>
-                                                      <Button mnemonicParsing="false" onAction="#editBio" prefHeight="45.0" prefWidth="48.0" styleClass="postButton" text="🖉" textFill="WHITE">
+                                                      <Button fx:id="editBioBtn" mnemonicParsing="false" onAction="#editBio" prefHeight="45.0" prefWidth="48.0" styleClass="postButton" text="🖉" textFill="WHITE">
                                                          <font>
                                                             <Font name="SansSerif Regular" size="20.0" />
                                                          </font>
@@ -219,7 +219,7 @@
                                                             <Font name="Arial" size="18.0" />
                                                          </font>
                                                       </Text>
-                                                      <Button mnemonicParsing="false" onAction="#editAbout" prefHeight="22.0" prefWidth="31.0" styleClass="postButton" text="🖉" textFill="WHITE">
+                                                      <Button fx:id="editAboutBtn" mnemonicParsing="false" onAction="#editAbout" prefHeight="22.0" prefWidth="31.0" styleClass="postButton" text="🖉" textFill="WHITE">
                                                          <font>
                                                             <Font name="SansSerif Regular" size="20.0" />
                                                          </font>
@@ -232,7 +232,7 @@
                                                       </Button>
                                                    </children>
                                                 </HBox>
-                                                <TextArea prefHeight="200.0" prefWidth="200.0" styleClass="postTxtField" />
+                                                <TextArea fx:id="aboutTextArea" prefHeight="200.0" prefWidth="200.0" styleClass="postTxtField" />
                                              </children>
                                           </VBox>
                                        </children>

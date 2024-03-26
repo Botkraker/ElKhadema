@@ -36,13 +36,13 @@ import javafx.scene.text.Text;
 public class ResumeController {
     User session = Session.getUser();
     PersonDAO personDAO = new PersonDAO();
-    UserService userService=new UserServiceImp();
-    ExperienceDAO experienceDAO=new ExperienceDAO();
-    CompetanceDAO competanceDAO=new CompetanceDAO();
+    UserService userService = new UserServiceImp();
+    ExperienceDAO experienceDAO = new ExperienceDAO();
+    CompetanceDAO competanceDAO = new CompetanceDAO();
     User currentUser;
+    User displayUser;
     @FXML
     ImageView profileImg;
-    User displayUser;
     @FXML
     Text nameText;
     @FXML
@@ -59,9 +59,10 @@ public class ResumeController {
     VBox competanceVBox;
     @FXML
     Button changeImg;
+
     @FXML
     public void init(User user) {
-        currentUser =user;
+        currentUser = user;
         Person person = personDAO.get(user.getId()).get();
         if (person.getUserName() != session.getUserName()) {
             displayUser = person;
@@ -69,6 +70,7 @@ public class ResumeController {
             followbutton.getStyleClass().add("postbtn");
             Button chatButton = new Button("chat");
             chatButton.getStyleClass().add("postbtn");
+            btnVbox.getChildren().addAll(followbutton, chatButton);
             changeImg.setDisable(true);
             changeImg.setVisible(true);
         }
@@ -78,23 +80,23 @@ public class ResumeController {
         jobText.setText(person.getJob());
         sexeText.setText(person.getSexe());
         afficheabout(person);
-        List<Experience>experiences=   experienceDAO.getAll(user);
-        for (int i = 0; i < experiences.size()-1; i++) {
+        List<Experience> experiences = experienceDAO.getAll(user);
+        for (int i = 0; i < experiences.size() - 1; i++) {
             afficheExperience(experiences.get(i));
             Separator separator = new Separator();
             experienceVBox.getChildren().add(separator);
         }
-        if (experiences.size()>0) {
-            afficheExperience(experiences.get(experiences.size()-1));
+        if (experiences.size() > 0) {
+            afficheExperience(experiences.get(experiences.size() - 1));
         }
-        List<Competance>competances=   competanceDAO.getAll(user);
-        for (int i = 0; i < competances.size()-1; i++) {
+        List<Competance> competances = competanceDAO.getAll(user);
+        for (int i = 0; i < competances.size() - 1; i++) {
             afficheCompetance(competances.get(i));
             Separator separator = new Separator();
             competanceVBox.getChildren().add(separator);
         }
-        if (competances.size()>0) {
-            afficheCompetance(competances.get(competances.size()-1));
+        if (competances.size() > 0) {
+            afficheCompetance(competances.get(competances.size() - 1));
         }
     }
 
@@ -118,11 +120,12 @@ public class ResumeController {
         TextArea descriptionArea = new TextArea(experience.getDescription());
         descriptionArea.getStyleClass().add("postTxtField");
         VBox vBox = new VBox(technologieText, missionText, dateText);
-        if (currentUser.getId()==session.getId()) {
+        if (currentUser.getId() == session.getId()) {
             addEditButtonExperience();
         }
         experienceVBox.getChildren().add(vBox);
     }
+
     public void afficheCompetance(Competance competance) {
         Text technologieText = new Text(competance.getTechnologie());
         technologieText.setFont(Font.font("SansSerif", 14));
@@ -130,13 +133,12 @@ public class ResumeController {
         Text titreText = new Text(competance.getTitre());
         titreText.setFont(Font.font("SansSerif", 18));
         titreText.setFill(Color.WHITE);
-        VBox vBox = new VBox(titreText,technologieText );
-        if (currentUser.getId()==session.getId()) {
+        VBox vBox = new VBox(titreText, technologieText);
+        if (currentUser.getId() == session.getId()) {
             addEditButtonCompetance();
         }
         competanceVBox.getChildren().add(vBox);
     }
-
 
     private void addEditButtonCompetance() {
         // TODO Auto-generated method stub
@@ -172,10 +174,11 @@ public class ResumeController {
         Text dateText = new Text(dateString);
         return dateText;
     }
+
     @FXML
-    void addImage(ActionEvent event) throws UserNotFoundException{
-        Media m=MediaChooser.Choose(event);
-        if (m.getImage()==null) {
+    void addImage(ActionEvent event) throws UserNotFoundException {
+        Media m = MediaChooser.Choose(event);
+        if (m.getImage() == null) {
             profileImg.setImage(new Image("user.jpg.png"));
             return;
         }
@@ -183,7 +186,7 @@ public class ResumeController {
             return;
         }
         profileImg.setImage(m.getImage());
-        //TODO later pls make take a image instead of a string
+        // TODO later pls make take a image instead of a string
         displayUser.setPhoto(m);
         userService.EditUser(displayUser, displayUser);
     }

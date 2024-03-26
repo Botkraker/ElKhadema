@@ -200,6 +200,7 @@ public class MainPageController implements Initializable {
                     Platform.runLater(() -> {CC.setVvalue(0.8);});
                 });
             }
+            //TODO change it lags like hell when you scroll up
             if (scrollValue <= 0.2 && loadPosts >15) {
                 addPostTop(posts.get(postindex - loadPosts));
 

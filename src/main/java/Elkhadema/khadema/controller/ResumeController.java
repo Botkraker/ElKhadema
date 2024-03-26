@@ -1,11 +1,13 @@
 package Elkhadema.khadema.controller;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
 import java.util.List;
 
+import Elkhadema.khadema.App;
 import Elkhadema.khadema.DAO.DAOImplemantation.CompetanceDAO;
 import Elkhadema.khadema.DAO.DAOImplemantation.ExperienceDAO;
 import Elkhadema.khadema.DAO.DAOImplemantation.PersonDAO;
@@ -22,16 +24,21 @@ import Elkhadema.khadema.util.Exception.UserNotFoundException;
 import javafx.event.ActionEvent;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class ResumeController {
     User session = Session.getUser();
@@ -189,5 +196,17 @@ public class ResumeController {
         // TODO later pls make take a image instead of a string
         displayUser.setPhoto(m);
         userService.EditUser(displayUser, displayUser);
+    }
+
+    private void openPopUp() throws IOException {
+        Stage popUpStage = new Stage();
+        popUpStage.initModality(Modality.APPLICATION_MODAL);
+        popUpStage.setTitle("Edit Bio");
+        Scene popUpScreen=new Scene((new FXMLLoader(App.class.getResource("editBio.fxml"))).load(), 200, 200);
+        Button closeButton = new Button("Close Pop-up");
+        closeButton.setOnAction(e -> popUpStage.close());
+        
+        popUpStage.setScene(popUpScreen);
+        popUpStage.showAndWait();
     }
 }

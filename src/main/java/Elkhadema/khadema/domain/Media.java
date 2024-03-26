@@ -86,7 +86,7 @@ public class Media {
 	            // Read the image
 	            BufferedImage image = ImageIO.read(new ByteArrayInputStream(media));
 	            System.out.println(image);
-	            if (image.getType()==6) {
+	            if (image.getColorModel().hasAlpha()) {
 	                // Prepare output stream
 	                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 	                ImageOutputStream imageOutputStream = ImageIO.createImageOutputStream(outputStream);
@@ -160,9 +160,10 @@ public class Media {
 	            
 	            // Convert BufferedImage to byte array
 	            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-	            ImageIO.write(image, "jpg", outputStream);
+	            ImageIO.write(image, "png", outputStream);
+	            
 	            if (outputStream.size()==0) {
-		            ImageIO.write(image, "png", outputStream);
+	            	ImageIO.write(image, "jpg", outputStream);
 		            
 				}
 	            // Cleanup

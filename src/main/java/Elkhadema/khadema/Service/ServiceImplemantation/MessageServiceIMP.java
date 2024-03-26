@@ -1,5 +1,6 @@
 package Elkhadema.khadema.Service.ServiceImplemantation;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,7 +20,11 @@ public class MessageServiceIMP implements MessageService {
 		message.setCreationDate(new Date());
 		Date date=new Date();
 		MessageReceiver mr = new MessageReceiver(message, reciever, 0, 0);
-		mdao.save(message, mr);
+		try {
+			mdao.save(message, mr);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

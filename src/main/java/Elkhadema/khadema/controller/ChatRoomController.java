@@ -149,11 +149,19 @@ public class ChatRoomController implements Initializable {
                         "-fx-text-fill: black;" +
                         "-fx-background : transparent;" +
                         "-fx-background-radius: 10px;");
-        VBox vBox = new VBox(hBox, contentText);
+        //ahawa kifech t addi image
+        ImageView iv=new ImageView(message.getImage().getImage());
+        VBox vboxforimage=new VBox(iv);
+        VBox vBox = new VBox(hBox, contentText,vboxforimage);
+        iv.setFitWidth(500);
+        iv.setPreserveRatio(true);
+        vboxforimage.setAlignment(Pos.TOP_RIGHT);//houni image right 3ala 5ater titb3ath twali left ki recieved
+        //end houni
         messageVBox.getChildren().add(vBox);
         if (message.getSender() != Session.getUser()) {
             messageService.MessageRead(message, Session.getUser());
         }
+        
         lastMessageId = message.getId();
         Platform.runLater(() -> {
             if (tmp)

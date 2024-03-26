@@ -1,5 +1,7 @@
 package Elkhadema.khadema.DAO.DAOImplemantation;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -11,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import Elkhadema.khadema.domain.Media;
 import Elkhadema.khadema.domain.Message;
 import Elkhadema.khadema.domain.MessageReceiver;
 
@@ -20,11 +23,11 @@ import Elkhadema.khadema.util.*;
 public class MessageDAO {
 	private static Connection connection = ConexDB.getInstance();
 
-	public void save(Message t, MessageReceiver mr) {
+	public void save(Message t, MessageReceiver mr) throws IOException {
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = connection.prepareStatement(
-					"INSERT INTO `khademadb`.`messages` (`message_id`, `content`, `sender_id`, `creation_date`, `parent_message_id`) VALUES (NULL, ?, ?, ?, ?)",
+					"INSERT INTO `khademadb`.`messages` (`message_id`, `content`, `sender_id`, `creation_date`, `parent_message_id` ,`image`) VALUES (NULL, ?, ?, ?, ?,?)",
 					Statement.RETURN_GENERATED_KEYS);
 			pstmt.setString(1, t.getContent());
 			pstmt.setInt(2, t.getSender().getId());
@@ -33,7 +36,9 @@ public class MessageDAO {
 				pstmt.setInt(4, t.getParentMessageId());
 			} else
 				pstmt.setNull(4, java.sql.Types.INTEGER);
-
+			if(t.getImage()!=null) 
+			pstmt.setBlob(5, new ByteArrayInputStream(t.getImage().ImageCompression()));
+			else pstmt.setNull(5, java.sql.Types.BLOB);
 			pstmt.executeUpdate();
 			ResultSet rs = pstmt.getGeneratedKeys();
 			if (rs.next()) {
@@ -106,11 +111,13 @@ public class MessageDAO {
 				statement.setInt(2, u2.getId());
 				statement.setInt(3, u1.getId());
 				statement.setInt(4, u2.getId());
-
+				Message message;
 				try (ResultSet resultSet = statement.executeQuery()) {
 					while (resultSet.next()) {
-						messages.add(new Message(resultSet.getLong("message_id"), new User(resultSet.getInt("sender_id"), "", ""),
-								resultSet.getString("content"), resultSet.getDate("creation_date"), resultSet.getInt("parent_message_id")));
+						message=new Message(resultSet.getLong("message_id"), new User(resultSet.getInt("sender_id"), "", ""),
+								resultSet.getString("content"), resultSet.getDate("creation_date"), resultSet.getInt("parent_message_id"));
+						message.setImage(new Media(null,Media.ImageDecompress(resultSet.getBytes("image")),"img"));
+						messages.add(message);
 					}
 				}
 			}
@@ -147,6 +154,8 @@ public class MessageDAO {
 				Message message=new Message(rs.getLong("message_id"), new User(rs.getInt("sender_id"), "", ""),
 						rs.getString("content"), rs.getDate("creation_date"), rs.getInt("parent_message_id"));
 						message.setRead(rs.getInt("is_read"));
+				message.setImage(new Media(null,Media.ImageDecompress(rs.getBytes("image")),"img"));
+
 				messages.add(message);
 			}
 

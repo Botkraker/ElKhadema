@@ -9,6 +9,7 @@ public class Message {
     private Date creationDate;
     private int parentMessageId;
     private int read;
+    private Media image=null;
     public int getRead(){
         return read;
     }
@@ -64,5 +65,11 @@ public class Message {
     public void setParentMessageId(int parentMessageId) {
         this.parentMessageId = parentMessageId;
     }
+	public Media getImage() {
+		return image;
+	}
+	public void setImage(Media image) {
+		this.image = image;
+	}
 
 }

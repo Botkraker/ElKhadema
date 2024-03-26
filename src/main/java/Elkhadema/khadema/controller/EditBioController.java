@@ -99,6 +99,7 @@ public class EditBioController {
             return;
         }
         age = Integer.parseInt(ageField.getText());
+        sexe =sexeComboBox.getSelectionModel().getSelectedItem();
         closedHow=true;
         stage.close();
 

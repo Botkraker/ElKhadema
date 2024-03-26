@@ -89,6 +89,9 @@ public class UserServiceImp implements UserService {
 			throw new UserNotFoundException();
 		}
 		userDao.update(u, newUser);
+		if (u instanceof Person) {
+			personDao.update(((Person)u), ((Person)newUser));
+		}
 		return newUser;
 	}
 

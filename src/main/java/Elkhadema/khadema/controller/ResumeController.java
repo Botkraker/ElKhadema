@@ -341,6 +341,7 @@ public class ResumeController {
         currentUser.setJob(editBioController.getJob());
         currentUser.setSexe(editBioController.getSexe());
         userService.EditUser(currentUser, currentUser);
+        afficheBio(currentUser);
     }
 
     @FXML

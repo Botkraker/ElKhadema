@@ -68,7 +68,7 @@ public class PersonDAO {
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = connection.prepareStatement(
-					"INSERT INTO `khademadb`.`person` (`user_id`,`first_name`,`last_name`,`job`,`sexe`,`age`,`about`) VALUES (?, ?, ?, ?, ?, ?);",
+					"INSERT INTO `khademadb`.`person` (`user_id`,`first_name`,`last_name`,`job`,`sexe`,`age`,`about`) VALUES (?, ?, ?, ?, ?, ?, ?);",
 					Statement.RETURN_GENERATED_KEYS);
 			pstmt.setLong(1, t.getId());
 			pstmt.setString(2, t.getFirstName());
@@ -88,7 +88,7 @@ public class PersonDAO {
 
 	public void update(Person t, Person newT) {
 		try {
-			String sql = "UPDATE `khademadb`.`person` SET `first_name`=?,`last_name`=?,'job'=?, 'sexe'=?, 'age'=? WHERE `person`.`user_id` = "
+			String sql = "UPDATE `khademadb`.`person` SET `first_name`=?,`last_name`=?,`job`=?, `sexe`=?, `age`=?,`about`=? WHERE `person`.`user_id` = "
 					+ t.getId() + ";";
 
 			PreparedStatement p = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);

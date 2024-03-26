@@ -26,34 +26,29 @@ public class MediaChooser {
 		   String extension=selectFile.getName().substring(selectFile.getName().lastIndexOf(".")+1);
 		   List<String> imgextension= Arrays.asList("png", "jpg", "jpeg");
 		   List<String> vidextension= Arrays.asList("mp4", "avi", "mov");
-		   
-		   if (selectFile!=null) {
-			   if (imgextension.contains(extension)) {
-				   try (FileInputStream fis = new FileInputStream(selectFile)) {
-			            return new Media(null, fis.readAllBytes(), "img");
-			            
-			        } catch (IOException e) {
-			            e.printStackTrace();
-			            return null;
-			        }
-			}
-			   else if (vidextension.contains(extension)) {
-				   try (FileInputStream fis = new FileInputStream(selectFile)) {
-			            return new Media(null, fis.readAllBytes(), "vid");
-			            
-			        } catch (IOException e) {
-			            e.printStackTrace();
-			            return null;
-			        }
-			}
-			
-			   else {
-				System.out.println("given wrong extension");
-				return null;
-			}}
-			else {
-				System.out.println("nothing is selected");
-				return null;
-			}		
+
+		   if (imgextension.contains(extension)) {
+			   try (FileInputStream fis = new FileInputStream(selectFile)) {
+		            return new Media(null, fis.readAllBytes(), "img");
+
+		        } catch (IOException e) {
+		            e.printStackTrace();
+		            return null;
+		        }
+		}
+		   else if (vidextension.contains(extension)) {
+			   try (FileInputStream fis = new FileInputStream(selectFile)) {
+		            return new Media(null, fis.readAllBytes(), "vid");
+
+		        } catch (IOException e) {
+		            e.printStackTrace();
+		            return null;
+		        }
+		}
+
+		   else {
+			System.out.println("given wrong extension");
+			return null;
+		}		
 	}
 }

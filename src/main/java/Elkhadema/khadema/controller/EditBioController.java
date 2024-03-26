@@ -2,7 +2,6 @@ package Elkhadema.khadema.controller;
 
 import Elkhadema.khadema.Service.validateInfo.JobNameValidator;
 import Elkhadema.khadema.domain.Person;
-import Elkhadema.khadema.domain.User;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;

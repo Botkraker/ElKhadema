@@ -16,6 +16,7 @@ import Elkhadema.khadema.util.ConexDB;
 
 public class PersonDAO {
 	private static Connection connection = ConexDB.getInstance();
+
 	public Optional<Person> get(long id) {
 		String sql = "SELECT *  FROM `user`,person WHERE `user`.`user_id` = " + id
 				+ " and `user`.user_id=`person`.user_id";
@@ -26,9 +27,9 @@ public class PersonDAO {
 				person = new Person(rs.getInt("user_id"), rs.getString("password_encrypted"),
 						new ContactInfo(rs.getInt("contact_info_id")),
 						rs.getString("userName"), rs.getDate("creationdate"),
-						rs.getDate("last_login"),new Media(null,Media.ImageDecompress(rs.getBytes("photo")),"img"),
+						rs.getDate("last_login"), new Media(null, Media.ImageDecompress(rs.getBytes("photo")), "img"),
 						rs.getBoolean("banned"), rs.getBoolean("is_active"),
-						rs.getString("first_name"),rs.getString("last_name"));
+						rs.getString("first_name"), rs.getString("last_name"));
 			}
 
 		} catch (Exception e) {
@@ -47,12 +48,14 @@ public class PersonDAO {
 			stmt = connection.createStatement();
 			rs = stmt.executeQuery(SQL);
 			while (rs.next()) {
-				persons.add(new Person(rs.getInt("user_id"), rs.getString("password_encrypted"),
+				Person person = new Person(rs.getInt("user_id"), rs.getString("password_encrypted"),
 						new ContactInfo(rs.getInt("contact_info_id")),
 						rs.getString("userName"), rs.getDate("creationdate"),
-						rs.getDate("last_login"),new Media(null,Media.ImageDecompress(rs.getBytes("photo")),"img"),
+						rs.getDate("last_login"), new Media(null, Media.ImageDecompress(rs.getBytes("photo")), "img"),
 						rs.getBoolean("banned"), rs.getBoolean("is_active"),
-						rs.getString("first_name"),rs.getString("last_name")));
+						rs.getString("first_name"), rs.getString("last_name"), rs.getInt("age"), rs.getString("job"),
+						rs.getString("sexe"));
+				persons.add(person);
 			}
 		} catch (SQLException e) {
 			System.out.println(e);
@@ -64,13 +67,16 @@ public class PersonDAO {
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = connection.prepareStatement(
-					"INSERT INTO `khademadb`.`person` (`user_id`,`first_name`,`last_name`) VALUES (?, ?, ?);",
+					"INSERT INTO `khademadb`.`person` (`user_id`,`first_name`,`last_name`) VALUES (?, ?, ?, ?, ?, ?);",
 					Statement.RETURN_GENERATED_KEYS);
 			pstmt.setLong(1, t.getId());
 			pstmt.setString(2, t.getFirstName());
 			pstmt.setString(3, t.getLastName());
+			pstmt.setString(4, t.getJob());
+			pstmt.setString(5, t.getSexe());
+			pstmt.setInt(6, t.getAge());
+
 			pstmt.executeUpdate();
-			
 
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -80,19 +86,21 @@ public class PersonDAO {
 
 	public void update(Person t, Person newT) {
 		try {
-			String sql = "UPDATE `khademadb`.`person` SET `first_name`=?,`last_name`=? WHERE `person`.`user_id` = "
+			String sql = "UPDATE `khademadb`.`person` SET `first_name`=?,`last_name`=?,'job'=?, 'sexe'=?, 'age'=? WHERE `person`.`user_id` = "
 					+ t.getId() + ";";
 
 			PreparedStatement p = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			p.setString(2, newT.getFirstName());
 			p.setString(1, newT.getLastName());
+			p.setString(3, t.getJob());
+			p.setString(4, t.getSexe());
+			p.setInt(5, t.getAge());
 
 			p.executeUpdate();
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 	}
-
 
 	public void delete(Person t) {
 		try {
@@ -103,5 +111,4 @@ public class PersonDAO {
 		}
 	}
 
-	
 }

@@ -44,309 +44,201 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Elkhadema.khadema.controller.MainPageController">
     <children>
-      <BorderPane layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <top>
-            <VBox prefHeight="60.0" prefWidth="1280.0" BorderPane.alignment="CENTER">
-               <children>
-                  <HBox prefHeight="64.0" prefWidth="421.0" styleClass="navb" stylesheets="@style.css" VBox.vgrow="ALWAYS">
+      <StackPane fx:id="bigstack" prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.1" AnchorPane.leftAnchor="0.1" AnchorPane.rightAnchor="0.1" AnchorPane.topAnchor="0.1">
+         <children>
+            <BorderPane prefHeight="200.0" prefWidth="200.0">
+               <top>
+                  <VBox prefHeight="60.0" prefWidth="1280.0" BorderPane.alignment="CENTER">
                      <children>
-                        <HBox prefHeight="60.0" prefWidth="635.0" HBox.hgrow="ALWAYS">
+                        <HBox prefHeight="64.0" prefWidth="421.0" styleClass="navb" stylesheets="@style.css" VBox.vgrow="ALWAYS">
                            <children>
-                              <Label alignment="CENTER" prefHeight="58.0" prefWidth="112.0" text="ElKhedma" textAlignment="CENTER" textFill="#f5f5f5">
-                                 <font>
-                                    <Font name="Microsoft Sans Serif" size="22.0" />
-                                 </font>
-                              </Label>
-                              <ImageView fitHeight="64.0" fitWidth="67.0">
-                                 <image>
-                                    <Image url="@logonotext.png" />
-                                 </image>
-                              </ImageView>
-                           </children>
-                        </HBox>
-                        <HBox prefHeight="64.0" prefWidth="694.0">
-                           <children>
-                              <HBox prefHeight="66.0" prefWidth="562.0">
+                              <HBox prefHeight="60.0" prefWidth="635.0" HBox.hgrow="ALWAYS">
                                  <children>
-                                    <Button mnemonicParsing="false" onMouseClicked="#goHome" prefHeight="63.0" prefWidth="78.0" styleClass="navbarbuttons" text="Home" textFill="WHITE">
-                                       <HBox.margin>
-                                          <Insets left="10.0" right="10.0" />
-                                       </HBox.margin>
+                                    <Label alignment="CENTER" prefHeight="58.0" prefWidth="112.0" text="ElKhedma" textAlignment="CENTER" textFill="#f5f5f5">
                                        <font>
-                                          <Font name="SansSerif Regular" size="16.0" />
+                                          <Font name="Microsoft Sans Serif" size="22.0" />
                                        </font>
-                                    </Button>
-                                    <Button mnemonicParsing="false" onMouseClicked="#goJobsList" prefHeight="63.0" prefWidth="87.0" styleClass="navbarbuttons" text="jobs" textFill="WHITE">
-                                       <HBox.margin>
-                                          <Insets left="10.0" right="10.0" />
-                                       </HBox.margin>
-                                       <font>
-                                          <Font name="SansSerif Regular" size="16.0" />
-                                       </font>
-                                    </Button>
-                                    <Button mnemonicParsing="false" onMouseClicked="#goResume" prefHeight="63.0" prefWidth="87.0" styleClass="navbarbuttons" text="resume" textFill="WHITE">
-                                       <HBox.margin>
-                                          <Insets left="10.0" right="10.0" />
-                                       </HBox.margin>
-                                       <font>
-                                          <Font name="SansSerif Regular" size="16.0" />
-                                       </font>
-                                    </Button>
-                                    <Button mnemonicParsing="false" onMouseClicked="#goNotifications" prefHeight="63.0" prefWidth="117.0" styleClass="navbarbuttons" text="Notifications" textFill="WHITE">
-                                       <font>
-                                          <Font name="SansSerif Regular" size="16.0" />
-                                       </font>
-                                       <HBox.margin>
-                                          <Insets left="10.0" right="10.0" />
-                                       </HBox.margin>
-                                    </Button>
-                                    <Button mnemonicParsing="false" onAction="#goChat" onMouseClicked="#goHome" prefHeight="63.0" prefWidth="87.0" styleClass="navbarbuttons" text="chat" textFill="WHITE">
-                                       <font>
-                                          <Font name="SansSerif Regular" size="16.0" />
-                                       </font>
-                                    </Button>
-                                    <ImageView fitHeight="65.0" fitWidth="65.0" onMouseClicked="#sessionOpenProfile">
+                                    </Label>
+                                    <ImageView fitHeight="64.0" fitWidth="67.0">
                                        <image>
-                                          <Image url="@user.jpg.png" />
+                                          <Image url="@logonotext.png" />
                                        </image>
                                     </ImageView>
                                  </children>
                               </HBox>
-                              <Button alignment="CENTER" mnemonicParsing="false" onMouseClicked="#logout" prefHeight="63.0" prefWidth="136.0" styleClass="navbarbuttons" text="logout" textFill="WHITE">
-                                 <font>
-                                    <Font size="16.0" />
-                                 </font>
-                              </Button>
-                           </children>
-                        </HBox>
-                     </children>
-                  </HBox>
-               </children>
-            </VBox>
-         </top>
-         <left>
-            <VBox prefHeight="655.0" prefWidth="340.0" BorderPane.alignment="CENTER">
-               <children>
-                  <VBox alignment="TOP_CENTER" prefHeight="241.0" prefWidth="593.0" styleClass="posts">
-                     <children>
-                        <ImageView fitHeight="125.0" fitWidth="125.0" onMouseClicked="#sessionOpenProfile">
-                           <image>
-                              <Image url="@user.jpg.png" />
-                           </image>
-                        </ImageView>
-                        <HBox alignment="TOP_CENTER" prefHeight="60.0" prefWidth="593.0">
-                           <children>
-                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Your Name" textAlignment="CENTER" wrappingWidth="106.13671875">
-                                 <font>
-                                    <Font name="SansSerif Regular" size="15.0" />
-                                 </font>
-                                 <HBox.margin>
-                                    <Insets left="5.0" />
-                                 </HBox.margin>
-                              </Text>
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" />
-                        <TextArea editable="false" minHeight="150.0" prefHeight="126.0" prefWidth="574.0" styleClass="postTxtField" text="Age: 69&#10;sex : yes&#10;job : batal&#10;" wrapText="true">
-                           <font>
-                              <Font size="13.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets top="5.0" />
-                           </VBox.margin>
-                        </TextArea>
-                     </children>
-                     <VBox.margin>
-                        <Insets left="10.0" right="10.0" top="25.0" />
-                     </VBox.margin>
-                  </VBox>
-               </children>
-               <styleClass>
-                  <String fx:value="navb" />
-                  <String fx:value="feedcolor" />
-               </styleClass>
-            </VBox>
-         </left>
-         <center>
-            <VBox onMouseClicked="#postMsg" prefHeight="655.0" prefWidth="556.0" BorderPane.alignment="CENTER">
-               <children>
-                  <ScrollPane fx:id="CC" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" prefHeight="655.0" prefWidth="556.0" styleClass="feedcolor" VBox.vgrow="ALWAYS">
-                     <content>
-                        <VBox fx:id="mothersofmother" prefHeight="656.0" prefWidth="593.0" styleClass="feedcolor">
-                           <children>
-                              <VBox alignment="TOP_RIGHT">
+                              <HBox prefHeight="64.0" prefWidth="694.0">
                                  <children>
-                                    <TextArea fx:id="postcontent" prefHeight="47.0" prefWidth="581.0" promptText="What is on your mind ?" styleClass="txtfield" wrapText="true" VBox.vgrow="ALWAYS">
-                                       <font>
-                                          <Font size="18.0" />
-                                       </font>
-                                       <padding>
-                                          <Insets left="2.0" right="2.0" top="5.0" />
-                                       </padding>
-                                       <VBox.margin>
-                                          <Insets left="5.0" right="5.0" top="5.0" />
-                                       </VBox.margin>
-                                    </TextArea>
-                                    <HBox fx:id="HboxforAttachments" VBox.vgrow="ALWAYS" />
-                                    <HBox fx:id="vidcontainer" VBox.vgrow="ALWAYS" />
-                                    <HBox fx:id="mother" alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="591.0">
+                                    <HBox prefHeight="66.0" prefWidth="562.0">
                                        <children>
-                                          <HBox alignment="CENTER_LEFT" prefHeight="44.0" prefWidth="488.0" HBox.hgrow="ALWAYS">
-                                             <children>
-                                                <Button fx:id="buttontoaddattach" mnemonicParsing="false" onAction="#AddMediabutton" styleClass="likebutton" text="📷" textFill="WHITE">
-                                                   <font>
-                                                      <Font size="19.0" />
-                                                   </font>
-                                                </Button>
-                                             </children>
-                                             <padding>
+                                          <Button mnemonicParsing="false" onMouseClicked="#goHome" prefHeight="63.0" prefWidth="78.0" styleClass="navbarbuttons" text="Home" textFill="WHITE">
+                                             <HBox.margin>
                                                 <Insets left="10.0" right="10.0" />
-                                             </padding>
-                                          </HBox>
-                                          <Button alignment="CENTER" mnemonicParsing="false" onAction="#createPost" prefHeight="25.0" prefWidth="99.0" styleClass="postButton" text="Post" textFill="WHITE">
+                                             </HBox.margin>
                                              <font>
-                                                <Font name="SansSerif Bold" size="15.0" />
+                                                <Font name="SansSerif Regular" size="16.0" />
+                                             </font>
+                                          </Button>
+                                          <Button mnemonicParsing="false" onMouseClicked="#goJobsList" prefHeight="63.0" prefWidth="87.0" styleClass="navbarbuttons" text="jobs" textFill="WHITE">
+                                             <HBox.margin>
+                                                <Insets left="10.0" right="10.0" />
+                                             </HBox.margin>
+                                             <font>
+                                                <Font name="SansSerif Regular" size="16.0" />
+                                             </font>
+                                          </Button>
+                                          <Button mnemonicParsing="false" onMouseClicked="#goResume" prefHeight="63.0" prefWidth="87.0" styleClass="navbarbuttons" text="resume" textFill="WHITE">
+                                             <HBox.margin>
+                                                <Insets left="10.0" right="10.0" />
+                                             </HBox.margin>
+                                             <font>
+                                                <Font name="SansSerif Regular" size="16.0" />
+                                             </font>
+                                          </Button>
+                                          <Button mnemonicParsing="false" onMouseClicked="#goNotifications" prefHeight="63.0" prefWidth="117.0" styleClass="navbarbuttons" text="Notifications" textFill="WHITE">
+                                             <font>
+                                                <Font name="SansSerif Regular" size="16.0" />
                                              </font>
                                              <HBox.margin>
-                                                <Insets right="5.0" />
+                                                <Insets left="10.0" right="10.0" />
                                              </HBox.margin>
                                           </Button>
+                                          <Button mnemonicParsing="false" onAction="#goChat" onMouseClicked="#goHome" prefHeight="63.0" prefWidth="87.0" styleClass="navbarbuttons" text="chat" textFill="WHITE">
+                                             <font>
+                                                <Font name="SansSerif Regular" size="16.0" />
+                                             </font>
+                                          </Button>
+                                          <ImageView fitHeight="65.0" fitWidth="65.0">
+                                             <image>
+                                                <Image url="@user.jpg.png" />
+                                             </image>
+                                          </ImageView>
                                        </children>
                                     </HBox>
-                                 </children>
-                              </VBox>
-                              <VBox fx:id="postscontainer" prefHeight="496.0" prefWidth="593.0">
-                                 <children>
-                                    <Text fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-effect: dropshadow(three-pass-box, #444444e8, 10, 0.5, 3, 3);;" text="News feed" wrappingWidth="96.13671875">
+                                    <Button alignment="CENTER" mnemonicParsing="false" onMouseClicked="#logout" prefHeight="63.0" prefWidth="136.0" styleClass="navbarbuttons" text="logout" textFill="WHITE">
                                        <font>
-                                          <Font size="18.0" />
+                                          <Font size="16.0" />
                                        </font>
-                                       <VBox.margin>
-                                          <Insets left="7.0" top="5.0" />
-                                       </VBox.margin>
-                                    </Text>
-                                    <VBox fx:id="postholder" prefHeight="249.0" prefWidth="593.0">
-                                       <children>
-                                          <VBox prefHeight="241.0" prefWidth="593.0" styleClass="posts">
-                                             <children>
-                                                <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="593.0">
-                                                   <children>
-                                                      <ImageView fitHeight="46.0" fitWidth="46.0">
-                                                         <image>
-                                                            <Image url="@user.jpg.png" />
-                                                         </image>
-                                                         <HBox.margin>
-                                                            <Insets left="5.0" />
-                                                         </HBox.margin>
-                                                      </ImageView>
-                                                      <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text=" User Name" wrappingWidth="106.13671875">
-                                                         <font>
-                                                            <Font name="SansSerif Regular" size="15.0" />
-                                                         </font>
-                                                         <HBox.margin>
-                                                            <Insets left="5.0" />
-                                                         </HBox.margin>
-                                                      </Text>
-                                                   </children>
-                                                </HBox>
-                                                <TextArea editable="false" minHeight="150.0" prefHeight="126.0" prefWidth="574.0" styleClass="postTxtField" text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum." wrapText="true">
-                                                   <font>
-                                                      <Font size="13.0" />
-                                                   </font>
-                                                   <VBox.margin>
-                                                      <Insets left="3.0" right="3.0" top="2.0" />
-                                                   </VBox.margin>
-                                                </TextArea>
-                                                <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
-                                                   <children>
-                                                      <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="CENTER" wrappingWidth="23.46875">
-                                                         <HBox.margin>
-                                                            <Insets bottom="2.0" left="7.0" />
-                                                         </HBox.margin>
-                                                         <font>
-                                                            <Font size="16.0" />
-                                                         </font>
-                                                      </Text>
-                                                      <Button mnemonicParsing="false" onMouseClicked="#likePost" styleClass="likebutton" text="like ♥" textFill="WHITE">
-                                                         <font>
-                                                            <Font size="19.0" />
-                                                         </font>
-                                                         <HBox.margin>
-                                                            <Insets bottom="2.0" left="5.0" />
-                                                         </HBox.margin>
-                                                      </Button>
-                                                      <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="CENTER" wrappingWidth="33.46875">
-                                                         <HBox.margin>
-                                                            <Insets bottom="2.0" left="5.0" />
-                                                         </HBox.margin>
-                                                         <font>
-                                                            <Font size="16.0" />
-                                                         </font>
-                                                      </Text>
-                                                      <Button alignment="CENTER" contentDisplay="TOP" mnemonicParsing="false" prefHeight="40.0" prefWidth="139.0" styleClass="likebutton" text="comments ☁" textAlignment="CENTER" textFill="#fff4f4">
-                                                         <font>
-                                                            <Font size="19.0" />
-                                                         </font>
-                                                         <HBox.margin>
-                                                            <Insets bottom="2.0" />
-                                                         </HBox.margin>
-                                                      </Button>
-                                                   </children>
-                                                </HBox>
-                                             </children>
-                                             <VBox.margin>
-                                                <Insets bottom="5.0" top="5.0" />
-                                             </VBox.margin>
-                                          </VBox>
-                                       </children>
-                                       <padding>
-                                          <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-                                       </padding>
-                                    </VBox>
+                                    </Button>
                                  </children>
-                              </VBox>
+                              </HBox>
                            </children>
-                        </VBox>
-                     </content>
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                  </ScrollPane>
-               </children>
-            </VBox>
-         </center>
-         <right>
-            <VBox prefHeight="655.0" prefWidth="347.0" style="-fx-effect: blur;" styleClass="feedcolor" BorderPane.alignment="CENTER">
-               <children>
-                  <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" styleClass="feedcolor" VBox.vgrow="ALWAYS">
-                     <content>
-                        <VBox prefHeight="656.0" prefWidth="593.0" styleClass="feedcolor">
+                        </HBox>
+                     </children>
+                  </VBox>
+               </top>
+               <left>
+                  <VBox prefHeight="655.0" prefWidth="340.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <VBox alignment="TOP_CENTER" prefHeight="241.0" prefWidth="593.0" styleClass="posts">
                            <children>
-                              <VBox prefHeight="657.0" prefWidth="340.0">
+                              <ImageView fitHeight="125.0" fitWidth="125.0">
+                                 <image>
+                                    <Image url="@user.jpg.png" />
+                                 </image>
+                              </ImageView>
+                              <HBox alignment="TOP_CENTER" prefHeight="60.0" prefWidth="593.0">
                                  <children>
-                                    <Text fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-effect: dropshadow(three-pass-box, #444444e8, 10, 0.5, 3, 3);;" text="Contact" wrappingWidth="96.13671875">
+                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Your Name" textAlignment="CENTER" wrappingWidth="106.13671875">
                                        <font>
-                                          <Font size="18.0" />
+                                          <Font name="SansSerif Regular" size="15.0" />
                                        </font>
-                                       <VBox.margin>
-                                          <Insets left="7.0" top="6.0" />
-                                       </VBox.margin>
+                                       <HBox.margin>
+                                          <Insets left="5.0" />
+                                       </HBox.margin>
                                     </Text>
-                                    <VBox fx:id="vContacts" prefHeight="627.0" prefWidth="340.0">
-                                       <padding>
-                                          <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-                                       </padding>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" />
+                              <TextArea editable="false" minHeight="150.0" prefHeight="126.0" prefWidth="574.0" styleClass="postTxtField" text="Age: 69&#10;sex : yes&#10;job : batal&#10;" wrapText="true">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                              </TextArea>
+                           </children>
+                           <VBox.margin>
+                              <Insets left="10.0" right="10.0" top="25.0" />
+                           </VBox.margin>
+                        </VBox>
+                     </children>
+                     <styleClass>
+                        <String fx:value="navb" />
+                        <String fx:value="feedcolor" />
+                     </styleClass>
+                  </VBox>
+               </left>
+               <center>
+                  <VBox onMouseClicked="#postMsg" prefHeight="655.0" prefWidth="556.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <ScrollPane fx:id="CC" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" prefHeight="655.0" prefWidth="556.0" styleClass="feedcolor" VBox.vgrow="ALWAYS">
+                           <content>
+                              <VBox fx:id="mothersofmother" prefHeight="656.0" prefWidth="593.0" styleClass="feedcolor">
+                                 <children>
+                                    <VBox alignment="TOP_RIGHT">
                                        <children>
-                                          <VBox prefHeight="50.0" prefWidth="593.0" styleClass="posts">
+                                          <TextArea fx:id="postcontent" prefHeight="47.0" prefWidth="581.0" promptText="What is on your mind ?" styleClass="txtfield" wrapText="true" VBox.vgrow="ALWAYS">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                             <padding>
+                                                <Insets left="2.0" right="2.0" top="5.0" />
+                                             </padding>
+                                             <VBox.margin>
+                                                <Insets left="5.0" right="5.0" top="5.0" />
+                                             </VBox.margin>
+                                          </TextArea>
+                                          <HBox fx:id="HboxforAttachments" VBox.vgrow="ALWAYS" />
+                                          <HBox fx:id="vidcontainer" VBox.vgrow="ALWAYS" />
+                                          <HBox fx:id="mother" alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="591.0">
                                              <children>
-                                                <ButtonBar fx:id="listContact">
-                                                   <buttons>
+                                                <HBox alignment="CENTER_LEFT" prefHeight="44.0" prefWidth="488.0" HBox.hgrow="ALWAYS">
+                                                   <children>
+                                                      <Button fx:id="buttontoaddattach" mnemonicParsing="false" onAction="#AddMediabutton" styleClass="likebutton" text="📷" textFill="WHITE">
+                                                         <font>
+                                                            <Font size="19.0" />
+                                                         </font>
+                                                      </Button>
+                                                   </children>
+                                                   <padding>
+                                                      <Insets left="10.0" right="10.0" />
+                                                   </padding>
+                                                </HBox>
+                                                <Button alignment="CENTER" mnemonicParsing="false" onAction="#createPost" prefHeight="25.0" prefWidth="99.0" styleClass="postButton" text="Post" textFill="WHITE">
+                                                   <font>
+                                                      <Font name="SansSerif Bold" size="15.0" />
+                                                   </font>
+                                                   <HBox.margin>
+                                                      <Insets right="5.0" />
+                                                   </HBox.margin>
+                                                </Button>
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                    <VBox fx:id="postscontainer" prefHeight="496.0" prefWidth="593.0">
+                                       <children>
+                                          <Text fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-effect: dropshadow(three-pass-box, #444444e8, 10, 0.5, 3, 3);;" text="News feed" wrappingWidth="96.13671875">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets left="7.0" top="5.0" />
+                                             </VBox.margin>
+                                          </Text>
+                                          <VBox fx:id="postholder" prefHeight="249.0" prefWidth="593.0">
+                                             <children>
+                                                <VBox prefHeight="241.0" prefWidth="593.0" styleClass="posts">
+                                                   <children>
                                                       <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="593.0">
                                                          <children>
                                                             <ImageView fitHeight="46.0" fitWidth="46.0">
@@ -366,34 +258,148 @@
                                                                </HBox.margin>
                                                             </Text>
                                                          </children>
-                                                         <padding>
-                                                            <Insets bottom="5.0" top="5.0" />
-                                                         </padding>
                                                       </HBox>
-                                                   </buttons>
-                                                </ButtonBar>
+                                                      <TextArea editable="false" minHeight="150.0" prefHeight="126.0" prefWidth="574.0" styleClass="postTxtField" text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum." wrapText="true">
+                                                         <font>
+                                                            <Font size="13.0" />
+                                                         </font>
+                                                         <VBox.margin>
+                                                            <Insets left="3.0" right="3.0" top="2.0" />
+                                                         </VBox.margin>
+                                                      </TextArea>
+                                                      <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                                                         <children>
+                                                            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="CENTER" wrappingWidth="23.46875">
+                                                               <HBox.margin>
+                                                                  <Insets bottom="2.0" left="7.0" />
+                                                               </HBox.margin>
+                                                               <font>
+                                                                  <Font size="16.0" />
+                                                               </font>
+                                                            </Text>
+                                                            <Button mnemonicParsing="false" onMouseClicked="#likePost" styleClass="likebutton" text="like ♥" textFill="WHITE">
+                                                               <font>
+                                                                  <Font size="19.0" />
+                                                               </font>
+                                                               <HBox.margin>
+                                                                  <Insets bottom="2.0" left="5.0" />
+                                                               </HBox.margin>
+                                                            </Button>
+                                                            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="CENTER" wrappingWidth="33.46875">
+                                                               <HBox.margin>
+                                                                  <Insets bottom="2.0" left="5.0" />
+                                                               </HBox.margin>
+                                                               <font>
+                                                                  <Font size="16.0" />
+                                                               </font>
+                                                            </Text>
+                                                            <Button alignment="CENTER" contentDisplay="TOP" mnemonicParsing="false" prefHeight="40.0" prefWidth="139.0" styleClass="likebutton" text="comments ☁" textAlignment="CENTER" textFill="#fff4f4">
+                                                               <font>
+                                                                  <Font size="19.0" />
+                                                               </font>
+                                                               <HBox.margin>
+                                                                  <Insets bottom="2.0" />
+                                                               </HBox.margin>
+                                                            </Button>
+                                                         </children>
+                                                      </HBox>
+                                                   </children>
+                                                   <VBox.margin>
+                                                      <Insets bottom="5.0" top="5.0" />
+                                                   </VBox.margin>
+                                                </VBox>
                                              </children>
-                                             <VBox.margin>
-                                                <Insets bottom="5.0" top="5.0" />
-                                             </VBox.margin>
+                                             <padding>
+                                                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                             </padding>
                                           </VBox>
                                        </children>
-                                       <VBox.margin>
-                                          <Insets left="5.0" top="5.0" />
-                                       </VBox.margin>
                                     </VBox>
                                  </children>
                               </VBox>
-                           </children>
-                        </VBox>
-                     </content>
-                     <VBox.margin>
-                        <Insets left="5.0" />
-                     </VBox.margin>
-                  </ScrollPane>
-               </children>
-            </VBox>
-         </right>
-      </BorderPane>
+                           </content>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </ScrollPane>
+                     </children>
+                  </VBox>
+               </center>
+               <right>
+                  <VBox prefHeight="655.0" prefWidth="347.0" style="-fx-effect: blur;" styleClass="feedcolor" BorderPane.alignment="CENTER">
+                     <children>
+                        <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" styleClass="feedcolor" VBox.vgrow="ALWAYS">
+                           <content>
+                              <VBox prefHeight="656.0" prefWidth="593.0" styleClass="feedcolor">
+                                 <children>
+                                    <VBox prefHeight="657.0" prefWidth="340.0">
+                                       <children>
+                                          <Text fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-effect: dropshadow(three-pass-box, #444444e8, 10, 0.5, 3, 3);;" text="Contact" wrappingWidth="96.13671875">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets left="7.0" top="6.0" />
+                                             </VBox.margin>
+                                          </Text>
+                                          <VBox fx:id="vContacts" prefHeight="627.0" prefWidth="340.0">
+                                             <padding>
+                                                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                             </padding>
+                                             <children>
+                                                <VBox prefHeight="50.0" prefWidth="593.0" styleClass="posts">
+                                                   <children>
+                                                      <ButtonBar fx:id="listContact">
+                                                         <buttons>
+                                                            <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="593.0">
+                                                               <children>
+                                                                  <ImageView fitHeight="46.0" fitWidth="46.0">
+                                                                     <image>
+                                                                        <Image url="@user.jpg.png" />
+                                                                     </image>
+                                                                     <HBox.margin>
+                                                                        <Insets left="5.0" />
+                                                                     </HBox.margin>
+                                                                  </ImageView>
+                                                                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text=" User Name" wrappingWidth="106.13671875">
+                                                                     <font>
+                                                                        <Font name="SansSerif Regular" size="15.0" />
+                                                                     </font>
+                                                                     <HBox.margin>
+                                                                        <Insets left="5.0" />
+                                                                     </HBox.margin>
+                                                                  </Text>
+                                                               </children>
+                                                               <padding>
+                                                                  <Insets bottom="5.0" top="5.0" />
+                                                               </padding>
+                                                            </HBox>
+                                                         </buttons>
+                                                      </ButtonBar>
+                                                   </children>
+                                                   <VBox.margin>
+                                                      <Insets bottom="5.0" top="5.0" />
+                                                   </VBox.margin>
+                                                </VBox>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets left="5.0" top="5.0" />
+                                             </VBox.margin>
+                                          </VBox>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </VBox>
+                           </content>
+                           <VBox.margin>
+                              <Insets left="5.0" />
+                           </VBox.margin>
+                        </ScrollPane>
+                     </children>
+                  </VBox>
+               </right>
+            </BorderPane>
+         </children>
+      </StackPane>
    </children>
 </AnchorPane>

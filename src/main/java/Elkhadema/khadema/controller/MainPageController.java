@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
@@ -23,6 +24,7 @@ import Elkhadema.khadema.domain.User;
 import Elkhadema.khadema.util.MediaChooser;
 import Elkhadema.khadema.util.Session;
 import javafx.application.Platform;
+import javafx.collections.MapChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -34,11 +36,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
@@ -46,11 +52,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import javafx.scene.control.TextArea;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 
-public class MainPageController implements Initializable {
+public class MainPageController extends NavbarController implements Initializable {
     public void customizescrollpane() {
         CC.getStyleClass().add("custom-scroll-pane");
         DropShadow dropShadow = new DropShadow();
@@ -86,6 +93,8 @@ public class MainPageController implements Initializable {
 
     @FXML
     ButtonBar listContact;
+    @FXML
+    private StackPane bigstack;
 
     @FXML
     VBox vContacts;
@@ -115,35 +124,16 @@ public class MainPageController implements Initializable {
     }
 
 
-        @FXML
-        private HBox HboxforAttachments;
-
-        @FXML
-        private Button buttontoaddattach;
-    @FXML
-    public void goHome() {
-
-    }
 
     @FXML
-    public void goJobsList() {
-
-    }
+    private HBox HboxforAttachments;
 
     @FXML
-    public void goResume() {
+    private Button buttontoaddattach;
 
-    }
 
-    @FXML
-    public void goNotifications() {
 
-    }
 
-    @FXML
-    public void logout() {
-
-    }
 
     @FXML
     public void postMsg() {
@@ -264,15 +254,25 @@ public class MainPageController implements Initializable {
         iMGHOLDER.getStyleClass().add("postTxtField");
         iMGHOLDER.setAlignment(Pos.CENTER);
         iMGHOLDER.setSpacing(5);
-        try {
-            MediaPlayer mediaPlayer = post.getPostMedias().stream().filter(t -> t.getMediatype().equals("vid"))
-                    .map(Elkhadema.khadema.domain.Media::getVideo).findFirst().get();
-            MediaView mediaView = new MediaView(mediaPlayer);
-            iMGHOLDER.getChildren().add(mediaView);
-            System.out.println("fama" + post.getContent());
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+
+       Optional<MediaPlayer> mediaPlayer = post.getPostMedias().stream().filter(t -> t.getMediatype().equals("vid"))
+                .map(Elkhadema.khadema.domain.Media::getVideo).findFirst();
+       MediaPlayer mp[]= {null};
+       StackPane videopane=new StackPane();
+       if (mediaPlayer.isPresent()) {
+    	   mp[0]= mediaPlayer.get();
+    	   ImageView playbutton= new ImageView(new Image("file:src//main//resources//images//playbutton.png"));
+    	   playbutton.setFitWidth(50);
+    	   playbutton.setPreserveRatio(true);
+    	   playbutton.setOnMouseClicked(event -> {
+    		   playVideo(mp[0]);
+    	   });
+    	   videopane.getChildren().add(playbutton);
+       }
+
+       MediaView mediaView=new MediaView(mp[0]);
+       videopane.getChildren().add(0, mediaView);
+
         Text likenumber = new Text("" + ps.getPostReactions(post).size());
         likenumber.setFont(Font.font(16));
         likenumber.setFill(Color.WHITE);
@@ -306,21 +306,21 @@ public class MainPageController implements Initializable {
         HBox.setMargin(commentnumber, new Insets(0, 5, 0, 5));
         HBox.setMargin(commentbutton, new Insets(0, 5, 0, 5));
         likeandcommentBox.setTranslateX(5);
-        VBox posts = new VBox(profilebar, postscontent, iMGHOLDER, likeandcommentBox);
+        VBox posts = new VBox(profilebar, postscontent, iMGHOLDER,videopane, likeandcommentBox);
         VBox lastlayerBox = new VBox(posts);
         lastlayerBox.setFillWidth(true);
         VBox.setMargin(postscontent, new Insets(5, 0, 5, 10));
         VBox.setMargin(posts, new Insets(2.5f, 0, 2.5f, 0));
         posts.getStyleClass().add("posts");
-        System.out.println(posts.getWidth());
-        System.out.println(postholder.getWidth());
+
 
         postscontent.setWrappingWidth(postholder.getWidth());
         posts.setMinWidth(CC.getWidth() - 50);
+        mediaView.setFitWidth(CC.getWidth()-52);
+        mediaView.setPreserveRatio(true);
         CC.widthProperty().addListener((observable, oldValue, newValue) -> {
-            // Update the wrapping width of the Text node
-            System.out.println(CC.getWidth());
-            posts.setMinWidth(CC.getWidth() - 50);
+        	posts.setMinWidth(CC.getWidth() - 50);
+            mediaView.setFitWidth(CC.getWidth()-52);
             postscontent.setWrappingWidth(CC.getWidth());
         });
 
@@ -328,37 +328,100 @@ public class MainPageController implements Initializable {
         profilebar.setAlignment(Pos.CENTER_LEFT);
         return posts;
     }
+    private boolean isPlayed = false;
 
-    public void commentToPost(Post post) throws IOException {
+    private void playVideo(MediaPlayer mp) {
+    	VBox background=new VBox();
+    	background.setStyle("-fx-background-color: rgba(50, 50, 50, 0.7);");
+    	MediaView mediaView=new MediaView(mp);
+    	Button play=new Button("Play");
+
+
+    	play.setStyle("-fx-background-color: #0095fe;");
+    	Label duration=new Label();
+    	Slider slider= new Slider();
+    	mediaView.setPreserveRatio(true);
+    	slider.setOnMousePressed(event -> mp.seek(Duration.seconds(slider.getValue()/100*mp.getMedia().getDuration().toSeconds())));
+    	background.setOnMouseClicked(event -> {bigstack.getChildren().remove(background);mp.stop();});
+    	mp.currentTimeProperty().addListener(((observableValue, oldValue, newValue) -> {
+            slider.setValue(newValue.toSeconds()/mp.getMedia().getDuration().toSeconds()*100);
+            duration.setText("Duration: " + (int)slider.getValue() + " / " + (int)mp.getMedia().getDuration().toSeconds());
+        }));
+    	 mp.setOnReady(() ->{
+             Duration totalDuration = mp.getMedia().getDuration();
+             slider.setMax(totalDuration.toSeconds());
+             duration.setText("Duration: 00 / " + (int)mp.getMedia().getDuration().toSeconds());
+         });
+    	 HBox playbuttons=new HBox(play,slider,duration);
+        play.setFont(Font.font(19));
+        play.setTextFill(Color.WHITE);
+    	playbuttons.setSpacing(50);
+    	playbuttons.setAlignment(Pos.CENTER);
+    	VBox.setVgrow(playbuttons, Priority.NEVER);
+    	play.setOnAction(event ->{
+    		if(!isPlayed){
+                play.setText("Pause");
+                mp.play();
+                isPlayed = true;
+            }else {
+                play.setText("Play");
+                mp.pause();
+                isPlayed = false;
+            }
+    	});
+        background.getChildren().addAll(mediaView,playbuttons);
+
+    	background.setAlignment(Pos.CENTER);
+    	bigstack.getChildren().add(background);
+    	System.out.println(mediaView.getFitWidth());
+	}
+
+	public void commentToPost(Post post) throws IOException {
         CommentsPageController.setCommentedpost(post);
         App.setRoot("comment");
     }
-
     public List<HBox> displayimages(Post post) {
         List<Image> imgs = post.getPostMedias().stream().map(Elkhadema.khadema.domain.Media::getImage)
                 .filter(t -> t != null).collect(Collectors.toList());
         List<HBox> imgsview = new ArrayList<HBox>();
         List<ImageView> imgViews = new ArrayList<ImageView>();
-        ImageView tempimg;
+
+        ImageView tempimg= new ImageView();
         int displayforthree = imgs.size() / 3;
         for (int i = 0; i < displayforthree; i++) {
             for (int j = i; j < i + 3; j++) {
                 tempimg = new ImageView(imgs.get(j));
-                tempimg.setFitWidth(CC.getWidth() / 3 - 50);
+                tempimg.setFitWidth((CC.getWidth()- 52) / 3 );
+
                 tempimg.setPreserveRatio(true);
                 imgViews.add(tempimg);
                 HBox.setHgrow(tempimg, javafx.scene.layout.Priority.ALWAYS);
             }
             imgsview.add(new HBox(imgViews.toArray(new ImageView[0])));
+
         }
+        imgViews.forEach(t -> {
+        	CC.widthProperty().addListener((observable, oldValue, newValue) -> {
+        		System.out.println(t.getFitWidth());
+            	t.setFitWidth((CC.getWidth()- 52) / 3 );
+            });
+        });
         imgViews = new ArrayList<ImageView>();
         for (int i = displayforthree * 3; i < imgs.size(); i++) {
             tempimg = new ImageView(imgs.get(i));
-            tempimg.setFitWidth((CC.getWidth() - 50) / (imgs.size() - displayforthree * 3));
-            tempimg.setPreserveRatio(true);
+        	tempimg.setFitWidth((CC.getWidth() - 50) / (imgs.size() - displayforthree * 3) );
 
+
+            tempimg.setPreserveRatio(true);
             imgViews.add(tempimg);
         }
+        imgViews.stream().skip( displayforthree * 3).forEach(t -> {
+        	CC.widthProperty().addListener((observable, oldValue, newValue) -> {
+        		System.out.println(t.getFitWidth());
+            	t.setFitWidth((CC.getWidth() - 50) / (imgs.size() - displayforthree * 3) );
+            });
+        });
+
         imgsview.add(new HBox(imgViews.toArray(new ImageView[0])));
         return imgsview;
     }

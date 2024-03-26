@@ -1,7 +1,14 @@
 package Elkhadema.khadema.DAO.DAOImplemantation;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -12,6 +19,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 
 import Elkhadema.khadema.domain.Media;
 import Elkhadema.khadema.domain.Post;
@@ -61,7 +69,7 @@ public class PostDAO {
 		try {
 			rs = connection.createStatement().executeQuery(sql);
 			while (rs.next()) {
-				media.add(new Media(post,Media.decompressVideo(rs.getBytes("video")),"vid"));
+				media.add(new Media(post,rs.getString("video").getBytes(StandardCharsets.UTF_8),"vid"));
 			}
 
 		} catch (Exception e) {
@@ -135,24 +143,44 @@ public class PostDAO {
 
 		                pstmt.setInt(1, (int) post.getId());
 		                pstmt.setBlob(2, new ByteArrayInputStream(t.ImageCompression()));
+						
+		               
 
 		                int affectedRows = pstmt.executeUpdate();
 		                if (affectedRows == 0) {
 		                    throw new SQLException("Inserting image failed, no rows affected.");
 		                }
-		            } catch (SQLException e) {
+		            } catch (SQLException | IOException e) {
 		                e.printStackTrace();
-		            } catch (IOException e) {
-						e.printStackTrace();
-					}
+		            }
 		        } else {
 		        	try {
 		        		PreparedStatement pstmt = connection.prepareStatement(
-								"INSERT INTO `khademadb`.`videos` (`video`) VALUES (?);",
+								"INSERT INTO `khademadb`.`videos` (`post_id`,`video`) VALUES (?,?);",
 								Statement.RETURN_GENERATED_KEYS);
-						pstmt.setBlob(1,new ByteArrayInputStream(t.compressVideo()));
+		        		String pathString=new String(t.getMedia(), StandardCharsets.UTF_8);
+		        		pstmt.setLong(1,post.getId());
+						pstmt.setString(2,pathString);
+						pstmt.executeUpdate();
+						  try {
+							  File sourceFile = new File(pathString);
+					           File destinationFile = new File("temp",sourceFile.getName());
+					           FileInputStream inputStream = new FileInputStream(sourceFile);
+					            FileOutputStream outputStream = new FileOutputStream(destinationFile);
+					            byte[] buffer = new byte[1024];
+					            int length;
+					            while ((length = inputStream.read(buffer)) > 0) {
+					                outputStream.write(buffer, 0, length);
+					            }
+					            inputStream.close();
+					            outputStream.close();
+
+					            System.out.println("Video file copied successfully.");
+					            } catch (IOException e) {
+					            System.err.println("Error copying video file: " + e.getMessage());
+					        }
 					} catch (SQLException e) {
-						e.printStackTrace();
+						System.out.println(e);
 					}
 		        }
 		    });

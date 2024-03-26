@@ -3,6 +3,7 @@ package Elkhadema.khadema.util;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 
@@ -37,18 +38,12 @@ public class MediaChooser {
 		        }
 		}
 		   else if (vidextension.contains(extension)) {
-			   try (FileInputStream fis = new FileInputStream(selectFile)) {
-		            return new Media(null, fis.readAllBytes(), "vid");
-
-		        } catch (IOException e) {
-		            e.printStackTrace();
-		            return null;
-		        }
+			   return new Media(null,selectFile.getPath().getBytes(StandardCharsets.UTF_8),"vid");
 		}
 
 		   else {
 			System.out.println("given wrong extension");
 			return null;
-		}		
+		}
 	}
 }

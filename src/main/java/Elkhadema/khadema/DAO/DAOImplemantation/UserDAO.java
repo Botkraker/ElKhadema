@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLType;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -80,6 +81,11 @@ public class UserDAO  {
 			pstmt.setDate(5, new java.sql.Date(t.getLastloginDate().getTime()));
 			pstmt.setBoolean(6, false);
 			pstmt.setBoolean(7, false);
+			if (t.getPhoto()==null) {
+
+				pstmt.setNull(8, java.sql.Types.BLOB);
+			}
+			else
 			pstmt.setBlob(8,  new ByteArrayInputStream(t.getPhoto().ImageCompression()));
 			pstmt.executeUpdate();
 			rs = pstmt.getGeneratedKeys();

@@ -44,7 +44,7 @@ public class CVgenerator {
                   .rectangle(x,PageSize.A4.getHeight()*0.82, stepSize, PageSize.A4.getHeight()*0.18)
                   .fill();
         }
-    
+
 
         Paragraph header = new Paragraph(person.getFirstName()+" "+person.getLastName())
                 .setFontColor(Color.WHITE)
@@ -52,9 +52,9 @@ public class CVgenerator {
                 .setTextAlignment(TextAlignment.CENTER)
                 .setBold()
                 .setFont(PdfFontFactory.createFont(FontConstants.COURIER_BOLD));
-        		
+
         document.add(header);
-        
+
         float fullwidth[]= {600,250};
         Table tb=new Table(fullwidth).setMarginTop(100).setFontColor(Color.BLACK).setHeight(800).setFont(PdfFontFactory.createFont(FontConstants.HELVETICA));
         Cell c1=new Cell();
@@ -64,7 +64,7 @@ public class CVgenerator {
         c1.add(new Paragraph("Experiences").setBold().setFontSize(15));
         experience.forEach(t -> { c1.add(new Paragraph(t.getMission()).setFontSize(14));
         c1.add(new Paragraph(t.getDescription()).setFontSize(11).setPaddingLeft(15));});
-       
+
         c2.add(new Paragraph("Contact info").setBold().setFontSize(15));
         c2.add(new Paragraph(person.getContactInfo().getEmail()).setFontSize(11));
         c2.add(new Paragraph(""+person.getContactInfo().getPhoneNumber()).setFontSize(11));
@@ -90,7 +90,7 @@ public class CVgenerator {
 	 public static void main(String[] args) throws IOException {
 		 List<Competance> comp= Arrays.asList(new Competance(0,"AI",null,null,0),new Competance(0,"Busnesss",null,null,0),new Competance(0,"Software engeneer",null,null,0));
 		 List<Experience> expe= Arrays.asList(new Experience(0, "descriptions1", "experience1", null, null),new Experience(0, "descriptions2", "experience2", null, null),new Experience(0, "descriptions3", "experience3", null, null));
-		CVgenerator.Generate(new Person(0,null,new ContactInfo(0,"yassinebensassi@gamil.com","addresss",52125668),"",null,null,null,false,false,"yassine","bensassi"), "CV.pdf", comp, expe);
+		CVgenerator.Generate(new Person(0, "wassim", "nefzi"), "CV.pdf", comp, expe);
 	}
 	}
 

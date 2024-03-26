@@ -41,6 +41,9 @@ public class UserServiceImp implements UserService {
 				break;
 			case "person":
 				Person person = (Person) user;
+				person.setJob("");
+				person.setAbout("");
+				person.setSexe("male");
 				personDao.save(person);
 				break;
 		}

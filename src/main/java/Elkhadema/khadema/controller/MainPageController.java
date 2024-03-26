@@ -114,16 +114,16 @@ public class MainPageController implements Initializable {
         stage.show();
     }
 
+
+        @FXML
+        private HBox HboxforAttachments;
+
+        @FXML
+        private Button buttontoaddattach;
     @FXML
     public void goHome() {
 
     }
-
-    @FXML
-    private HBox HboxforAttachments;
-
-    @FXML
-    private Button buttontoaddattach;
 
     @FXML
     public void goJobsList() {
@@ -147,6 +147,11 @@ public class MainPageController implements Initializable {
 
     @FXML
     public void postMsg() {
+
+    }
+    @FXML
+    public void sessionOpenProfile(MouseEvent event) throws IOException{
+        openprofile(event, session);
 
     }
 
@@ -432,14 +437,15 @@ public class MainPageController implements Initializable {
 
     public void openprofile(MouseEvent event, User tmp) throws IOException {
         User user = tmp;
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/mainpage.fxml"));
-        ResumeController profileController = loader.getController();
-        profileController.init(user);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/resmue.fxml"));
         root = loader.load();
+        ResumeController resumeController = loader.getController();
+        resumeController.init(user);
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+
     }
 
 }

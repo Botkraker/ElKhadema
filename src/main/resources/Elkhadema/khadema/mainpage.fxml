@@ -111,7 +111,7 @@
                                           <Font name="SansSerif Regular" size="16.0" />
                                        </font>
                                     </Button>
-                                    <ImageView fitHeight="65.0" fitWidth="65.0">
+                                    <ImageView fitHeight="65.0" fitWidth="65.0" onMouseClicked="#sessionOpenProfile">
                                        <image>
                                           <Image url="@user.jpg.png" />
                                        </image>
@@ -135,7 +135,7 @@
                <children>
                   <VBox alignment="TOP_CENTER" prefHeight="241.0" prefWidth="593.0" styleClass="posts">
                      <children>
-                        <ImageView fitHeight="125.0" fitWidth="125.0">
+                        <ImageView fitHeight="125.0" fitWidth="125.0" onMouseClicked="#sessionOpenProfile">
                            <image>
                               <Image url="@user.jpg.png" />
                            </image>

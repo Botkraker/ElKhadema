@@ -32,6 +32,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -52,7 +53,7 @@ public class ResumeController {
     @FXML
     Text nameText;
     @FXML
-    VBox btnVbox;
+    HBox btnVbox;
     @FXML
     TextField ageText;
     @FXML
@@ -64,7 +65,11 @@ public class ResumeController {
     @FXML
     VBox competanceVBox;
     @FXML
-    Button changeImg;
+    Button changeImgbtn;
+    @FXML
+    Button addExperiancebtn;
+    @FXML
+    Button addSkillsbtn;
     @FXML
     TextArea aboutTextArea;
     @FXML
@@ -73,24 +78,61 @@ public class ResumeController {
     Button editAboutBtn;
 
     @FXML
+    public void goHome() {
+
+    }
+
+    @FXML
+    public void goJobsList() {
+
+    }
+
+    @FXML
+    public void goResume() {
+
+    }
+
+    @FXML
+    public void goNotifications() {
+
+    }
+
+    @FXML
+    public void logout() {
+
+    }
+    @FXML
+    public void postMsg(){
+
+    }
+
+    @FXML
     public void init(User user) {
         Person person = personDAO.get(user.getId()).get();
         currentUser = person;
-        if (person.getUserName() != session.getUserName()) {
+        if (person.getId() != session.getId()) {
             Button followbutton = new Button("follow");
-            followbutton.getStyleClass().add("postbtn");
+            followbutton.getStyleClass().add("postButton");
             Button chatButton = new Button("chat");
-            chatButton.getStyleClass().add("postbtn");
+            chatButton.getStyleClass().add("postButton");
             btnVbox.getChildren().addAll(followbutton, chatButton);
-            changeImg.setDisable(true);
-            changeImg.setVisible(false);
+            changeImgbtn.setDisable(true);
+            changeImgbtn.setVisible(false);
             editBioBtn.setDisable(true);
             editBioBtn.setVisible(false);
             editBioBtn.setDisable(true);
             editBioBtn.setVisible(false);
+            editAboutBtn.setDisable(true);
+            editAboutBtn.setVisible(false);
+            addExperiancebtn.setDisable(true);
+            addExperiancebtn.setVisible(false);
+            addSkillsbtn.setDisable(true);
+            addSkillsbtn.setVisible(false);
         }
+        nameText.setText(person.getUserName());
+        profileImg.setImage(person.getPhoto().getImage());
         Button generateCVbutton = new Button("get pdf");
-        generateCVbutton.getStyleClass().add("postbtn");
+        generateCVbutton.getStyleClass().add("postButton");
         afficheBio(person);
         afficheabout(person);
         List<Experience> experiences = experienceDAO.getAll(user);
@@ -153,9 +195,11 @@ public class ResumeController {
     }
 
     private void afficheabout(Person person) {
-        TextArea textArea = new TextArea(person.getAbout());
-        textArea.getStyleClass().add("postTxtField");
-        experienceVBox.getChildren().add(textArea);
+    if (person.getAbout()==null) {
+        aboutTextArea.setText("");
+
+    }
+        aboutTextArea.setText(person.getAbout());
     }
 
     private void afficheExperience(Experience experience, VBox vBox) {
@@ -302,7 +346,6 @@ public class ResumeController {
     @FXML
     private void editAbout() {
         aboutTextArea.setDisable(false);
-        aboutTextArea.addEventHandler(null, null);
 
     }
 }

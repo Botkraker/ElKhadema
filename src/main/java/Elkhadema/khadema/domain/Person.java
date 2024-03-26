@@ -12,6 +12,18 @@ public class Person extends User {
 
     public Person(int id, String password, ContactInfo contactInfo, String userName, Date creationDate,
             Date lastloginDate, Media photo, boolean is_banned, boolean is_active, String firstName, String lastName,
+            int age, String job, String sexe, String about) {
+        super(id, password, contactInfo, userName, creationDate, lastloginDate, photo, is_banned, is_active);
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.job = job;
+        this.sexe = sexe;
+        this.about = about;
+    }
+
+    public Person(int id, String password, ContactInfo contactInfo, String userName, Date creationDate,
+            Date lastloginDate, Media photo, boolean is_banned, boolean is_active, String firstName, String lastName,
             int age, String job, String sexe) {
         super(id, password, contactInfo, userName, creationDate, lastloginDate, photo, is_banned, is_active);
         this.firstName = firstName;
@@ -46,13 +58,6 @@ public class Person extends User {
     }
 
     public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public Person(int id, String password, ContactInfo contactInfo, String userName, Date creationDate,
-            Date lastloginDate, Media photo, boolean is_banned, boolean is_active, String firstName, String lastName) {
-        super(id, password, contactInfo, userName, creationDate, lastloginDate, photo, is_banned, is_active);
-        this.firstName = firstName;
         this.lastName = lastName;
     }
 

@@ -18,18 +18,19 @@ public class PersonDAO {
 	private static Connection connection = ConexDB.getInstance();
 
 	public Optional<Person> get(long id) {
-		String sql = "SELECT *  FROM `user`,person WHERE `user`.`user_id` = " + id
+		String sql = "SELECT *  FROM `user`,`person` WHERE `user`.`user_id` = " + id
 				+ " and `user`.user_id=`person`.user_id";
 		Person person = null;
 		try {
 			ResultSet rs = connection.createStatement().executeQuery(sql);
 			while (rs.next()) {
-				person = new Person(rs.getInt("user_id"), rs.getString("password_encrypted"),
+				person =  new Person(rs.getInt("user_id"), rs.getString("password_encrypted"),
 						new ContactInfo(rs.getInt("contact_info_id")),
 						rs.getString("userName"), rs.getDate("creationdate"),
 						rs.getDate("last_login"), new Media(null, Media.ImageDecompress(rs.getBytes("photo")), "img"),
 						rs.getBoolean("banned"), rs.getBoolean("is_active"),
-						rs.getString("first_name"), rs.getString("last_name"));
+						rs.getString("first_name"), rs.getString("last_name"), rs.getInt("age"), rs.getString("job"),
+						rs.getString("sexe"),rs.getString("about"));
 			}
 
 		} catch (Exception e) {
@@ -54,7 +55,7 @@ public class PersonDAO {
 						rs.getDate("last_login"), new Media(null, Media.ImageDecompress(rs.getBytes("photo")), "img"),
 						rs.getBoolean("banned"), rs.getBoolean("is_active"),
 						rs.getString("first_name"), rs.getString("last_name"), rs.getInt("age"), rs.getString("job"),
-						rs.getString("sexe"));
+						rs.getString("sexe"),rs.getString("about"));
 				persons.add(person);
 			}
 		} catch (SQLException e) {
@@ -67,7 +68,7 @@ public class PersonDAO {
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = connection.prepareStatement(
-					"INSERT INTO `khademadb`.`person` (`user_id`,`first_name`,`last_name`) VALUES (?, ?, ?, ?, ?, ?);",
+					"INSERT INTO `khademadb`.`person` (`user_id`,`first_name`,`last_name`,`job`,`sexe`,`age`,`about`) VALUES (?, ?, ?, ?, ?, ?);",
 					Statement.RETURN_GENERATED_KEYS);
 			pstmt.setLong(1, t.getId());
 			pstmt.setString(2, t.getFirstName());
@@ -75,6 +76,7 @@ public class PersonDAO {
 			pstmt.setString(4, t.getJob());
 			pstmt.setString(5, t.getSexe());
 			pstmt.setInt(6, t.getAge());
+			pstmt.setString(7, t.getAbout());
 
 			pstmt.executeUpdate();
 
@@ -95,6 +97,7 @@ public class PersonDAO {
 			p.setString(3, t.getJob());
 			p.setString(4, t.getSexe());
 			p.setInt(5, t.getAge());
+			p.setString(6, t.getAbout());
 
 			p.executeUpdate();
 		} catch (Exception e) {

@@ -83,6 +83,9 @@ public class ChatRoomController implements Initializable {
             currentMessageReciver = null;
         }
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+            if (currentMessageReciver==null) {
+                return;
+            }
             List<Message> messages = messageService.chat(Session.getUser(), currentMessageReciver);
             messages.stream().dropWhile(message -> message.getId() != lastMessageId)
             .skip(1)
@@ -101,6 +104,7 @@ public class ChatRoomController implements Initializable {
     }
 
     private void loadMessages(User user) {
+        messageVBox.getChildren().clear();
         List<Message> messages = messageService.chat(Session.getUser(), user);
         if (messages.isEmpty()) {
             return;

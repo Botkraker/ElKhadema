@@ -42,7 +42,7 @@ public class ExperienceDAO {
 		long id = 0;
 		try {
 			pstmt = connection.prepareStatement(
-					"INSERT INTO `khademadb`.`experience` (`experience_id`, `description`, `mission`, `type`, `technologie`,`start_date`,`end_date`) VALUES (NULL, ?, ?, ?, ?);",
+					"INSERT INTO `khademadb`.`experience` (`experience_id`, `description`, `mission`, `type`, `technologie`,`start_date`,`end_date`) VALUES (NULL, ?, ?, ?, ?,?,?);",
 					Statement.RETURN_GENERATED_KEYS);
 			pstmt.setString(1, t.getDescription());
 			pstmt.setString(2, t.getMission());

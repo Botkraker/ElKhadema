@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import Elkhadema.khadema.App;
@@ -209,19 +210,25 @@ public class ResumeController extends NavbarController {
         Text technologieText = new Text(experience.getTechnologie());
         technologieText.setFont(Font.font("SansSerif", 18));
         technologieText.setFill(Color.WHITE);
+        HBox titleBox=new HBox(technologieText);
         Text missionText = new Text(experience.getMission() + " · " + experience.getType());
         missionText.setFill(Color.WHITE);
         missionText.setFont(Font.font("SansSerif", 14));
+
         Text dateText = getDateExperience(experience);
-        dateText.setFont(null);
         dateText.setFont(Font.font("SansSerif", 14));
         dateText.setFill(Color.WHITE);
+
         TextArea descriptionArea = new TextArea(experience.getDescription());
         descriptionArea.getStyleClass().add("postTxtField");
-        vBox = new VBox(technologieText, missionText, dateText);
+
+        VBox innerVBox = new VBox(titleBox, missionText, dateText);
+
         if (currentUser.getId() == session.getId()) {
-            addEditButtonExperience(vBox);
+            addEditButtonExperience(titleBox, experience);
         }
+
+        vBox.getChildren().add(innerVBox); // Add the new VBox to the provided vBox
     }
 
     private void afficheCompetance(Competance competance, VBox competanceBox) {
@@ -260,15 +267,15 @@ public class ResumeController extends NavbarController {
         });
     }
 
-    private void addEditButtonExperience(VBox vBox) {
+    private void addEditButtonExperience(HBox hBox, Experience experience) {
         Button editButton = new Button("🖉");
         editButton.getStyleClass().add("postButton");
-        vBox.getChildren().add(editButton);
+        hBox.getChildren().add(editButton);
         editButton.setOnAction(ActionEvent -> {
             Stage popUpStage = new Stage();
             popUpStage.initModality(Modality.APPLICATION_MODAL);
             popUpStage.setTitle("Edit Bio");
-            FXMLLoader loader = new FXMLLoader(App.class.getResource("editBio.fxml"));
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("editExperience.fxml"));
             Scene popUpScreen = new Scene(new Pane());
             try {
                 popUpScreen = new Scene(loader.load());
@@ -277,35 +284,69 @@ public class ResumeController extends NavbarController {
             }
             EditExperienceController editExperienceController = loader.getController();
             popUpStage.setScene(popUpScreen);
-            Experience experience = editExperienceController.getExperience();
-            vBox.getChildren().clear();
-            afficheExperience(experience, vBox);
+            editExperienceController.setStage(popUpStage);
+            editExperienceController.initialize(experience);
+
+            popUpStage.showAndWait();
+
+            Experience newExperience = null;
+            newExperience = editExperienceController.getExperience();
+            if (editExperienceController.choix == false) {
+                return;
+            }
+            VBox parentBox=((VBox)((VBox)hBox.getParent()));
+                parentBox.getChildren().clear();
+            afficheExperience(newExperience, parentBox);
+            experienceDAO.update(experience, newExperience);
         });
     }
 
+    @FXML
+    public void addExperience() throws IOException {
+        VBox vBox = new VBox();
+        Stage popUpStage = new Stage();
+        popUpStage.initModality(Modality.APPLICATION_MODAL);
+        popUpStage.setTitle("Edit Bio");
+        FXMLLoader loader = new FXMLLoader(App.class.getResource("editExperience.fxml"));
+        Scene popUpScreen = new Scene(loader.load());
+        EditExperienceController editExperienceController = loader.getController();
+        popUpStage.setScene(popUpScreen);
+        editExperienceController.setStage(popUpStage);
+        Experience experience = null;
+        editExperienceController.initialize(experience);
+        popUpStage.showAndWait();
+        if (editExperienceController.choix == false) {
+            return;
+        }
+        experience = editExperienceController.getExperience();
+        afficheExperience(experience, vBox);
+        experienceDAO.save(experience, currentUser);
+        experienceVBox.getChildren().add(vBox);
+    }
+
     private Text getDateExperience(Experience experience) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM yyyy");
-        String dateString = simpleDateFormat.format(experience.getStartDate());
+        String dateString = experience.getStartDate().format(DateTimeFormatter.ofPattern("MMM yyyy"));
         String tmp;
         LocalDate localDate = LocalDate.now();
         if (experience.getEndDate() == null) {
             tmp = "present";
         } else {
             localDate = experience.getEndDate();
-            tmp = simpleDateFormat.format(experience.getEndDate());
+            tmp = experience.getEndDate().format(DateTimeFormatter.ofPattern("MMM yyyy"));
         }
-        dateString.concat(" - " + tmp);
-        Period period = Period
-                .between(experience.getStartDate(), localDate);
+        dateString = dateString.concat(" - " + tmp + "     "); // Assign the concatenated string back to dateString
+        Period period = Period.between(experience.getStartDate(), localDate);
         int years = period.getYears();
         int months = period.getMonths();
         int days = period.getDays();
         if (years != 0)
-            dateString.concat(String.valueOf(years)).concat(" year").concat(years != 1 ? "s" : "").concat(" ");
+            dateString = dateString.concat(String.valueOf(years)).concat(" year").concat(years != 1 ? "s" : "")
+                    .concat(" ");
         if (months != 0)
-            dateString.concat(String.valueOf(months)).concat(" month").concat(months != 1 ? "s" : "").concat(" ");
+            dateString = dateString.concat(String.valueOf(months)).concat(" month").concat(months != 1 ? "s" : "")
+                    .concat(" ");
         if (years > 0)
-            dateString.concat(String.valueOf(days)).concat(" day").concat(days != 1 ? "s" : "");
+            dateString = dateString.concat(String.valueOf(days)).concat(" day").concat(days != 1 ? "s" : "");
         Text dateText = new Text(dateString);
         return dateText;
     }

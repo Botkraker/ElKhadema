@@ -19,7 +19,7 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>13</version>
+            <version>21.0.3-ea+1</version>
         </dependency>
         <dependency>
             <!-- https://mvnrepository.com/artifact/mysql-connector-java -->

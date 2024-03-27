@@ -12,13 +12,14 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="bgcol" stylesheets="@style.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="Elkhadema.khadema.controller.EditExperiencceController">
+<GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="bgcol" stylesheets="@style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Elkhadema.khadema.controller.EditExperienceController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="293.5999755859375" minWidth="10.0" prefWidth="236.80001220703124" />
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="450.4000244140625" minWidth="10.0" prefWidth="363.9999877929687" />
   </columnConstraints>
   <rowConstraints>
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -34,7 +35,7 @@
             <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
          </GridPane.margin>
       </Text>
-      <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="start date :" textAlignment="CENTER" GridPane.rowIndex="2">
+      <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="start date :" textAlignment="CENTER" GridPane.rowIndex="3">
          <font>
             <Font size="23.0" />
          </font>
@@ -42,33 +43,48 @@
             <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
          </GridPane.margin>
       </Text>
-      <TextField fx:id="ageField" maxWidth="200.0" prefWidth="20.0" GridPane.columnIndex="1" />
-      <Button alignment="CENTER" mnemonicParsing="false" styleClass="postButton" text="edit" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="5">
+      <TextField fx:id="technologieField" maxWidth="200.0" prefWidth="20.0" GridPane.columnIndex="1" />
+      <Button alignment="CENTER" mnemonicParsing="false" onAction="#submitForm" styleClass="postButton" text="edit" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="6">
          <font>
             <Font size="16.0" />
          </font>
       </Button>
-      <DatePicker maxWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-      <DatePicker maxWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-      <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="end date :" textAlignment="CENTER" GridPane.rowIndex="3">
+      <DatePicker fx:id="startDatePicker" maxWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+      <DatePicker fx:id="endDatePicker" maxWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+      <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="end date :" textAlignment="CENTER" GridPane.rowIndex="4">
          <font>
             <Font size="23.0" />
          </font>
          <GridPane.margin>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
          </GridPane.margin>
       </Text>
-      <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="description :" textAlignment="CENTER" GridPane.rowIndex="4">
+      <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="description :" textAlignment="CENTER" GridPane.rowIndex="5">
          <font>
             <Font size="23.0" />
          </font>
+         <GridPane.margin>
+            <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
+         </GridPane.margin>
       </Text>
-      <TextArea prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-      <ComboBox prefWidth="150.0" promptText="full-time" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <TextArea fx:id="descriptionfField" maxWidth="200.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+      <ComboBox fx:id="typeField" prefWidth="150.0" promptText="full-time" GridPane.columnIndex="1" GridPane.rowIndex="1" />
       <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="type : " textAlignment="CENTER" GridPane.rowIndex="1">
          <font>
             <Font size="23.0" />
          </font>
+         <GridPane.margin>
+            <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
+         </GridPane.margin>
       </Text>
+      <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="mission : " textAlignment="CENTER" GridPane.rowIndex="2">
+         <font>
+            <Font size="23.0" />
+         </font>
+         <GridPane.margin>
+            <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
+         </GridPane.margin>
+      </Text>
+      <TextField fx:id="missionField" maxWidth="200.0" prefWidth="20.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
    </children>
 </GridPane>

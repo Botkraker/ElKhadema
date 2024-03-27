@@ -110,6 +110,7 @@ public class ResumeController extends NavbarController {
     @FXML
     public void init(User user) {
         Person person = personDAO.get(user.getId()).get();
+
         currentUser = person;
         if (person.getId() != session.getId()) {
             Button followbutton = new Button("follow");
@@ -132,6 +133,7 @@ public class ResumeController extends NavbarController {
         }
         nameText.setText(person.getUserName());
         profileImg.setImage(person.getPhoto().getImage());
+        profileImg.getStyleClass().add("round-image");
         Button generateCVbutton = new Button("get pdf");
         generateCVbutton.getStyleClass().add("postButton");
         afficheBio(person);
@@ -372,7 +374,7 @@ public class ResumeController extends NavbarController {
             localDate = experience.getEndDate();
             tmp = experience.getEndDate().format(DateTimeFormatter.ofPattern("MMM yyyy"));
         }
-        dateString = dateString.concat(" - " + tmp + "     "); // Assign the concatenated string back to dateString
+        dateString = dateString.concat(" - " + tmp + "     ");
         Period period = Period.between(experience.getStartDate(), localDate);
         int years = period.getYears();
         int months = period.getMonths();

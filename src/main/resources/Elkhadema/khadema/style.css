@@ -113,5 +113,11 @@
 }
 .disabled-text {
     -fx-text-fill: #ffffff;
-    
+    -fx-font-size: 15;
+}
+.round-image {
+    -fx-background-color: white;
+    -fx-background-radius: 50%;
+    -fx-border-color: black;
+    -fx-border-width: 2px;
 }

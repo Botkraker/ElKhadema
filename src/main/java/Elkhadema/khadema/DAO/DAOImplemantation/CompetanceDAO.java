@@ -19,7 +19,7 @@ public class CompetanceDAO {
 		Statement stmt = null;
 		ResultSet rs = null;
 		List<Competance> competances = new ArrayList<>();
-		String SQL = "SELECT *  FROM ` user_competance_details`,competance WHERE `competance`.competance_id=`user_competance_details`.competance_id AND user_id= "+user.getId();
+		String SQL = "SELECT *  FROM `user_competance_details`,competance WHERE `competance`.competance_id=`user_competance_details`.competance_id AND user_id= "+user.getId();
 		try {
 			stmt = connection.createStatement();
 			rs = stmt.executeQuery(SQL);
@@ -48,7 +48,7 @@ public class CompetanceDAO {
 			while (rs.next()) {
 				id=rs.getLong(1);
 			}
-			
+
 			pstmt = connection.prepareStatement(
 					"INSERT INTO `khademadb`.`user_competance_details` (`user_id`, `competance_id`) VALUES (?, ?)",
 					Statement.RETURN_GENERATED_KEYS);
@@ -72,7 +72,7 @@ public class CompetanceDAO {
 			pstmt.setString(2, newT.getTechnologie());
 			pstmt.setString(3, newT.getDescription());
 			pstmt.setInt(4, newT.getNiveau());
-			
+
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			System.out.println(e);

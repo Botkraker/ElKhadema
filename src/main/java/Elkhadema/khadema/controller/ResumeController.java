@@ -196,6 +196,9 @@ public class ResumeController extends NavbarController {
         sexeText.setDisable(true);
         ageText.setDisable(true);
         jobText.setDisable(true);
+        ageText.getStyleClass().add("disabled-text");
+        jobText.getStyleClass().add("disabled-text");
+        sexeText.getStyleClass().add("disabled-text");
     }
 
     private void afficheabout(Person person) {
@@ -210,7 +213,7 @@ public class ResumeController extends NavbarController {
         Text technologieText = new Text(experience.getTechnologie());
         technologieText.setFont(Font.font("SansSerif", 18));
         technologieText.setFill(Color.WHITE);
-        HBox titleBox=new HBox(technologieText);
+        HBox titleBox = new HBox(technologieText);
         Text missionText = new Text(experience.getMission() + " · " + experience.getType());
         missionText.setFill(Color.WHITE);
         missionText.setFont(Font.font("SansSerif", 14));
@@ -235,35 +238,48 @@ public class ResumeController extends NavbarController {
         Text technologieText = new Text(competance.getTechnologie());
         technologieText.setFont(Font.font("SansSerif", 14));
         technologieText.setFill(Color.WHITE);
+
+        VBox innerVBox = new VBox();
+        if (currentUser.getId() == session.getId()) {
+            addEditButtonCompetance(innerVBox, competance);
+        } else {
+            Text titreText = new Text(competance.getTitre());
+            titreText.setFont(Font.font("SansSerif", 18));
+            titreText.setFill(Color.WHITE);
+            innerVBox.getChildren().add(titreText);
+        }
+        innerVBox.getChildren().add(technologieText);
+        competanceVBox.getChildren().add(innerVBox);
+    }
+
+    private void addEditButtonCompetance(VBox vBox, Competance competance) {
+        Button editButton = new Button("🖉");
+        editButton.getStyleClass().add("postButton");
+        HBox hBox = new HBox();
         Text titreText = new Text(competance.getTitre());
         titreText.setFont(Font.font("SansSerif", 18));
         titreText.setFill(Color.WHITE);
-        VBox vBox = new VBox(titreText, technologieText);
-        if (currentUser.getId() == session.getId()) {
-            addEditButtonCompetance(vBox);
-        }
-    }
-
-    private void addEditButtonCompetance(VBox vBox) {
-        Button editButton = new Button("🖉");
-        editButton.getStyleClass().add("postButton");
-        vBox.getChildren().add(editButton);
+        hBox.getChildren().addAll(titreText, editButton);
+        vBox.getChildren().add(hBox);
         editButton.setOnAction(ActionEvent -> {
             Stage popUpStage = new Stage();
             popUpStage.initModality(Modality.APPLICATION_MODAL);
-            popUpStage.setTitle("Edit Bio");
-            FXMLLoader loader = new FXMLLoader(App.class.getResource("editBio.fxml"));
+            popUpStage.setTitle("Edit competance");
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("editCompetance.fxml"));
             Scene popUpScreen = new Scene(new Pane());
             try {
                 popUpScreen = new Scene(loader.load());
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            EditExperienceController editExperienceController = loader.getController();
+            EditCompetanceController editCompetanceController = loader.getController();
             popUpStage.setScene(popUpScreen);
-            Experience experience = editExperienceController.getExperience();
+            editCompetanceController.setStage(popUpStage);
+            editCompetanceController.initialize(competance);
+            Competance newCompetance = editCompetanceController.getCompetance();
             vBox.getChildren().clear();
-            afficheExperience(experience, vBox);
+            afficheCompetance(competance, vBox);
+            competanceDAO.update(competance, newCompetance);
         });
     }
 
@@ -274,7 +290,7 @@ public class ResumeController extends NavbarController {
         editButton.setOnAction(ActionEvent -> {
             Stage popUpStage = new Stage();
             popUpStage.initModality(Modality.APPLICATION_MODAL);
-            popUpStage.setTitle("Edit Bio");
+            popUpStage.setTitle("Edit experience");
             FXMLLoader loader = new FXMLLoader(App.class.getResource("editExperience.fxml"));
             Scene popUpScreen = new Scene(new Pane());
             try {
@@ -289,13 +305,12 @@ public class ResumeController extends NavbarController {
 
             popUpStage.showAndWait();
 
-            Experience newExperience = null;
-            newExperience = editExperienceController.getExperience();
+            Experience newExperience = editExperienceController.getExperience();
             if (editExperienceController.choix == false) {
                 return;
             }
-            VBox parentBox=((VBox)((VBox)hBox.getParent()));
-                parentBox.getChildren().clear();
+            VBox parentBox = ((VBox) ((VBox) hBox.getParent()));
+            parentBox.getChildren().clear();
             afficheExperience(newExperience, parentBox);
             experienceDAO.update(experience, newExperience);
         });
@@ -322,6 +337,29 @@ public class ResumeController extends NavbarController {
         afficheExperience(experience, vBox);
         experienceDAO.save(experience, currentUser);
         experienceVBox.getChildren().add(vBox);
+    }
+
+    @FXML
+    public void addCompetance() throws IOException {
+        VBox vBox = new VBox();
+        Stage popUpStage = new Stage();
+        popUpStage.initModality(Modality.APPLICATION_MODAL);
+        popUpStage.setTitle("Edit Bio");
+        FXMLLoader loader = new FXMLLoader(App.class.getResource("editCompetance.fxml"));
+        Scene popUpScreen = new Scene(loader.load());
+        EditCompetanceController editCompetanceController = loader.getController();
+        popUpStage.setScene(popUpScreen);
+        editCompetanceController.setStage(popUpStage);
+        Competance competance = null;
+        editCompetanceController.initialize(competance);
+        popUpStage.showAndWait();
+        if (editCompetanceController.choix == false) {
+            return;
+        }
+        competance = editCompetanceController.getCompetance();
+        afficheCompetance(competance, vBox);
+        competanceDAO.save(competance, currentUser);
+        competanceVBox.getChildren().add(vBox);
     }
 
     private Text getDateExperience(Experience experience) {

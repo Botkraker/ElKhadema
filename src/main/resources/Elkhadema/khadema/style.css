@@ -5,7 +5,7 @@
 
 .navbarbuttons {
  -fx-background-color: #2f1c6400;
- 
+
 }
 .navbarbuttons:hover {
     -fx-background-color: #226697;
@@ -14,17 +14,17 @@
 .postButton {
     -fx-background-color: #0095fe;
     -fx-background-radus : 30;
-    -fx-effect: dropshadow(three-pass-box, #444444a4, 10, 0.5, 3, 3);   
+    -fx-effect: dropshadow(three-pass-box, #444444a4, 10, 0.5, 3, 3);
 }
 .likebutton {
     -fx-background-color: #00000000;
-    
+
 }
 .likebutton:hover {
     -fx-border-width: 0 0 1 0; -fx-border-color: rgba(75, 73, 73, 0.808);
     -fx-transition: color 0.3s;
 
-    
+
 }
 .bgcol {
     -fx-background-color:  linear-gradient(to bottom, #0000ccb6 0%, #0099ff93 100%);
@@ -50,17 +50,17 @@
     -fx-background-color: transparent;
     -fx-background : transparent;
     -fx-border-width: 0 0 1 0; -fx-border-color: rgba(75, 73, 73, 0.808);
-    
-    
+
+
 }
 .userTxtField {
     -fx-text-fill: rgb(255, 255, 255);
     -fx-control-inner-background: transparent;
     -fx-background-color: transparent;
     -fx-background : transparent;
- 
-    
-    
+
+
+
 }
 .scrollStyle {
     -fx-scrollbar-background: transparent;
@@ -94,20 +94,24 @@
 
 
 .custom-scroll-pane .scroll-bar:vertical .track {
-    -fx-background-color:  linear-gradient(to bottom, #0000ccc0 0%, #0099ffa9 100%); 
-    -fx-pref-width: 10px; 
+    -fx-background-color:  linear-gradient(to bottom, #0000ccc0 0%, #0099ffa9 100%);
+    -fx-pref-width: 10px;
 }
 .custom-scroll-pane .scroll-bar:vertical {
-    -fx-pref-width: 10px; 
-    
+    -fx-pref-width: 10px;
+
 }
 
 .custom-scroll-pane .scroll-bar > .increment-button,
 .custom-scroll-pane .scroll-bar > .decrement-button {
-    -fx-padding: 0; 
+    -fx-padding: 0;
     -fx-background-color: transparent;
-    -fx-background-insets: 0; 
+    -fx-background-insets: 0;
     -fx-opacity: 0;
-    -fx-pref-width: 0; 
+    -fx-pref-width: 0;
     -fx-pref-height: 0;
+}
+.disabled-text {
+    -fx-text-fill: #ffffff;
+    
 }

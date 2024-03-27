@@ -299,7 +299,7 @@
                                                             <Font name="Arial" size="18.0" />
                                                          </font>
                                                       </Text>
-                                                      <Button fx:id="addSkills" mnemonicParsing="false" prefHeight="24.0" prefWidth="24.0" styleClass="postButton" text="+" textFill="WHITE">
+                                                      <Button fx:id="addSkills" mnemonicParsing="false" onAction="#addCompetance" prefHeight="24.0" prefWidth="24.0" styleClass="postButton" text="+" textFill="WHITE">
                                                          <font>
                                                             <Font size="20.0" />
                                                          </font>

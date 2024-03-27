@@ -24,6 +24,7 @@ import Elkhadema.khadema.domain.Reaction;
 import Elkhadema.khadema.domain.User;
 import Elkhadema.khadema.util.MediaChooser;
 import Elkhadema.khadema.util.Session;
+import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -346,47 +347,70 @@ public class CommentsPageController implements Initializable {
 	}
 	 private boolean isPlayed = false;
 	    
-	    private void playVideo(MediaPlayer mp) {
+	 private void playVideo(MediaPlayer mp) {
 	    	VBox background=new VBox();
 	    	background.setStyle("-fx-background-color: rgba(50, 50, 50, 0.7);");
 	    	MediaView mediaView=new MediaView(mp);
-	    	Button play=new Button("Play");
-	    	
-	    	
+	    	Button play=new Button("►");
 	    	play.setStyle("-fx-background-color: #0095fe;");
-	    	Label duration=new Label();
+	    	Label duration=new Label(Duration.ZERO.toString());
+	    	duration.setTextFill(Color.WHITE);
+	    	mediaView.setFitWidth(mp.getMedia().getWidth());
+	    	mediaView.setFitHeight(mp.getMedia().getHeight());
+	    	
 	    	Slider slider= new Slider();
+	    	Duration totalDuration = mp.getMedia().getDuration();
+	        slider.setMax(totalDuration.toSeconds());
+	        duration.setText("Duration: 00:00 / " + (int)mp.getMedia().getDuration().toMinutes()+":"+(int)mp.getMedia().getDuration().toSeconds());
 	    	mediaView.setPreserveRatio(true);
 	    	slider.setOnMousePressed(event -> mp.seek(Duration.seconds(slider.getValue()/100*mp.getMedia().getDuration().toSeconds())));
 	    	background.setOnMouseClicked(event -> {bigstack.getChildren().remove(background);mp.stop();});
 	    	mp.currentTimeProperty().addListener(((observableValue, oldValue, newValue) -> {
 	            slider.setValue(newValue.toSeconds()/mp.getMedia().getDuration().toSeconds()*100);
-	            duration.setText("Duration: " + (int)slider.getValue() + " / " + (int)mp.getMedia().getDuration().toSeconds());
+	            duration.setText("Duration: " +(int)mp.getCurrentTime().toMinutes()+":"+(int)mp.getCurrentTime().toSeconds() + " / " + (int)mp.getMedia().getDuration().toMinutes()+":"+(int)mp.getMedia().getDuration().toSeconds());
 	        }));
-	    	 mp.setOnReady(() ->{
-	             Duration totalDuration = mp.getMedia().getDuration();
-	             slider.setMax(totalDuration.toSeconds());
-	             duration.setText("Duration: 00 / " + (int)mp.getMedia().getDuration().toSeconds());
-	         });
-	    	 HBox playbuttons=new HBox(play,slider,duration);   
+
+	    	 HBox playbuttons=new HBox(play,slider,duration);
 	        play.setFont(Font.font(19));
 	        play.setTextFill(Color.WHITE);
-	    	playbuttons.setSpacing(50);
-	    	playbuttons.setAlignment(Pos.CENTER);
-	    	VBox.setVgrow(playbuttons, Priority.NEVER);
+	        play.setMaxHeight(40);
+	    	playbuttons.setStyle("-fx-background-color: rgba(30, 33, 31,0.5)");
+	    	playbuttons.setMaxWidth(mp.getMedia().getWidth());
+	    	playbuttons.setAlignment(Pos.CENTER_LEFT);
+	    	playbuttons.setMaxHeight(40);
+	    	playbuttons.setMinHeight(40);
+	    	playbuttons.setTranslateY(-40);
+	    	playbuttons.setSpacing(5);
+	    	playbuttons.setPadding(new Insets(0,5,0,1) );
+			 FadeTransition fadeIn = new FadeTransition(Duration.millis(1000), playbuttons);
+		     fadeIn.setFromValue(0.0);
+		     fadeIn.setToValue(1.0);
+		     
+		     FadeTransition fadeOut = new FadeTransition(Duration.millis(1000), playbuttons);
+	         fadeOut.setFromValue(1.0);
+	         fadeOut.setToValue(0.0);
+	         mediaView.setOnMouseEntered(event -> {
+	        	 fadeIn.play();
+	         });
+	         playbuttons.setOnMouseEntered(event -> {
+	        	 fadeIn.play();
+	         });
+	         playbuttons.setOnMouseExited(event -> fadeOut.play());
+	         mediaView.setOnMouseExited(event -> fadeOut.play());
+	    	HBox.setHgrow(slider, Priority.ALWAYS);
 	    	play.setOnAction(event ->{
 	    		if(!isPlayed){
-	                play.setText("Pause");
+	                play.setText("⏸");
 	                mp.play();
 	                isPlayed = true;
 	            }else {
-	                play.setText("Play");
+	                play.setText("►");
 	                mp.pause();
 	                isPlayed = false;
 	            }
 	    	});
 	        background.getChildren().addAll(mediaView,playbuttons);
-
+	        
 	    	background.setAlignment(Pos.CENTER);
 	    	bigstack.getChildren().add(background);
 	    	System.out.println(mediaView.getFitWidth());

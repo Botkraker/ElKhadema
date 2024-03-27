@@ -130,7 +130,7 @@
             </VBox>
          </left>
          <center>
-            <VBox  prefHeight="655.0" prefWidth="556.0" BorderPane.alignment="CENTER">
+            <VBox prefHeight="655.0" prefWidth="556.0" BorderPane.alignment="CENTER">
                <children>
                   <ScrollPane fx:id="messagePane" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" prefHeight="655.0" prefWidth="556.0" styleClass="scrollerbar" VBox.vgrow="ALWAYS">
                      <content>
@@ -322,9 +322,15 @@
                   </ScrollPane>
                   <VBox alignment="TOP_RIGHT" prefHeight="76.0" prefWidth="924.0">
                      <children>
+                        <HBox fx:id="HboxforAttachments" VBox.vgrow="ALWAYS" />
                         <HBox alignment="CENTER" prefHeight="49.0" prefWidth="930.0">
                            <children>
-                              <TextArea fx:id="messageText" prefHeight="31.0" prefWidth="796.0" promptText="Say something UwU" styleClass="txtfield" wrapText="true">
+                              <Button fx:id="buttontoaddattach" mnemonicParsing="false" onAction="#AddMediabutton" styleClass="likebutton" text="📷" textFill="WHITE">
+                                 <font>
+                                    <Font size="19.0" />
+                                 </font>
+                              </Button>
+                              <TextArea fx:id="messageText" promptText="Say something UwU" styleClass="txtfield" wrapText="true">
                                  <font>
                                     <Font size="18.0" />
                                  </font>

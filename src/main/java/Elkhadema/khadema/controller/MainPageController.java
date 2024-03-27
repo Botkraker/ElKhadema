@@ -24,7 +24,6 @@ import Elkhadema.khadema.domain.User;
 import Elkhadema.khadema.util.MediaChooser;
 import Elkhadema.khadema.util.Session;
 import javafx.application.Platform;
-import javafx.collections.MapChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -123,24 +122,19 @@ public class MainPageController extends NavbarController implements Initializabl
         stage.show();
     }
 
-
-
     @FXML
     private HBox HboxforAttachments;
 
     @FXML
     private Button buttontoaddattach;
 
-
-
-
-
     @FXML
     public void postMsg() {
 
     }
+
     @FXML
-    public void sessionOpenProfile(MouseEvent event) throws IOException{
+    public void sessionOpenProfile(MouseEvent event) throws IOException {
         openprofile(event, session);
 
     }
@@ -192,11 +186,13 @@ public class MainPageController extends NavbarController implements Initializabl
                     postholder.getChildren().add(t);
                     loadPosts++;
                     postindex++;
-                    Platform.runLater(() -> {CC.setVvalue(0.8);});
+                    Platform.runLater(() -> {
+                        CC.setVvalue(0.8);
+                    });
                 });
             }
-            //TODO change it lags like hell when you scroll up
-            if (scrollValue <= 0.2 && loadPosts >15) {
+            // TODO change it lags like hell when you scroll up
+            if (scrollValue <= 0.2 && loadPosts > 15) {
                 addPostTop(posts.get(postindex - loadPosts));
 
             }
@@ -206,8 +202,8 @@ public class MainPageController extends NavbarController implements Initializabl
     public void addPostTop(Post post) {
         postholder.getChildren().add(0, showpost(post));
         loadPosts++;
-        if (loadPosts>=20) {
-            postholder.getChildren().remove(postholder.getChildren().size()-1);
+        if (loadPosts >= 20) {
+            postholder.getChildren().remove(postholder.getChildren().size() - 1);
             loadPosts--;
             postindex--;
         }
@@ -255,23 +251,23 @@ public class MainPageController extends NavbarController implements Initializabl
         iMGHOLDER.setAlignment(Pos.CENTER);
         iMGHOLDER.setSpacing(5);
 
-       Optional<MediaPlayer> mediaPlayer = post.getPostMedias().stream().filter(t -> t.getMediatype().equals("vid"))
+        Optional<MediaPlayer> mediaPlayer = post.getPostMedias().stream().filter(t -> t.getMediatype().equals("vid"))
                 .map(Elkhadema.khadema.domain.Media::getVideo).findFirst();
-       MediaPlayer mp[]= {null};
-       StackPane videopane=new StackPane();
-       if (mediaPlayer.isPresent()) {
-    	   mp[0]= mediaPlayer.get();
-    	   ImageView playbutton= new ImageView(new Image("file:src//main//resources//images//playbutton.png"));
-    	   playbutton.setFitWidth(50);
-    	   playbutton.setPreserveRatio(true);
-    	   playbutton.setOnMouseClicked(event -> {
-    		   playVideo(mp[0]);
-    	   });
-    	   videopane.getChildren().add(playbutton);
-       }
+        MediaPlayer mp[] = { null };
+        StackPane videopane = new StackPane();
+        if (mediaPlayer.isPresent()) {
+            mp[0] = mediaPlayer.get();
+            ImageView playbutton = new ImageView(new Image("file:src//main//resources//images//playbutton.png"));
+            playbutton.setFitWidth(50);
+            playbutton.setPreserveRatio(true);
+            playbutton.setOnMouseClicked(event -> {
+                playVideo(mp[0]);
+            });
+            videopane.getChildren().add(playbutton);
+        }
 
-       MediaView mediaView=new MediaView(mp[0]);
-       videopane.getChildren().add(0, mediaView);
+        MediaView mediaView = new MediaView(mp[0]);
+        videopane.getChildren().add(0, mediaView);
 
         Text likenumber = new Text("" + ps.getPostReactions(post).size());
         likenumber.setFont(Font.font(16));
@@ -306,21 +302,20 @@ public class MainPageController extends NavbarController implements Initializabl
         HBox.setMargin(commentnumber, new Insets(0, 5, 0, 5));
         HBox.setMargin(commentbutton, new Insets(0, 5, 0, 5));
         likeandcommentBox.setTranslateX(5);
-        VBox posts = new VBox(profilebar, postscontent, iMGHOLDER,videopane, likeandcommentBox);
+        VBox posts = new VBox(profilebar, postscontent, iMGHOLDER, videopane, likeandcommentBox);
         VBox lastlayerBox = new VBox(posts);
         lastlayerBox.setFillWidth(true);
         VBox.setMargin(postscontent, new Insets(5, 0, 5, 10));
         VBox.setMargin(posts, new Insets(2.5f, 0, 2.5f, 0));
         posts.getStyleClass().add("posts");
 
-
         postscontent.setWrappingWidth(postholder.getWidth());
         posts.setMinWidth(CC.getWidth() - 50);
-        mediaView.setFitWidth(CC.getWidth()-52);
+        mediaView.setFitWidth(CC.getWidth() - 52);
         mediaView.setPreserveRatio(true);
         CC.widthProperty().addListener((observable, oldValue, newValue) -> {
-        	posts.setMinWidth(CC.getWidth() - 50);
-            mediaView.setFitWidth(CC.getWidth()-52);
+            posts.setMinWidth(CC.getWidth() - 50);
+            mediaView.setFitWidth(CC.getWidth() - 52);
             postscontent.setWrappingWidth(CC.getWidth());
         });
 
@@ -328,70 +323,76 @@ public class MainPageController extends NavbarController implements Initializabl
         profilebar.setAlignment(Pos.CENTER_LEFT);
         return posts;
     }
+
     private boolean isPlayed = false;
 
     private void playVideo(MediaPlayer mp) {
-    	VBox background=new VBox();
-    	background.setStyle("-fx-background-color: rgba(50, 50, 50, 0.7);");
-    	MediaView mediaView=new MediaView(mp);
-    	Button play=new Button("Play");
+        VBox background = new VBox();
+        background.setStyle("-fx-background-color: rgba(50, 50, 50, 0.7);");
+        MediaView mediaView = new MediaView(mp);
+        Button play = new Button("Play");
 
-
-    	play.setStyle("-fx-background-color: #0095fe;");
-    	Label duration=new Label();
-    	Slider slider= new Slider();
-    	mediaView.setPreserveRatio(true);
-    	slider.setOnMousePressed(event -> mp.seek(Duration.seconds(slider.getValue()/100*mp.getMedia().getDuration().toSeconds())));
-    	background.setOnMouseClicked(event -> {bigstack.getChildren().remove(background);mp.stop();});
-    	mp.currentTimeProperty().addListener(((observableValue, oldValue, newValue) -> {
-            slider.setValue(newValue.toSeconds()/mp.getMedia().getDuration().toSeconds()*100);
-            duration.setText("Duration: " + (int)slider.getValue() + " / " + (int)mp.getMedia().getDuration().toSeconds());
+        play.setStyle("-fx-background-color: #0095fe;");
+        Label duration = new Label();
+        Slider slider = new Slider();
+        mediaView.setPreserveRatio(true);
+        slider.setOnMousePressed(
+                event -> mp.seek(Duration.seconds(slider.getValue() / 100 * mp.getMedia().getDuration().toSeconds())));
+        background.setOnMouseClicked(event -> {
+            bigstack.getChildren().remove(background);
+            mp.stop();
+        });
+        mp.currentTimeProperty().addListener(((observableValue, oldValue, newValue) -> {
+            slider.setValue(newValue.toSeconds() / mp.getMedia().getDuration().toSeconds() * 100);
+            duration.setText(
+                    "Duration: " + (int) slider.getValue() + " / " + (int) mp.getMedia().getDuration().toSeconds());
         }));
-    	 mp.setOnReady(() ->{
-             Duration totalDuration = mp.getMedia().getDuration();
-             slider.setMax(totalDuration.toSeconds());
-             duration.setText("Duration: 00 / " + (int)mp.getMedia().getDuration().toSeconds());
-         });
-    	 HBox playbuttons=new HBox(play,slider,duration);
+        mp.setOnReady(() -> {
+            Duration totalDuration = mp.getMedia().getDuration();
+            slider.setMax(totalDuration.toSeconds());
+            duration.setText("Duration: 00 / " + (int) mp.getMedia().getDuration().toSeconds());
+        });
+        HBox playbuttons = new HBox(play, slider, duration);
         play.setFont(Font.font(19));
         play.setTextFill(Color.WHITE);
-    	playbuttons.setSpacing(50);
-    	playbuttons.setAlignment(Pos.CENTER);
-    	VBox.setVgrow(playbuttons, Priority.NEVER);
-    	play.setOnAction(event ->{
-    		if(!isPlayed){
+        playbuttons.setSpacing(50);
+        playbuttons.setAlignment(Pos.CENTER);
+        VBox.setVgrow(playbuttons, Priority.NEVER);
+        play.setOnAction(event -> {
+            if (!isPlayed) {
                 play.setText("Pause");
                 mp.play();
                 isPlayed = true;
-            }else {
+            } else {
                 play.setText("Play");
                 mp.pause();
                 isPlayed = false;
             }
-    	});
-        background.getChildren().addAll(mediaView,playbuttons);
+        });
+        background.getChildren().addAll(mediaView, playbuttons);
 
-    	background.setAlignment(Pos.CENTER);
-    	bigstack.getChildren().add(background);
-    	System.out.println(mediaView.getFitWidth());
-	}
+        background.setAlignment(Pos.CENTER);
+        bigstack.getChildren().add(background);
+        System.out.println(mediaView.getFitWidth());
+    }
 
-	public void commentToPost(Post post) throws IOException {
+    public void commentToPost(Post post) throws IOException {
         CommentsPageController.setCommentedpost(post);
         App.setRoot("comment");
     }
+
     public List<HBox> displayimages(Post post) {
         List<Image> imgs = post.getPostMedias().stream().map(Elkhadema.khadema.domain.Media::getImage)
                 .filter(t -> t != null).collect(Collectors.toList());
         List<HBox> imgsview = new ArrayList<HBox>();
         List<ImageView> imgViews = new ArrayList<ImageView>();
 
-        ImageView tempimg= new ImageView();
+        ImageView tempimg = new ImageView();
         int displayforthree = imgs.size() / 3;
         for (int i = 0; i < displayforthree; i++) {
             for (int j = i; j < i + 3; j++) {
                 tempimg = new ImageView(imgs.get(j));
-                tempimg.setFitWidth((CC.getWidth()- 52) / 3 );
+                tempimg.setFitWidth((CC.getWidth() - 52) / 3);
 
                 tempimg.setPreserveRatio(true);
                 imgViews.add(tempimg);
@@ -401,24 +402,23 @@ public class MainPageController extends NavbarController implements Initializabl
 
         }
         imgViews.forEach(t -> {
-        	CC.widthProperty().addListener((observable, oldValue, newValue) -> {
-        		System.out.println(t.getFitWidth());
-            	t.setFitWidth((CC.getWidth()- 52) / 3 );
+            CC.widthProperty().addListener((observable, oldValue, newValue) -> {
+                System.out.println(t.getFitWidth());
+                t.setFitWidth((CC.getWidth() - 52) / 3);
             });
         });
         imgViews = new ArrayList<ImageView>();
         for (int i = displayforthree * 3; i < imgs.size(); i++) {
             tempimg = new ImageView(imgs.get(i));
-        	tempimg.setFitWidth((CC.getWidth() - 50) / (imgs.size() - displayforthree * 3) );
-
+            tempimg.setFitWidth((CC.getWidth() - 50) / (imgs.size() - displayforthree * 3));
 
             tempimg.setPreserveRatio(true);
             imgViews.add(tempimg);
         }
-        imgViews.stream().skip( displayforthree * 3).forEach(t -> {
-        	CC.widthProperty().addListener((observable, oldValue, newValue) -> {
-        		System.out.println(t.getFitWidth());
-            	t.setFitWidth((CC.getWidth() - 50) / (imgs.size() - displayforthree * 3) );
+        imgViews.stream().skip(displayforthree * 3).forEach(t -> {
+            CC.widthProperty().addListener((observable, oldValue, newValue) -> {
+                System.out.println(t.getFitWidth());
+                t.setFitWidth((CC.getWidth() - 50) / (imgs.size() - displayforthree * 3));
             });
         });
 

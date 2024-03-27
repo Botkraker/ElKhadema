@@ -167,7 +167,6 @@ public class ResumeController extends NavbarController {
                 try {
                     userService.EditUser(person, person);
                 } catch (UserNotFoundException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
                 aboutTextArea.setDisable(true);
@@ -179,7 +178,6 @@ public class ResumeController extends NavbarController {
                 try {
                     userService.EditUser(person, person);
                 } catch (UserNotFoundException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
                 aboutTextArea.setDisable(true);

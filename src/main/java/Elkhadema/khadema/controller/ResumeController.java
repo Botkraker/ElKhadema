@@ -7,7 +7,9 @@ import Elkhadema.khadema.App;
 import Elkhadema.khadema.DAO.DAOImplemantation.CompetanceDAO;
 import Elkhadema.khadema.DAO.DAOImplemantation.ExperienceDAO;
 import Elkhadema.khadema.DAO.DAOImplemantation.PersonDAO;
+import Elkhadema.khadema.Service.ServiceImplemantation.GenerateCVServiceImp;
 import Elkhadema.khadema.Service.ServiceImplemantation.UserServiceImp;
+import Elkhadema.khadema.Service.ServiceInterfaces.GenerateCVService;
 import Elkhadema.khadema.Service.ServiceInterfaces.UserService;
 import Elkhadema.khadema.domain.Competance;
 import Elkhadema.khadema.domain.Experience;
@@ -39,11 +41,14 @@ import javafx.stage.Stage;
 
 public class ResumeController extends NavbarController {
     User session = Session.getUser();
+    Person currentUser;
+
     PersonDAO personDAO = new PersonDAO();
     UserService userService = new UserServiceImp();
     ExperienceDAO experienceDAO = new ExperienceDAO();
     CompetanceDAO competanceDAO = new CompetanceDAO();
-    Person currentUser;
+    GenerateCVService cvService = new GenerateCVServiceImp();
+
     @FXML
     ImageView profileImg;
     @FXML
@@ -130,8 +135,18 @@ public class ResumeController extends NavbarController {
         nameText.setText(person.getUserName());
         profileImg.setImage(person.getPhoto().getImage());
         profileImg.getStyleClass().add("round-image");
+
         Button generateCVbutton = new Button("get pdf");
         generateCVbutton.getStyleClass().add("postButton");
+        generateCVbutton.setOnAction(event -> {
+            try {
+                cvService.generateCV(person);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        });
+
         afficheBio(person);
         afficheabout(person);
         List<Experience> experiences = experienceDAO.getAll(user);
@@ -214,7 +229,7 @@ public class ResumeController extends NavbarController {
         missionText.setFill(Color.WHITE);
         missionText.setFont(Font.font("SansSerif", 14));
 
-        Text dateText = new Text( experience.getDateExperience());
+        Text dateText = new Text(experience.getDateExperience());
         dateText.setFont(Font.font("SansSerif", 14));
         dateText.setFill(Color.WHITE);
 

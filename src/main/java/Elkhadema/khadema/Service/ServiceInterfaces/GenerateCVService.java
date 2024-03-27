@@ -1,7 +1,9 @@
 package Elkhadema.khadema.Service.ServiceInterfaces;
 
-import Elkhadema.khadema.domain.User;
+import java.io.IOException;
+
+import Elkhadema.khadema.domain.Person;
 
 public interface GenerateCVService {
-    void generateCV(User user);
+    void generateCV(Person person) throws IOException;
 }

@@ -12,6 +12,7 @@ module Elkhadema.khadema {
     opens Elkhadema.khadema.controller to javafx.fxml;
 
     exports Elkhadema.khadema;
+    exports Elkhadema.khadema.util;
     exports Elkhadema.khadema.controller;
     exports Elkhadema.khadema.domain;
     exports Elkhadema.khadema.DAO.DAOImplemantation;

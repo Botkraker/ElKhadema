@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.itextpdf.io.font.FontConstants;
+import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.color.Color;
 import com.itextpdf.kernel.color.DeviceRgb;
 import com.itextpdf.kernel.font.PdfFontFactory;
@@ -16,11 +17,12 @@ import com.itextpdf.layout.Document;
 import com.itextpdf.layout.border.Border;
 import com.itextpdf.layout.border.SolidBorder;
 import com.itextpdf.layout.element.Cell;
+import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.ListItem;
 import com.itextpdf.layout.element.Paragraph;
+import java.awt.image.BufferedImage;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.TextAlignment;
-
 import Elkhadema.khadema.domain.Competance;
 import Elkhadema.khadema.domain.Experience;
 import Elkhadema.khadema.domain.Person;
@@ -51,7 +53,8 @@ public class CVgenerator {
                 .setTextAlignment(TextAlignment.CENTER)
                 .setBold()
                 .setFont(PdfFontFactory.createFont(FontConstants.COURIER_BOLD));
-
+        Image image=new Image(ImageDataFactory.create(person.getPhoto().getMedia()));
+        document.add(image);
         document.add(header);
 
         float fullwidth[] = { 600, 250 };
@@ -62,6 +65,8 @@ public class CVgenerator {
         // c1.add(new Paragraph("RESUME OBJECTIVE").setBold().setFontSize(15));
         // c1.add(new Paragraph("Redford & Sons, Boston, MA / September 2018 -
         // Present").setFontSize(11));
+        c1.add(new Paragraph("About").setBold().setFontSize(15));
+        c1.add(new Paragraph(person.getAbout()).setFontSize(11).setPaddingLeft(15));
         c1.add(new Paragraph("Experiences").setBold().setFontSize(15));
         experience.forEach(t -> {
             c1.add(new Paragraph(t.getTechnologie()).setFontSize(14));

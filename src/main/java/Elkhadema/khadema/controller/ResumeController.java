@@ -40,7 +40,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class ResumeController extends NavbarController{
+public class ResumeController extends NavbarController {
     User session = Session.getUser();
     PersonDAO personDAO = new PersonDAO();
     UserService userService = new UserServiceImp();
@@ -100,8 +100,9 @@ public class ResumeController extends NavbarController{
     public void logout() {
 
     }
+
     @FXML
-    public void postMsg(){
+    public void postMsg() {
 
     }
 
@@ -136,28 +137,28 @@ public class ResumeController extends NavbarController{
         afficheabout(person);
         List<Experience> experiences = experienceDAO.getAll(user);
         for (int i = 0; i < experiences.size() - 1; i++) {
-            VBox experienceBox=new VBox();
-            afficheExperience(experiences.get(i),experienceBox);
+            VBox experienceBox = new VBox();
+            afficheExperience(experiences.get(i), experienceBox);
             experienceVBox.getChildren().add(experienceBox);
             Separator separator = new Separator();
             experienceVBox.getChildren().add(separator);
         }
         if (experiences.size() > 0) {
-            VBox experienceBox=new VBox();
-            afficheExperience(experiences.get(experiences.size() - 1),experienceBox);
+            VBox experienceBox = new VBox();
+            afficheExperience(experiences.get(experiences.size() - 1), experienceBox);
             experienceVBox.getChildren().add(experienceBox);
         }
         List<Competance> competances = competanceDAO.getAll(user);
         for (int i = 0; i < competances.size() - 1; i++) {
-            VBox competanceBox=new VBox();
-            afficheCompetance(competances.get(i),competanceBox);
+            VBox competanceBox = new VBox();
+            afficheCompetance(competances.get(i), competanceBox);
             competanceVBox.getChildren().add(competanceBox);
             Separator separator = new Separator();
             competanceVBox.getChildren().add(separator);
         }
         if (competances.size() > 0) {
-            VBox competanceBox=new VBox();
-            afficheCompetance(competances.get(competances.size() - 1),competanceBox);
+            VBox competanceBox = new VBox();
+            afficheCompetance(competances.get(competances.size() - 1), competanceBox);
             competanceVBox.getChildren().add(competanceBox);
         }
         // event
@@ -191,13 +192,16 @@ public class ResumeController extends NavbarController{
         ageText.setText(String.valueOf(person.getAge()));
         jobText.setText(person.getJob());
         sexeText.setText(person.getSexe());
+        sexeText.setDisable(true);
+        ageText.setDisable(true);
+        jobText.setDisable(true);
     }
 
     private void afficheabout(Person person) {
-    if (person.getAbout()==null) {
-        aboutTextArea.setText("");
+        if (person.getAbout() == null) {
+            aboutTextArea.setText("");
 
-    }
+        }
         aboutTextArea.setText(person.getAbout());
     }
 

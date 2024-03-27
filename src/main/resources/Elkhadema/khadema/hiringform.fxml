@@ -2,11 +2,9 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ButtonBar?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -16,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="bgcol" stylesheets="@style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="bgcol" stylesheets="@style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Elkhadema.khadema.controller.HiringFromPageController">
    <children>
       <BorderPane layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
@@ -26,7 +24,7 @@
                      <children>
                         <HBox prefHeight="60.0" prefWidth="635.0">
                            <children>
-                              <Label alignment="CENTER" prefHeight="58.0" prefWidth="112.0" text="El-Kedma" textAlignment="CENTER" textFill="#f5f5f5">
+                              <Label alignment="CENTER" prefHeight="58.0" prefWidth="112.0" text="ElKhedma" textAlignment="CENTER" textFill="#f5f5f5">
                                  <font>
                                     <Font name="Microsoft Sans Serif" size="22.0" />
                                  </font>
@@ -96,382 +94,171 @@
          <center>
             <VBox onMouseClicked="#postMsg" prefHeight="655.0" prefWidth="556.0" BorderPane.alignment="CENTER">
                <children>
-                  <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" prefHeight="655.0" prefWidth="556.0" VBox.vgrow="ALWAYS">
-                     <content>
-                        <VBox prefHeight="666.0" prefWidth="931.0" styleClass="feedcolor">
+                  <VBox prefHeight="666.0" prefWidth="931.0" styleClass="feedcolor">
+                     <children>
+                        <VBox alignment="TOP_RIGHT" prefHeight="656.0" prefWidth="931.0">
                            <children>
-                              <VBox alignment="TOP_RIGHT" prefHeight="647.0" prefWidth="931.0">
+                              <VBox alignment="TOP_CENTER" prefHeight="548.0" prefWidth="911.0" styleClass="posts">
                                  <children>
-                                    <VBox alignment="TOP_CENTER" prefHeight="530.0" prefWidth="911.0" styleClass="posts">
+                                    <HBox alignment="TOP_CENTER" prefHeight="60.0" prefWidth="593.0">
                                        <children>
-                                          <HBox alignment="TOP_CENTER" prefHeight="60.0" prefWidth="593.0">
-                                             <children>
-                                                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Job offer" textAlignment="CENTER" wrappingWidth="106.13671875">
-                                                   <font>
-                                                      <Font name="SansSerif Regular" size="15.0" />
-                                                   </font>
-                                                   <HBox.margin>
-                                                      <Insets left="5.0" top="10.0" />
-                                                   </HBox.margin>
-                                                </Text>
-                                             </children>
-                                          </HBox>
-                                          <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
-                                             <children>
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Fill pu job info" wrappingWidth="159.76171875" />
-                                             </children></HBox>
-                                          <VBox prefHeight="238.0" prefWidth="909.0">
-                                             <children>
-                                                <VBox alignment="TOP_CENTER" prefHeight="235.0" prefWidth="899.0" styleClass="posts">
-                                                   <VBox.margin>
-                                                      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                                   </VBox.margin>
-                                                   <children>
-                                                      <HBox prefHeight="193.0" prefWidth="909.0">
-                                                         <children>
-                                                            <VBox prefHeight="198.0" prefWidth="465.0" styleClass="borderleft">
-                                                               <children>
-                                                                  <HBox alignment="CENTER_LEFT" prefHeight="49.0" prefWidth="447.0">
-                                                                     <children>
-                                                                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="shadoweffect" text="Job Expirence" wrappingWidth="116.13671875">
-                                                                           <HBox.margin>
-                                                                              <Insets bottom="5.0" />
-                                                                           </HBox.margin>
-                                                                           <font>
-                                                                              <Font size="16.0" />
-                                                                           </font>
-                                                                        </Text>
-                                                                        <CheckBox mnemonicParsing="false" styleClass="shadoweffect" />
-                                                                     </children>
-                                                                     <VBox.margin>
-                                                                        <Insets left="10.0" />
-                                                                     </VBox.margin>
-                                                                  </HBox>
-                                                                  <TextArea prefHeight="119.0" prefWidth="417.0" promptText="Tell us about your expirence" wrapText="true">
-                                                                     <font>
-                                                                        <Font size="18.0" />
-                                                                     </font>
-                                                                     <padding>
-                                                                        <Insets left="2.0" right="2.0" top="5.0" />
-                                                                     </padding>
-                                                                     <VBox.margin>
-                                                                        <Insets bottom="10.0" left="5.0" right="10.0" />
-                                                                     </VBox.margin>
-                                                                  </TextArea>
-                                                               </children>
-                                                               <HBox.margin>
-                                                                  <Insets />
-                                                               </HBox.margin>
-                                                            </VBox>
-                                                            <VBox prefHeight="198.0" prefWidth="463.0">
-                                                               <children>
-                                                                  <HBox alignment="CENTER_LEFT" prefHeight="49.0" prefWidth="447.0">
-                                                                     <children>
-                                                                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="shadoweffect" text="Certificates" wrappingWidth="116.13671875">
-                                                                           <HBox.margin>
-                                                                              <Insets bottom="5.0" />
-                                                                           </HBox.margin>
-                                                                           <font>
-                                                                              <Font size="16.0" />
-                                                                           </font>
-                                                                        </Text>
-                                                                        <CheckBox mnemonicParsing="false" styleClass="shadoweffect" />
-                                                                     </children>
-                                                                     <VBox.margin>
-                                                                        <Insets left="10.0" />
-                                                                     </VBox.margin>
-                                                                  </HBox>
-                                                                  <TextArea prefHeight="76.0" prefWidth="433.0" promptText="your certificates" wrapText="true">
-                                                                     <font>
-                                                                        <Font size="18.0" />
-                                                                     </font>
-                                                                     <padding>
-                                                                        <Insets left="2.0" right="2.0" top="5.0" />
-                                                                     </padding>
-                                                                     <VBox.margin>
-                                                                        <Insets bottom="10.0" right="10.0" />
-                                                                     </VBox.margin>
-                                                                  </TextArea>
-                                                               </children>
-                                                               <HBox.margin>
-                                                                  <Insets left="10.0" />
-                                                               </HBox.margin>
-                                                            </VBox>
-                                                         </children>
-                                                      </HBox>
-                                                      <HBox prefHeight="193.0" prefWidth="909.0">
-                                                         <children>
-                                                            <VBox prefHeight="198.0" prefWidth="465.0" styleClass="borderleft">
-                                                               <children>
-                                                                  <HBox alignment="CENTER_LEFT" prefHeight="49.0" prefWidth="447.0">
-                                                                     <children>
-                                                                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="shadoweffect" text="Social Activity" wrappingWidth="116.13671875">
-                                                                           <HBox.margin>
-                                                                              <Insets bottom="5.0" />
-                                                                           </HBox.margin>
-                                                                           <font>
-                                                                              <Font size="16.0" />
-                                                                           </font>
-                                                                        </Text>
-                                                                        <CheckBox mnemonicParsing="false" styleClass="shadoweffect" />
-                                                                     </children>
-                                                                     <VBox.margin>
-                                                                        <Insets left="10.0" />
-                                                                     </VBox.margin>
-                                                                  </HBox>
-                                                                  <TextArea prefHeight="119.0" prefWidth="417.0" promptText="Tell us about your expirence" wrapText="true">
-                                                                     <font>
-                                                                        <Font size="18.0" />
-                                                                     </font>
-                                                                     <padding>
-                                                                        <Insets left="2.0" right="2.0" top="5.0" />
-                                                                     </padding>
-                                                                     <VBox.margin>
-                                                                        <Insets bottom="10.0" left="5.0" right="10.0" />
-                                                                     </VBox.margin>
-                                                                  </TextArea>
-                                                               </children>
-                                                               <HBox.margin>
-                                                                  <Insets />
-                                                               </HBox.margin>
-                                                            </VBox>
-                                                            <VBox prefHeight="198.0" prefWidth="463.0">
-                                                               <children>
-                                                                  <HBox alignment="CENTER_LEFT" prefHeight="49.0" prefWidth="447.0">
-                                                                     <children>
-                                                                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="shadoweffect" text="Personal projects" wrappingWidth="140.13671875">
-                                                                           <HBox.margin>
-                                                                              <Insets bottom="5.0" />
-                                                                           </HBox.margin>
-                                                                           <font>
-                                                                              <Font size="16.0" />
-                                                                           </font>
-                                                                        </Text>
-                                                                        <CheckBox mnemonicParsing="false" styleClass="shadoweffect" />
-                                                                     </children>
-                                                                     <VBox.margin>
-                                                                        <Insets left="10.0" />
-                                                                     </VBox.margin>
-                                                                  </HBox>
-                                                                  <TextArea prefHeight="119.0" prefWidth="417.0" promptText="your certificates" wrapText="true">
-                                                                     <font>
-                                                                        <Font size="18.0" />
-                                                                     </font>
-                                                                     <padding>
-                                                                        <Insets left="2.0" right="2.0" top="5.0" />
-                                                                     </padding>
-                                                                     <VBox.margin>
-                                                                        <Insets bottom="10.0" right="10.0" />
-                                                                     </VBox.margin>
-                                                                  </TextArea>
-                                                               </children>
-                                                               <HBox.margin>
-                                                                  <Insets left="10.0" />
-                                                               </HBox.margin>
-                                                            </VBox>
-                                                         </children>
-                                                      </HBox>
-                                                   </children>
-                                                </VBox>
-                                             </children>
-                                          </VBox>
+                                          <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: 900;" text="Hiring form" textAlignment="CENTER">
+                                             <font>
+                                                <Font name="SansSerif Regular" size="29.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets left="5.0" />
+                                             </HBox.margin>
+                                          </Text>
                                        </children>
-                                       <VBox.margin>
-                                          <Insets left="10.0" right="10.0" top="25.0" />
-                                       </VBox.margin>
-                                    </VBox>
-                                    <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                                        <children>
-                                          <Button mnemonicParsing="false" prefHeight="46.0" prefWidth="106.0" styleClass="postButton" text="Print" textFill="#f8f8f8">
+                                          <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Postion title" wrappingWidth="181.13671875">
                                              <font>
                                                 <Font size="20.0" />
                                              </font>
-                                          </Button>
-                                       </children>
-                                    </VBox>
-                                 </children>
-                              </VBox>
-                           </children>
-                        </VBox>
-                     </content>
-                  </ScrollPane>
-               </children>
-            </VBox>
-         </center>
-         <right>
-            <VBox prefHeight="655.0" prefWidth="347.0" style="-fx-effect: blur;" styleClass="scrollStyle" BorderPane.alignment="CENTER">
-               <children>
-                  <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" VBox.vgrow="ALWAYS">
-                     <content>
-                        <VBox prefHeight="656.0" prefWidth="593.0" styleClass="feedcolor">
-                           <children>
-                              <VBox prefHeight="657.0" prefWidth="340.0">
-                                 <children>
-                                    <Text fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-effect: dropshadow(three-pass-box, #444444e8, 10, 0.5, 3, 3);;" text="Contant" wrappingWidth="96.13671875">
-                                       <font>
-                                          <Font size="18.0" />
-                                       </font>
-                                       <VBox.margin>
-                                          <Insets left="7.0" top="6.0" />
-                                       </VBox.margin>
-                                    </Text>
-                                    <VBox prefHeight="50.0" prefWidth="593.0" styleClass="posts">
-                                       <children>
-                                          <ButtonBar styleClass="friendlist">
-                                             <buttons>
-                                                <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="593.0">
-                                                   <children>
-                                                      <ImageView fitHeight="46.0" fitWidth="46.0">
-                                                         <image>
-                                                            <Image url="@user.jpg.png" />
-                                                         </image>
-                                                         <HBox.margin>
-                                                            <Insets left="5.0" />
-                                                         </HBox.margin>
-                                                      </ImageView>
-                                                      <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text=" User Name" wrappingWidth="106.13671875">
-                                                         <font>
-                                                            <Font name="SansSerif Regular" size="15.0" />
-                                                         </font>
-                                                         <HBox.margin>
-                                                            <Insets left="5.0" />
-                                                         </HBox.margin>
-                                                      </Text>
-                                                   </children>
-                                                   <padding>
-                                                      <Insets bottom="5.0" top="5.0" />
-                                                   </padding>
-                                                </HBox>
-                                             </buttons>
-                                             <VBox.margin>
-                                                <Insets bottom="5.0" top="5.0" />
-                                             </VBox.margin>
-                                          </ButtonBar>
-                                          <ButtonBar styleClass="friendlist">
-                                             <buttons>
-                                                <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="593.0">
-                                                   <children>
-                                                      <ImageView fitHeight="46.0" fitWidth="46.0">
-                                                         <image>
-                                                            <Image url="@user.jpg.png" />
-                                                         </image>
-                                                         <HBox.margin>
-                                                            <Insets left="5.0" />
-                                                         </HBox.margin>
-                                                      </ImageView>
-                                                      <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text=" User Name" wrappingWidth="106.13671875">
-                                                         <font>
-                                                            <Font name="SansSerif Regular" size="15.0" />
-                                                         </font>
-                                                         <HBox.margin>
-                                                            <Insets left="5.0" />
-                                                         </HBox.margin>
-                                                      </Text>
-                                                   </children>
-                                                   <padding>
-                                                      <Insets bottom="5.0" top="5.0" />
-                                                   </padding>
-                                                </HBox>
-                                             </buttons>
-                                          </ButtonBar>
-                                          <ButtonBar styleClass="friendlist">
-                                             <buttons>
-                                                <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="593.0">
-                                                   <children>
-                                                      <ImageView fitHeight="46.0" fitWidth="46.0">
-                                                         <image>
-                                                            <Image url="@user.jpg.png" />
-                                                         </image>
-                                                         <HBox.margin>
-                                                            <Insets left="5.0" />
-                                                         </HBox.margin>
-                                                      </ImageView>
-                                                      <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text=" User Name" wrappingWidth="106.13671875">
-                                                         <font>
-                                                            <Font name="SansSerif Regular" size="15.0" />
-                                                         </font>
-                                                         <HBox.margin>
-                                                            <Insets left="5.0" />
-                                                         </HBox.margin>
-                                                      </Text>
-                                                   </children>
-                                                   <padding>
-                                                      <Insets bottom="5.0" top="5.0" />
-                                                   </padding>
-                                                </HBox>
-                                             </buttons>
-                                          </ButtonBar>
-                                          <ButtonBar styleClass="friendlist">
-                                             <buttons>
-                                                <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="593.0">
-                                                   <children>
-                                                      <ImageView fitHeight="46.0" fitWidth="46.0">
-                                                         <image>
-                                                            <Image url="@user.jpg.png" />
-                                                         </image>
-                                                         <HBox.margin>
-                                                            <Insets left="5.0" />
-                                                         </HBox.margin>
-                                                      </ImageView>
-                                                      <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text=" User Name" wrappingWidth="106.13671875">
-                                                         <font>
-                                                            <Font name="SansSerif Regular" size="15.0" />
-                                                         </font>
-                                                         <HBox.margin>
-                                                            <Insets left="5.0" />
-                                                         </HBox.margin>
-                                                      </Text>
-                                                   </children>
-                                                   <padding>
-                                                      <Insets bottom="5.0" top="5.0" />
-                                                   </padding>
-                                                </HBox>
-                                             </buttons>
-                                          </ButtonBar>
-                                          <ButtonBar styleClass="friendlist">
-                                             <buttons>
-                                                <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="593.0">
-                                                   <children>
-                                                      <ImageView fitHeight="46.0" fitWidth="46.0">
-                                                         <image>
-                                                            <Image url="@user.jpg.png" />
-                                                         </image>
-                                                         <HBox.margin>
-                                                            <Insets left="5.0" />
-                                                         </HBox.margin>
-                                                      </ImageView>
-                                                      <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text=" User Name" wrappingWidth="106.13671875">
-                                                         <font>
-                                                            <Font name="SansSerif Regular" size="15.0" />
-                                                         </font>
-                                                         <HBox.margin>
-                                                            <Insets left="5.0" />
-                                                         </HBox.margin>
-                                                      </Text>
-                                                   </children>
-                                                   <padding>
-                                                      <Insets bottom="5.0" top="5.0" />
-                                                   </padding>
-                                                </HBox>
-                                             </buttons>
-                                          </ButtonBar>
+                                             <HBox.margin>
+                                                <Insets left="10.0" />
+                                             </HBox.margin>
+                                          </Text>
+                                          <TextField fx:id="title" />
                                        </children>
                                        <VBox.margin>
                                           <Insets bottom="5.0" top="5.0" />
                                        </VBox.margin>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Pay range" wrappingWidth="181.13671875">
+                                             <font>
+                                                <Font size="20.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets left="10.0" />
+                                             </HBox.margin>
+                                          </Text>
+                                          <TextField fx:id="pay_range" />
+                                          <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <Text fx:id="errormsg1" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: 900;" text="Please only digits" visible="false">
+                                                   <font>
+                                                      <Font name="SansSerif Regular" size="20.0" />
+                                                   </font>
+                                                </Text>
+                                             </children>
+                                             <padding>
+                                                <Insets left="15.0" />
+                                             </padding>
+                                          </HBox>
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" top="5.0" />
+                                       </VBox.margin>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Location" wrappingWidth="181.13671875">
+                                             <font>
+                                                <Font size="20.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets left="10.0" />
+                                             </HBox.margin>
+                                          </Text>
+                                          <TextField fx:id="locationm" />
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" top="5.0" />
+                                       </VBox.margin>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="employment type" wrappingWidth="181.13671875">
+                                             <font>
+                                                <Font size="20.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets left="10.0" />
+                                             </HBox.margin>
+                                          </Text>
+                                          <TextField fx:id="employementtype" />
+                                       </children>
+                                    </HBox>
+                                    <VBox prefHeight="328.0" prefWidth="909.0" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <VBox alignment="TOP_CENTER" prefHeight="173.0" prefWidth="899.0" styleClass="posts" VBox.vgrow="ALWAYS">
+                                             <VBox.margin>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </VBox.margin>
+                                             <children>
+                                                <VBox prefHeight="198.0" prefWidth="465.0" styleClass="borderleft" VBox.vgrow="ALWAYS">
+                                                   <children>
+                                                      <HBox alignment="CENTER_LEFT" prefHeight="49.0" prefWidth="447.0">
+                                                         <children>
+                                                            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="shadoweffect" text="Job Description" wrappingWidth="116.13671875">
+                                                               <HBox.margin>
+                                                                  <Insets bottom="5.0" />
+                                                               </HBox.margin>
+                                                               <font>
+                                                                  <Font size="16.0" />
+                                                               </font>
+                                                            </Text>
+                                                         </children>
+                                                         <VBox.margin>
+                                                            <Insets left="10.0" />
+                                                         </VBox.margin>
+                                                      </HBox>
+                                                      <TextArea fx:id="summ" prefHeight="131.0" prefWidth="881.0" promptText="Here goes the Description (200 words minimum)" wrapText="true" VBox.vgrow="ALWAYS">
+                                                         <font>
+                                                            <Font size="18.0" />
+                                                         </font>
+                                                         <padding>
+                                                            <Insets left="2.0" right="2.0" top="5.0" />
+                                                         </padding>
+                                                         <VBox.margin>
+                                                            <Insets bottom="10.0" left="5.0" right="10.0" />
+                                                         </VBox.margin>
+                                                      </TextArea>
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </VBox>
+                                          <HBox alignment="CENTER" VBox.vgrow="NEVER">
+                                             <children>
+                                                <Text fx:id="errormsg" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: 900;" text="Please Fill the inputs to proceed" visible="false">
+                                                   <font>
+                                                      <Font name="SansSerif Regular" size="20.0" />
+                                                   </font>
+                                                </Text>
+                                             </children>
+                                             <padding>
+                                                <Insets top="10.0" />
+                                             </padding>
+                                          </HBox>
+                                       </children>
                                     </VBox>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets left="10.0" right="10.0" top="25.0" />
+                                 </VBox.margin>
+                              </VBox>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Button alignment="CENTER" mnemonicParsing="false" onAction="#post" prefHeight="37.0" prefWidth="173.0" styleClass="postButton" text="Create" textFill="WHITE">
+                                       <font>
+                                          <Font name="SansSerif Bold" size="15.0" />
+                                       </font>
+                                    </Button>
                                  </children>
                               </VBox>
                            </children>
                         </VBox>
-                     </content>
-                     <VBox.margin>
-                        <Insets left="5.0" />
-                     </VBox.margin>
-                  </ScrollPane>
+                     </children>
+                  </VBox>
                </children>
             </VBox>
-         </right>
+         </center>
       </BorderPane>
    </children>
 </AnchorPane>

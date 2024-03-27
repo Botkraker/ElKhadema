@@ -1,5 +1,6 @@
 package Elkhadema.khadema.DAO.DAOImplemantation;
 
+import java.io.ByteArrayInputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -103,12 +104,12 @@ public class JobsDAO{
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = connection.prepareStatement(
-					"INSERT INTO `khademadb`.`job_request` (`offer_id`, `user_id`, `status`) VALUES (?, ?, ?)",
+					"INSERT INTO `khademadb`.`job_request` (`offer_id`, `user_id`, `status`,`pdf`) VALUES (?, ?, ?,?)",
 					Statement.RETURN_GENERATED_KEYS);
 			pstmt.setLong(1, jr.getJobOffre().getId());
 			pstmt.setLong(2, jr.getUser().getId());
 			pstmt.setString(3, jr.getEtat());
-
+			pstmt.setBlob(4, new ByteArrayInputStream(jr.getPdf()));
 			pstmt.executeUpdate();
 
 		} catch (SQLException e) {
@@ -119,12 +120,16 @@ public class JobsDAO{
 		Statement stmt = null;
 		ResultSet rs = null;
 		List<JobRequest> jobRequests = new ArrayList<>();
-		String SQL = "SELECT `offer_id`, `user_id`, `status` FROM `job_request` WHERE `user_id`="+user.getId();
+		String SQL = "SELECT `offer_id`, `user_id`, `status`,`pdf` FROM `job_request` WHERE `user_id`="+user.getId();
+		JobRequest jr;
 		try {
 			stmt = connection.createStatement();
 			rs = stmt.executeQuery(SQL);
 			while (rs.next()) {
-				jobRequests.add(new JobRequest(user,new JobOffre(rs.getLong("offer_id")),rs.getString("status")));
+				jr=(new JobRequest(user,new JobOffre(rs.getLong("offer_id")),rs.getString("status")));
+				jr.setPdf(rs.getBytes("pdf"));
+				jobRequests.add(jr);
+				
 			}
 		} catch (SQLException e) {
 			System.out.println(e);
@@ -134,13 +139,17 @@ public class JobsDAO{
 	public List<JobRequest> getJobRequestsByCompany(Company company) {
 		Statement stmt = null;
 		ResultSet rs = null;
+		JobRequest jr;
 		List<JobRequest> jobRequests = new ArrayList<>();
-		String SQL = "SELECT r.`offer_id`,r.`user_id`, r.`status` FROM `job_request` r,job_offers  o WHERE r.`offer_id`=o.offer_id and o.company="+company.getId();
+		String SQL = "SELECT r.`offer_id`,r.`user_id`, r.`status`,r.`pdf` FROM `job_request` r,job_offers  o WHERE r.`offer_id`=o.offer_id and o.company_id="+company.getId();
 		try {
 			stmt = connection.createStatement();
 			rs = stmt.executeQuery(SQL);
 			while (rs.next()) {
-				jobRequests.add(new JobRequest(new User(rs.getInt("user_id"),null,null),new JobOffre(rs.getLong("offer_id")),rs.getString("status")));
+				jr=(new JobRequest(new User(rs.getInt("user_id"),null,null),new JobOffre(rs.getLong("offer_id")),rs.getString("status")));
+				jr.setPdf(rs.getBytes("pdf"));
+				jobRequests.add(jr);
+				
 			}
 		} catch (SQLException e) {
 			System.out.println(e);
@@ -208,4 +217,21 @@ public class JobsDAO{
 			System.out.println(e);
 	}
 	}
+	public List<JobOffre> getAllJobOffres() {
+		Statement stmt = null;
+		ResultSet rs = null;
+		List<JobOffre> jobOffres = new ArrayList<>();
+		String SQL = "SELECT * FROM `job_offers`";
+		try {
+			stmt = connection.createStatement();
+			rs = stmt.executeQuery(SQL);
+			while (rs.next()) {
+				jobOffres.add(new JobOffre(rs.getLong("offer_id"),new Company(rs.getInt("company_id"), null, null),rs.getString("summary"),rs.getString("position"),rs.getDouble("pay_range"),rs.getString("employment_type"),rs.getString("location")));
+			}
+		} catch (SQLException e) {
+			System.out.println(e);
+		}
+		return jobOffres;
+	}
+	
 }

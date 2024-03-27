@@ -2,9 +2,6 @@ package Elkhadema.khadema.controller;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.Period;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import Elkhadema.khadema.App;
@@ -220,7 +217,7 @@ public class ResumeController extends NavbarController {
         missionText.setFill(Color.WHITE);
         missionText.setFont(Font.font("SansSerif", 14));
 
-        Text dateText = getDateExperience(experience);
+        Text dateText = new Text( experience.getDateExperience());
         dateText.setFont(Font.font("SansSerif", 14));
         dateText.setFill(Color.WHITE);
 
@@ -362,33 +359,6 @@ public class ResumeController extends NavbarController {
         afficheCompetance(competance, vBox);
         competanceDAO.save(competance, currentUser);
         competanceVBox.getChildren().add(vBox);
-    }
-
-    private Text getDateExperience(Experience experience) {
-        String dateString = experience.getStartDate().format(DateTimeFormatter.ofPattern("MMM yyyy"));
-        String tmp;
-        LocalDate localDate = LocalDate.now();
-        if (experience.getEndDate() == null) {
-            tmp = "present";
-        } else {
-            localDate = experience.getEndDate();
-            tmp = experience.getEndDate().format(DateTimeFormatter.ofPattern("MMM yyyy"));
-        }
-        dateString = dateString.concat(" - " + tmp + "     ");
-        Period period = Period.between(experience.getStartDate(), localDate);
-        int years = period.getYears();
-        int months = period.getMonths();
-        int days = period.getDays();
-        if (years != 0)
-            dateString = dateString.concat(String.valueOf(years)).concat(" year").concat(years != 1 ? "s" : "")
-                    .concat(" ");
-        if (months != 0)
-            dateString = dateString.concat(String.valueOf(months)).concat(" month").concat(months != 1 ? "s" : "")
-                    .concat(" ");
-        if (years > 0)
-            dateString = dateString.concat(String.valueOf(days)).concat(" day").concat(days != 1 ? "s" : "");
-        Text dateText = new Text(dateString);
-        return dateText;
     }
 
     @FXML

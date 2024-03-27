@@ -79,6 +79,9 @@ public class ResumeController extends NavbarController {
     Button editAboutBtn;
 
     @FXML
+    Button generateCVbutton;
+
+    @FXML
     public void goHome() {
 
     }
@@ -135,9 +138,6 @@ public class ResumeController extends NavbarController {
         nameText.setText(person.getUserName());
         profileImg.setImage(person.getPhoto().getImage());
         profileImg.getStyleClass().add("round-image");
-
-        Button generateCVbutton = new Button("get pdf");
-        generateCVbutton.getStyleClass().add("postButton");
         generateCVbutton.setOnAction(event -> {
             try {
                 cvService.generateCV(person);
@@ -287,6 +287,7 @@ public class ResumeController extends NavbarController {
             popUpStage.setScene(popUpScreen);
             editCompetanceController.setStage(popUpStage);
             editCompetanceController.initialize(competance);
+            popUpStage.showAndWait();
             Competance newCompetance = editCompetanceController.getCompetance();
             vBox.getChildren().clear();
             afficheCompetance(competance, vBox);

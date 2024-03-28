@@ -5,7 +5,7 @@ import java.util.Date;
 public class JobRequest {
     private User user;
     private JobOffre jobOffre;
-    private Date date;
+    private byte[] pdf;
     private String etat;
 
     public JobRequest(User user, JobOffre jobOffre, String etat) {
@@ -14,13 +14,6 @@ public class JobRequest {
         this.etat = etat;
     }
 
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
 
     public User getUser() {
         return user;
@@ -45,5 +38,13 @@ public class JobRequest {
     public void setEtat(String etat) {
         this.etat = etat;
     }
+
+	public byte[] getPdf() {
+		return pdf;
+	}
+
+	public void setPdf(byte[] pdf) {
+		this.pdf = pdf;
+	}
 
 }

@@ -14,8 +14,10 @@ import Elkhadema.khadema.Service.ServiceImplemantation.UserServiceImp;
 import Elkhadema.khadema.Service.ServiceInterfaces.FollowService;
 import Elkhadema.khadema.Service.ServiceInterfaces.MessageService;
 import Elkhadema.khadema.Service.ServiceInterfaces.UserService;
+import Elkhadema.khadema.domain.Media;
 import Elkhadema.khadema.domain.Message;
 import Elkhadema.khadema.domain.User;
+import Elkhadema.khadema.util.MediaChooser;
 import Elkhadema.khadema.util.Session;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -38,6 +40,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -47,7 +51,7 @@ import javafx.util.Duration;
 /**
  * ChatRoomController
  */
-public class ChatRoomController implements Initializable {
+public class ChatRoomController extends NavbarController implements Initializable {
     private Stage stage;
     private Scene scene;
     private Parent root;
@@ -68,6 +72,12 @@ public class ChatRoomController implements Initializable {
     Button sendBtn;
     @FXML
     VBox messageVBox;
+    @FXML
+    private HBox HboxforAttachments;
+
+    @FXML
+    private Button buttontoaddattach;
+    
 
     @FXML
     ScrollPane messagePane;
@@ -114,7 +124,20 @@ public class ChatRoomController implements Initializable {
         }
         Platform.runLater(() -> messagePane.setVvalue(1.0));
     }
-
+    Media attachMedia;
+    @FXML
+    void AddMediabutton(ActionEvent event) {
+        Media m = MediaChooser.Choose(event);
+        if (m.getMediatype().equals("img")) {
+            attachMedia=m;
+            ImageView img = new ImageView(m.getImage());
+            HboxforAttachments.getChildren().add(img);
+            img.setFitWidth(100);
+            img.setPreserveRatio(true);
+        } else {
+            System.out.println("can't import a video here");
+        }
+    }
     private void afficheMessage(Message message) {
         boolean tmp = messagePane.getVvalue() == 1.0;
         ImageView imageView = new ImageView(new Image("file:src//main//resources//images//user.png"));
@@ -199,32 +222,17 @@ public class ChatRoomController implements Initializable {
         vContacts.getChildren().addAll(hBoxs);
     }
 
-    public void goHome() {
-
-    }
-
-    public void goJobsList() {
-
-    }
-
-    public void goNotifications() {
-
-    }
-
-    public void goResume() {
-
-    }
-
-    public void logout() {
-        userService.logOut(Session.getUser());
-    }
+   
 
     @FXML
     public void postMsg() {
         Message message = new Message(0, Session.getUser(), messageText.getText(), null, parentMessageId);
+        message.setImage(attachMedia);
         messageService.sendMessage(currentMessageReciver, message);
         afficheMessage(message);
         messageText.setText("");
+        attachMedia=null;
+        HboxforAttachments.getChildren().clear();
         messageText.requestFocus();
 
     }

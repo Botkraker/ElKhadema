@@ -10,6 +10,8 @@ import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
+
+
 import Elkhadema.khadema.App;
 import Elkhadema.khadema.DAO.DAOImplemantation.UserDAO;
 import Elkhadema.khadema.Service.ServiceImplemantation.FollowServiceImp;
@@ -23,6 +25,7 @@ import Elkhadema.khadema.domain.Reaction;
 import Elkhadema.khadema.domain.User;
 import Elkhadema.khadema.util.MediaChooser;
 import Elkhadema.khadema.util.Session;
+import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -48,6 +51,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -173,30 +177,8 @@ public class MainPageController extends NavbarController implements Initializabl
 
     public void resetfeed() {
         postholder.getChildren().clear();
-        initPostShow();
-        // TODO still working on it
-        CC.vvalueProperty().addListener((observable, oldValue, newValue) -> {
-            double scrollValue = newValue.doubleValue();
-            if (scrollValue >= 1 && postindex < posts.size()) {
-                posts.stream().skip(postindex).limit(5).map(t -> showpost(t)).forEach(t -> {
-                    if (maxPosts <= loadPosts) {
-                        postholder.getChildren().remove(0);
-                        loadPosts--;
-                    }
-                    postholder.getChildren().add(t);
-                    loadPosts++;
-                    postindex++;
-                    Platform.runLater(() -> {
-                        CC.setVvalue(0.8);
-                    });
-                });
-            }
-            // TODO change it lags like hell when you scroll up
-            if (scrollValue <= 0.2 && loadPosts > 15) {
-                addPostTop(posts.get(postindex - loadPosts));
-
-            }
-        });
+        //initPostShow();
+        posts.forEach(t -> showpost(t));
     }
 
     public void addPostTop(Post post) {
@@ -225,15 +207,15 @@ public class MainPageController extends NavbarController implements Initializabl
         } else {
             profileimg = new ImageView(image);
         }
-        profileimg.setStyle("-fx-border-radius: 20px");
-        profileimg.setFitWidth(46);
-        profileimg.setPreserveRatio(true);
+    	profileimg.setVisible(false);
+        VBox imgholder=makeicon(profileimg);
         Text profilename = new Text(post.getUser().getUserName());
         profilename.setFont(Font.font("SansSerif", 15));
         profilename.setTranslateX(5);
         profilename.setFill(Color.WHITE);
-        HBox profilebar = new HBox(profileimg, profilename);
+        HBox profilebar = new HBox(imgholder, profilename);
         profilebar.setSpacing(5);
+        profilebar.setAlignment(Pos.CENTER_LEFT);
         Text postscontent = new Text(post.getContent());
         postscontent.setDisable(true);
         postscontent.setFill(Color.WHITE);
@@ -242,9 +224,11 @@ public class MainPageController extends NavbarController implements Initializabl
         postscontent.getStyleClass().add("postTxtField");
         postscontent.setStyle("-fx-border-width: 0;");
         List<HBox> displayedimges = displayimages(post);
+        
         displayedimges.forEach(t -> {
             t.setSpacing(5);
             t.setAlignment(Pos.TOP_CENTER);
+            t.setVisible(false);
         });
         VBox iMGHOLDER = new VBox(displayedimges.toArray(new HBox[0]));
         iMGHOLDER.getStyleClass().add("postTxtField");
@@ -267,6 +251,7 @@ public class MainPageController extends NavbarController implements Initializabl
         }
 
         MediaView mediaView = new MediaView(mp[0]);
+        mediaView.setVisible(false);
         videopane.getChildren().add(0, mediaView);
 
         Text likenumber = new Text("" + ps.getPostReactions(post).size());
@@ -317,64 +302,142 @@ public class MainPageController extends NavbarController implements Initializabl
             posts.setMinWidth(CC.getWidth() - 50);
             mediaView.setFitWidth(CC.getWidth() - 52);
             postscontent.setWrappingWidth(CC.getWidth());
+            
         });
+        Platform.runLater(() -> {
+        	if(posts.localToScreen(0,0).getY()<(posts.getScene().getHeight()*1.2)) {
+                profileimg.setVisible(true);
+                displayedimges.forEach(t -> {
+                    t.setVisible(true);
+                });
+                mediaView.setVisible(true);
 
-        posts.setFillWidth(true);
-        profilebar.setAlignment(Pos.CENTER_LEFT);
+        	}
+        });
+        CC.vvalueProperty().addListener((observable, oldValue, newValue) -> {
+        	if(Math.abs(posts.localToScreen(0,0).getY())<(posts.getScene().getHeight()*1.2)) {
+                profileimg.setVisible(true);
+                displayedimges.forEach(t -> {
+                    t.setVisible(true);
+                });
+                mediaView.setVisible(true);
+
+        	}
+        	else {
+        		profileimg.setVisible(false);
+                displayedimges.forEach(t -> {
+                    t.setVisible(false);
+                });
+                mediaView.setVisible(false);
+			}
+        });
+        postholder.getChildren().add(posts);
         return posts;
     }
 
-    private boolean isPlayed = false;
+    private VBox makeicon(ImageView profileimg) {
+    	profileimg.setFitHeight(200);
+    	profileimg.setPreserveRatio(true);
+        profileimg.setStyle("-fx-border-radius: 20px");
+        VBox imgholder=new VBox(profileimg);
+        Circle clip=new Circle(35);
+        clip.setCenterY(100);
+        clip.setCenterX((((profileimg.getImage().getWidth()*200/profileimg.getImage().getHeight()/2))));
+        profileimg.setTranslateY(-65);
+        profileimg.setTranslateX(-((profileimg.getImage().getWidth()*200/profileimg.getImage().getHeight()/2)-35));
+        profileimg.setClip(clip);
+        imgholder.setMaxHeight(70);
+        imgholder.setPrefHeight(70);
+        imgholder.setMinHeight(70);
+        imgholder.setMaxWidth(70);
+        imgholder.setMinWidth(70);
+        imgholder.setPrefWidth(70);
+    	return imgholder;
+	}
+
+	private boolean isPlayed = false;
 
     private void playVideo(MediaPlayer mp) {
-        VBox background = new VBox();
-        background.setStyle("-fx-background-color: rgba(50, 50, 50, 0.7);");
-        MediaView mediaView = new MediaView(mp);
-        Button play = new Button("Play");
+    	VBox background=new VBox();
+    	background.setStyle("-fx-background-color: rgba(50, 50, 50, 0.7);");
+    	MediaView mediaView=new MediaView(mp);
+    	Button play=new Button("►");
+    	play.setStyle("-fx-background-color: #0095fe;");
+    	Label duration=new Label(Duration.ZERO.toString());
+    	duration.setTextFill(Color.WHITE);
+    	mediaView.setFitWidth(mp.getMedia().getWidth());
+    	mediaView.setFitHeight(mp.getMedia().getHeight());
 
-        play.setStyle("-fx-background-color: #0095fe;");
-        Label duration = new Label();
-        Slider slider = new Slider();
-        mediaView.setPreserveRatio(true);
-        slider.setOnMousePressed(
-                event -> mp.seek(Duration.seconds(slider.getValue() / 100 * mp.getMedia().getDuration().toSeconds())));
-        background.setOnMouseClicked(event -> {
-            bigstack.getChildren().remove(background);
-            mp.stop();
-        });
-        mp.currentTimeProperty().addListener(((observableValue, oldValue, newValue) -> {
-            slider.setValue(newValue.toSeconds() / mp.getMedia().getDuration().toSeconds() * 100);
-            duration.setText(
-                    "Duration: " + (int) slider.getValue() + " / " + (int) mp.getMedia().getDuration().toSeconds());
+    	Slider slider= new Slider();
+    	Duration totalDuration = mp.getMedia().getDuration();
+        slider.setMax(totalDuration.toSeconds());
+        duration.setText("Duration: 00:00 / " + (int)mp.getMedia().getDuration().toMinutes()+":"+(int)mp.getMedia().getDuration().toSeconds());
+    	mediaView.setPreserveRatio(true);
+    	slider.setOnMousePressed(event -> mp.seek(Duration.seconds(slider.getValue()/100*mp.getMedia().getDuration().toSeconds())));
+    	background.setOnMouseClicked(event -> {bigstack.getChildren().remove(background);mp.stop();});
+    	mp.currentTimeProperty().addListener(((observableValue, oldValue, newValue) -> {
+            slider.setValue(newValue.toSeconds()/mp.getMedia().getDuration().toSeconds()*100);
+            duration.setText("Duration: " +(int)mp.getCurrentTime().toMinutes()+":"+(int)mp.getCurrentTime().toSeconds() + " / " + (int)mp.getMedia().getDuration().toMinutes()+":"+(int)mp.getMedia().getDuration().toSeconds());
         }));
-        mp.setOnReady(() -> {
-            Duration totalDuration = mp.getMedia().getDuration();
-            slider.setMax(totalDuration.toSeconds());
-            duration.setText("Duration: 00 / " + (int) mp.getMedia().getDuration().toSeconds());
-        });
-        HBox playbuttons = new HBox(play, slider, duration);
+
+    	 HBox playbuttons=new HBox(play,slider,duration);
         play.setFont(Font.font(19));
         play.setTextFill(Color.WHITE);
-        playbuttons.setSpacing(50);
-        playbuttons.setAlignment(Pos.CENTER);
-        VBox.setVgrow(playbuttons, Priority.NEVER);
-        play.setOnAction(event -> {
-            if (!isPlayed) {
-                play.setText("Pause");
+        play.setMaxHeight(40);
+    	playbuttons.setStyle("-fx-background-color: rgba(30, 33, 31,0.5)");
+    	playbuttons.setMaxWidth(mp.getMedia().getWidth());
+    	playbuttons.setAlignment(Pos.CENTER_LEFT);
+    	playbuttons.setMaxHeight(40);
+    	playbuttons.setMinHeight(40);
+    	playbuttons.setTranslateY(-40);
+    	playbuttons.setSpacing(5);
+    	playbuttons.setPadding(new Insets(0,5,0,1) );
+		 FadeTransition fadeIn = new FadeTransition(Duration.millis(1000), playbuttons);
+	     fadeIn.setFromValue(0.0);
+	     fadeIn.setToValue(1.0);
+
+	     FadeTransition fadeOut = new FadeTransition(Duration.millis(1000), playbuttons);
+         fadeOut.setFromValue(1.0);
+         fadeOut.setToValue(0.0);
+         mediaView.setOnMouseClicked(event -> {
+        	 if(!isPlayed){
+                 play.setText("⏸");
+                 mp.play();
+                 isPlayed = true;
+             }else {
+                 play.setText("►");
+                 mp.pause();
+                 isPlayed = false;
+             }
+        	 event.consume();
+         });
+
+         playbuttons.setOnMouseEntered(event -> {
+        	 if (isPlayed)
+        	 fadeIn.play();
+         });
+         playbuttons.setOnMouseExited(event -> {
+        	 if (isPlayed)
+        	fadeOut.play();
+         });
+    	HBox.setHgrow(slider, Priority.ALWAYS);
+    	play.setOnAction(event ->{
+    		if(!isPlayed){
+                play.setText("⏸");
                 mp.play();
                 isPlayed = true;
-            } else {
-                play.setText("Play");
+            }else {
+                play.setText("►");
                 mp.pause();
                 isPlayed = false;
             }
-        });
-        background.getChildren().addAll(mediaView, playbuttons);
+    	});
+        background.getChildren().addAll(mediaView,playbuttons);
 
-        background.setAlignment(Pos.CENTER);
-        bigstack.getChildren().add(background);
-        System.out.println(mediaView.getFitWidth());
-    }
+    	background.setAlignment(Pos.CENTER);
+    	bigstack.getChildren().add(background);
+    	System.out.println(mediaView.getFitWidth());
+	}
 
     public void commentToPost(Post post) throws IOException {
         CommentsPageController.setCommentedpost(post);
@@ -410,8 +473,7 @@ public class MainPageController extends NavbarController implements Initializabl
         imgViews = new ArrayList<ImageView>();
         for (int i = displayforthree * 3; i < imgs.size(); i++) {
             tempimg = new ImageView(imgs.get(i));
-            tempimg.setFitWidth((CC.getWidth() - 50) / (imgs.size() - displayforthree * 3));
-
+        	tempimg.setFitWidth((CC.getWidth() - 50) / (imgs.size() - displayforthree * 3) );
             tempimg.setPreserveRatio(true);
             imgViews.add(tempimg);
         }

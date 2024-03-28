@@ -3,12 +3,16 @@ package Elkhadema.khadema.controller;
 import java.io.IOException;
 
 import Elkhadema.khadema.App;
+import Elkhadema.khadema.Service.ServiceImplemantation.UserServiceImp;
+import Elkhadema.khadema.Service.ServiceInterfaces.UserService;
+import Elkhadema.khadema.util.Session;
 import javafx.fxml.FXML;
 
 public class NavbarController {
+	private UserService userService = new UserServiceImp();
 	@FXML
-    public void goJobsList() {
-		//App.setRoot(null);
+    public void goJobsList() throws IOException {
+		App.setRoot("jobs");
     }
 
     @FXML
@@ -24,8 +28,7 @@ public class NavbarController {
     public void goHome() throws IOException {
     	App.setRoot("mainpage");
     }
-    @FXML
     public void logout() {
-
+        userService.logOut(Session.getUser());
     }
 }

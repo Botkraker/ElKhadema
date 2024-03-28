@@ -9,6 +9,7 @@ public class Company extends User {
     private String website;
     private int comapnySize;
     private String address;
+    private String moto;
     private String speciality;
 
     public Company(int id, String password, String userName) {
@@ -82,6 +83,14 @@ public class Company extends User {
 
     public void setWebsite(String website) {
         this.website = website;
+    }
+
+    public String getMoto() {
+        return moto;
+    }
+
+    public void setMoto(String moto) {
+        this.moto = moto;
     }
 
 }

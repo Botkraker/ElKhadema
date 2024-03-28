@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.itextpdf.io.font.FontConstants;
+import com.itextpdf.io.image.ImageData;
+import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.color.Color;
 import com.itextpdf.kernel.color.DeviceRgb;
 import com.itextpdf.kernel.font.PdfFontFactory;
@@ -16,11 +18,11 @@ import com.itextpdf.layout.Document;
 import com.itextpdf.layout.border.Border;
 import com.itextpdf.layout.border.SolidBorder;
 import com.itextpdf.layout.element.Cell;
+import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.ListItem;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.TextAlignment;
-
 import Elkhadema.khadema.domain.Competance;
 import Elkhadema.khadema.domain.Experience;
 import Elkhadema.khadema.domain.Person;
@@ -34,7 +36,7 @@ public class CVgenerator {
         Document document = new Document(pdfDocument);
         Color color1 = new DeviceRgb(0, 149, 254); // Light blue
         Color color2 = new DeviceRgb(0, 24, 212); // Dark purple
-        int steps = 100;
+        int steps = 50;
         float stepSize = PageSize.A4.getWidth() / steps;
         PdfCanvas canvas = new PdfCanvas(pdfDocument.addNewPage());
         for (int i = 0; i < steps; i++) {
@@ -51,7 +53,15 @@ public class CVgenerator {
                 .setTextAlignment(TextAlignment.CENTER)
                 .setBold()
                 .setFont(PdfFontFactory.createFont(FontConstants.COURIER_BOLD));
-
+        ImageData imageData = ImageDataFactory.create(person.getPhoto().getMedia());
+        Image image = new Image(imageData);
+        image.setWidth(100);
+        image.setHeight(100);
+        image.setBorder(new SolidBorder(1));
+        canvas.roundRectangle(100, PageSize.A4.getHeight()-110, 100, 100, 50);
+        canvas.clip();
+        canvas.addImage(imageData, 100, (float)(PageSize.A4.getHeight()*0.85) ,100, false);
+        canvas.release();
         document.add(header);
 
         float fullwidth[] = { 600, 250 };
@@ -62,6 +72,8 @@ public class CVgenerator {
         // c1.add(new Paragraph("RESUME OBJECTIVE").setBold().setFontSize(15));
         // c1.add(new Paragraph("Redford & Sons, Boston, MA / September 2018 -
         // Present").setFontSize(11));
+        c1.add(new Paragraph("About").setBold().setFontSize(15));
+        c1.add(new Paragraph(person.getAbout()).setFontSize(11).setPaddingLeft(15));
         c1.add(new Paragraph("Experiences").setBold().setFontSize(15));
         experience.forEach(t -> {
             c1.add(new Paragraph(t.getTechnologie()).setFontSize(14));

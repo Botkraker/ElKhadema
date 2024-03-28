@@ -74,7 +74,6 @@ public class ChatRoomController extends NavbarController implements Initializabl
     @FXML
     private Button buttontoaddattach;
 
-
     @FXML
     ScrollPane messagePane;
 
@@ -89,13 +88,13 @@ public class ChatRoomController extends NavbarController implements Initializabl
             currentMessageReciver = null;
         }
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
-            if (currentMessageReciver==null) {
+            if (currentMessageReciver == null) {
                 return;
             }
             List<Message> messages = messageService.chat(Session.getUser(), currentMessageReciver);
             messages.stream().dropWhile(message -> message.getId() != lastMessageId)
-            .skip(1)
-            .forEach(message -> afficheMessage(message));
+                    .skip(1)
+                    .forEach(message -> afficheMessage(message));
         }));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
@@ -120,12 +119,14 @@ public class ChatRoomController extends NavbarController implements Initializabl
         }
         Platform.runLater(() -> messagePane.setVvalue(1.0));
     }
+
     Media attachMedia;
+
     @FXML
     void AddMediabutton(ActionEvent event) {
         Media m = MediaChooser.Choose(event);
         if (m.getMediatype().equals("img")) {
-            attachMedia=m;
+            attachMedia = m;
             ImageView img = new ImageView(m.getImage());
             HboxforAttachments.getChildren().add(img);
             img.setFitWidth(100);
@@ -134,6 +135,7 @@ public class ChatRoomController extends NavbarController implements Initializabl
             System.out.println("can't import a video here");
         }
     }
+
     private void afficheMessage(Message message) {
         boolean tmp = messagePane.getVvalue() == 1.0;
         ImageView imageView = new ImageView(new Image("file:src//main//resources//images//user.png"));
@@ -168,14 +170,14 @@ public class ChatRoomController extends NavbarController implements Initializabl
                         "-fx-text-fill: black;" +
                         "-fx-background : transparent;" +
                         "-fx-background-radius: 10px;");
-        //ahawa kifech t addi image
-        ImageView iv=new ImageView(message.getImage().getImage());
-        VBox vboxforimage=new VBox(iv);
-        VBox vBox = new VBox(hBox, contentText,vboxforimage);
+        // ahawa kifech t addi image
+        ImageView iv = new ImageView(message.getImage().getImage());
+        VBox vboxforimage = new VBox(iv);
+        VBox vBox = new VBox(hBox, contentText, vboxforimage);
         iv.setFitWidth(500);
         iv.setPreserveRatio(true);
-        vboxforimage.setAlignment(Pos.TOP_RIGHT);//houni image right 3ala 5ater titb3ath twali left ki recieved
-        //end houni
+        vboxforimage.setAlignment(Pos.TOP_RIGHT);// houni image right 3ala 5ater titb3ath twali left ki recieved
+        // end houni
         messageVBox.getChildren().add(vBox);
         if (message.getSender() != Session.getUser()) {
             messageService.MessageRead(message, Session.getUser());
@@ -218,8 +220,6 @@ public class ChatRoomController extends NavbarController implements Initializabl
         vContacts.getChildren().addAll(hBoxs);
     }
 
-
-
     @FXML
     public void postMsg() {
         Message message = new Message(0, Session.getUser(), messageText.getText(), null, parentMessageId);
@@ -227,7 +227,7 @@ public class ChatRoomController extends NavbarController implements Initializabl
         messageService.sendMessage(currentMessageReciver, message);
         afficheMessage(message);
         messageText.setText("");
-        attachMedia=null;
+        attachMedia = null;
         HboxforAttachments.getChildren().clear();
         messageText.requestFocus();
 

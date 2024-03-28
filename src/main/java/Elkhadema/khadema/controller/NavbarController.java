@@ -22,57 +22,56 @@ import javafx.stage.Stage;
 
 public class NavbarController {
 
-  private UserService userService = new UserServiceImp();
-  private CompanyService companyService = new CompanyServiceImp();
-  Stage stage;
-  Scene scene;
-  private Parent root;
+	private UserService userService = new UserServiceImp();
+	private CompanyService companyService = new CompanyServiceImp();
+	Stage stage;
+	Scene scene;
+	Parent root;
 
-  @FXML
-  public void goJobsList() throws IOException {
-    App.setRoot("jobs");
-  }
+	@FXML
+	public void goJobsList() throws IOException {
+		App.setRoot("jobs");
+	}
 
-  @FXML
-  public void goResume(ActionEvent event) throws IOException {
-    User user = Session.getUser();
-    if (companyService.isCompany(user)) {
-      FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/company.fxml"));
-      root = loader.load();
-      CompanyController companyController = loader.getController();
-      companyController.init(user);
+	@FXML
+	public void goResume(Stage stage) throws IOException {
+		User user = Session.getUser();
+		if (companyService.isCompany(user)) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/company.fxml"));
+			root = loader.load();
+			CompanyController companyController = loader.getController();
+			companyController.init(user);
 
-    } else {
-      FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/resmue.fxml"));
-      root = loader.load();
-      ResumeController resumeController = loader.getController();
-      resumeController.init(user);
-    }
-    stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    scene = new Scene(root);
-    stage.setScene(scene);
-    stage.show();
-    App.setRoot("resmue");
-  }
+		} else {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/resmue.fxml"));
+			root = loader.load();
+			ResumeController resumeController = loader.getController();
+			resumeController.init(user);
+		}
+		this.stage = stage;
+		scene = new Scene(root);
+		this.stage.setScene(scene);
+		this.stage.show();
+	}
 
-  @FXML
-  public void goNotifications() {
-    // App.setRoot(null);
-  }
+	@FXML
+	public void goNotifications() {
+		// App.setRoot(null);
+	}
 
-  @FXML
-  public void goHome() throws IOException {
-    App.setRoot("mainpage");
-  }
+	@FXML
+	public void goHome() throws IOException {
+		App.setRoot("mainpage");
+	}
 
-  public void logout() {
-    Alert alert = new Alert(AlertType.CONFIRMATION);
-    alert.setTitle("logout");
-    alert.setHeaderText("your about to logout");
-    alert.setContentText("do you really want to exit");
-    if (alert.showAndWait().get() == ButtonType.OK) {
-      stage.close();
-    }
-    userService.logOut(Session.getUser());
-  }
+	public void logout() {
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("logout");
+		alert.setHeaderText("your about to logout");
+		alert.setContentText("do you really want to exit");
+		if (alert.showAndWait().get() == ButtonType.OK) {
+			stage.close();
+		}
+		userService.logOut(Session.getUser());
+	}
 }

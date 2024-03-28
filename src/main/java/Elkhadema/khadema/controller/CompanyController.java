@@ -86,6 +86,8 @@ public class CompanyController extends NavbarController {
     private Button cancelOverviewEdit;
     @FXML
     private Button confirmOverviewEdit;
+    @FXML
+    private Text showText;
 
     @FXML
     public void goHome() {
@@ -120,14 +122,11 @@ public class CompanyController extends NavbarController {
     @FXML
     public void init(User user) {
         company = companyDAO.get(user.getId()).get();
-        // TODO remove later
-
         if (company.getId() != session.getId()) {
             Button followbutton = getFollowbutton();
             Button chatButton = getChatButton();
             btnVbox.getChildren().addAll(followbutton, chatButton);
             initButttons();
-
         }
         nameText.setText(company.getUserName());
         profileImg.setImage(company.getPhoto().getImage());
@@ -143,8 +142,11 @@ public class CompanyController extends NavbarController {
             afficheJobOffre(joboffre, jobOffreBox);
             experienceVBox.getChildren().add(jobOffreBox);
         });
+        if (joboffres.size() < 2) {
+            showText.setDisable(true);
+            showText.setVisible(false);
+        }
         // TODO continue after this
-
     }
 
     private void initButttons() {
@@ -161,8 +163,9 @@ public class CompanyController extends NavbarController {
         confirmOverviewEdit.setDisable(true);
         confirmOverviewEdit.setVisible(false);
     }
+
     @FXML
-    public void cancelEdit(){
+    public void cancelEdit() {
         initOverview();
         cancelOverviewEdit.setDisable(true);
         cancelOverviewEdit.setVisible(false);
@@ -261,12 +264,12 @@ public class CompanyController extends NavbarController {
 
     private void afficheJobOffre(JobOffre jobOffre, VBox vBox) {
         Text jobOffreText = new Text(jobOffre.getPostion());
-        jobOffreText.setFont(new Font("SansSerif Bold",15));
-        Text jobPayText=new Text(String.valueOf(jobOffre.getPayRange()));
-        jobPayText.setFont(new Font("SansSerif Bold",12));
-        Text jobLocationText=new Text(jobOffre.getLocation());
+        jobOffreText.setFont(new Font("SansSerif Bold", 15));
+        Text jobPayText = new Text(String.valueOf(jobOffre.getPayRange()));
+        jobPayText.setFont(new Font("SansSerif Bold", 12));
+        Text jobLocationText = new Text(jobOffre.getLocation());
         jobLocationText.setFont(new Font("SansSerif Bold", 12));
-        vBox.getChildren().addAll(jobOffreText,jobPayText,jobLocationText);
+        vBox.getChildren().addAll(jobOffreText, jobPayText, jobLocationText);
     }
 
     private void afficheBio(Company company) {

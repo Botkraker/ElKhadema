@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Optional;
 
 import Elkhadema.khadema.DAO.DAOImplemantation.CompanyDAO;
+import Elkhadema.khadema.DAO.DAOImplemantation.ContactInfoDAO;
 import Elkhadema.khadema.DAO.DAOImplemantation.PersonDAO;
 import Elkhadema.khadema.DAO.DAOImplemantation.UserDAO;
 import Elkhadema.khadema.Service.ServiceInterfaces.UserService;
@@ -19,6 +20,7 @@ public class UserServiceImp implements UserService {
 	UserDAO userDao = new UserDAO();
 	PersonDAO personDao = new PersonDAO();
 	CompanyDAO companyDao = new CompanyDAO();
+	ContactInfoDAO contactInfoDAO=new ContactInfoDAO();
 
 	@Override
 	public User SignUp(User user, String type) {
@@ -62,10 +64,18 @@ public class UserServiceImp implements UserService {
 		if (!PasswordEncryptor.verifyPassword(name, password, user2.getPassword()) || user2.isIs_banned()) {
 			return null;
 		}
+		user2.setContactInfo(contactInfoDAO.get(user2.getContactInfo().getId()).get());
 		user2.setIs_active(true);
 		userDao.update(user2, user2);
 		Session.setUser(user2);
 		return user2;
+	}
+	@Override
+	public User getUserById(User user){
+		if (companyDao.get(user.getId()).isPresent()) {
+			return companyDao.get(user.getId()).get();
+		}
+		return personDao.get(user.getId()).get();
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 module Elkhadema.khadema {
     requires javafx.controls;
     requires javafx.fxml;
+    requires org.jsoup;
     requires java.sql;
     requires transitive javafx.graphics;
 	requires kernel;

@@ -40,8 +40,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -52,7 +50,6 @@ import javafx.util.Duration;
  * ChatRoomController
  */
 public class ChatRoomController extends NavbarController implements Initializable {
-    private Stage stage;
     private Scene scene;
     private Parent root;
     private User currentMessageReciver;
@@ -77,7 +74,7 @@ public class ChatRoomController extends NavbarController implements Initializabl
 
     @FXML
     private Button buttontoaddattach;
-    
+
 
     @FXML
     ScrollPane messagePane;
@@ -184,7 +181,7 @@ public class ChatRoomController extends NavbarController implements Initializabl
         if (message.getSender() != Session.getUser()) {
             messageService.MessageRead(message, Session.getUser());
         }
-        
+
         lastMessageId = message.getId();
         Platform.runLater(() -> {
             if (tmp)
@@ -222,7 +219,7 @@ public class ChatRoomController extends NavbarController implements Initializabl
         vContacts.getChildren().addAll(hBoxs);
     }
 
-   
+
 
     @FXML
     public void postMsg() {

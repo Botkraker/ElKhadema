@@ -128,17 +128,20 @@
                                                 </Button>
                                              </children>
                                           </StackPane>
-                                          <HBox alignment="TOP_CENTER" prefHeight="28.0" prefWidth="909.0">
+                                          <HBox alignment="CENTER_LEFT" prefHeight="28.0" prefWidth="909.0">
                                              <children>
                                                 <Text fx:id="nameText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Your Name" textAlignment="CENTER" wrappingWidth="106.13671875">
                                                    <font>
                                                       <Font name="SansSerif Regular" size="15.0" />
                                                    </font>
                                                    <HBox.margin>
-                                                      <Insets left="5.0" />
+                                                      <Insets left="45.0" />
                                                    </HBox.margin>
                                                 </Text>
                                              </children>
+                                             <VBox.margin>
+                                                <Insets />
+                                             </VBox.margin>
                                           </HBox>
                                           <VBox prefHeight="41.0" prefWidth="909.0">
                                              <children>
@@ -224,31 +227,31 @@
                                                       </Button>
                                                    </children>
                                                 </HBox>
-                                                <TextArea fx:id="aboutField" maxWidth="600.0" minHeight="100.0" prefHeight="146.0" prefWidth="600.0" styleClass="postTxtField" />
+                                                <TextArea fx:id="aboutField" disable="true" maxWidth="600.0" minHeight="100.0" prefHeight="146.0" prefWidth="600.0" styleClass="postTxtField" />
                                                 <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="website :">
                                                    <font>
                                                       <Font size="20.0" />
                                                    </font>
                                                 </Text>
-                                                <TextField fx:id="websiteField" maxWidth="232.0" prefHeight="26.0" prefWidth="232.0" styleClass="userTxtField" />
+                                                <TextField fx:id="websiteField" disable="true" maxWidth="232.0" prefHeight="26.0" prefWidth="232.0" styleClass="userTxtField" />
                                                 <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Industry :">
                                                    <font>
                                                       <Font size="20.0" />
                                                    </font>
                                                 </Text>
-                                                <TextField fx:id="industryField" maxWidth="232.0" prefHeight="26.0" prefWidth="232.0" styleClass="userTxtField" />
+                                                <TextField fx:id="industryField" disable="true" maxWidth="232.0" prefHeight="26.0" prefWidth="232.0" styleClass="userTxtField" />
                                                 <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="location">
                                                    <font>
                                                       <Font size="20.0" />
                                                    </font>
                                                 </Text>
-                                                <TextField fx:id="locationField" maxWidth="232.0" prefHeight="26.0" prefWidth="232.0" styleClass="userTxtField" />
+                                                <TextField fx:id="locationField" disable="true" maxWidth="232.0" prefHeight="26.0" prefWidth="232.0" styleClass="userTxtField" />
                                                 <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="speciality">
                                                    <font>
                                                       <Font size="20.0" />
                                                    </font>
                                                 </Text>
-                                                <TextArea fx:id="specialityField" maxWidth="600.0" minHeight="100.0" prefHeight="146.0" prefWidth="600.0" styleClass="postTxtField" />
+                                                <TextArea fx:id="specialityField" disable="true" maxWidth="600.0" minHeight="100.0" prefHeight="146.0" prefWidth="600.0" styleClass="postTxtField" />
                                              </children>
                                           </VBox>
                                        </children>
@@ -277,6 +280,15 @@
                                                    </children>
                                                 </HBox>
                                                 <HBox fx:id="jobsBox" prefHeight="102.0" prefWidth="946.0" />
+                                                <HBox alignment="CENTER" prefHeight="71.0" prefWidth="946.0">
+                                                   <children>
+                                                      <Text fx:id="showText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="ShowAll →">
+                                                         <font>
+                                                            <Font size="18.0" />
+                                                         </font>
+                                                      </Text>
+                                                   </children>
+                                                </HBox>
                                              </children>
                                              <HBox.margin>
                                                 <Insets />
@@ -289,7 +301,7 @@
                                     </HBox>
                                  </children>
                                  <VBox.margin>
-                                    <Insets left="10.0" right="10.0" top="10.0" />
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </VBox.margin>
                               </VBox>
                            </children>

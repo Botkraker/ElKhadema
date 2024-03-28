@@ -87,8 +87,6 @@ public class MainPageController extends NavbarController implements Initializabl
         });
     }
 
-    private Stage stage;
-    private Scene scene;
     private Parent root;
     FollowService followService = new FollowServiceImp();
     UserService userService = new UserServiceImp();

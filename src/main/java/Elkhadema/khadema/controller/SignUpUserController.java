@@ -145,7 +145,7 @@ public class SignUpUserController implements Initializable {
         user.setJob(job.getText());
         user.setAbout(prof);
         contactInfo.setPhoneNumber(Integer.parseInt(phoneNumber));
-        this.userService.SignUpPerson(user); 
+        this.userService.SignUp(user);
         App.setRoot("login");
     }
     public void customizescrollpane() {

@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 
 import Elkhadema.khadema.App;
 import Elkhadema.khadema.DAO.DAOImplemantation.PersonDAO;
-import Elkhadema.khadema.DAO.DAOImplemantation.UserDAO;
 import Elkhadema.khadema.Service.ServiceImplemantation.CompanyServiceImp;
 import Elkhadema.khadema.Service.ServiceImplemantation.FollowServiceImp;
 import Elkhadema.khadema.Service.ServiceImplemantation.UserServiceImp;
@@ -31,13 +30,9 @@ import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Label;
@@ -56,15 +51,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.control.TextArea;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 
 public class MainPageController extends NavbarController implements Initializable {
-    private Parent root;
-
     FollowService followService = new FollowServiceImp();
 
     UserService userService = new UserServiceImp();
@@ -188,8 +180,8 @@ public class MainPageController extends NavbarController implements Initializabl
          imgholder.setMinWidth(120);
          imgholder.setPrefWidth(120);
     	 youricon.getChildren().add(imgholder);
-    	
-    	
+
+
 	}
 
 	@FXML

@@ -123,7 +123,7 @@ public class SignUpCompanyController implements Initializable {
             return;}
         company.setIndustry(industry.getValue());
         company.setContactInfo(contactInfo);
-        userService.SignUpCompany(company);
+        userService.SignUp(company);
         App.setRoot("login");
     }
 

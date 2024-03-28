@@ -20,10 +20,10 @@ public class UserServiceImp implements UserService {
 	UserDAO userDao = new UserDAO();
 	PersonDAO personDao = new PersonDAO();
 	CompanyDAO companyDao = new CompanyDAO();
-	ContactInfoDAO contactInfoDAO=new ContactInfoDAO();
+	ContactInfoDAO contactInfoDAO = new ContactInfoDAO();
 
 	@Override
-	public User SignUp(User user, String type) {
+	public User SignUp(User user) {
 		if (userDao.get(user.getId()).isPresent()) {
 			return null;
 		}
@@ -36,26 +36,22 @@ public class UserServiceImp implements UserService {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		switch (type) {
-			case "company":
-				Company company = (Company) user;
-				companyDao.save(company);
-				break;
-			case "person":
-				Person person = (Person) user;
-				person.setJob("");
-				person.setAbout("");
-				person.setSexe("male");
-				personDao.save(person);
-				break;
+		if (user instanceof Company) {
+			Company company = (Company) user;
+			companyDao.save(company);
+		} else {
+			Person person = (Person) user;
+			personDao.save(person);
+
 		}
+
 		return user;
 
 	}
 
 	@Override
 	public User Login(String name, String password) throws UserNotFoundException {
-		Optional<User> user = userDao.Login(name,PasswordEncryptor.encryptPassword(name, password));
+		Optional<User> user = userDao.Login(name, PasswordEncryptor.encryptPassword(name, password));
 		System.out.println("houni");
 		if (!user.isPresent()) {
 			throw new UserNotFoundException();
@@ -70,8 +66,9 @@ public class UserServiceImp implements UserService {
 		Session.setUser(user2);
 		return user2;
 	}
+
 	@Override
-	public User getUserById(User user){
+	public User getUserById(User user) {
 		if (companyDao.get(user.getId()).isPresent()) {
 			return companyDao.get(user.getId()).get();
 		}
@@ -100,7 +97,7 @@ public class UserServiceImp implements UserService {
 		}
 		userDao.update(u, newUser);
 		if (u instanceof Person) {
-			personDao.update(((Person)u), ((Person)newUser));
+			personDao.update(((Person) u), ((Person) newUser));
 		}
 		return newUser;
 	}

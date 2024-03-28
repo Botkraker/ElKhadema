@@ -6,8 +6,10 @@ import java.util.List;
 import Elkhadema.khadema.App;
 import Elkhadema.khadema.DAO.DAOImplemantation.CompetanceDAO;
 import Elkhadema.khadema.DAO.DAOImplemantation.ExperienceDAO;
+import Elkhadema.khadema.Service.ServiceImplemantation.FollowServiceImp;
 import Elkhadema.khadema.Service.ServiceImplemantation.GenerateCVServiceImp;
 import Elkhadema.khadema.Service.ServiceImplemantation.UserServiceImp;
+import Elkhadema.khadema.Service.ServiceInterfaces.FollowService;
 import Elkhadema.khadema.Service.ServiceInterfaces.GenerateCVService;
 import Elkhadema.khadema.Service.ServiceInterfaces.UserService;
 import Elkhadema.khadema.domain.Competance;
@@ -45,6 +47,7 @@ public class ResumeController extends NavbarController {
     UserService userService = new UserServiceImp();
     ExperienceDAO experienceDAO = new ExperienceDAO();
     CompetanceDAO competanceDAO = new CompetanceDAO();
+    FollowService followService =new FollowServiceImp();
     GenerateCVService cvService = new GenerateCVServiceImp();
 
     @FXML
@@ -80,33 +83,8 @@ public class ResumeController extends NavbarController {
     Button generateCVbutton;
 
     @FXML
-    public void goHome() {
-
-    }
-
-    @FXML
-    public void goJobsList() {
-
-    }
-
-    @FXML
-    public void goResume() {
-
-    }
-
-    @FXML
-    public void goNotifications() {
-
-    }
-
-    @FXML
-    public void logout() {
-
-    }
-
-    @FXML
     public void postMsg() {
-
+        //ignore
     }
 
     @FXML
@@ -115,9 +93,8 @@ public class ResumeController extends NavbarController {
 
         currentUser = person;
         if (person.getId() != session.getId()) {
-            Button followbutton = new Button("follow");
-            followbutton.getStyleClass().add("postButton");
-            Button chatButton = new Button("chat");
+            Button followbutton = getFollowbutton();
+            Button chatButton = getChatButton();
             chatButton.getStyleClass().add("postButton");
             btnVbox.getChildren().addAll(followbutton, chatButton);
             changeImgbtn.setDisable(true);
@@ -198,6 +175,37 @@ public class ResumeController extends NavbarController {
         });
     }
 
+    private Button getChatButton() {
+        Button chatButton = new Button("chat");
+        chatButton.getStyleClass().add("postButton");
+        chatButton.setOnAction(event -> {
+            try {
+                goChat(event, currentUser);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        return chatButton;
+    }
+
+    private Button getFollowbutton() {
+        Button followbutton = new Button("follow");
+        if (followService.isFollowing(session, currentUser)) {
+            followbutton.setText("unfollow");
+        }
+        followbutton.getStyleClass().add("postButton");
+        followbutton.setOnAction(event -> {
+            if (followService.isFollowing(session, currentUser)) {
+                followService.Follow(session, currentUser);
+                followbutton.setText("unfollow");
+            } else {
+                followService.unFollow(session, currentUser);
+                followbutton.setText("follow");
+            }
+        });
+        return followbutton;
+    }
+
     private void afficheBio(Person person) {
         ageText.setText(String.valueOf(person.getAge()));
         jobText.setText(person.getJob());
@@ -233,14 +241,12 @@ public class ResumeController extends NavbarController {
 
         TextArea descriptionArea = new TextArea(experience.getDescription());
         descriptionArea.getStyleClass().add("postTxtField");
-
         VBox innerVBox = new VBox(titleBox, missionText, dateText);
-
         if (currentUser.getId() == session.getId()) {
             addEditButtonExperience(titleBox, experience);
         }
-
-        vBox.getChildren().add(innerVBox); // Add the new VBox to the provided vBox
+        
+        vBox.getChildren().add(innerVBox);
     }
 
     private void afficheCompetance(Competance competance, VBox competanceBox) {

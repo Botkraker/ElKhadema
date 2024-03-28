@@ -1,13 +1,10 @@
 package Elkhadema.khadema.controller;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-import Elkhadema.khadema.DAO.DAOImplemantation.UserDAO;
 import Elkhadema.khadema.Service.ServiceImplemantation.FollowServiceImp;
 import Elkhadema.khadema.Service.ServiceImplemantation.MessageServiceIMP;
 import Elkhadema.khadema.Service.ServiceImplemantation.UserServiceImp;
@@ -25,12 +22,10 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -49,9 +44,7 @@ import javafx.util.Duration;
 /**
  * ChatRoomController
  */
-public class ChatRoomController extends NavbarController implements Initializable {
-    private Scene scene;
-    private Parent root;
+public class ChatRoomController extends NavbarController  {
     private User currentMessageReciver;
     private long lastMessageId = 0;
     private MessageService messageService = new MessageServiceIMP();
@@ -77,16 +70,30 @@ public class ChatRoomController extends NavbarController implements Initializabl
     @FXML
     ScrollPane messagePane;
 
-    @Override
-    public void initialize(URL arg0, ResourceBundle arg1) {
+    public void init(User user) {
         initContacts();
         try {
-            currentMessageReciver = contacts.get(0);
+            if (user !=null)
+                currentMessageReciver=user;
+            else
+                currentMessageReciver = contacts.get(0);
             messageVBox.getChildren().clear();
             loadMessages(currentMessageReciver);
         } catch (Exception e) {
             currentMessageReciver = null;
         }
+        addNewMessages();
+        messageText.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null && !newValue.trim().isEmpty()) {
+                sendBtn.setDisable(false);
+            } else {
+                sendBtn.setDisable(true);
+            }
+        });
+        sendBtn.setDisable(true);
+    }
+
+    private void addNewMessages() {
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
             if (currentMessageReciver == null) {
                 return;
@@ -98,14 +105,6 @@ public class ChatRoomController extends NavbarController implements Initializabl
         }));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
-        messageText.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null && !newValue.trim().isEmpty()) {
-                sendBtn.setDisable(false);
-            } else {
-                sendBtn.setDisable(true);
-            }
-        });
-        sendBtn.setDisable(true);
     }
 
     private void loadMessages(User user) {

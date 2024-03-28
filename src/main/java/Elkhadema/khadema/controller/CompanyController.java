@@ -90,36 +90,6 @@ public class CompanyController extends NavbarController {
     private Text showText;
 
     @FXML
-    public void goHome() {
-
-    }
-
-    @FXML
-    public void goJobsList() {
-
-    }
-
-    @FXML
-    public void goResume() {
-
-    }
-
-    @FXML
-    public void goNotifications() {
-
-    }
-
-    @FXML
-    public void logout() {
-
-    }
-
-    @FXML
-    public void postMsg() {
-
-    }
-
-    @FXML
     public void init(User user) {
         company = companyDAO.get(user.getId()).get();
         if (company.getId() != session.getId()) {
@@ -205,7 +175,11 @@ public class CompanyController extends NavbarController {
         Button chatButton = new Button("chat");
         chatButton.getStyleClass().add("postButton");
         chatButton.setOnAction(event -> {
-            // TODO placeholder
+            try {
+                goChat(event, company);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
         return chatButton;
     }

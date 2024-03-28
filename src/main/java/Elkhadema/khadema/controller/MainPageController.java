@@ -11,6 +11,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 import Elkhadema.khadema.App;
+import Elkhadema.khadema.DAO.DAOImplemantation.PersonDAO;
 import Elkhadema.khadema.DAO.DAOImplemantation.UserDAO;
 import Elkhadema.khadema.Service.ServiceImplemantation.CompanyServiceImp;
 import Elkhadema.khadema.Service.ServiceImplemantation.FollowServiceImp;
@@ -20,6 +21,7 @@ import Elkhadema.khadema.Service.ServiceInterfaces.FollowService;
 import Elkhadema.khadema.Service.ServiceInterfaces.UserService;
 import Elkhadema.khadema.Service.ServiceImplemantation.PostServiceImp;
 import Elkhadema.khadema.domain.Media;
+import Elkhadema.khadema.domain.Person;
 import Elkhadema.khadema.domain.Post;
 import Elkhadema.khadema.domain.Reaction;
 import Elkhadema.khadema.domain.User;
@@ -67,19 +69,34 @@ public class MainPageController extends NavbarController implements Initializabl
 
     UserService userService = new UserServiceImp();
     CompanyService companyService = new CompanyServiceImp();
-
+    PersonDAO personDAO=new PersonDAO();
     @FXML
     private ScrollPane CC;
     @FXML
     ButtonBar listContact;
     @FXML
     private StackPane bigstack;
-
+    @FXML
+    private VBox forperson;
     @FXML
     VBox vContacts;
     @FXML
     HBox mother;
+    @FXML
+    private ImageView yourpicture;
 
+    @FXML
+    private Text sexe;
+
+    @FXML
+    private Text username;
+
+    @FXML
+    private Text job;
+    @FXML
+    private VBox youricon;
+    @FXML
+    private Text age;
     @FXML
     VBox postholder;
     User session = Session.getUser();
@@ -110,31 +127,59 @@ public class MainPageController extends NavbarController implements Initializabl
 
     private boolean isPlayed = false;
 
-    public void customizescrollpane() {
-        CC.getStyleClass().add("custom-scroll-pane");
-        DropShadow dropShadow = new DropShadow();
-        dropShadow.setColor(Color.rgb(0, 0, 0, 0.3));
-        dropShadow.setWidth(6);
-        dropShadow.setHeight(6);
-        dropShadow.setRadius(6);
-        dropShadow.setOffsetX(0);
-        dropShadow.setOffsetY(0);
-        dropShadow.setSpread(0);
-        dropShadow.setBlurType(BlurType.GAUSSIAN);
-        CC.setEffect(dropShadow);
-    }
+    
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
+    	if(personDAO.get(Session.getUser().getId()).isPresent()) {
+        	miniprofilesetup();
+        	forperson.setVisible(true);
+    	}
+    	else {
+    		forperson.setVisible(false);
+		}
         postcontent.setWrapText(true);
-        customizescrollpane();
         initContacts();
         Platform.runLater(() -> {
             resetfeed();
         });
     }
 
-    @FXML
+    private void miniprofilesetup() {
+    	Person person=personDAO.get(Session.getUser().getId()).get();
+    	username.setText(person.getUserName());
+    	age.setText(""+person.getAge());
+    	sexe.setText(person.getSexe());
+    	job.setText(person.getJob());
+    	ImageView profileimg;
+    	 if (person.getPhoto().getMedia() == null) {
+    		 profileimg = new ImageView(new Image("file:src//main//resources//images//user.png"));
+         } else {
+        	 profileimg = new ImageView(person.getPhoto().getImage());
+         }
+    	 profileimg.setFitHeight(300);
+         profileimg.setPreserveRatio(true);
+         profileimg.setStyle("-fx-border-radius: 20px");
+         VBox imgholder = new VBox(profileimg);
+         Circle clip = new Circle(60);
+         clip.setCenterY(150);
+         clip.setCenterX((((profileimg.getImage().getWidth() * 300 / profileimg.getImage().getHeight() / 2))));
+         profileimg.setTranslateY(-150+60);
+         profileimg.setTranslateX(
+                 -((profileimg.getImage().getWidth() * 300 / profileimg.getImage().getHeight() / 2) - 60));
+         profileimg.setClip(clip);
+         imgholder.setMaxHeight(120);
+         imgholder.setPrefHeight(120);
+         imgholder.setMinHeight(120);
+         imgholder.setMaxWidth(120);
+         imgholder.setMinWidth(120);
+         imgholder.setPrefWidth(120);
+    	 youricon.getChildren().add(imgholder);
+    	
+    	
+	}
+
+	@FXML
     public void postMsg() {
 
     }
@@ -170,7 +215,7 @@ public class MainPageController extends NavbarController implements Initializabl
     public void resetfeed() {
         postholder.getChildren().clear();
         // initPostShow();
-        posts.forEach(t -> showpost(t));
+        ps.feed().forEach(t -> showpost(t));
     }
 
     public void addPostTop(Post post) {

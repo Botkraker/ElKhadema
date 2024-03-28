@@ -119,19 +119,6 @@ public class CommentsPageController extends NavbarController implements Initiali
 			 ps.getPostComments(commentedpost).forEach(t -> showpost(t));
 			
 	    }
-	    public void customizescrollpane() {
-	        CC.getStyleClass().add("custom-scroll-pane");
-	        DropShadow dropShadow = new DropShadow();
-	        dropShadow.setColor(Color.rgb(0, 0, 0, 0.3));
-	        dropShadow.setWidth(6);
-	        dropShadow.setHeight(6);
-	        dropShadow.setRadius(6);
-	        dropShadow.setOffsetX(0);
-	        dropShadow.setOffsetY(0);
-	        dropShadow.setSpread(0);
-	        dropShadow.setBlurType(BlurType.GAUSSIAN);
-	        CC.setEffect(dropShadow);
-	    }
  
 	@FXML
 	void AddMediabutton(ActionEvent event) {
@@ -480,8 +467,6 @@ public class CommentsPageController extends NavbarController implements Initiali
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		System.out.println("test");
 		setupparentpost();
-
-		customizescrollpane();
 		initContacts();
 		replyindexing.setText("Replying To " + getlink());
 		Platform.runLater(() -> {

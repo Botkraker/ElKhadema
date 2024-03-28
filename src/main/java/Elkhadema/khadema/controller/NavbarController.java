@@ -35,8 +35,10 @@ public class NavbarController {
 	}
 
 	@FXML
-	public void goResume(Stage stage) throws IOException {
+	public void goResume() throws IOException {
+		Stage stage=(Stage)App.scene.getWindow();
 		User user = Session.getUser();
+		System.out.println();
 		if (companyService.isCompany(user)) {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/company.fxml"));
 			root = loader.load();
@@ -86,7 +88,7 @@ public class NavbarController {
 		alert.setHeaderText("your about to logout");
 		alert.setContentText("do you really want to exit");
 		if (alert.showAndWait().get() == ButtonType.OK) {
-			stage.close();
+			((Stage)App.scene.getWindow()).close();
 		}
 		userService.logOut(Session.getUser());
 	}

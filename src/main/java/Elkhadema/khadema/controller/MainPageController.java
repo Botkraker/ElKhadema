@@ -127,19 +127,7 @@ public class MainPageController extends NavbarController implements Initializabl
 
     private boolean isPlayed = false;
 
-    public void customizescrollpane() {
-        CC.getStyleClass().add("custom-scroll-pane");
-        DropShadow dropShadow = new DropShadow();
-        dropShadow.setColor(Color.rgb(0, 0, 0, 0.3));
-        dropShadow.setWidth(6);
-        dropShadow.setHeight(6);
-        dropShadow.setRadius(6);
-        dropShadow.setOffsetX(0);
-        dropShadow.setOffsetY(0);
-        dropShadow.setSpread(0);
-        dropShadow.setBlurType(BlurType.GAUSSIAN);
-        CC.setEffect(dropShadow);
-    }
+    
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
@@ -151,7 +139,6 @@ public class MainPageController extends NavbarController implements Initializabl
     		forperson.setVisible(false);
 		}
         postcontent.setWrapText(true);
-        customizescrollpane();
         initContacts();
         Platform.runLater(() -> {
             resetfeed();

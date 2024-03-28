@@ -21,35 +21,41 @@ public class UserServiceImp implements UserService {
 	PersonDAO personDao = new PersonDAO();
 	CompanyDAO companyDao = new CompanyDAO();
 	ContactInfoDAO contactInfoDAO=new ContactInfoDAO();
+	
 
-	@Override
-	public User SignUp(User user, String type) {
-		if (userDao.get(user.getId()).isPresent()) {
+	
+	public User SignUpCompany(Company company) {
+		if (userDao.get(company.getId()).isPresent()) {
 			return null;
 		}
-		user.setCreationDate(new Date());
-		user.setLastloginDate(new Date());
-		String encryptedPassword = PasswordEncryptor.encryptPassword(user.getUserName(), user.getPassword());
-		user.setPassword(encryptedPassword);
+		company.setCreationDate(new Date());
+		company.setLastloginDate(new Date());
+		String encryptedPassword = PasswordEncryptor.encryptPassword(company.getUserName(), company.getPassword());
+		company.setPassword(encryptedPassword);
 		try {
-			userDao.save(user);
+			userDao.save(company);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		switch (type) {
-			case "company":
-				Company company = (Company) user;
-				companyDao.save(company);
-				break;
-			case "person":
-				Person person = (Person) user;
-				person.setJob("");
-				person.setAbout("");
-				person.setSexe("male");
-				personDao.save(person);
-				break;
+		companyDao.save(company);
+		return company;
+	}
+	public User SignUpPerson(Person person) {
+		if (userDao.get(person.getId()).isPresent()) {
+			return null;
 		}
-		return user;
+		person.setCreationDate(new Date());
+		person.setLastloginDate(new Date());
+		String encryptedPassword = PasswordEncryptor.encryptPassword(person.getUserName(), person.getPassword());
+		person.setPassword(encryptedPassword);
+		try {
+			userDao.save(person);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		personDao.save(person);
+		return person;
 
 	}
 
@@ -103,6 +109,12 @@ public class UserServiceImp implements UserService {
 			personDao.update(((Person)u), ((Person)newUser));
 		}
 		return newUser;
+	}
+
+	@Override
+	public User SignUp(User user, String type) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

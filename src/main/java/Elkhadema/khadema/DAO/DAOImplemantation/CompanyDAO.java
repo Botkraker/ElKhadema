@@ -19,7 +19,7 @@ public class CompanyDAO {
 	private static Connection connection = ConexDB.getInstance();
 
 	public Optional<Company> get(long id) {
-		String sql = "SELECT *  FROM `user`,company WHERE `user`.`user_id` = " + id
+		String sql = "SELECT *  FROM `user`,`company` WHERE `user`.`user_id` = " + id
 				+ " and `user`.user_id=`company`.user_id";
 		Company company = null;
 		try {
@@ -27,7 +27,8 @@ public class CompanyDAO {
 			while (rs.next()) {
 				company = new Company(rs.getInt("user_id"), rs.getString("password_encrypted"),
 						new ContactInfo(rs.getInt("contact_info_id")), rs.getString("userName"),
-						rs.getDate("creationdate"), rs.getDate("last_login"),new Media(null,Media.ImageDecompress(rs.getBytes("photo")),"img"),
+						rs.getDate("creationdate"), rs.getDate("last_login"),
+						new Media(null, Media.ImageDecompress(rs.getBytes("photo")), "img"),
 						rs.getBoolean("banned"), rs.getBoolean("is_active"), rs.getString("company_name"),
 						rs.getString("description"), rs.getString("industry"), rs.getString("website"),
 						rs.getInt("company_size"), rs.getString("address"), rs.getString("speciality"));
@@ -51,7 +52,8 @@ public class CompanyDAO {
 			while (rs.next()) {
 				companies.add(new Company(rs.getInt("user_id"), rs.getString("password_encrypted"),
 						new ContactInfo(rs.getInt("contact_info_id")), rs.getString("userName"),
-						rs.getDate("creationdate"), rs.getDate("last_login"),new Media(null,Media.ImageDecompress(rs.getBytes("photo")),"img"),
+						rs.getDate("creationdate"), rs.getDate("last_login"),
+						new Media(null, Media.ImageDecompress(rs.getBytes("photo")), "img"),
 						rs.getBoolean("banned"), rs.getBoolean("is_active"), rs.getString("company_name"),
 						rs.getString("description"), rs.getString("industry"), rs.getString("website"),
 						rs.getInt("company_size"), rs.getString("address"), rs.getString("speciality")));
@@ -97,7 +99,6 @@ public class CompanyDAO {
 			pstmt.setLong(5, newT.getComapnySize());
 			pstmt.setString(6, newT.getSpeciality());
 			pstmt.setString(7, newT.getAddress());
-
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			System.out.println(e);

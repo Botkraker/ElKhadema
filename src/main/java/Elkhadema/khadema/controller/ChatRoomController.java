@@ -56,7 +56,6 @@ public class ChatRoomController extends NavbarController implements Initializabl
     private long lastMessageId = 0;
     private MessageService messageService = new MessageServiceIMP();
     private FollowService followService = new FollowServiceImp();
-    private UserDAO userDAO = new UserDAO();
     private UserService userService = new UserServiceImp();
     private List<User> contacts = followService.getfollowing(Session.getUser());
     private int parentMessageId;
@@ -191,7 +190,7 @@ public class ChatRoomController extends NavbarController implements Initializabl
 
     private void initContacts() {
         List<VBox> hBoxs = new ArrayList<>();
-        contacts = contacts.stream().map(user -> userDAO.get(user.getId()).get()).collect(Collectors.toList());
+        contacts = contacts.stream().map(user -> userService.getUserById(user)).collect(Collectors.toList());
         for (User user : contacts) {
             Text text = new Text(user.getUserName());
             text.setStyle("-fx-fill:white;-fx-font-size:15px;");

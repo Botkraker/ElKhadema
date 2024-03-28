@@ -20,6 +20,8 @@ public interface UserService {
 	 */
 	public User Login(String name, String password) throws UserNotFoundException;
 
+	public User getUserById(User user);
+
 	public void removeUser(User u);
 
 	/**

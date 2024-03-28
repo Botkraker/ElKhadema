@@ -6,7 +6,6 @@ import java.util.List;
 import Elkhadema.khadema.App;
 import Elkhadema.khadema.DAO.DAOImplemantation.CompetanceDAO;
 import Elkhadema.khadema.DAO.DAOImplemantation.ExperienceDAO;
-import Elkhadema.khadema.DAO.DAOImplemantation.PersonDAO;
 import Elkhadema.khadema.Service.ServiceImplemantation.GenerateCVServiceImp;
 import Elkhadema.khadema.Service.ServiceImplemantation.UserServiceImp;
 import Elkhadema.khadema.Service.ServiceInterfaces.GenerateCVService;
@@ -43,7 +42,6 @@ public class ResumeController extends NavbarController {
     User session = Session.getUser();
     Person currentUser;
 
-    PersonDAO personDAO = new PersonDAO();
     UserService userService = new UserServiceImp();
     ExperienceDAO experienceDAO = new ExperienceDAO();
     CompetanceDAO competanceDAO = new CompetanceDAO();
@@ -113,7 +111,7 @@ public class ResumeController extends NavbarController {
 
     @FXML
     public void init(User user) {
-        Person person = personDAO.get(user.getId()).get();
+        Person person = ((Person)userService.getUserById(user));
 
         currentUser = person;
         if (person.getId() != session.getId()) {

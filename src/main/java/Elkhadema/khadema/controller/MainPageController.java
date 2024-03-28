@@ -10,6 +10,8 @@ import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
+
+
 import Elkhadema.khadema.App;
 import Elkhadema.khadema.DAO.DAOImplemantation.UserDAO;
 import Elkhadema.khadema.Service.ServiceImplemantation.FollowServiceImp;
@@ -49,6 +51,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -174,30 +177,8 @@ public class MainPageController extends NavbarController implements Initializabl
 
     public void resetfeed() {
         postholder.getChildren().clear();
-        initPostShow();
-        // TODO still working on it
-        CC.vvalueProperty().addListener((observable, oldValue, newValue) -> {
-            double scrollValue = newValue.doubleValue();
-            if (scrollValue >= 1 && postindex < posts.size()) {
-                posts.stream().skip(postindex).limit(5).map(t -> showpost(t)).forEach(t -> {
-                    if (maxPosts <= loadPosts) {
-                        postholder.getChildren().remove(0);
-                        loadPosts--;
-                    }
-                    postholder.getChildren().add(t);
-                    loadPosts++;
-                    postindex++;
-                    Platform.runLater(() -> {
-                        CC.setVvalue(0.8);
-                    });
-                });
-            }
-            // TODO change it lags like hell when you scroll up
-            if (scrollValue <= 0.2 && loadPosts > 15) {
-                addPostTop(posts.get(postindex - loadPosts));
-
-            }
-        });
+        //initPostShow();
+        posts.forEach(t -> showpost(t));
     }
 
     public void addPostTop(Post post) {
@@ -226,15 +207,15 @@ public class MainPageController extends NavbarController implements Initializabl
         } else {
             profileimg = new ImageView(image);
         }
-        profileimg.setStyle("-fx-border-radius: 20px");
-        profileimg.setFitWidth(46);
-        profileimg.setPreserveRatio(true);
+    	profileimg.setVisible(false);
+        VBox imgholder=makeicon(profileimg);
         Text profilename = new Text(post.getUser().getUserName());
         profilename.setFont(Font.font("SansSerif", 15));
         profilename.setTranslateX(5);
         profilename.setFill(Color.WHITE);
-        HBox profilebar = new HBox(profileimg, profilename);
+        HBox profilebar = new HBox(imgholder, profilename);
         profilebar.setSpacing(5);
+        profilebar.setAlignment(Pos.CENTER_LEFT);
         Text postscontent = new Text(post.getContent());
         postscontent.setDisable(true);
         postscontent.setFill(Color.WHITE);
@@ -243,9 +224,11 @@ public class MainPageController extends NavbarController implements Initializabl
         postscontent.getStyleClass().add("postTxtField");
         postscontent.setStyle("-fx-border-width: 0;");
         List<HBox> displayedimges = displayimages(post);
+        
         displayedimges.forEach(t -> {
             t.setSpacing(5);
             t.setAlignment(Pos.TOP_CENTER);
+            t.setVisible(false);
         });
         VBox iMGHOLDER = new VBox(displayedimges.toArray(new HBox[0]));
         iMGHOLDER.getStyleClass().add("postTxtField");
@@ -268,6 +251,7 @@ public class MainPageController extends NavbarController implements Initializabl
         }
 
         MediaView mediaView = new MediaView(mp[0]);
+        mediaView.setVisible(false);
         videopane.getChildren().add(0, mediaView);
 
         Text likenumber = new Text("" + ps.getPostReactions(post).size());
@@ -318,14 +302,60 @@ public class MainPageController extends NavbarController implements Initializabl
             posts.setMinWidth(CC.getWidth() - 50);
             mediaView.setFitWidth(CC.getWidth() - 52);
             postscontent.setWrappingWidth(CC.getWidth());
+            
         });
+        Platform.runLater(() -> {
+        	if(posts.localToScreen(0,0).getY()<(posts.getScene().getHeight()*1.2)) {
+                profileimg.setVisible(true);
+                displayedimges.forEach(t -> {
+                    t.setVisible(true);
+                });
+                mediaView.setVisible(true);
 
-        posts.setFillWidth(true);
-        profilebar.setAlignment(Pos.CENTER_LEFT);
+        	}
+        });
+        CC.vvalueProperty().addListener((observable, oldValue, newValue) -> {
+        	if(Math.abs(posts.localToScreen(0,0).getY())<(posts.getScene().getHeight()*1.2)) {
+                profileimg.setVisible(true);
+                displayedimges.forEach(t -> {
+                    t.setVisible(true);
+                });
+                mediaView.setVisible(true);
+
+        	}
+        	else {
+        		profileimg.setVisible(false);
+                displayedimges.forEach(t -> {
+                    t.setVisible(false);
+                });
+                mediaView.setVisible(false);
+			}
+        });
+        postholder.getChildren().add(posts);
         return posts;
     }
 
-    private boolean isPlayed = false;
+    private VBox makeicon(ImageView profileimg) {
+    	profileimg.setFitHeight(200);
+    	profileimg.setPreserveRatio(true);
+        profileimg.setStyle("-fx-border-radius: 20px");
+        VBox imgholder=new VBox(profileimg);
+        Circle clip=new Circle(35);
+        clip.setCenterY(100);
+        clip.setCenterX((((profileimg.getImage().getWidth()*200/profileimg.getImage().getHeight()/2))));
+        profileimg.setTranslateY(-65);
+        profileimg.setTranslateX(-((profileimg.getImage().getWidth()*200/profileimg.getImage().getHeight()/2)-35));
+        profileimg.setClip(clip);
+        imgholder.setMaxHeight(70);
+        imgholder.setPrefHeight(70);
+        imgholder.setMinHeight(70);
+        imgholder.setMaxWidth(70);
+        imgholder.setMinWidth(70);
+        imgholder.setPrefWidth(70);
+    	return imgholder;
+	}
+
+	private boolean isPlayed = false;
 
     private void playVideo(MediaPlayer mp) {
     	VBox background=new VBox();

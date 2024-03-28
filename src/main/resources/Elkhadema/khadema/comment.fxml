@@ -150,6 +150,15 @@
                                                       <Insets left="20.0" />
                                                    </VBox.margin>
                                                 </Text>
+                                                <VBox alignment="CENTER" prefHeight="241.0" prefWidth="593.0" styleClass="posts">
+                                                   <children>
+                                                      <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="LOADING ...">
+                                                         <font>
+                                                            <Font name="Bernard MT Condensed" size="96.0" />
+                                                         </font>
+                                                      </Text>
+                                                   </children>
+                                                </VBox>
                                              </children>
                                              <padding>
                                                 <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
@@ -217,73 +226,14 @@
                                                 <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                                              </padding>
                                              <children>
-                                                <VBox prefHeight="241.0" prefWidth="593.0" styleClass="posts">
+                                                <VBox alignment="CENTER" prefHeight="241.0" prefWidth="593.0" styleClass="posts">
                                                    <children>
-                                                      <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="593.0">
-                                                         <children>
-                                                            <ImageView fitHeight="46.0" fitWidth="46.0">
-                                                               <image>
-                                                                  <Image url="@user.jpg.png" />
-                                                               </image>
-                                                               <HBox.margin>
-                                                                  <Insets left="5.0" />
-                                                               </HBox.margin>
-                                                            </ImageView>
-                                                            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text=" User Name" wrappingWidth="106.13671875">
-                                                               <font>
-                                                                  <Font name="SansSerif Regular" size="15.0" />
-                                                               </font>
-                                                               <HBox.margin>
-                                                                  <Insets left="5.0" />
-                                                               </HBox.margin>
-                                                            </Text>
-                                                         </children>
-                                                      </HBox>
-                                                      <TextArea editable="false" minHeight="150.0" prefHeight="126.0" prefWidth="574.0" styleClass="postTxtField" text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum." wrapText="true">
+                                                      <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="LOADING ...">
                                                          <font>
-                                                            <Font size="13.0" />
+                                                            <Font name="Bernard MT Condensed" size="96.0" />
                                                          </font>
-                                                         <VBox.margin>
-                                                            <Insets left="3.0" right="3.0" top="2.0" />
-                                                         </VBox.margin>
-                                                      </TextArea>
-                                                      <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
-                                                         <children>
-                                                            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="CENTER" wrappingWidth="23.46875">
-                                                               <HBox.margin>
-                                                                  <Insets left="7.0" />
-                                                               </HBox.margin>
-                                                               <font>
-                                                                  <Font size="16.0" />
-                                                               </font>
-                                                            </Text>
-                                                            <Button mnemonicParsing="false" onMouseClicked="#likePost" styleClass="likebutton" text="like ♥" textFill="WHITE">
-                                                               <font>
-                                                                  <Font size="19.0" />
-                                                               </font>
-                                                               <HBox.margin>
-                                                                  <Insets left="5.0" />
-                                                               </HBox.margin>
-                                                            </Button>
-                                                            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="CENTER" wrappingWidth="33.46875">
-                                                               <HBox.margin>
-                                                                  <Insets left="5.0" />
-                                                               </HBox.margin>
-                                                               <font>
-                                                                  <Font size="16.0" />
-                                                               </font>
-                                                            </Text>
-                                                            <Button alignment="CENTER" contentDisplay="TOP" mnemonicParsing="false" prefHeight="40.0" prefWidth="139.0" styleClass="likebutton" text="comments ☁" textAlignment="CENTER" textFill="#fff4f4">
-                                                               <font>
-                                                                  <Font size="19.0" />
-                                                               </font>
-                                                            </Button>
-                                                         </children>
-                                                      </HBox>
+                                                      </Text>
                                                    </children>
-                                                   <VBox.margin>
-                                                      <Insets bottom="5.0" top="5.0" />
-                                                   </VBox.margin>
                                                 </VBox>
                                              </children>
                                           </VBox>

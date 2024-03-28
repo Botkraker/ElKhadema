@@ -19,11 +19,18 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.effect.BlurType;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 public class SignUpUserController implements Initializable {
-    UserService userService = new UserServiceImp();
+    UserServiceImp userService = new UserServiceImp();
 
     Person user = new Person(0, null, null);
     ContactInfo contactInfo = new ContactInfo(0);
@@ -44,7 +51,22 @@ public class SignUpUserController implements Initializable {
     @FXML
     Text invalid;
     @FXML
+    private TextField job;
+    @FXML
     ComboBox<String> country;
+    @FXML
+    private ScrollPane CC;
+    @FXML
+    private RadioButton femalebtn;
+    @FXML
+    private RadioButton malebtn;
+    @FXML
+    private TextArea profession;
+    @FXML
+    private TextField age;
+
+    @FXML
+    private TextField Username;
 
     @FXML
     public void chooseAccount() throws IOException {
@@ -59,14 +81,22 @@ public class SignUpUserController implements Initializable {
             return;
         }
         contactInfo.setEmail(vemail);
-        String username = firstname.getText() + "" + lastname.getText();
-        if (!UsernameValidator.isValidUsername(username)) {
+        if (firstname.getText().length()<2) {
+            invalid.setText("*firstname invalid");
+            return;
+        }
+        if (lastname.getText().length()<2) {
+            invalid.setText("*lastname invalid");
+            return;
+        }
+        System.out.println(Username.getText());
+        if (Username.getText().length()<2) {
             invalid.setText("*username invalid");
             return;
         }
         user.setFirstName(firstname.getText());
         user.setLastName(lastname.getText());
-        user.setUserName(username);
+        user.setUserName(Username.getText());
         if(country.getValue()==null){
             invalid.setText("choose a country");
             return;
@@ -87,13 +117,56 @@ public class SignUpUserController implements Initializable {
             invalid.setText("phone number invalid");
             return;
         }
+        String agee=age.getText();
+        if (!agee.matches("\\d+")) {
+			invalid.setText("Age invalide");
+			return;
+		}
+        user.setAge(Integer.parseInt(agee));
+        String prof=profession.getText();
+        if (prof.length()<2) {
+			invalid.setText("Age invalide");
+			return;
+		}
+        if (malebtn.isSelected()) {
+			user.setSexe("male");
+		}
+        else if (femalebtn.isSelected()) {
+			user.setSexe("female");
+		}
+        else {
+        	invalid.setText("invalid gender");
+			return;
+		}
+        if(job.getText().length()<2) {
+        	invalid.setText("invalid job");
+        	return;
+        }
+        user.setJob(job.getText());
+        user.setAbout(prof);
         contactInfo.setPhoneNumber(Integer.parseInt(phoneNumber));
-        this.userService.SignUp(user, "person");
+        this.userService.SignUpPerson(user); 
         App.setRoot("login");
     }
-
+    public void customizescrollpane() {
+        CC.getStyleClass().add("custom-scroll-pane");
+        DropShadow dropShadow = new DropShadow();
+        dropShadow.setColor(Color.rgb(0, 0, 0, 0.3));
+        dropShadow.setWidth(6);
+        dropShadow.setHeight(6);
+        dropShadow.setRadius(6);
+        dropShadow.setOffsetX(0);
+        dropShadow.setOffsetY(0);
+        dropShadow.setSpread(0);
+        dropShadow.setBlurType(BlurType.GAUSSIAN);
+        CC.setEffect(dropShadow);
+    }
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
+    	ToggleGroup toggleGroup = new ToggleGroup();
+        femalebtn.setToggleGroup(toggleGroup);
+        malebtn.setToggleGroup(toggleGroup);
+        customizescrollpane();
         ObservableList<String> countries=FXCollections.observableArrayList();
         String[] countryCodes = Locale.getISOCountries();
         for (String countryCode : countryCodes) {

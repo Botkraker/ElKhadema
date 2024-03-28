@@ -78,10 +78,17 @@ public class ResumeController extends NavbarController {
     Button editBioBtn;
     @FXML
     Button editAboutBtn;
-
     @FXML
     Button generateCVbutton;
-
+    @FXML void confirmEdit() {
+    	
+    }
+    @FXML
+    void cancelEdit() {
+		
+	}
+         
+    
     @FXML
     public void postMsg() {
         //ignore
@@ -174,7 +181,7 @@ public class ResumeController extends NavbarController {
             }
         });
     }
-
+    
     private Button getChatButton() {
         Button chatButton = new Button("chat");
         chatButton.getStyleClass().add("postButton");

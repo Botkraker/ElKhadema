@@ -47,7 +47,7 @@
                   <Label layoutX="23.0" layoutY="316.0" text="Description" textFill="#2c0f95" />
                   <Label layoutX="27.0" layoutY="379.0" text="Type" textFill="#2c0f95" />
                   <Label layoutX="27.0" layoutY="427.0" text="Web Site" textFill="#2c0f95" />
-                  <Label layoutX="27.0" layoutY="481.0" text="Creation Date" textFill="#2c0f95" />
+                  <Label layoutX="28.0" layoutY="494.0" text="Creation Date" textFill="#2c0f95" />
                   <Label layoutX="27.0" layoutY="533.0" text="Industry" textFill="#2c0f95" />
                   <TextField fx:id="textEmail" layoutX="179.0" layoutY="135.0" promptText="example@email.com" style="-fx-background-color: transparent; -fx-border-color: #2c0f95; -fx-border-width: 0px 0px 2px 0px;" />
                   <TextArea fx:id="Textdescription" layoutX="179.0" layoutY="301.0" prefHeight="50.0" prefWidth="200.0" promptText="About Your Company" style="-fx-background-color: white; -fx-background-color: #2c0f95; -fx-background-width: 15px;" />
@@ -65,9 +65,11 @@
                   <Text fill="RED" layoutX="59.0" layoutY="167.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*" />
                   <Text fill="RED" layoutX="86.0" layoutY="216.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*" />
                   <Text fill="RED" layoutX="142.0" layoutY="269.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*" />
-                  <DatePicker fx:id="creationDatePicker" layoutX="180.0" layoutY="477.0" />
+                  <DatePicker fx:id="creationDatePicker" layoutX="181.0" layoutY="490.0" />
                   <Text fill="RED" layoutX="149.0" layoutY="631.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                   <Text fx:id="invalid" fill="RED" layoutX="205.0" layoutY="575.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="125.5999755859375" />
+                  <Label layoutX="25.0" layoutY="460.0" text="Location" textFill="#2c0f95" />
+                  <TextField fx:id="location" layoutX="178.0" layoutY="455.0" promptText="Company Location" style="-fx-background-color: transparent; -fx-border-color: #2c0f95; -fx-border-width: 0px 0px 2px 0px;" />
                </children>
             </AnchorPane>
          </right>

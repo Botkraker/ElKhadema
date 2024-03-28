@@ -28,7 +28,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.text.Text;
 
 public class SignUpCompanyController implements Initializable {
-    private UserService userService = new UserServiceImp();
+    private UserServiceImp userService = new UserServiceImp();
 
     private Company company = new Company(0, null, null);
     private ContactInfo contactInfo = new ContactInfo(0);
@@ -55,6 +55,8 @@ public class SignUpCompanyController implements Initializable {
     private ComboBox<String> industry;
     @FXML
     private Text invalid;
+    @FXML
+    private TextField location;
 
     @FXML
     public void chooseAccount() throws IOException {
@@ -110,6 +112,10 @@ public class SignUpCompanyController implements Initializable {
         if (creationDate.isAfter(LocalDate.now())) {
             invalid.setText("date invalid");
         }
+        if(location.getText()==null){
+            invalid.setText("choose an location");
+              return;}
+        company.setAddress(location.getText());
         ZoneId defaultZoneId = ZoneId.systemDefault();
         company.setCreationDate(Date.from(creationDate.atStartOfDay(defaultZoneId).toInstant()));
         if(industry.getValue()==null){
@@ -117,7 +123,7 @@ public class SignUpCompanyController implements Initializable {
             return;}
         company.setIndustry(industry.getValue());
         company.setContactInfo(contactInfo);
-        userService.SignUp(company, "company");
+        userService.SignUpCompany(company);
         App.setRoot("login");
     }
 

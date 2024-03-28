@@ -122,8 +122,6 @@ public class CompanyController extends NavbarController {
     public void init(User user) {
         company = companyDAO.get(user.getId()).get();
         // TODO remove later
-        Person person = new Person(0, "null", "null");
-        currentUser = person;
 
         if (company.getId() != session.getId()) {
             Button followbutton = getFollowbutton();
@@ -132,8 +130,8 @@ public class CompanyController extends NavbarController {
             initButttons();
 
         }
-        nameText.setText(person.getUserName());
-        profileImg.setImage(person.getPhoto().getImage());
+        nameText.setText(company.getUserName());
+        profileImg.setImage(company.getPhoto().getImage());
         profileImg.getStyleClass().add("round-image");
 
         afficheBio(company);

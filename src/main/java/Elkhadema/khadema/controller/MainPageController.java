@@ -14,8 +14,10 @@ import java.util.stream.Collectors;
 
 import Elkhadema.khadema.App;
 import Elkhadema.khadema.DAO.DAOImplemantation.UserDAO;
+import Elkhadema.khadema.Service.ServiceImplemantation.CompanyServiceImp;
 import Elkhadema.khadema.Service.ServiceImplemantation.FollowServiceImp;
 import Elkhadema.khadema.Service.ServiceImplemantation.UserServiceImp;
+import Elkhadema.khadema.Service.ServiceInterfaces.CompanyService;
 import Elkhadema.khadema.Service.ServiceInterfaces.FollowService;
 import Elkhadema.khadema.Service.ServiceInterfaces.UserService;
 import Elkhadema.khadema.Service.ServiceImplemantation.PostServiceImp;
@@ -91,6 +93,7 @@ public class MainPageController extends NavbarController implements Initializabl
     FollowService followService = new FollowServiceImp();
     UserService userService = new UserServiceImp();
     UserDAO userDAO = new UserDAO();
+    CompanyService companyService=new CompanyServiceImp();
     @FXML
     private ScrollPane CC;
 
@@ -224,7 +227,7 @@ public class MainPageController extends NavbarController implements Initializabl
         postscontent.getStyleClass().add("postTxtField");
         postscontent.setStyle("-fx-border-width: 0;");
         List<HBox> displayedimges = displayimages(post);
-        
+
         displayedimges.forEach(t -> {
             t.setSpacing(5);
             t.setAlignment(Pos.TOP_CENTER);
@@ -302,7 +305,7 @@ public class MainPageController extends NavbarController implements Initializabl
             posts.setMinWidth(CC.getWidth() - 50);
             mediaView.setFitWidth(CC.getWidth() - 52);
             postscontent.setWrappingWidth(CC.getWidth());
-            
+
         });
         Platform.runLater(() -> {
         	if(posts.localToScreen(0,0).getY()<(posts.getScene().getHeight()*1.2)) {
@@ -562,10 +565,19 @@ public class MainPageController extends NavbarController implements Initializabl
 
     public void openprofile(MouseEvent event, User tmp) throws IOException {
         User user = tmp;
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/resmue.fxml"));
-        root = loader.load();
-        ResumeController resumeController = loader.getController();
-        resumeController.init(user);
+        if(companyService.isCompany(user)){
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/company.fxml"));
+            root = loader.load();
+            CompanyController companyController = loader.getController();
+            companyController.init(user);
+
+        }
+        else{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/resmue.fxml"));
+            root = loader.load();
+            ResumeController resumeController = loader.getController();
+            resumeController.init(user);
+        }
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);

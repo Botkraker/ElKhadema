@@ -4,9 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import Elkhadema.khadema.App;
@@ -15,7 +12,6 @@ import Elkhadema.khadema.DAO.DAOImplemantation.PersonDAO;
 import Elkhadema.khadema.Service.ServiceImplemantation.JobServiceImp;
 import Elkhadema.khadema.domain.JobOffre;
 import Elkhadema.khadema.domain.JobRequest;
-import Elkhadema.khadema.domain.Media;
 import Elkhadema.khadema.util.Session;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -24,9 +20,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar;
 import javafx.scene.control.TextArea;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -171,9 +165,9 @@ public class JobsPageController extends NavbarController implements Initializabl
 			   else {
 				System.out.println("given wrong extension");
 			}
-		
+
 		});
-		
+
 	}
 	private void CreateRequest(JobOffre jb,byte[] pdf) {
 		JobRequest jr=new JobRequest(Session.getUser(), jb, "Waiting");
@@ -181,7 +175,7 @@ public class JobsPageController extends NavbarController implements Initializabl
 		jDao.saveJobRequest(jr);
 		applybutton.setText("Sent");
 		applybutton.setDisable(true);
-		
+
 	}
 
     @FXML

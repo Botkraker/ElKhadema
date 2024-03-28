@@ -29,6 +29,7 @@ import Elkhadema.khadema.util.Session;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -135,7 +136,7 @@ public class MainPageController extends NavbarController implements Initializabl
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-    	if(personDAO.get(Session.getUser().getId()).isPresent()) {
+    	if(userService.getUserById(session)!=null) {
         	miniprofilesetup();
         	forperson.setVisible(true);
     	}
@@ -151,7 +152,7 @@ public class MainPageController extends NavbarController implements Initializabl
     }
 
     private void miniprofilesetup() {
-    	Person person=personDAO.get(Session.getUser().getId()).get();
+    	Person person=((Person)userService.getUserById(session));
     	username.setText(person.getUserName());
     	age.setText(""+person.getAge());
     	sexe.setText(person.getSexe());
@@ -190,7 +191,7 @@ public class MainPageController extends NavbarController implements Initializabl
     }
 
     @FXML
-    public void sessionOpenProfile(MouseEvent event) throws IOException {
+    public void sessionOpenProfile(Event event) throws IOException {
         openprofile(event, session);
     }
     @FXML

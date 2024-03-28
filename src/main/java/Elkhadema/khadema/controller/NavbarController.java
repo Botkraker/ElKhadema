@@ -10,6 +10,7 @@ import Elkhadema.khadema.Service.ServiceInterfaces.UserService;
 import Elkhadema.khadema.domain.User;
 import Elkhadema.khadema.util.Session;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -92,7 +93,7 @@ public class NavbarController {
 		}
 		userService.logOut(Session.getUser());
 	}
-        public void openprofile(MouseEvent event, User tmp) throws IOException {
+        public void openprofile(Event event, User tmp) throws IOException {
         User user = tmp;
         if (companyService.isCompany(user)) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/company.fxml"));

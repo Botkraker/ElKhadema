@@ -222,9 +222,7 @@ public class ChatRoomController extends NavbarController implements Initializabl
         vContacts.getChildren().addAll(hBoxs);
     }
 
-    public void logout() {
-        userService.logOut(Session.getUser());
-    }
+   
 
     @FXML
     public void postMsg() {

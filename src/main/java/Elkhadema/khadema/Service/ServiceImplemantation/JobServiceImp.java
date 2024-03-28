@@ -1,6 +1,7 @@
 package Elkhadema.khadema.Service.ServiceImplemantation;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import Elkhadema.khadema.DAO.DAOImplemantation.JobsDAO;
 import Elkhadema.khadema.Service.ServiceInterfaces.CompanyService;
@@ -67,4 +68,9 @@ public class JobServiceImp implements JobService{
     public List<SavedJob> getAllJobSavedByUser(User user) {
         return jobsDAO.getSavedJobsByUser(user);
     }
+    public List<JobOffre> getAllJobOffres() {
+    	List<JobOffre> jobOffres=jobsDAO.getAllJobOffres().stream().map(t -> {t.setCompany(companyService.getCompanyInfo(t.getCompany()));return t;}).collect(Collectors.toList());
+    	return jobOffres;
+		
+	}
 }

@@ -20,7 +20,6 @@ import Elkhadema.khadema.Service.validateInfo.Specialityalidator;
 import Elkhadema.khadema.Service.validateInfo.UrlValidator;
 import Elkhadema.khadema.domain.JobOffre;
 import Elkhadema.khadema.domain.Media;
-import Elkhadema.khadema.domain.Person;
 import Elkhadema.khadema.domain.Company;
 import Elkhadema.khadema.domain.User;
 import Elkhadema.khadema.util.MediaChooser;
@@ -119,7 +118,7 @@ public class CompanyController extends NavbarController {
 
     @FXML
     public void init(User user) {
-        company = companyDAO.get(user.getId()).get();
+        company = ((Company)userService.getUserById(user));
         // TODO remove later
 
         if (company.getId() != session.getId()) {

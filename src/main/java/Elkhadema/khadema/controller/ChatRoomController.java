@@ -40,8 +40,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -59,7 +57,6 @@ public class ChatRoomController extends NavbarController implements Initializabl
     private long lastMessageId = 0;
     private MessageService messageService = new MessageServiceIMP();
     private FollowService followService = new FollowServiceImp();
-    private UserDAO userDAO = new UserDAO();
     private UserService userService = new UserServiceImp();
     private List<User> contacts = followService.getfollowing(Session.getUser());
     private int parentMessageId;
@@ -77,7 +74,7 @@ public class ChatRoomController extends NavbarController implements Initializabl
 
     @FXML
     private Button buttontoaddattach;
-    
+
 
     @FXML
     ScrollPane messagePane;
@@ -184,7 +181,7 @@ public class ChatRoomController extends NavbarController implements Initializabl
         if (message.getSender() != Session.getUser()) {
             messageService.MessageRead(message, Session.getUser());
         }
-        
+
         lastMessageId = message.getId();
         Platform.runLater(() -> {
             if (tmp)
@@ -194,7 +191,7 @@ public class ChatRoomController extends NavbarController implements Initializabl
 
     private void initContacts() {
         List<VBox> hBoxs = new ArrayList<>();
-        contacts = contacts.stream().map(user -> userDAO.get(user.getId()).get()).collect(Collectors.toList());
+        contacts = contacts.stream().map(user -> userService.getUserById(user)).collect(Collectors.toList());
         for (User user : contacts) {
             Text text = new Text(user.getUserName());
             text.setStyle("-fx-fill:white;-fx-font-size:15px;");
@@ -222,7 +219,7 @@ public class ChatRoomController extends NavbarController implements Initializabl
         vContacts.getChildren().addAll(hBoxs);
     }
 
-   
+
 
     @FXML
     public void postMsg() {

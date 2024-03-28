@@ -20,7 +20,6 @@ import Elkhadema.khadema.Service.validateInfo.Specialityalidator;
 import Elkhadema.khadema.Service.validateInfo.UrlValidator;
 import Elkhadema.khadema.domain.JobOffre;
 import Elkhadema.khadema.domain.Media;
-import Elkhadema.khadema.domain.Person;
 import Elkhadema.khadema.domain.Company;
 import Elkhadema.khadema.domain.User;
 import Elkhadema.khadema.util.MediaChooser;
@@ -36,6 +35,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 public class CompanyController extends NavbarController {
@@ -260,7 +260,13 @@ public class CompanyController extends NavbarController {
     }
 
     private void afficheJobOffre(JobOffre jobOffre, VBox vBox) {
-
+        Text jobOffreText = new Text(jobOffre.getPostion());
+        jobOffreText.setFont(new Font("SansSerif Bold",15));
+        Text jobPayText=new Text(String.valueOf(jobOffre.getPayRange()));
+        jobPayText.setFont(new Font("SansSerif Bold",12));
+        Text jobLocationText=new Text(jobOffre.getLocation());
+        jobLocationText.setFont(new Font("SansSerif Bold", 12));
+        vBox.getChildren().addAll(jobOffreText,jobPayText,jobLocationText);
     }
 
     private void afficheBio(Company company) {

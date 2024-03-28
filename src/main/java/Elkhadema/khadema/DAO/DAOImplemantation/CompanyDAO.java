@@ -68,7 +68,7 @@ public class CompanyDAO {
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = connection.prepareStatement(
-					"INSERT INTO `khademadb`.`company` (`user_id`, `company_name`, `description`, `industry`, `website`, `company_size`, `speciality`, `address`) VALUES (?,?,?,?,?,?,?,?,?)",
+					"INSERT INTO `khademadb`.`company` (`user_id`, `company_name`, `description`, `industry`, `website`, `company_size`, `speciality`, `address`) VALUES (?,?,?,?,?,?,?,?)",
 					Statement.RETURN_GENERATED_KEYS);
 			pstmt.setLong(1, t.getId());
 			pstmt.setString(2, t.getCompanyName());
@@ -81,7 +81,7 @@ public class CompanyDAO {
 			pstmt.executeUpdate();
 
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 
 	}

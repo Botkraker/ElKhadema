@@ -17,6 +17,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
@@ -33,6 +34,7 @@ public class NavbarController {
 	public void goJobsList() throws IOException {
 		App.setRoot("jobs");
 	}
+	@FXML TextField searchbar;
 
 	@FXML
 	public void goResume() throws IOException {

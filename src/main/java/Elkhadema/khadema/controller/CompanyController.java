@@ -41,7 +41,6 @@ import javafx.scene.text.Text;
 public class CompanyController extends NavbarController {
     User session = Session.getUser();
     Company company;
-    Person currentUser;
 
     PersonDAO personDAO = new PersonDAO();
     CompanyDAO companyDAO = new CompanyDAO();
@@ -162,6 +161,14 @@ public class CompanyController extends NavbarController {
         confirmOverviewEdit.setDisable(true);
         confirmOverviewEdit.setVisible(false);
     }
+    @FXML
+    public void cancelEdit(){
+        initOverview();
+        cancelOverviewEdit.setDisable(true);
+        cancelOverviewEdit.setVisible(false);
+        confirmOverviewEdit.setDisable(true);
+        confirmOverviewEdit.setVisible(false);
+    }
 
     @FXML
     public void confirmEdit() throws UserNotFoundException {
@@ -184,6 +191,10 @@ public class CompanyController extends NavbarController {
         newCompany.setSpeciality(specialityField.getText());
         userService.EditUser(company, newCompany);
         initOverview();
+        cancelOverviewEdit.setDisable(true);
+        cancelOverviewEdit.setVisible(false);
+        confirmOverviewEdit.setDisable(true);
+        confirmOverviewEdit.setVisible(false);
 
     }
 
@@ -279,8 +290,8 @@ public class CompanyController extends NavbarController {
             return;
         }
         profileImg.setImage(m.getImage());
-        currentUser.setPhoto(m);
-        userService.EditUser(currentUser, currentUser);
+        company.setPhoto(m);
+        userService.EditUser(company, company);
     }
 
     @FXML

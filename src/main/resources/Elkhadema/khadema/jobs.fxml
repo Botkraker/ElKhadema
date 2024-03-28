@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -307,9 +308,9 @@
                <children>
                   <HBox prefHeight="64.0" prefWidth="421.0" styleClass="navb" stylesheets="@style.css" VBox.vgrow="ALWAYS">
                      <children>
-                        <HBox prefHeight="60.0" prefWidth="635.0" HBox.hgrow="ALWAYS">
+                        <HBox prefHeight="60.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <Label alignment="CENTER" prefHeight="58.0" prefWidth="112.0" text="ElKhedma" textAlignment="CENTER" textFill="#f5f5f5">
+                              <Label alignment="CENTER" prefHeight="58.0" prefWidth="112.0" text="ElKhedma" textAlignment="CENTER" textFill="#e8e2e2">
                                  <font>
                                     <Font name="Microsoft Sans Serif" size="22.0" />
                                  </font>
@@ -319,13 +320,34 @@
                                     <Image url="@logonotext.png" />
                                  </image>
                               </ImageView>
+                              <HBox alignment="CENTER" prefHeight="65.0" prefWidth="432.0">
+                                 <children>
+                                    <HBox alignment="CENTER" prefHeight="65.0" prefWidth="253.0" styleClass="searchbox">
+                                       <children>
+                                          <TextField fx:id="searchbar" promptText="looking for something ?" styleClass="searchtext">
+                                             <HBox.margin>
+                                                <Insets right="20.0" />
+                                             </HBox.margin>
+                                          </TextField>
+                                          <Button mnemonicParsing="false" onAction="#GoSearch" styleClass="searchbutton" text="Search" textFill="WHITE">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Button>
+                                       </children>
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" top="10.0" />
+                                       </HBox.margin>
+                                    </HBox>
+                                 </children>
+                              </HBox>
                            </children>
                         </HBox>
-                        <HBox prefHeight="64.0" prefWidth="694.0">
+                        <HBox>
                            <children>
                               <HBox prefHeight="66.0" prefWidth="562.0">
                                  <children>
-                                    <Button mnemonicParsing="false" onMouseClicked="#goHome" prefHeight="63.0" prefWidth="78.0" style="-fx-font-weight: 900;" styleClass="navbarbuttons" text="Home" textFill="WHITE">
+                                    <Button mnemonicParsing="false" onMouseClicked="#goHome" prefHeight="63.0" prefWidth="105.0" styleClass="navbarbuttons" text="Home" textFill="WHITE">
                                        <HBox.margin>
                                           <Insets left="10.0" right="10.0" />
                                        </HBox.margin>
@@ -333,7 +355,7 @@
                                           <Font name="SansSerif Regular" size="16.0" />
                                        </font>
                                     </Button>
-                                    <Button mnemonicParsing="false" onMouseClicked="#goJobsList" prefHeight="63.0" prefWidth="87.0" style="-fx-font-weight: 900;" styleClass="navbarbuttons" text="jobs" textFill="WHITE">
+                                    <Button mnemonicParsing="false" onMouseClicked="#goJobsList" prefHeight="63.0" prefWidth="87.0" styleClass="navbarbuttons" text="jobs" textFill="WHITE">
                                        <HBox.margin>
                                           <Insets left="10.0" right="10.0" />
                                        </HBox.margin>
@@ -341,7 +363,7 @@
                                           <Font name="SansSerif Regular" size="16.0" />
                                        </font>
                                     </Button>
-                                    <Button mnemonicParsing="false" onMouseClicked="#goResume" prefHeight="63.0" prefWidth="87.0" style="-fx-font-weight: 900;" styleClass="navbarbuttons" text="resume" textFill="WHITE">
+                                    <Button mnemonicParsing="false" onMouseClicked="#goResume" prefHeight="63.0" prefWidth="101.0" styleClass="navbarbuttons" text="resume" textFill="WHITE">
                                        <HBox.margin>
                                           <Insets left="10.0" right="10.0" />
                                        </HBox.margin>
@@ -349,7 +371,7 @@
                                           <Font name="SansSerif Regular" size="16.0" />
                                        </font>
                                     </Button>
-                                    <Button mnemonicParsing="false" onMouseClicked="#goNotifications" prefHeight="63.0" prefWidth="117.0" style="-fx-font-weight: 900;" styleClass="navbarbuttons" text="Notifications" textFill="WHITE">
+                                    <Button mnemonicParsing="false" onMouseClicked="#goNotifications" prefHeight="63.0" prefWidth="156.0" styleClass="navbarbuttons" text="🔔 Notifications" textFill="WHITE">
                                        <font>
                                           <Font name="SansSerif Regular" size="16.0" />
                                        </font>
@@ -357,7 +379,7 @@
                                           <Insets left="10.0" right="10.0" />
                                        </HBox.margin>
                                     </Button>
-                                    <Button mnemonicParsing="false" onAction="#goChat" onMouseClicked="#goHome" prefHeight="63.0" prefWidth="87.0" style="-fx-font-weight: 900;" styleClass="navbarbuttons" text="chat" textFill="WHITE">
+                                    <Button mnemonicParsing="false" onAction="#goChat" onMouseClicked="#goHome" prefHeight="63.0" prefWidth="87.0" styleClass="navbarbuttons" text="chat" textFill="WHITE">
                                        <font>
                                           <Font name="SansSerif Regular" size="16.0" />
                                        </font>
@@ -369,7 +391,7 @@
                                     </ImageView>
                                  </children>
                               </HBox>
-                              <Button alignment="CENTER" mnemonicParsing="false" onMouseClicked="#logout" prefHeight="63.0" prefWidth="91.0" style="-fx-font-weight: 900;" styleClass="navbarbuttons" text="logout" textFill="WHITE">
+                              <Button alignment="CENTER" mnemonicParsing="false" onMouseClicked="#logout" prefHeight="63.0" prefWidth="136.0" styleClass="navbarbuttons" text="logout" textFill="WHITE">
                                  <font>
                                     <Font size="16.0" />
                                  </font>

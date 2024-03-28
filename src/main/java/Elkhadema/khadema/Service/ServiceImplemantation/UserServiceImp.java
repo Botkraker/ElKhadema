@@ -20,32 +20,42 @@ public class UserServiceImp implements UserService {
 	UserDAO userDao = new UserDAO();
 	PersonDAO personDao = new PersonDAO();
 	CompanyDAO companyDao = new CompanyDAO();
-	ContactInfoDAO contactInfoDAO = new ContactInfoDAO();
+	ContactInfoDAO contactInfoDAO=new ContactInfoDAO();
 
-	@Override
-	public User SignUp(User user) {
-		if (userDao.get(user.getId()).isPresent()) {
+
+
+	public User SignUpCompany(Company company) {
+		if (userDao.get(company.getId()).isPresent()) {
 			return null;
 		}
-		user.setCreationDate(new Date());
-		user.setLastloginDate(new Date());
-		String encryptedPassword = PasswordEncryptor.encryptPassword(user.getUserName(), user.getPassword());
-		user.setPassword(encryptedPassword);
+		company.setCreationDate(new Date());
+		company.setLastloginDate(new Date());
+		String encryptedPassword = PasswordEncryptor.encryptPassword(company.getUserName(), company.getPassword());
+		company.setPassword(encryptedPassword);
 		try {
-			userDao.save(user);
+			userDao.save(company);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		if (user instanceof Company) {
-			Company company = (Company) user;
-			companyDao.save(company);
-		} else {
-			Person person = (Person) user;
-			personDao.save(person);
-
+		companyDao.save(company);
+		return company;
+	}
+	public User SignUpPerson(Person person) {
+		if (userDao.get(person.getId()).isPresent()) {
+			return null;
+		}
+		person.setCreationDate(new Date());
+		person.setLastloginDate(new Date());
+		String encryptedPassword = PasswordEncryptor.encryptPassword(person.getUserName(), person.getPassword());
+		person.setPassword(encryptedPassword);
+		try {
+			userDao.save(person);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
-		return user;
+		personDao.save(person);
+		return person;
 
 	}
 
@@ -100,6 +110,12 @@ public class UserServiceImp implements UserService {
 			personDao.update(((Person) u), ((Person) newUser));
 		}
 		return newUser;
+	}
+
+	@Override
+	public User SignUp(User user, String type) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

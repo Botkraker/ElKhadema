@@ -148,25 +148,11 @@ public class SignUpUserController implements Initializable {
         this.userService.SignUp(user);
         App.setRoot("login");
     }
-    public void customizescrollpane() {
-        CC.getStyleClass().add("custom-scroll-pane");
-        DropShadow dropShadow = new DropShadow();
-        dropShadow.setColor(Color.rgb(0, 0, 0, 0.3));
-        dropShadow.setWidth(6);
-        dropShadow.setHeight(6);
-        dropShadow.setRadius(6);
-        dropShadow.setOffsetX(0);
-        dropShadow.setOffsetY(0);
-        dropShadow.setSpread(0);
-        dropShadow.setBlurType(BlurType.GAUSSIAN);
-        CC.setEffect(dropShadow);
-    }
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
     	ToggleGroup toggleGroup = new ToggleGroup();
         femalebtn.setToggleGroup(toggleGroup);
         malebtn.setToggleGroup(toggleGroup);
-        customizescrollpane();
         ObservableList<String> countries=FXCollections.observableArrayList();
         String[] countryCodes = Locale.getISOCountries();
         for (String countryCode : countryCodes) {

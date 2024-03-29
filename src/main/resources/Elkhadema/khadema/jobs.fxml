@@ -404,5 +404,30 @@
             </VBox>
          </top>
       </BorderPane>
+      <VBox fx:id="notifList" layoutX="890.0" layoutY="51.0" prefHeight="464.0" prefWidth="289.0">
+         <children>
+            <ScrollPane fitToWidth="true" styleClass="notificationPannel">
+               <content>
+                  <VBox fx:id="notifList" prefHeight="461.0" prefWidth="286.0">
+                     <children>
+                        <Text fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-effect: dropshadow(three-pass-box, #444444e8, 10, 0.5, 3, 3);;" text="Your Notifications" wrappingWidth="165.13671875">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="7.0" top="5.0" />
+                           </VBox.margin>
+                        </Text>
+                        <VBox fx:id="notifBox" prefHeight="154.0" prefWidth="591.0">
+                           <padding>
+                              <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                           </padding>
+                        </VBox>
+                     </children>
+                  </VBox>
+               </content>
+            </ScrollPane>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>

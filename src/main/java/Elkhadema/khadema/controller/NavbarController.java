@@ -19,6 +19,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
@@ -29,26 +30,31 @@ public class NavbarController {
 	Stage stage;
 	Scene scene;
 	Parent root;
-	
-	@FXML
-    void postMsg(MouseEvent event) {
 
-    }
+	@FXML
+	void postMsg(MouseEvent event) {
+
+	}
+
 	@FXML
 	public void goJobsList() throws IOException {
 		App.setRoot("jobs");
 	}
-	@FXML TextField searchbar;
+
+	@FXML
+	TextField searchbar;
+
 	@FXML
 	public void GoSearch() throws IOException {
-		if (searchbar.getText().length()>0) {
-			SearchPage.searchString=searchbar.getText();
+		if (searchbar.getText().length() > 0) {
+			SearchPage.searchString = searchbar.getText();
 			App.setRoot("saechplace");
 		}
 	}
+
 	@FXML
 	public void goResume() throws IOException {
-		Stage stage=App.stage;
+		Stage stage = App.stage;
 		User user = Session.getUser();
 		System.out.println();
 		if (companyService.isCompany(user)) {
@@ -73,21 +79,23 @@ public class NavbarController {
 	public void goNotifications() {
 		// App.setRoot(null);
 	}
-    @FXML
-    public void goChat(ActionEvent event) throws IOException{
-        goChat(event,null);
-    }
-    @FXML
-    public void goChat(ActionEvent event, User user) throws IOException{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/chatroom.fxml"));
-        root = loader.load();
-        ChatRoomController chatRoomController = loader.getController();
-        chatRoomController.init(user);
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
+
+	@FXML
+	public void goChat(ActionEvent event) throws IOException {
+		goChat(event, null);
+	}
+
+	@FXML
+	public void goChat(ActionEvent event, User user) throws IOException {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/chatroom.fxml"));
+		root = loader.load();
+		ChatRoomController chatRoomController = loader.getController();
+		chatRoomController.init(user);
+		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
+	}
 
 	@FXML
 	public void goHome() throws IOException {
@@ -108,31 +116,40 @@ public class NavbarController {
 		alert.setHeaderText("your about to logout");
 		alert.setContentText("do you really want to exit");
 		if (alert.showAndWait().get() == ButtonType.OK) {
-			((Stage)App.scene.getWindow()).close();
+			((Stage) App.scene.getWindow()).close();
 		}
 		userService.logOut(Session.getUser());
 	}
-        public void openprofile(MouseEvent event, User tmp) throws IOException {
-        User user = tmp;
-        if (companyService.isCompany(user)) {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/company.fxml"));
-            root = loader.load();
-            CompanyController companyController = loader.getController();
-            companyController.init(user);
 
-        } else {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/resmue.fxml"));
-            root = loader.load();
-            ResumeController resumeController = loader.getController();
-            resumeController.init(user);
-        }
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-        @FXML
-   	 public void sessionOpenProfile(MouseEvent event) throws IOException {
-   	        openprofile(event, Session.getUser());
-   	 }
+	public void openprofile(MouseEvent event, User tmp) throws IOException {
+		User user = tmp;
+		if (companyService.isCompany(user)) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/company.fxml"));
+			root = loader.load();
+			CompanyController companyController = loader.getController();
+			companyController.init(user);
+
+		} else {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/resmue.fxml"));
+			root = loader.load();
+			ResumeController resumeController = loader.getController();
+			resumeController.init(user);
+		}
+		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
+	}
+
+	@FXML
+	public void sessionOpenProfile(MouseEvent event) throws IOException {
+		openprofile(event, Session.getUser());
+	}
+	@FXML
+	VBox notfifList;
+	@FXML
+	VBox notifBox;
+	
+
+
 }

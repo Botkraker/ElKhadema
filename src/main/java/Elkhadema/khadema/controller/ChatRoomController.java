@@ -100,7 +100,7 @@ public class ChatRoomController extends NavbarController  {
                 return;
             }
             List<Message> messages = messageService.chat(Session.getUser(), currentMessageReciver);
-            messages.stream().dropWhile(message -> message.getId() != lastMessageId)
+            messages.stream().dropWhile(message -> message.getId() != lastMessageId).filter(message -> message.getSender()!=Session.getUser())
                     .skip(1)
                     .forEach(message -> afficheMessage(message));
         }));

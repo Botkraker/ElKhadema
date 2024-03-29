@@ -116,14 +116,12 @@ public class CVgenerator {
     public static void GenerateCvFromHTML(Person person, String path, List<Competance> comp,
             List<Experience> experience) {
         try {
-            // Create a renderer and set the input source to the HTML string
+            HTMLGenerator htmlGenerator=new HTMLGenerator();
             ITextRenderer renderer = new ITextRenderer();
-            renderer.setDocumentFromString(HTMLGenerator.firstModelCV(person, path, comp, experience));
-
-            // Render the PDF
+            renderer.setDocumentFromString(htmlGenerator.firstModelCV(person, path, comp, experience),path);
             renderer.layout();
-            try (OutputStream os = new FileOutputStream(path)) {
-                renderer.createPDF(os);
+            try (OutputStream outputStream = new FileOutputStream(path)) {
+                renderer.createPDF(outputStream);
             }
 
             System.out.println("PDF created successfully.");

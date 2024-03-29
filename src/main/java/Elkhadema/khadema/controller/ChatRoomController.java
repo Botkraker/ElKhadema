@@ -71,6 +71,7 @@ public class ChatRoomController extends NavbarController  {
     ScrollPane messagePane;
 
     public void init(User user) {
+        super.initialize(null, null);
         initContacts();
         try {
             if (user !=null)
@@ -170,14 +171,16 @@ public class ChatRoomController extends NavbarController  {
                         "-fx-background : transparent;" +
                         "-fx-background-radius: 10px;");
         // ahawa kifech t addi image
-        ImageView iv = new ImageView(message.getImage().getImage());
-        VBox vboxforimage = new VBox(iv);
-        VBox vBox = new VBox(hBox, contentText, vboxforimage);
-        iv.setFitWidth(500);
-        iv.setPreserveRatio(true);
-        vboxforimage.setAlignment(Pos.TOP_RIGHT);// houni image right 3ala 5ater titb3ath twali left ki recieved
+        if (message.getImage()!=null) {
+            ImageView iv = new ImageView(message.getImage().getImage());
+            VBox vboxforimage = new VBox(iv);
+            VBox vBox = new VBox(hBox, contentText, vboxforimage);
+            iv.setFitWidth(500);
+            iv.setPreserveRatio(true);
+            vboxforimage.setAlignment(Pos.TOP_RIGHT);// houni image right 3ala 5ater titb3ath twali left ki recieved
+            messageVBox.getChildren().add(vBox);
+        }
         // end houni
-        messageVBox.getChildren().add(vBox);
         if (message.getSender() != Session.getUser()) {
             messageService.MessageRead(message, Session.getUser());
         }
@@ -220,7 +223,7 @@ public class ChatRoomController extends NavbarController  {
     }
 
     @FXML
-    public void postMsg() {
+    public void postMsg(ActionEvent event) {
         Message message = new Message(0, Session.getUser(), messageText.getText(), null, parentMessageId);
         message.setImage(attachMedia);
         messageService.sendMessage(currentMessageReciver, message);

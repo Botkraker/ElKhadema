@@ -116,6 +116,10 @@ public class MessageDAO {
 					while (resultSet.next()) {
 						message=new Message(resultSet.getLong("message_id"), new User(resultSet.getInt("sender_id"), "", ""),
 								resultSet.getString("content"), resultSet.getDate("creation_date"), resultSet.getInt("parent_message_id"));
+						if (resultSet.getBytes("image")==null) {
+							message.setImage(null);
+						}
+						else
 						message.setImage(new Media(null, resultSet.getBytes("image"),"img"));
 						messages.add(message);
 					}

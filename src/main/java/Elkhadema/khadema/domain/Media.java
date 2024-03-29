@@ -53,7 +53,7 @@ public class Media {
 	        try {
 	            return new Image(new ByteArrayInputStream(media));
 	        } catch (Exception e) {
-	            return new Image("file:src//main//resources//images//user.png");
+	            return new Image(getClass().getResourceAsStream("/Elkhadema/khadema/user.jpg"));
 	        }
 		}
 		else {

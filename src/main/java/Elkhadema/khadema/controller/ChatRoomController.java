@@ -71,6 +71,7 @@ public class ChatRoomController extends NavbarController  {
     ScrollPane messagePane;
 
     public void init(User user) {
+        super.initialize(null, null);
         initContacts();
         try {
             if (user !=null)
@@ -99,7 +100,7 @@ public class ChatRoomController extends NavbarController  {
                 return;
             }
             List<Message> messages = messageService.chat(Session.getUser(), currentMessageReciver);
-            messages.stream().dropWhile(message -> message.getId() != lastMessageId)
+            messages.stream().dropWhile(message -> message.getId() != lastMessageId).filter(message -> message.getSender()!=Session.getUser())
                     .skip(1)
                     .forEach(message -> afficheMessage(message));
         }));
@@ -170,14 +171,17 @@ public class ChatRoomController extends NavbarController  {
                         "-fx-background : transparent;" +
                         "-fx-background-radius: 10px;");
         // ahawa kifech t addi image
-        ImageView iv = new ImageView(message.getImage().getImage());
-        VBox vboxforimage = new VBox(iv);
-        VBox vBox = new VBox(hBox, contentText, vboxforimage);
-        iv.setFitWidth(500);
-        iv.setPreserveRatio(true);
-        vboxforimage.setAlignment(Pos.TOP_RIGHT);// houni image right 3ala 5ater titb3ath twali left ki recieved
-        // end houni
+        VBox vBox = new VBox(hBox, contentText);
+        if (message.getImage()!=null) {
+            ImageView iv = new ImageView(message.getImage().getImage());
+            VBox vboxforimage = new VBox(iv);
+            iv.setFitWidth(500);
+            iv.setPreserveRatio(true);
+            vboxforimage.setAlignment(Pos.TOP_RIGHT);
+            vBox.getChildren().add(vboxforimage);// houni image right 3ala 5ater titb3ath twali left ki recieved
+        }
         messageVBox.getChildren().add(vBox);
+        // end houni
         if (message.getSender() != Session.getUser()) {
             messageService.MessageRead(message, Session.getUser());
         }
@@ -220,7 +224,7 @@ public class ChatRoomController extends NavbarController  {
     }
 
     @FXML
-    public void postMsg() {
+    public void postMsg(ActionEvent event) {
         Message message = new Message(0, Session.getUser(), messageText.getText(), null, parentMessageId);
         message.setImage(attachMedia);
         messageService.sendMessage(currentMessageReciver, message);

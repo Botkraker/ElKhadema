@@ -50,7 +50,13 @@ public class NavbarController implements Initializable {
 
 	@FXML
 	public void goJobsList() throws IOException {
-		App.setRoot("jobs");
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/jobs.fxml"));
+		root = loader.load();
+		JobsPageController jobsPageController = loader.getController();
+		stage = App.stage;
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
 	}
 
 	@FXML

@@ -173,7 +173,6 @@ public class NavbarController implements Initializable {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/mainpage.fxml"));
 		root = loader.load();
 		MainPageController mainPageController = loader.getController();
-		mainPageController.initialize(null, null);
 		stage = App.stage;
 		scene = new Scene(root);
 		stage.setScene(scene);
@@ -183,6 +182,7 @@ public class NavbarController implements Initializable {
 
 	public void logout() {
         Stage stage = App.stage;
+		App.logout(stage);
         stage.close();
 	}
 

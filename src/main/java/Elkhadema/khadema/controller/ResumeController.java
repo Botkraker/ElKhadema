@@ -363,9 +363,10 @@ public class ResumeController extends NavbarController {
             return;
         }
         experience = editExperienceController.getExperience();
+        Separator separator = new Separator();
         afficheExperience(experience, vBox);
         experienceDAO.save(experience, currentUser);
-        experienceVBox.getChildren().add(vBox);
+        experienceVBox.getChildren().addAll(separator,vBox);
     }
 
     @FXML
@@ -387,8 +388,9 @@ public class ResumeController extends NavbarController {
         }
         competance = editCompetanceController.getCompetance();
         afficheCompetance(competance, vBox);
+        Separator separator = new Separator();
         competanceDAO.save(competance, currentUser);
-        competanceVBox.getChildren().add(vBox);
+        competanceVBox.getChildren().addAll(separator,vBox);
     }
 
     @FXML

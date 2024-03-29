@@ -477,7 +477,6 @@ public class CommentsPageController extends NavbarController {
 	public void init(Post post) {
 		super.initialize(null, null);
 		commentedpost=post;
-		System.out.println("test");
 		setupparentpost();
 		initContacts();
 		replyindexing.setText("Replying To " + getlink());

@@ -290,6 +290,33 @@
                                     </HBox>
                                  </children>
                               </VBox>
+                              <VBox prefWidth="100.0" styleClass="posts">
+                                 <VBox.margin>
+                                    <Insets left="5.0" right="5.0" top="50.0" />
+                                 </VBox.margin>
+                                 <children>
+                                    <VBox alignment="CENTER" prefWidth="100.0" spacing="25.0" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <Text fx:id="testforapplication" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="You have n Waiting Applications">
+                                             <font>
+                                                <Font size="20.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets top="15.0" />
+                                             </VBox.margin>
+                                          </Text>
+                                          <Button alignment="CENTER" mnemonicParsing="false" onAction="#GoToApplicationView" prefHeight="30.0" prefWidth="150.0" styleClass="postButton" text="View" textFill="WHITE">
+                                             <font>
+                                                <Font name="SansSerif Bold" size="15.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets bottom="15.0" />
+                                             </VBox.margin>
+                                          </Button>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </VBox>
                            </children>
                            <padding>
                               <Insets left="5.0" right="5.0" top="10.0" />
@@ -408,7 +435,7 @@
          <children>
             <ScrollPane fitToWidth="true" styleClass="notificationPannel">
                <content>
-                  <VBox  prefHeight="461.0" prefWidth="286.0">
+                  <VBox prefHeight="461.0" prefWidth="286.0">
                      <children>
                         <Text fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-effect: dropshadow(three-pass-box, #444444e8, 10, 0.5, 3, 3);;" text="Your Notifications" wrappingWidth="165.13671875">
                            <font>

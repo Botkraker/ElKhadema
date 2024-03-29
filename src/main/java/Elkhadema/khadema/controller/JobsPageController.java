@@ -4,20 +4,30 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
 
 import Elkhadema.khadema.App;
 import Elkhadema.khadema.DAO.DAOImplemantation.JobsDAO;
 import Elkhadema.khadema.DAO.DAOImplemantation.PersonDAO;
 import Elkhadema.khadema.Service.ServiceImplemantation.JobServiceImp;
+import Elkhadema.khadema.domain.Company;
 import Elkhadema.khadema.domain.JobOffre;
 import Elkhadema.khadema.domain.JobRequest;
+import Elkhadema.khadema.domain.Person;
+import Elkhadema.khadema.domain.User;
 import Elkhadema.khadema.util.Session;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
@@ -31,6 +41,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class JobsPageController extends NavbarController {
+	JobServiceImp jobServiceImp=new JobServiceImp();
+	JobsDAO jobsDAO=new JobsDAO();
 	 @FXML
 	    private Button applybutton;
 
@@ -59,6 +71,8 @@ public class JobsPageController extends NavbarController {
 	    private VBox postscontainer;
 
 	    @FXML
+	    private Text testforapplication;
+	    @FXML
 	    private Text speciality;
 	    @FXML
 	    private Button uploadbtn;
@@ -86,7 +100,14 @@ public class JobsPageController extends NavbarController {
 		if (pd.get(Session.getUser().getId()).isPresent()) {
 			areyouhiring.setVisible(false);
 			areyouhiring.setDisable(true);
+			areyouhiring.setMaxHeight(0);
+			areyouhiring.setPrefHeight(0);
+			areyouhiring.setMinHeight(0);
 			applybutton.setDisable(false);
+			testforapplication.setText("You have "+jDao.getJobRequestsByUser(new Person(Session.getUser().getId(), null, null)).stream().filter(t -> t.getEtat().equals("Accepted")).collect(Collectors.toList()).size()+" Accepted Applications");
+		}
+		else {
+			testforapplication.setText("You have "+jDao.getJobRequestsByCompany(new Company(Session.getUser().getId(), null, null)).stream().filter(t -> t.getEtat().equals("Waiting")).collect(Collectors.toList()).size()+" Waiting Applications");
 		}
 		joblist.getChildren().clear();
 		resetjobs();
@@ -126,6 +147,8 @@ public class JobsPageController extends NavbarController {
 		textbox.setSpacing(2);
 		bigVBox.setMinHeight(100);
 		bigVBox.setOnMouseClicked(event -> showjobinfo(jb));
+		//logic
+
 	}
 	 byte[] pdf;
 	private void showjobinfo(JobOffre jb) {
@@ -167,9 +190,24 @@ public class JobsPageController extends NavbarController {
 			}
 
 		});
-
+		List<JobRequest> r=js.getAllJobRequestByUser(Session.getUser()).stream().filter(t -> t.getJobOffre().getId()==jb.getId()).collect(Collectors.toList());
+		if (r.size()!=0) {
+			applybutton.setDisable(true);
+			applybutton.setText(r.get(0).getEtat());
+		}
+		else {
+			applybutton.setDisable(false);
+			applybutton.setText("Apply");
+		}
 	}
+	 @FXML
+	    void GoToApplicationView(ActionEvent event) throws IOException {
+		 App.setRoot("applicationreview");
+	 }
 	private void CreateRequest(JobOffre jb,byte[] pdf) {
+		if (!checkpdf(pdf)) {
+			return;
+		}
 		JobRequest jr=new JobRequest(Session.getUser(), jb, "Waiting");
 		jr.setPdf(pdf);
 		jDao.saveJobRequest(jr);
@@ -178,7 +216,17 @@ public class JobsPageController extends NavbarController {
 
 	}
 
-    @FXML
+    private boolean checkpdf(byte[] pdf) {
+		if (pdf==null||pdf.length==0) {
+			Alert popup=new Alert(AlertType.ERROR);
+			popup.setTitle("INPUT ERROR");
+			popup.setHeaderText("PLEASE ENTER THE RESUME");
+			popup.showAndWait();
+			return false;
+		}
+		return true;
+	}
+	@FXML
     void Gotojoboffercreation(ActionEvent event) throws IOException {
     	App.setRoot("hiringform");
     }

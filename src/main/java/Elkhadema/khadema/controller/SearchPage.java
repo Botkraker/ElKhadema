@@ -51,7 +51,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
-public class SearchPage extends NavbarController implements Initializable{
+public class SearchPage extends NavbarController {
 	SearchServiceImp ss=new SearchServiceImp();
 	CompanyServiceImp Cs=new CompanyServiceImp();
 	PersonDAO personDAO=new PersonDAO();
@@ -100,6 +100,7 @@ public class SearchPage extends NavbarController implements Initializable{
     static String searchString;
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location, resources);
 		if(personDAO.get(Session.getUser().getId()).isPresent()) {
         	miniprofilesetup();
         	forperson.setVisible(true);

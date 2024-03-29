@@ -24,8 +24,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -33,7 +31,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
 public class NavbarController implements Initializable {
@@ -185,14 +182,8 @@ public class NavbarController implements Initializable {
 	}
 
 	public void logout() {
-		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("logout");
-		alert.setHeaderText("your about to logout");
-		alert.setContentText("do you really want to exit");
-		if (alert.showAndWait().get() == ButtonType.OK) {
-			((Stage) App.scene.getWindow()).close();
-		}
-		userService.logOut(Session.getUser());
+        Stage stage = App.stage;
+        stage.close();
 	}
 
 	public void openprofile(MouseEvent event, User tmp) throws IOException {

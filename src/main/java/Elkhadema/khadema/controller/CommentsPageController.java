@@ -29,7 +29,6 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -56,7 +55,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class CommentsPageController extends NavbarController implements Initializable {
+public class CommentsPageController extends NavbarController  {
 	private Stage stage;
 	private Scene scene;
 	private static Post commentedpost;

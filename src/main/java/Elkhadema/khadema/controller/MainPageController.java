@@ -30,7 +30,6 @@ import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -55,7 +54,7 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 import javafx.scene.control.TextArea;
 
-public class MainPageController extends NavbarController implements Initializable {
+public class MainPageController extends NavbarController {
     private Parent root;
 
     FollowService followService = new FollowServiceImp();

@@ -33,7 +33,6 @@ public class FollowDAO  {
 
 	public void save(Follow t) {
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		try {
 			pstmt = connection.prepareStatement(
 					"INSERT INTO `khademadb`.`followers` (`follower_id`, `followed_id`) VALUES (?, ?);",

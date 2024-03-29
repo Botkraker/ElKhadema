@@ -6,9 +6,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -25,7 +22,6 @@ import Elkhadema.khadema.domain.Media;
 import Elkhadema.khadema.domain.Post;
 import Elkhadema.khadema.domain.User;
 import Elkhadema.khadema.util.ConexDB;
-// TODO pls add a way to get posts by parent post to replace comments
 public class PostDAO {
 	private static Connection connection = ConexDB.getInstance();
 
@@ -76,7 +72,7 @@ public class PostDAO {
 			System.out.println(e);
 
 		}
-		
+
 		return media;
 	}
 
@@ -132,7 +128,7 @@ public class PostDAO {
 		}
 
 	}
-	public void savemediatopost(Post post) throws SQLException { 
+	public void savemediatopost(Post post) throws SQLException {
 		try {
 		    connection.setAutoCommit(false); // Start transaction
 		    post.getPostMedias().forEach(t -> {
@@ -143,8 +139,8 @@ public class PostDAO {
 
 		                pstmt.setInt(1, (int) post.getId());
 		                pstmt.setBlob(2, new ByteArrayInputStream(t.ImageCompression()));
-						
-		               
+
+
 
 		                int affectedRows = pstmt.executeUpdate();
 		                if (affectedRows == 0) {
@@ -187,7 +183,7 @@ public class PostDAO {
 		    connection.commit();
 		} catch (SQLException e) {
 		    try {
-		        connection.rollback(); 
+		        connection.rollback();
 		    } catch (SQLException ex) {
 		        ex.printStackTrace();
 		    }
@@ -251,6 +247,6 @@ public class PostDAO {
 		return Optional.ofNullable(post);
 	}
 
-	
+
 
 }

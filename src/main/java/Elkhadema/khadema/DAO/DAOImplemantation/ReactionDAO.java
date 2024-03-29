@@ -61,7 +61,6 @@ public class ReactionDAO {
 	public void save(Reaction t) {
 		PreparedStatement pstmt = null;
 		try {
-			int cfid = 0;
 			pstmt = connection.prepareStatement(
 					"INSERT INTO `khademadb`.`post_reaction` (`post_id`, `user_id`, `reactiontype`, `creationdate`) VALUES (?,?,?,?);",
 					Statement.RETURN_GENERATED_KEYS);

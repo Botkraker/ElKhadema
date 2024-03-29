@@ -15,7 +15,6 @@ import Elkhadema.khadema.domain.JobRequest;
 import Elkhadema.khadema.util.Session;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -31,7 +30,7 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class JobsPageController extends NavbarController implements Initializable{
+public class JobsPageController extends NavbarController {
 	 @FXML
 	    private Button applybutton;
 

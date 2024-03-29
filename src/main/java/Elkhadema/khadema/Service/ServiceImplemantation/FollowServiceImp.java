@@ -2,7 +2,6 @@ package Elkhadema.khadema.Service.ServiceImplemantation;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import Elkhadema.khadema.DAO.DAOImplemantation.FollowDAO;
 import Elkhadema.khadema.DAO.DAOImplemantation.UserDAO;

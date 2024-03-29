@@ -36,7 +36,7 @@ public class MessageDAO {
 				pstmt.setInt(4, t.getParentMessageId());
 			} else
 				pstmt.setNull(4, java.sql.Types.INTEGER);
-			if(t.getImage()!=null) 
+			if(t.getImage()!=null)
 			pstmt.setBlob(5, new ByteArrayInputStream(t.getImage().ImageCompression()));
 			else pstmt.setNull(5, java.sql.Types.BLOB);
 			pstmt.executeUpdate();
@@ -116,7 +116,7 @@ public class MessageDAO {
 					while (resultSet.next()) {
 						message=new Message(resultSet.getLong("message_id"), new User(resultSet.getInt("sender_id"), "", ""),
 								resultSet.getString("content"), resultSet.getDate("creation_date"), resultSet.getInt("parent_message_id"));
-						message.setImage(new Media(null,Media.ImageDecompress(resultSet.getBytes("image")),"img"));
+						message.setImage(new Media(null, resultSet.getBytes("image"),"img"));
 						messages.add(message);
 					}
 				}
@@ -154,7 +154,7 @@ public class MessageDAO {
 				Message message=new Message(rs.getLong("message_id"), new User(rs.getInt("sender_id"), "", ""),
 						rs.getString("content"), rs.getDate("creation_date"), rs.getInt("parent_message_id"));
 						message.setRead(rs.getInt("is_read"));
-				message.setImage(new Media(null,Media.ImageDecompress(rs.getBytes("image")),"img"));
+				message.setImage(new Media(null,rs.getBytes("image"),"img"));
 
 				messages.add(message);
 			}

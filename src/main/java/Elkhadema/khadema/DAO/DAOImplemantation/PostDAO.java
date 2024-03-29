@@ -58,7 +58,7 @@ public class PostDAO {
 		try {
 			rs = connection.createStatement().executeQuery(sql);
 			while (rs.next()) {
-				media.add(new Media(post,Media.ImageDecompress(rs.getBytes("image")),"img"));
+				media.add(new Media(post, rs.getBytes("image"),"img"));
 			}
 
 		} catch (Exception e) {
@@ -76,7 +76,7 @@ public class PostDAO {
 			System.out.println(e);
 
 		}
-		
+
 		return media;
 	}
 
@@ -89,7 +89,8 @@ public class PostDAO {
 			while (rs.next()) {
 				temPost=new Post(
 						new User(rs.getInt("user_id"), null, null, rs.getString("username"), rs.getDate("creationdate"),
-								rs.getDate("last_login"),new Media(null,Media.ImageDecompress(rs.getBytes("photo")),"img"), rs.getBoolean("banned"),
+								rs.getDate("last_login"),new Media(null, rs.getBytes(
+										"photo"),"img"), rs.getBoolean("banned"),
 								rs.getBoolean("is_active")),
 						rs.getString("content"), null, rs.getInt("post_parent"), rs.getString("type"), rs.getTimestamp("posts.creationdate"),
 						rs.getLong("post_id"));
@@ -132,7 +133,7 @@ public class PostDAO {
 		}
 
 	}
-	public void savemediatopost(Post post) throws SQLException { 
+	public void savemediatopost(Post post) throws SQLException {
 		try {
 		    connection.setAutoCommit(false); // Start transaction
 		    post.getPostMedias().forEach(t -> {
@@ -143,8 +144,8 @@ public class PostDAO {
 
 		                pstmt.setInt(1, (int) post.getId());
 		                pstmt.setBlob(2, new ByteArrayInputStream(t.ImageCompression()));
-						
-		               
+
+
 
 		                int affectedRows = pstmt.executeUpdate();
 		                if (affectedRows == 0) {
@@ -187,7 +188,7 @@ public class PostDAO {
 		    connection.commit();
 		} catch (SQLException e) {
 		    try {
-		        connection.rollback(); 
+		        connection.rollback();
 		    } catch (SQLException ex) {
 		        ex.printStackTrace();
 		    }
@@ -251,6 +252,6 @@ public class PostDAO {
 		return Optional.ofNullable(post);
 	}
 
-	
+
 
 }

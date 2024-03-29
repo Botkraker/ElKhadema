@@ -5,7 +5,7 @@
 
 .navbarbuttons {
  -fx-background-color: #2f1c6400;
-
+ 
 }
 .navbarbuttons:hover {
     -fx-background-color: #226697;
@@ -14,17 +14,17 @@
 .postButton {
     -fx-background-color: #0095fe;
     -fx-background-radus : 30;
-    -fx-effect: dropshadow(three-pass-box, #444444a4, 10, 0.5, 3, 3);
+    -fx-effect: dropshadow(three-pass-box, #444444a4, 10, 0.5, 3, 3);   
 }
 .likebutton {
     -fx-background-color: #00000000;
-
+    
 }
 .likebutton:hover {
     -fx-border-width: 0 0 1 0; -fx-border-color: rgba(75, 73, 73, 0.808);
     -fx-transition: color 0.3s;
 
-
+    
 }
 .bgcol {
     -fx-background-color:  linear-gradient(to bottom, #226697 0%, #0099ff93 100%);
@@ -50,17 +50,17 @@
     -fx-background-color: transparent;
     -fx-background : transparent;
     -fx-border-width: 0 0 1 0; -fx-border-color: rgba(75, 73, 73, 0.808);
-
-
+    
+    
 }
 .userTxtField {
     -fx-text-fill: rgb(255, 255, 255);
     -fx-control-inner-background: transparent;
     -fx-background-color: transparent;
     -fx-background : transparent;
-
-
-
+ 
+    
+    
 }
 .scrollStyle {
     -fx-scrollbar-background: transparent;
@@ -88,8 +88,7 @@
 }
 
 .hideimg{
-    -fx-opacity: 0.5;
-    -fx-effect: grayscale;
+    -fx-opacity: 0.5; -fx-effect: grayscale;
 }
 
 
@@ -115,4 +114,17 @@
     -fx-control-inner-background: transparent;
     -fx-background : transparent;
     -fx-effect: dropshadow(three-pass-box, #444444a4, 10, 0.5, 3, 3);
+}
+.scroll-bar:vertical {
+    -fx-background-color: transparent;
+
+
+}
+.aceeptbutton {
+    -fx-background-color: #14A44D;
+}
+
+.rejectButton {
+    -fx-background-color: #DC4C64;
+
 }

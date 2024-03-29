@@ -10,9 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+
 import Elkhadema.khadema.domain.Company;
 import Elkhadema.khadema.domain.JobOffre;
 import Elkhadema.khadema.domain.JobRequest;
+import Elkhadema.khadema.domain.Media;
 import Elkhadema.khadema.domain.SavedJob;
 import Elkhadema.khadema.domain.User;
 import Elkhadema.khadema.util.ConexDB;
@@ -120,14 +122,13 @@ public class JobsDAO{
 		Statement stmt = null;
 		ResultSet rs = null;
 		List<JobRequest> jobRequests = new ArrayList<>();
-		String SQL = "SELECT `offer_id`, `user_id`, `status`,`pdf` FROM `job_request` WHERE `user_id`="+user.getId();
+		String SQL = "SELECT `offer_id`, `user_id`, `status` FROM `job_request` WHERE `user_id`="+user.getId();
 		JobRequest jr;
 		try {
 			stmt = connection.createStatement();
 			rs = stmt.executeQuery(SQL);
 			while (rs.next()) {
 				jr=(new JobRequest(user,new JobOffre(rs.getLong("offer_id")),rs.getString("status")));
-				jr.setPdf(rs.getBytes("pdf"));
 				jobRequests.add(jr);
 				
 			}
@@ -141,13 +142,12 @@ public class JobsDAO{
 		ResultSet rs = null;
 		JobRequest jr;
 		List<JobRequest> jobRequests = new ArrayList<>();
-		String SQL = "SELECT r.`offer_id`,r.`user_id`, r.`status`,r.`pdf` FROM `job_request` r,job_offers  o WHERE r.`offer_id`=o.offer_id and o.company_id="+company.getId();
+		String SQL = "SELECT r.`offer_id`,r.`user_id`, r.`status` FROM `job_request` r,job_offers  o WHERE r.`offer_id`=o.offer_id and o.company_id="+company.getId();
 		try {
 			stmt = connection.createStatement();
 			rs = stmt.executeQuery(SQL);
 			while (rs.next()) {
 				jr=(new JobRequest(new User(rs.getInt("user_id"),null,null),new JobOffre(rs.getLong("offer_id")),rs.getString("status")));
-				jr.setPdf(rs.getBytes("pdf"));
 				jobRequests.add(jr);
 				
 			}
@@ -156,14 +156,35 @@ public class JobsDAO{
 		}
 		return jobRequests;
 	}
+	public byte[] getResumeFromRequestById(JobRequest jr) {
+		Statement stmt = null;
+		ResultSet rs = null;
+		byte[] media=null;
+		List<JobRequest> jobRequests = new ArrayList<>();
+		String SQL = "SELECT r.`pdf` FROM `job_request` r,job_offers  o WHERE r.`offer_id`=o.offer_id and o.company_id="+jr.getJobOffre().getCompany().getId()+" and `user_id`="+jr.getUser().getId();
+		try {
+			stmt = connection.createStatement();
+			rs = stmt.executeQuery(SQL);
+			while (rs.next()) {
+				media=rs.getBytes("pdf");
+				
+			}
+		} catch (SQLException e) {
+			System.out.println(e);
+		}
+		return media;
+	}
+	
 	public void updateJobRequest(JobRequest t, JobRequest newT) {
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = connection.prepareStatement(
-					"UPDATE `job_request` SET`status`=? WHERE `offer_id`=?",
+					"UPDATE `job_request` SET`status`=? WHERE `offer_id`=? and `user_id`=?",
 					Statement.RETURN_GENERATED_KEYS);
 			pstmt.setString(1, newT.getEtat());
+			System.out.println(t.getJobOffre().getId());
 			pstmt.setLong(2, t.getJobOffre().getId());
+			pstmt.setLong(3, t.getUser().getId());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());

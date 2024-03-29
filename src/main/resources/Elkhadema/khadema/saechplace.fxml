@@ -312,7 +312,7 @@
          <children>
             <ScrollPane fitToWidth="true" styleClass="notificationPannel">
                <content>
-                  <VBox fx:id="notifList" prefHeight="461.0" prefWidth="286.0">
+                  <VBox  prefHeight="461.0" prefWidth="286.0">
                      <children>
                         <Text fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-effect: dropshadow(three-pass-box, #444444e8, 10, 0.5, 3, 3);;" text="Your Notifications" wrappingWidth="165.13671875">
                            <font>

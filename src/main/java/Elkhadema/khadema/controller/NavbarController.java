@@ -92,14 +92,14 @@ public class NavbarController implements Initializable {
 
 	@FXML
 	public void goNotifications() {
-		if (notfifList.isVisible()) {
-			notfifList.setVisible(false);
-			notfifList.setDisable(true);
+		if (notifList.isVisible()) {
+			notifList.setVisible(false);
+			notifList.setDisable(true);
 			notifBox.getChildren().clear();
 			return;
 		}
-		notfifList.setVisible(true);
-		notfifList.setDisable(false);
+		notifList.setVisible(true);
+		notifList.setDisable(false);
 		initNotif();
 	}
 
@@ -221,14 +221,14 @@ public class NavbarController implements Initializable {
 	}
 
 	@FXML
-	VBox notfifList;
+	VBox notifList;
 	@FXML
 	VBox notifBox;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		notfifList.setVisible(true);
-		notfifList.setVisible(false);
+		notifList.setVisible(true);
+		notifList.setVisible(false);
 	}
 
 	private String limitString(String string) {

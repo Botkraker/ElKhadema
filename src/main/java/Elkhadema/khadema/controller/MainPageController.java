@@ -30,9 +30,11 @@ import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Label;
@@ -358,7 +360,14 @@ public class MainPageController extends NavbarController {
     }
 
     public void commentToPost(Post post) throws IOException {
-        CommentsPageController.setCommentedpost(post);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/comment.fxml"));
+		root = loader.load();
+		CommentsPageController commentsPageController = loader.getController();
+        commentsPageController.init(post);
+		stage = App.stage;
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
         App.setRoot("comment");
     }
 

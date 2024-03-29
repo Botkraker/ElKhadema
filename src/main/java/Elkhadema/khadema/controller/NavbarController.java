@@ -133,7 +133,19 @@ public class NavbarController implements Initializable {
 		switch (notification.getType()) {
 			case "post":
 				vBox.setOnMouseClicked(event -> {
-					CommentsPageController.setCommentedpost(postService.getPostById(new Post(notification.getId())));
+					FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/comment.fxml"));
+					try {
+						root = loader.load();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					CommentsPageController commentsPageController = loader.getController();
+					commentsPageController.setCommentedpost(new Post(notification.getId()));
+					stage = App.stage;
+					scene = new Scene(root);
+					stage.setScene(scene);
+					stage.show();
 					try {
 						App.setRoot("comment");
 					} catch (IOException e) {

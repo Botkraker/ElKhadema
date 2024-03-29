@@ -55,10 +55,10 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class CommentsPageController extends NavbarController  {
+public class CommentsPageController extends NavbarController {
 	private Stage stage;
 	private Scene scene;
-	private static Post commentedpost;
+	private Post commentedpost;
 	private Parent root;
 	FollowService followService = new FollowServiceImp();
 	UserService userService = new UserServiceImp();
@@ -76,8 +76,8 @@ public class CommentsPageController extends NavbarController  {
 	private VBox commentedPostcontainer;
 	@FXML
 	private TextArea postcontent;
-	 @FXML
-    private StackPane bigstack;
+	@FXML
+	private StackPane bigstack;
 
 	@FXML
 	private Text replyindexing;
@@ -87,8 +87,6 @@ public class CommentsPageController extends NavbarController  {
 	private HBox vidcontainer;
 	@FXML
 	private VBox comment_holder;
-
-
 
 	@FXML
 	void likePost(MouseEvent event) {
@@ -104,42 +102,43 @@ public class CommentsPageController extends NavbarController  {
 	void postMsg(MouseEvent event) {
 
 	}
-	 boolean loadingMorePosts = false;
-	    int postindex = 15;
-	    int maxPosts = 20;
-	    int sum = 0;
-	    int loadPosts = 0;
 
-	    List<Post> posts = ps.getPostComments(commentedpost);;
-	    public void resetComment() {
-			comment_holder.getChildren().clear();
-			 ps.getPostComments(commentedpost).forEach(t -> showpost(t));
+	boolean loadingMorePosts = false;
+	int postindex = 15;
+	int maxPosts = 20;
+	int sum = 0;
+	int loadPosts = 0;
 
-	    }
+
+	public void resetComment() {
+		comment_holder.getChildren().clear();
+		ps.getPostComments(commentedpost).forEach(t -> showpost(t));
+
+	}
 
 	@FXML
 	void AddMediabutton(ActionEvent event) {
 		Media m = MediaChooser.Choose(event);
-        if (m.getMediatype().equals("img")) {
-            attachedMedias.add(m);
-            ImageView img = new ImageView(m.getImage());
-            HboxforAttachments.getChildren().add(img);
-            HboxforAttachments.getChildren().forEach(t -> ((ImageView) t)
-                    .setFitWidth(HboxforAttachments.getWidth() / (double) attachedMedias.size() / 3));
-            img.setPreserveRatio(true);
-        } else {
-            try {
-                MediaPlayer mediaPlayer = m.getVideo();
-                MediaView mediaView = new MediaView(mediaPlayer);
-                attachedMedias.add(m);
-                vidcontainer.getChildren().add(mediaView);
-                mediaView.setFitWidth(vidcontainer.getWidth() / 2);
-                mediaView.setPreserveRatio(true);
+		if (m.getMediatype().equals("img")) {
+			attachedMedias.add(m);
+			ImageView img = new ImageView(m.getImage());
+			HboxforAttachments.getChildren().add(img);
+			HboxforAttachments.getChildren().forEach(t -> ((ImageView) t)
+					.setFitWidth(HboxforAttachments.getWidth() / (double) attachedMedias.size() / 3));
+			img.setPreserveRatio(true);
+		} else {
+			try {
+				MediaPlayer mediaPlayer = m.getVideo();
+				MediaView mediaView = new MediaView(mediaPlayer);
+				attachedMedias.add(m);
+				vidcontainer.getChildren().add(mediaView);
+				mediaView.setFitWidth(vidcontainer.getWidth() / 2);
+				mediaView.setPreserveRatio(true);
 
-            } catch (Exception e) {
-                System.out.println(e);
-            }
-        }
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+		}
 	}
 
 	public String getlink() {
@@ -167,262 +166,274 @@ public class CommentsPageController extends NavbarController  {
 		}
 	}
 
-
-
 	public VBox showpost(Post post) {
 		Image image = post.getUser().getPhoto().getImage();
-        ImageView profileimg;
-        if (image == null) {
-            profileimg = new ImageView(new Image("file:src//main//resources//images//user.png"));
-        } else {
-            profileimg = new ImageView(image);
-        }
-    	profileimg.setVisible(false);
-        VBox imgholder=makeicon(profileimg);
-        Text profilename = new Text(post.getUser().getUserName());
-        profilename.setFont(Font.font("SansSerif", 15));
-        profilename.setTranslateX(5);
-        profilename.setFill(Color.WHITE);
-        HBox profilebar = new HBox(imgholder, profilename);
-        profilebar.setSpacing(5);
-        profilebar.setAlignment(Pos.CENTER_LEFT);
-        Text postscontent = new Text(post.getContent());
-        postscontent.setDisable(true);
-        postscontent.setFill(Color.WHITE);
-        postscontent.setOpacity(1);
-        postscontent.setFont(Font.font(13));
-        postscontent.getStyleClass().add("postTxtField");
-        postscontent.setStyle("-fx-border-width: 0;");
-        List<HBox> displayedimges = displayimages(post);
+		ImageView profileimg;
+		if (image == null) {
+			profileimg = new ImageView(new Image("file:src//main//resources//images//user.png"));
+		} else {
+			profileimg = new ImageView(image);
+		}
+		profileimg.setVisible(false);
+		VBox imgholder = makeicon(profileimg);
+		Text profilename = new Text(post.getUser().getUserName());
+		profilename.setFont(Font.font("SansSerif", 15));
+		profilename.setTranslateX(5);
+		profilename.setFill(Color.WHITE);
+		HBox profilebar = new HBox(imgholder, profilename);
+		profilebar.setSpacing(5);
+		profilebar.setAlignment(Pos.CENTER_LEFT);
+		Text postscontent = new Text(post.getContent());
+		postscontent.setDisable(true);
+		postscontent.setFill(Color.WHITE);
+		postscontent.setOpacity(1);
+		postscontent.setFont(Font.font(13));
+		postscontent.getStyleClass().add("postTxtField");
+		postscontent.setStyle("-fx-border-width: 0;");
+		List<HBox> displayedimges = displayimages(post);
 
-        displayedimges.forEach(t -> {
-            t.setSpacing(5);
-            t.setAlignment(Pos.TOP_CENTER);
-            t.setVisible(false);
-        });
-        VBox iMGHOLDER = new VBox(displayedimges.toArray(new HBox[0]));
-        iMGHOLDER.getStyleClass().add("postTxtField");
-        iMGHOLDER.setAlignment(Pos.CENTER);
-        iMGHOLDER.setSpacing(5);
+		displayedimges.forEach(t -> {
+			t.setSpacing(5);
+			t.setAlignment(Pos.TOP_CENTER);
+			t.setVisible(false);
+		});
+		VBox iMGHOLDER = new VBox(displayedimges.toArray(new HBox[0]));
+		iMGHOLDER.getStyleClass().add("postTxtField");
+		iMGHOLDER.setAlignment(Pos.CENTER);
+		iMGHOLDER.setSpacing(5);
 
-        Optional<MediaPlayer> mediaPlayer = post.getPostMedias().stream().filter(t -> t.getMediatype().equals("vid"))
-                .map(Elkhadema.khadema.domain.Media::getVideo).findFirst();
-        MediaPlayer mp[] = { null };
-        StackPane videopane = new StackPane();
-        if (mediaPlayer.isPresent()) {
-            mp[0] = mediaPlayer.get();
-            ImageView playbutton = new ImageView(new Image("file:src//main//resources//images//playbutton.png"));
-            playbutton.setFitWidth(50);
-            playbutton.setPreserveRatio(true);
-            playbutton.setOnMouseClicked(event -> {
-                playVideo(mp[0]);
-            });
-            videopane.getChildren().add(playbutton);
-        }
+		Optional<MediaPlayer> mediaPlayer = post.getPostMedias().stream().filter(t -> t.getMediatype().equals("vid"))
+				.map(Elkhadema.khadema.domain.Media::getVideo).findFirst();
+		MediaPlayer mp[] = { null };
+		StackPane videopane = new StackPane();
+		if (mediaPlayer.isPresent()) {
+			mp[0] = mediaPlayer.get();
+			ImageView playbutton = new ImageView(new Image("file:src//main//resources//images//playbutton.png"));
+			playbutton.setFitWidth(50);
+			playbutton.setPreserveRatio(true);
+			playbutton.setOnMouseClicked(event -> {
+				playVideo(mp[0]);
+			});
+			videopane.getChildren().add(playbutton);
+		}
 
-        MediaView mediaView = new MediaView(mp[0]);
-        mediaView.setVisible(false);
-        videopane.getChildren().add(0, mediaView);
+		MediaView mediaView = new MediaView(mp[0]);
+		mediaView.setVisible(false);
+		videopane.getChildren().add(0, mediaView);
 
-        Text likenumber = new Text("" + ps.getPostReactions(post).size());
-        likenumber.setFont(Font.font(16));
-        likenumber.setFill(Color.WHITE);
-        Button likebutton = new Button("like ♥");
-        AtomicBoolean isliked = new AtomicBoolean(false);
-        likebutton.setOnAction(event -> {
-            likeapost(post, isliked, likenumber);
-        });
-        likebutton.getStyleClass().add("likebutton");
-        likebutton.setFont(Font.font(19));
-        likebutton.setTextFill(Color.WHITE);
-        Text commentnumber = new Text("" + ps.getPostComments(post).size());
-        commentnumber.setFont(Font.font(16));
-        commentnumber.setFill(Color.WHITE);
-        Button commentbutton = new Button("comments ☁");
-        commentbutton.getStyleClass().add("likebutton");
-        commentbutton.setFont(Font.font(19));
-        commentbutton.setTextFill(Color.WHITE);
-        commentbutton.setOnAction(event -> {
-            try {
-                commentToPost(post);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-        HBox likeandcommentBox = new HBox(likenumber, likebutton, commentnumber, commentbutton);
-        likeandcommentBox.setAlignment(Pos.CENTER_LEFT);
-        likeandcommentBox.setStyle("-fx-padding: 0 0 0 10px;");
-        HBox.setMargin(likebutton, new Insets(0, 11, 0, 11));
-        HBox.setMargin(profileimg, new Insets(0, 5, 0, 8));
-        HBox.setMargin(commentnumber, new Insets(0, 5, 0, 5));
-        HBox.setMargin(commentbutton, new Insets(0, 5, 0, 5));
-        likeandcommentBox.setTranslateX(5);
-        VBox posts = new VBox(profilebar, postscontent, iMGHOLDER, videopane, likeandcommentBox);
-        VBox lastlayerBox = new VBox(posts);
-        lastlayerBox.setFillWidth(true);
-        VBox.setMargin(postscontent, new Insets(5, 0, 5, 10));
-        VBox.setMargin(posts, new Insets(2.5f, 0, 2.5f, 0));
-        posts.getStyleClass().add("posts");
-
-        postscontent.setWrappingWidth(comment_holder.getWidth());
-        posts.setMinWidth(CC.getWidth() - 50);
-        mediaView.setFitWidth(CC.getWidth() - 52);
-        mediaView.setPreserveRatio(true);
-        CC.widthProperty().addListener((observable, oldValue, newValue) -> {
-            posts.setMinWidth(CC.getWidth() - 50);
-            mediaView.setFitWidth(CC.getWidth() - 52);
-            postscontent.setWrappingWidth(CC.getWidth());
-
-        });
-        Platform.runLater(() -> {
-        	if(posts.localToScreen(0,0).getY()<(posts.getScene().getHeight()*1.2)) {
-                profileimg.setVisible(true);
-                displayedimges.forEach(t -> {
-                    t.setVisible(true);
-                });
-                mediaView.setVisible(true);
-
-        	}
-        });
-        CC.vvalueProperty().addListener((observable, oldValue, newValue) -> {
-        	if(Math.abs(posts.localToScreen(0,0).getY())<(posts.getScene().getHeight()*1.2)) {
-                profileimg.setVisible(true);
-                displayedimges.forEach(t -> {
-                    t.setVisible(true);
-                });
-                mediaView.setVisible(true);
-
-        	}
-        	else {
-        		profileimg.setVisible(false);
-                displayedimges.forEach(t -> {
-                    t.setVisible(false);
-                });
-                mediaView.setVisible(false);
+		Text likenumber = new Text("" + ps.getPostReactions(post).size());
+		likenumber.setFont(Font.font(16));
+		likenumber.setFill(Color.WHITE);
+		Button likebutton = new Button("like ♥");
+		AtomicBoolean isliked = new AtomicBoolean(false);
+		likebutton.setOnAction(event -> {
+			likeapost(post, isliked, likenumber);
+		});
+		likebutton.getStyleClass().add("likebutton");
+		likebutton.setFont(Font.font(19));
+		likebutton.setTextFill(Color.WHITE);
+		Text commentnumber = new Text("" + ps.getPostComments(post).size());
+		commentnumber.setFont(Font.font(16));
+		commentnumber.setFill(Color.WHITE);
+		Button commentbutton = new Button("comments ☁");
+		commentbutton.getStyleClass().add("likebutton");
+		commentbutton.setFont(Font.font(19));
+		commentbutton.setTextFill(Color.WHITE);
+		commentbutton.setOnAction(event -> {
+			try {
+				commentToPost(post);
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-        });
-        comment_holder.getChildren().add(posts);
-        return posts;
+		});
+		HBox likeandcommentBox = new HBox(likenumber, likebutton, commentnumber, commentbutton);
+		likeandcommentBox.setAlignment(Pos.CENTER_LEFT);
+		likeandcommentBox.setStyle("-fx-padding: 0 0 0 10px;");
+		HBox.setMargin(likebutton, new Insets(0, 11, 0, 11));
+		HBox.setMargin(profileimg, new Insets(0, 5, 0, 8));
+		HBox.setMargin(commentnumber, new Insets(0, 5, 0, 5));
+		HBox.setMargin(commentbutton, new Insets(0, 5, 0, 5));
+		likeandcommentBox.setTranslateX(5);
+		VBox posts = new VBox(profilebar, postscontent, iMGHOLDER, videopane, likeandcommentBox);
+		VBox lastlayerBox = new VBox(posts);
+		lastlayerBox.setFillWidth(true);
+		VBox.setMargin(postscontent, new Insets(5, 0, 5, 10));
+		VBox.setMargin(posts, new Insets(2.5f, 0, 2.5f, 0));
+		posts.getStyleClass().add("posts");
+
+		postscontent.setWrappingWidth(comment_holder.getWidth());
+		posts.setMinWidth(CC.getWidth() - 50);
+		mediaView.setFitWidth(CC.getWidth() - 52);
+		mediaView.setPreserveRatio(true);
+		CC.widthProperty().addListener((observable, oldValue, newValue) -> {
+			posts.setMinWidth(CC.getWidth() - 50);
+			mediaView.setFitWidth(CC.getWidth() - 52);
+			postscontent.setWrappingWidth(CC.getWidth());
+
+		});
+		Platform.runLater(() -> {
+			if (posts.localToScreen(0, 0).getY() < (posts.getScene().getHeight() * 1.2)) {
+				profileimg.setVisible(true);
+				displayedimges.forEach(t -> {
+					t.setVisible(true);
+				});
+				mediaView.setVisible(true);
+
+			}
+		});
+		CC.vvalueProperty().addListener((observable, oldValue, newValue) -> {
+			if (Math.abs(posts.localToScreen(0, 0).getY()) < (posts.getScene().getHeight() * 1.2)) {
+				profileimg.setVisible(true);
+				displayedimges.forEach(t -> {
+					t.setVisible(true);
+				});
+				mediaView.setVisible(true);
+
+			} else {
+				profileimg.setVisible(false);
+				displayedimges.forEach(t -> {
+					t.setVisible(false);
+				});
+				mediaView.setVisible(false);
+			}
+		});
+		comment_holder.getChildren().add(posts);
+		return posts;
 
 	}
-	 private boolean isPlayed = false;
 
-	 private void playVideo(MediaPlayer mp) {
-	    	VBox background=new VBox();
-	    	background.setStyle("-fx-background-color: rgba(50, 50, 50, 0.7);");
-	    	MediaView mediaView=new MediaView(mp);
-	    	Button play=new Button("►");
-	    	play.setStyle("-fx-background-color: #0095fe;");
-	    	Label duration=new Label(Duration.ZERO.toString());
-	    	duration.setTextFill(Color.WHITE);
-	    	mediaView.setFitWidth(mp.getMedia().getWidth());
-	    	mediaView.setFitHeight(mp.getMedia().getHeight());
+	private boolean isPlayed = false;
 
-	    	Slider slider= new Slider();
-	    	Duration totalDuration = mp.getMedia().getDuration();
-	        slider.setMax(totalDuration.toSeconds());
-	        duration.setText("Duration: 00:00 / " + (int)mp.getMedia().getDuration().toMinutes()+":"+(int)mp.getMedia().getDuration().toSeconds());
-	    	mediaView.setPreserveRatio(true);
-	    	slider.setOnMousePressed(event -> mp.seek(Duration.seconds(slider.getValue()/100*mp.getMedia().getDuration().toSeconds())));
-	    	background.setOnMouseClicked(event -> {bigstack.getChildren().remove(background);mp.stop();});
-	    	mp.currentTimeProperty().addListener(((observableValue, oldValue, newValue) -> {
-	            slider.setValue(newValue.toSeconds()/mp.getMedia().getDuration().toSeconds()*100);
-	            duration.setText("Duration: " +(int)mp.getCurrentTime().toMinutes()+":"+(int)mp.getCurrentTime().toSeconds() + " / " + (int)mp.getMedia().getDuration().toMinutes()+":"+(int)mp.getMedia().getDuration().toSeconds());
-	        }));
+	private void playVideo(MediaPlayer mp) {
+		VBox background = new VBox();
+		background.setStyle("-fx-background-color: rgba(50, 50, 50, 0.7);");
+		MediaView mediaView = new MediaView(mp);
+		Button play = new Button("►");
+		play.setStyle("-fx-background-color: #0095fe;");
+		Label duration = new Label(Duration.ZERO.toString());
+		duration.setTextFill(Color.WHITE);
+		mediaView.setFitWidth(mp.getMedia().getWidth());
+		mediaView.setFitHeight(mp.getMedia().getHeight());
 
-	    	 HBox playbuttons=new HBox(play,slider,duration);
-	        play.setFont(Font.font(19));
-	        play.setTextFill(Color.WHITE);
-	        play.setMaxHeight(40);
-	    	playbuttons.setStyle("-fx-background-color: rgba(30, 33, 31,0.5)");
-	    	playbuttons.setMaxWidth(mp.getMedia().getWidth());
-	    	playbuttons.setAlignment(Pos.CENTER_LEFT);
-	    	playbuttons.setMaxHeight(40);
-	    	playbuttons.setMinHeight(40);
-	    	playbuttons.setTranslateY(-40);
-	    	playbuttons.setSpacing(5);
-	    	playbuttons.setPadding(new Insets(0,5,0,1) );
-			 FadeTransition fadeIn = new FadeTransition(Duration.millis(1000), playbuttons);
-		     fadeIn.setFromValue(0.0);
-		     fadeIn.setToValue(1.0);
+		Slider slider = new Slider();
+		Duration totalDuration = mp.getMedia().getDuration();
+		slider.setMax(totalDuration.toSeconds());
+		duration.setText("Duration: 00:00 / " + (int) mp.getMedia().getDuration().toMinutes() + ":"
+				+ (int) mp.getMedia().getDuration().toSeconds());
+		mediaView.setPreserveRatio(true);
+		slider.setOnMousePressed(
+				event -> mp.seek(Duration.seconds(slider.getValue() / 100 * mp.getMedia().getDuration().toSeconds())));
+		background.setOnMouseClicked(event -> {
+			bigstack.getChildren().remove(background);
+			mp.stop();
+		});
+		mp.currentTimeProperty().addListener(((observableValue, oldValue, newValue) -> {
+			slider.setValue(newValue.toSeconds() / mp.getMedia().getDuration().toSeconds() * 100);
+			duration.setText("Duration: " + (int) mp.getCurrentTime().toMinutes() + ":"
+					+ (int) mp.getCurrentTime().toSeconds() + " / " + (int) mp.getMedia().getDuration().toMinutes()
+					+ ":" + (int) mp.getMedia().getDuration().toSeconds());
+		}));
 
-		     FadeTransition fadeOut = new FadeTransition(Duration.millis(1000), playbuttons);
-	         fadeOut.setFromValue(1.0);
-	         fadeOut.setToValue(0.0);
-	         mediaView.setOnMouseEntered(event -> {
-	        	 fadeIn.play();
-	         });
-	         playbuttons.setOnMouseEntered(event -> {
-	        	 fadeIn.play();
-	         });
-	         playbuttons.setOnMouseExited(event -> fadeOut.play());
-	         mediaView.setOnMouseExited(event -> fadeOut.play());
-	    	HBox.setHgrow(slider, Priority.ALWAYS);
-	    	play.setOnAction(event ->{
-	    		if(!isPlayed){
-	                play.setText("⏸");
-	                mp.play();
-	                isPlayed = true;
-	            }else {
-	                play.setText("►");
-	                mp.pause();
-	                isPlayed = false;
-	            }
-	    	});
-	        background.getChildren().addAll(mediaView,playbuttons);
+		HBox playbuttons = new HBox(play, slider, duration);
+		play.setFont(Font.font(19));
+		play.setTextFill(Color.WHITE);
+		play.setMaxHeight(40);
+		playbuttons.setStyle("-fx-background-color: rgba(30, 33, 31,0.5)");
+		playbuttons.setMaxWidth(mp.getMedia().getWidth());
+		playbuttons.setAlignment(Pos.CENTER_LEFT);
+		playbuttons.setMaxHeight(40);
+		playbuttons.setMinHeight(40);
+		playbuttons.setTranslateY(-40);
+		playbuttons.setSpacing(5);
+		playbuttons.setPadding(new Insets(0, 5, 0, 1));
+		FadeTransition fadeIn = new FadeTransition(Duration.millis(1000), playbuttons);
+		fadeIn.setFromValue(0.0);
+		fadeIn.setToValue(1.0);
 
-	    	background.setAlignment(Pos.CENTER);
-	    	bigstack.getChildren().add(background);
-	    	System.out.println(mediaView.getFitWidth());
+		FadeTransition fadeOut = new FadeTransition(Duration.millis(1000), playbuttons);
+		fadeOut.setFromValue(1.0);
+		fadeOut.setToValue(0.0);
+		mediaView.setOnMouseEntered(event -> {
+			fadeIn.play();
+		});
+		playbuttons.setOnMouseEntered(event -> {
+			fadeIn.play();
+		});
+		playbuttons.setOnMouseExited(event -> fadeOut.play());
+		mediaView.setOnMouseExited(event -> fadeOut.play());
+		HBox.setHgrow(slider, Priority.ALWAYS);
+		play.setOnAction(event -> {
+			if (!isPlayed) {
+				play.setText("⏸");
+				mp.play();
+				isPlayed = true;
+			} else {
+				play.setText("►");
+				mp.pause();
+				isPlayed = false;
+			}
+		});
+		background.getChildren().addAll(mediaView, playbuttons);
+
+		background.setAlignment(Pos.CENTER);
+		bigstack.getChildren().add(background);
+		System.out.println(mediaView.getFitWidth());
+	}
+
+	public List<HBox> displayimages(Post post) {
+		List<Image> imgs = post.getPostMedias().stream().map(Elkhadema.khadema.domain.Media::getImage)
+				.filter(t -> t != null).collect(Collectors.toList());
+		List<HBox> imgsview = new ArrayList<HBox>();
+		List<ImageView> imgViews = new ArrayList<ImageView>();
+
+		ImageView tempimg = new ImageView();
+		int displayforthree = imgs.size() / 3;
+		for (int i = 0; i < displayforthree; i++) {
+			for (int j = i; j < i + 3; j++) {
+				tempimg = new ImageView(imgs.get(j));
+				tempimg.setFitWidth((CC.getWidth() - 52) / 3);
+
+				tempimg.setPreserveRatio(true);
+				imgViews.add(tempimg);
+				HBox.setHgrow(tempimg, javafx.scene.layout.Priority.ALWAYS);
+			}
+			imgsview.add(new HBox(imgViews.toArray(new ImageView[0])));
+
 		}
-	    public List<HBox> displayimages(Post post) {
-	        List<Image> imgs = post.getPostMedias().stream().map(Elkhadema.khadema.domain.Media::getImage)
-	                .filter(t -> t != null).collect(Collectors.toList());
-	        List<HBox> imgsview = new ArrayList<HBox>();
-	        List<ImageView> imgViews = new ArrayList<ImageView>();
+		imgViews.forEach(t -> {
+			CC.widthProperty().addListener((observable, oldValue, newValue) -> {
+				System.out.println(t.getFitWidth());
+				t.setFitWidth((CC.getWidth() - 52) / 3);
+			});
+		});
+		imgViews = new ArrayList<ImageView>();
+		for (int i = displayforthree * 3; i < imgs.size(); i++) {
+			tempimg = new ImageView(imgs.get(i));
+			tempimg.setFitWidth((CC.getWidth() - 50) / (imgs.size() - displayforthree * 3));
 
-	        ImageView tempimg= new ImageView();
-	        int displayforthree = imgs.size() / 3;
-	        for (int i = 0; i < displayforthree; i++) {
-	            for (int j = i; j < i + 3; j++) {
-	                tempimg = new ImageView(imgs.get(j));
-	                tempimg.setFitWidth((CC.getWidth()- 52) / 3 );
+			tempimg.setPreserveRatio(true);
+			imgViews.add(tempimg);
+		}
+		imgViews.stream().skip(displayforthree * 3).forEach(t -> {
+			CC.widthProperty().addListener((observable, oldValue, newValue) -> {
+				System.out.println(t.getFitWidth());
+				t.setFitWidth((CC.getWidth() - 50) / (imgs.size() - displayforthree * 3));
+			});
+		});
 
-	                tempimg.setPreserveRatio(true);
-	                imgViews.add(tempimg);
-	                HBox.setHgrow(tempimg, javafx.scene.layout.Priority.ALWAYS);
-	            }
-	            imgsview.add(new HBox(imgViews.toArray(new ImageView[0])));
-
-	        }
-	        imgViews.forEach(t -> {
-	        	CC.widthProperty().addListener((observable, oldValue, newValue) -> {
-	        		System.out.println(t.getFitWidth());
-	            	t.setFitWidth((CC.getWidth()- 52) / 3 );
-	            });
-	        });
-	        imgViews = new ArrayList<ImageView>();
-	        for (int i = displayforthree * 3; i < imgs.size(); i++) {
-	            tempimg = new ImageView(imgs.get(i));
-	        	tempimg.setFitWidth((CC.getWidth() - 50) / (imgs.size() - displayforthree * 3) );
-
-
-	            tempimg.setPreserveRatio(true);
-	            imgViews.add(tempimg);
-	        }
-	        imgViews.stream().skip( displayforthree * 3).forEach(t -> {
-	        	CC.widthProperty().addListener((observable, oldValue, newValue) -> {
-	        		System.out.println(t.getFitWidth());
-	            	t.setFitWidth((CC.getWidth() - 50) / (imgs.size() - displayforthree * 3) );
-	            });
-	        });
-
-	        imgsview.add(new HBox(imgViews.toArray(new ImageView[0])));
-	        return imgsview;
-	    }
+		imgsview.add(new HBox(imgViews.toArray(new ImageView[0])));
+		return imgsview;
+	}
 
 	public void commentToPost(Post post) throws IOException {
-		CommentsPageController.setCommentedpost(post);
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/comment.fxml"));
+		root = loader.load();
+		CommentsPageController commentsPageController = loader.getController();
+		commentsPageController.init(post);
+		stage = App.stage;
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
 		App.setRoot("comment");
 	}
 
@@ -442,27 +453,30 @@ public class CommentsPageController extends NavbarController  {
 			;
 		}
 	}
+
 	private VBox makeicon(ImageView profileimg) {
-    	profileimg.setFitHeight(200);
-    	profileimg.setPreserveRatio(true);
-        VBox imgholder=new VBox(profileimg);
-        Circle clip=new Circle(35);
-        clip.setCenterY(100);
-        clip.setCenterX((((profileimg.getImage().getWidth()*200/profileimg.getImage().getHeight()/2))));
-        profileimg.setTranslateY(-65);
-        profileimg.setTranslateX(-((profileimg.getImage().getWidth()*200/profileimg.getImage().getHeight()/2)-35));
-        profileimg.setClip(clip);
-        imgholder.setMaxHeight(70);
-        imgholder.setPrefHeight(70);
-        imgholder.setMinHeight(70);
-       imgholder.setMaxWidth(70);
-       imgholder.setMinWidth(70);
-        imgholder.setPrefWidth(70);
-    	return imgholder;
+		profileimg.setFitHeight(200);
+		profileimg.setPreserveRatio(true);
+		VBox imgholder = new VBox(profileimg);
+		Circle clip = new Circle(35);
+		clip.setCenterY(100);
+		clip.setCenterX((((profileimg.getImage().getWidth() * 200 / profileimg.getImage().getHeight() / 2))));
+		profileimg.setTranslateY(-65);
+		profileimg.setTranslateX(
+				-((profileimg.getImage().getWidth() * 200 / profileimg.getImage().getHeight() / 2) - 35));
+		profileimg.setClip(clip);
+		imgholder.setMaxHeight(70);
+		imgholder.setPrefHeight(70);
+		imgholder.setMinHeight(70);
+		imgholder.setMaxWidth(70);
+		imgholder.setMinWidth(70);
+		imgholder.setPrefWidth(70);
+		return imgholder;
 	}
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-		super.initialize(arg0, arg1);
+
+	public void init(Post post) {
+		super.initialize(null, null);
+		commentedpost=post;
 		System.out.println("test");
 		setupparentpost();
 		initContacts();
@@ -474,138 +488,139 @@ public class CommentsPageController extends NavbarController  {
 
 	private void setupparentpost() {
 		Image image = commentedpost.getUser().getPhoto().getImage();
-        ImageView profileimg;
-        if (image == null) {
-            profileimg = new ImageView(new Image("file:src//main//resources//images//user.png"));
-        } else {
-            profileimg = new ImageView(image);
-        }
-    	profileimg.setVisible(false);
-        VBox imgholder=makeicon(profileimg);
-        Text profilename = new Text(commentedpost.getUser().getUserName());
-        profilename.setFont(Font.font("SansSerif", 15));
-        profilename.setTranslateX(5);
-        profilename.setFill(Color.WHITE);
-        HBox profilebar = new HBox(imgholder, profilename);
-        profilebar.setSpacing(5);
-        profilebar.setAlignment(Pos.CENTER_LEFT);
-        Text postscontent = new Text(commentedpost.getContent());
-        postscontent.setDisable(true);
-        postscontent.setFill(Color.WHITE);
-        postscontent.setOpacity(1);
-        postscontent.setFont(Font.font(13));
-        postscontent.getStyleClass().add("postTxtField");
-        postscontent.setStyle("-fx-border-width: 0;");
-        List<HBox> displayedimges = displayimages(commentedpost);
+		ImageView profileimg;
+		if (image == null) {
+			profileimg = new ImageView(new Image("file:src//main//resources//images//user.png"));
+		} else {
+			profileimg = new ImageView(image);
+		}
+		profileimg.setVisible(false);
+		VBox imgholder = makeicon(profileimg);
+		Text profilename = new Text(commentedpost.getUser().getUserName());
+		profilename.setFont(Font.font("SansSerif", 15));
+		profilename.setTranslateX(5);
+		profilename.setFill(Color.WHITE);
+		HBox profilebar = new HBox(imgholder, profilename);
+		profilebar.setSpacing(5);
+		profilebar.setAlignment(Pos.CENTER_LEFT);
+		Text postscontent = new Text(commentedpost.getContent());
+		postscontent.setDisable(true);
+		postscontent.setFill(Color.WHITE);
+		postscontent.setOpacity(1);
+		postscontent.setFont(Font.font(13));
+		postscontent.getStyleClass().add("postTxtField");
+		postscontent.setStyle("-fx-border-width: 0;");
+		List<HBox> displayedimges = displayimages(commentedpost);
 
-        displayedimges.forEach(t -> {
-            t.setSpacing(5);
-            t.setAlignment(Pos.TOP_CENTER);
-            t.setVisible(false);
-        });
-        VBox iMGHOLDER = new VBox(displayedimges.toArray(new HBox[0]));
-        iMGHOLDER.getStyleClass().add("postTxtField");
-        iMGHOLDER.setAlignment(Pos.CENTER);
-        iMGHOLDER.setSpacing(5);
+		displayedimges.forEach(t -> {
+			t.setSpacing(5);
+			t.setAlignment(Pos.TOP_CENTER);
+			t.setVisible(false);
+		});
+		VBox iMGHOLDER = new VBox(displayedimges.toArray(new HBox[0]));
+		iMGHOLDER.getStyleClass().add("postTxtField");
+		iMGHOLDER.setAlignment(Pos.CENTER);
+		iMGHOLDER.setSpacing(5);
 
-        Optional<MediaPlayer> mediaPlayer = commentedpost.getPostMedias().stream().filter(t -> t.getMediatype().equals("vid"))
-                .map(Elkhadema.khadema.domain.Media::getVideo).findFirst();
-        MediaPlayer mp[] = { null };
-        StackPane videopane = new StackPane();
-        if (mediaPlayer.isPresent()) {
-            mp[0] = mediaPlayer.get();
-            ImageView playbutton = new ImageView(new Image("file:src//main//resources//images//playbutton.png"));
-            playbutton.setFitWidth(50);
-            playbutton.setPreserveRatio(true);
-            playbutton.setOnMouseClicked(event -> {
-                playVideo(mp[0]);
-            });
-            videopane.getChildren().add(playbutton);
-        }
+		Optional<MediaPlayer> mediaPlayer = commentedpost.getPostMedias().stream()
+				.filter(t -> t.getMediatype().equals("vid"))
+				.map(Elkhadema.khadema.domain.Media::getVideo).findFirst();
+		MediaPlayer mp[] = { null };
+		StackPane videopane = new StackPane();
+		if (mediaPlayer.isPresent()) {
+			mp[0] = mediaPlayer.get();
+			ImageView playbutton = new ImageView(new Image("file:src//main//resources//images//playbutton.png"));
+			playbutton.setFitWidth(50);
+			playbutton.setPreserveRatio(true);
+			playbutton.setOnMouseClicked(event -> {
+				playVideo(mp[0]);
+			});
+			videopane.getChildren().add(playbutton);
+		}
 
-        MediaView mediaView = new MediaView(mp[0]);
-        mediaView.setVisible(false);
-        videopane.getChildren().add(0, mediaView);
+		MediaView mediaView = new MediaView(mp[0]);
+		mediaView.setVisible(false);
+		videopane.getChildren().add(0, mediaView);
 
-        Text likenumber = new Text("" + ps.getPostReactions(commentedpost).size());
-        likenumber.setFont(Font.font(16));
-        likenumber.setFill(Color.WHITE);
-        Button likebutton = new Button("like ♥");
-        AtomicBoolean isliked = new AtomicBoolean(false);
-        likebutton.setOnAction(event -> {
-            likeapost(commentedpost, isliked, likenumber);
-        });
-        likebutton.getStyleClass().add("likebutton");
-        likebutton.setFont(Font.font(19));
-        likebutton.setTextFill(Color.WHITE);
-        Text commentnumber = new Text("" + ps.getPostComments(commentedpost).size());
-        commentnumber.setFont(Font.font(16));
-        commentnumber.setFill(Color.WHITE);
-        Button commentbutton = new Button("comments ☁");
-        commentbutton.getStyleClass().add("likebutton");
-        commentbutton.setFont(Font.font(19));
-        commentbutton.setTextFill(Color.WHITE);
-        commentbutton.setOnAction(event -> {
-            try {
-                commentToPost(commentedpost);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-        HBox likeandcommentBox = new HBox(likenumber, likebutton, commentnumber, commentbutton);
-        likeandcommentBox.setAlignment(Pos.CENTER_LEFT);
-        likeandcommentBox.setStyle("-fx-padding: 0 0 0 10px;");
-        HBox.setMargin(likebutton, new Insets(0, 11, 0, 11));
-        HBox.setMargin(profileimg, new Insets(0, 5, 0, 8));
-        HBox.setMargin(commentnumber, new Insets(0, 5, 0, 5));
-        HBox.setMargin(commentbutton, new Insets(0, 5, 0, 5));
-        likeandcommentBox.setTranslateX(5);
-        VBox posts = new VBox(profilebar, postscontent, iMGHOLDER, videopane, likeandcommentBox);
-        VBox lastlayerBox = new VBox(posts);
-        lastlayerBox.setFillWidth(true);
-        VBox.setMargin(postscontent, new Insets(5, 0, 5, 10));
-        VBox.setMargin(posts, new Insets(2.5f, 0, 2.5f, 0));
-        posts.getStyleClass().add("posts");
-
-        postscontent.setWrappingWidth(comment_holder.getWidth());
-        posts.setMinWidth(CC.getWidth() - 50);
-        mediaView.setFitWidth(CC.getWidth() - 52);
-        mediaView.setPreserveRatio(true);
-        CC.widthProperty().addListener((observable, oldValue, newValue) -> {
-            posts.setMinWidth(CC.getWidth() - 50);
-            mediaView.setFitWidth(CC.getWidth() - 52);
-            postscontent.setWrappingWidth(CC.getWidth());
-
-        });
-        Platform.runLater(() -> {
-        	if(posts.localToScreen(0,0).getY()<(posts.getScene().getHeight()*1.2)) {
-                profileimg.setVisible(true);
-                displayedimges.forEach(t -> {
-                    t.setVisible(true);
-                });
-                mediaView.setVisible(true);
-
-        	}
-        });
-        CC.vvalueProperty().addListener((observable, oldValue, newValue) -> {
-        	if(Math.abs(posts.localToScreen(0,0).getY())<(posts.getScene().getHeight()*1.2)) {
-                profileimg.setVisible(true);
-                displayedimges.forEach(t -> {
-                    t.setVisible(true);
-                });
-                mediaView.setVisible(true);
-
-        	}
-        	else {
-        		profileimg.setVisible(false);
-                displayedimges.forEach(t -> {
-                    t.setVisible(false);
-                });
-                mediaView.setVisible(false);
+		Text likenumber = new Text("" + ps.getPostReactions(commentedpost).size());
+		likenumber.setFont(Font.font(16));
+		likenumber.setFill(Color.WHITE);
+		Button likebutton = new Button("like ♥");
+		AtomicBoolean isliked = new AtomicBoolean(false);
+		likebutton.setOnAction(event -> {
+			likeapost(commentedpost, isliked, likenumber);
+		});
+		likebutton.getStyleClass().add("likebutton");
+		likebutton.setFont(Font.font(19));
+		likebutton.setTextFill(Color.WHITE);
+		Text commentnumber = new Text("" + ps.getPostComments(commentedpost).size());
+		commentnumber.setFont(Font.font(16));
+		commentnumber.setFill(Color.WHITE);
+		Button commentbutton = new Button("comments ☁");
+		commentbutton.getStyleClass().add("likebutton");
+		commentbutton.setFont(Font.font(19));
+		commentbutton.setTextFill(Color.WHITE);
+		commentbutton.setOnAction(event -> {
+			try {
+				commentToPost(commentedpost);
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-        });
-        commentedPostcontainer.getChildren().clear();
-        commentedPostcontainer.getChildren().add(posts);
+		});
+		HBox likeandcommentBox = new HBox(likenumber, likebutton, commentnumber, commentbutton);
+		likeandcommentBox.setAlignment(Pos.CENTER_LEFT);
+		likeandcommentBox.setStyle("-fx-padding: 0 0 0 10px;");
+		HBox.setMargin(likebutton, new Insets(0, 11, 0, 11));
+		HBox.setMargin(profileimg, new Insets(0, 5, 0, 8));
+		HBox.setMargin(commentnumber, new Insets(0, 5, 0, 5));
+		HBox.setMargin(commentbutton, new Insets(0, 5, 0, 5));
+		likeandcommentBox.setTranslateX(5);
+		VBox posts = new VBox(profilebar, postscontent, iMGHOLDER, videopane, likeandcommentBox);
+		VBox lastlayerBox = new VBox(posts);
+		lastlayerBox.setFillWidth(true);
+		VBox.setMargin(postscontent, new Insets(5, 0, 5, 10));
+		VBox.setMargin(posts, new Insets(2.5f, 0, 2.5f, 0));
+		posts.getStyleClass().add("posts");
+
+		postscontent.setWrappingWidth(comment_holder.getWidth());
+		posts.setMinWidth(CC.getWidth() - 50);
+		mediaView.setFitWidth(CC.getWidth() - 52);
+		mediaView.setPreserveRatio(true);
+		CC.widthProperty().addListener((observable, oldValue, newValue) -> {
+			posts.setMinWidth(CC.getWidth() - 50);
+			mediaView.setFitWidth(CC.getWidth() - 52);
+			postscontent.setWrappingWidth(CC.getWidth());
+
+		});
+		Platform.runLater(() -> {
+
+			if (posts.localToScreen(0, 0).getY() < (posts.getScene().getHeight() * 1.2)) {
+				profileimg.setVisible(true);
+				displayedimges.forEach(t -> {
+					t.setVisible(true);
+				});
+				mediaView.setVisible(true);
+
+			}
+		});
+		CC.vvalueProperty().addListener((observable, oldValue, newValue) -> {
+			if (Math.abs(posts.localToScreen(0, 0).getY()) < (posts.getScene().getHeight() * 1.2)) {
+				profileimg.setVisible(true);
+				displayedimges.forEach(t -> {
+					t.setVisible(true);
+				});
+				mediaView.setVisible(true);
+
+			} else {
+				profileimg.setVisible(false);
+				displayedimges.forEach(t -> {
+					t.setVisible(false);
+				});
+				mediaView.setVisible(false);
+			}
+		});
+		commentedPostcontainer.getChildren().clear();
+		commentedPostcontainer.getChildren().add(posts);
 
 	}
 
@@ -651,12 +666,12 @@ public class CommentsPageController extends NavbarController  {
 		stage.show();
 	}
 
-	public static Post getCommentedpost() {
+	public  Post getCommentedpost() {
 		return commentedpost;
 	}
 
-	public static void setCommentedpost(Post commentedpost) {
-		CommentsPageController.commentedpost = commentedpost;
+	public void setCommentedpost(Post commentedpost) {
+		this.commentedpost = commentedpost;
 	}
 
 }

@@ -29,6 +29,7 @@ public class NavbarController {
 	Stage stage;
 	Scene scene;
 	Parent root;
+	
 	@FXML
     void postMsg(MouseEvent event) {
 
@@ -47,7 +48,7 @@ public class NavbarController {
 	}
 	@FXML
 	public void goResume() throws IOException {
-		Stage stage=(Stage)App.scene.getWindow();
+		Stage stage=App.stage;
 		User user = Session.getUser();
 		System.out.println();
 		if (companyService.isCompany(user)) {
@@ -90,7 +91,15 @@ public class NavbarController {
 
 	@FXML
 	public void goHome() throws IOException {
-		App.setRoot("mainpage");
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/mainpage.fxml"));
+		root = loader.load();
+		MainPageController mainPageController = loader.getController();
+		mainPageController.initialize(null, null);
+		stage = App.stage;
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
+
 	}
 
 	public void logout() {

@@ -7,11 +7,9 @@ import java.util.ResourceBundle;
 
 import Elkhadema.khadema.App;
 import Elkhadema.khadema.Service.ServiceImplemantation.UserServiceImp;
-import Elkhadema.khadema.Service.ServiceInterfaces.UserService;
 import Elkhadema.khadema.Service.validateInfo.EmailValidator;
 import Elkhadema.khadema.Service.validateInfo.PasswordValidator;
 import Elkhadema.khadema.Service.validateInfo.PhoneNumberValidate;
-import Elkhadema.khadema.Service.validateInfo.UsernameValidator;
 import Elkhadema.khadema.domain.ContactInfo;
 import Elkhadema.khadema.domain.Person;
 import javafx.collections.FXCollections;
@@ -24,9 +22,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.effect.BlurType;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 public class SignUpUserController implements Initializable {
@@ -145,7 +140,7 @@ public class SignUpUserController implements Initializable {
         user.setJob(job.getText());
         user.setAbout(prof);
         contactInfo.setPhoneNumber(Integer.parseInt(phoneNumber));
-        this.userService.SignUpPerson(user); 
+        this.userService.SignUpPerson(user);
         App.setRoot("login");
     }
     @Override

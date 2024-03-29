@@ -40,8 +40,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
-import javafx.scene.effect.BlurType;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -91,7 +89,7 @@ public class CommentsPageController extends NavbarController implements Initiali
 	@FXML
 	private VBox comment_holder;
 
-	
+
 
 	@FXML
 	void likePost(MouseEvent event) {
@@ -117,9 +115,9 @@ public class CommentsPageController extends NavbarController implements Initiali
 	    public void resetComment() {
 			comment_holder.getChildren().clear();
 			 ps.getPostComments(commentedpost).forEach(t -> showpost(t));
-			
+
 	    }
- 
+
 	@FXML
 	void AddMediabutton(ActionEvent event) {
 		Media m = MediaChooser.Choose(event);
@@ -170,7 +168,7 @@ public class CommentsPageController extends NavbarController implements Initiali
 		}
 	}
 
-	
+
 
 	public VBox showpost(Post post) {
 		Image image = post.getUser().getPhoto().getImage();
@@ -197,7 +195,7 @@ public class CommentsPageController extends NavbarController implements Initiali
         postscontent.getStyleClass().add("postTxtField");
         postscontent.setStyle("-fx-border-width: 0;");
         List<HBox> displayedimges = displayimages(post);
-        
+
         displayedimges.forEach(t -> {
             t.setSpacing(5);
             t.setAlignment(Pos.TOP_CENTER);
@@ -275,7 +273,7 @@ public class CommentsPageController extends NavbarController implements Initiali
             posts.setMinWidth(CC.getWidth() - 50);
             mediaView.setFitWidth(CC.getWidth() - 52);
             postscontent.setWrappingWidth(CC.getWidth());
-            
+
         });
         Platform.runLater(() -> {
         	if(posts.localToScreen(0,0).getY()<(posts.getScene().getHeight()*1.2)) {
@@ -309,7 +307,7 @@ public class CommentsPageController extends NavbarController implements Initiali
 
 	}
 	 private boolean isPlayed = false;
-	    
+
 	 private void playVideo(MediaPlayer mp) {
 	    	VBox background=new VBox();
 	    	background.setStyle("-fx-background-color: rgba(50, 50, 50, 0.7);");
@@ -320,7 +318,7 @@ public class CommentsPageController extends NavbarController implements Initiali
 	    	duration.setTextFill(Color.WHITE);
 	    	mediaView.setFitWidth(mp.getMedia().getWidth());
 	    	mediaView.setFitHeight(mp.getMedia().getHeight());
-	    	
+
 	    	Slider slider= new Slider();
 	    	Duration totalDuration = mp.getMedia().getDuration();
 	        slider.setMax(totalDuration.toSeconds());
@@ -348,7 +346,7 @@ public class CommentsPageController extends NavbarController implements Initiali
 			 FadeTransition fadeIn = new FadeTransition(Duration.millis(1000), playbuttons);
 		     fadeIn.setFromValue(0.0);
 		     fadeIn.setToValue(1.0);
-		     
+
 		     FadeTransition fadeOut = new FadeTransition(Duration.millis(1000), playbuttons);
 	         fadeOut.setFromValue(1.0);
 	         fadeOut.setToValue(0.0);
@@ -373,7 +371,7 @@ public class CommentsPageController extends NavbarController implements Initiali
 	            }
 	    	});
 	        background.getChildren().addAll(mediaView,playbuttons);
-	        
+
 	    	background.setAlignment(Pos.CENTER);
 	    	bigstack.getChildren().add(background);
 	    	System.out.println(mediaView.getFitWidth());
@@ -390,13 +388,13 @@ public class CommentsPageController extends NavbarController implements Initiali
 	            for (int j = i; j < i + 3; j++) {
 	                tempimg = new ImageView(imgs.get(j));
 	                tempimg.setFitWidth((CC.getWidth()- 52) / 3 );
-	                
+
 	                tempimg.setPreserveRatio(true);
 	                imgViews.add(tempimg);
 	                HBox.setHgrow(tempimg, javafx.scene.layout.Priority.ALWAYS);
 	            }
 	            imgsview.add(new HBox(imgViews.toArray(new ImageView[0])));
-	            
+
 	        }
 	        imgViews.forEach(t -> {
 	        	CC.widthProperty().addListener((observable, oldValue, newValue) -> {
@@ -409,7 +407,7 @@ public class CommentsPageController extends NavbarController implements Initiali
 	            tempimg = new ImageView(imgs.get(i));
 	        	tempimg.setFitWidth((CC.getWidth() - 50) / (imgs.size() - displayforthree * 3) );
 
-	            
+
 	            tempimg.setPreserveRatio(true);
 	            imgViews.add(tempimg);
 	        }
@@ -499,7 +497,7 @@ public class CommentsPageController extends NavbarController implements Initiali
         postscontent.getStyleClass().add("postTxtField");
         postscontent.setStyle("-fx-border-width: 0;");
         List<HBox> displayedimges = displayimages(commentedpost);
-        
+
         displayedimges.forEach(t -> {
             t.setSpacing(5);
             t.setAlignment(Pos.TOP_CENTER);
@@ -577,7 +575,7 @@ public class CommentsPageController extends NavbarController implements Initiali
             posts.setMinWidth(CC.getWidth() - 50);
             mediaView.setFitWidth(CC.getWidth() - 52);
             postscontent.setWrappingWidth(CC.getWidth());
-            
+
         });
         Platform.runLater(() -> {
         	if(posts.localToScreen(0,0).getY()<(posts.getScene().getHeight()*1.2)) {

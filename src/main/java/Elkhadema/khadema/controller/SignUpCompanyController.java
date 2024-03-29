@@ -9,9 +9,9 @@ import java.util.ResourceBundle;
 
 import Elkhadema.khadema.App;
 import Elkhadema.khadema.Service.ServiceImplemantation.UserServiceImp;
-import Elkhadema.khadema.Service.ServiceInterfaces.UserService;
 import Elkhadema.khadema.Service.validateInfo.EmailValidator;
 import Elkhadema.khadema.Service.validateInfo.PasswordValidator;
+import Elkhadema.khadema.Service.validateInfo.UrlValidator;
 import Elkhadema.khadema.domain.Company;
 import Elkhadema.khadema.domain.ContactInfo;
 import javafx.collections.FXCollections;
@@ -120,8 +120,14 @@ public class SignUpCompanyController implements Initializable {
         company.setCreationDate(Date.from(creationDate.atStartOfDay(defaultZoneId).toInstant()));
         if(industry.getValue()==null){
           invalid.setText("choose an industry");
-            return;}
-        company.setIndustry(industry.getValue());
+          return;}
+          company.setIndustry(industry.getValue());
+          if (!UrlValidator.validateURL(textSite.getText())) {
+            invalid.setText("website invalid");
+            return;
+
+        }
+        company.setWebsite(description);
         company.setContactInfo(contactInfo);
         userService.SignUpCompany(company);
         App.setRoot("login");

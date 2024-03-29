@@ -25,7 +25,6 @@ import Elkhadema.khadema.domain.User;
 import Elkhadema.khadema.util.Session;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -36,7 +35,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -60,7 +58,7 @@ public class SearchPage extends NavbarController implements Initializable{
 	PostServiceImp ps=new PostServiceImp();
 	FollowServiceImp fs=new FollowServiceImp();
 	UserServiceImp us=new UserServiceImp();
-	
+
     @FXML
     private ButtonBar listContact;
     @FXML
@@ -98,7 +96,7 @@ public class SearchPage extends NavbarController implements Initializable{
     private VBox youricon;
     @FXML
     private Text age;
-    
+
     static String searchString;
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -114,7 +112,7 @@ public class SearchPage extends NavbarController implements Initializable{
 			showUser(t);
 		});;
 		ss.searchByPosts(searchString).forEach(t -> showpost(t));
-		
+
 	}
 	private void miniprofilesetup() {
     	Person person=personDAO.get(Session.getUser().getId()).get();
@@ -160,7 +158,7 @@ public class SearchPage extends NavbarController implements Initializable{
             profileimg = new ImageView(image);
         }
         profileimg.setVisible(true);
-        
+
 		VBox imgholder = makeicon(profileimg);
 		imgholder.setOnMouseClicked( event -> {
 	                try {
@@ -175,7 +173,7 @@ public class SearchPage extends NavbarController implements Initializable{
 		btnBox.getChildren().add(Followbtn);
 		if (fs.isFollowing(Session.getUser(),user )) {
 			Followbtn.setText("-");
-		} 
+		}
 		headBox.getChildren().addAll(imgholder,username,btnBox);
 		Followbtn.setOnAction(event -> followuser(user,Followbtn));
 		bigVBox.getChildren().addAll(headBox,about);
@@ -204,7 +202,7 @@ public class SearchPage extends NavbarController implements Initializable{
 	                } catch (IOException e) {
 	                    e.printStackTrace();
 	                }});
-		
+
 		abouttext.setStyle("-fx-font-family: \"SansSerif bold\";"
 				+ "-fx-font-size: 15px;");
 		abouttext.setFill(Color.WHITE);
@@ -272,7 +270,7 @@ public class SearchPage extends NavbarController implements Initializable{
 			fs.Follow(user, Session.getUser());
 			btn.setText("-");
 		}
-		
+
 	}
 	public VBox showpost(Post post) {
         Image image = post.getUser().getPhoto().getImage();
@@ -589,7 +587,7 @@ public class SearchPage extends NavbarController implements Initializable{
 	        imgholder.setPrefWidth(46);
 	        return imgholder;
 	    }
-	 
+
 	 private void initContacts() {
 	        List<User> follwing = fs.getfollowing(Session.getUser());
 	        List<VBox> hBoxs = new ArrayList<>();

@@ -1,6 +1,7 @@
 package Elkhadema.khadema.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import Elkhadema.khadema.DAO.DAOImplemantation.CompanyDAO;
@@ -28,11 +29,14 @@ import Elkhadema.khadema.util.Exception.UserNotFoundException;
 import javafx.event.ActionEvent;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -67,6 +71,8 @@ public class CompanyController extends NavbarController {
     Button editBioBtn;
     @FXML
     Button editAboutBtn;
+    @FXML
+    VBox vContacts;
 
     @FXML
     private TextArea aboutField;
@@ -101,7 +107,7 @@ public class CompanyController extends NavbarController {
         nameText.setText(company.getUserName());
         profileImg.setImage(company.getPhoto().getImage());
         profileImg.getStyleClass().add("round-image");
-
+        initContacts();
         afficheBio(company);
         initOverview();
         initMoto();
@@ -247,7 +253,7 @@ public class CompanyController extends NavbarController {
     }
 
     private void afficheBio(Company company) {
-        if (company.getMoto().strip().isEmpty()) {
+        if (company.getMoto() == null || company.getMoto().strip().isEmpty()) {
             motoField.setVisible(false);
         } else
             motoField.setText(company.getMoto());
@@ -290,5 +296,35 @@ public class CompanyController extends NavbarController {
         confirmOverviewEdit.setVisible(true);
         cancelOverviewEdit.setDisable(false);
         cancelOverviewEdit.setVisible(true);
+    }
+
+    private void initContacts() {
+        List<User> follwing = followService.getfollowing(Session.getUser());
+        List<VBox> hBoxs = new ArrayList<>();
+
+        for (User user : follwing) {
+            User tmp = userService.getUserById(user);
+            Text text = new Text(tmp.getUserName());
+            text.setStyle("-fx-fill:white;-fx-font-size:15px;");
+            ImageView imageView = new ImageView(new Image("file:src//main//resources//images//user.png"));
+            imageView.setFitHeight(46);
+            imageView.setFitWidth(46);
+            imageView.setTranslateX(5);
+            text.setTranslateX(10);
+            HBox hBox = new HBox(imageView, text);
+            hBox.setPadding(new Insets(5, 0, 5, 0));
+            hBox.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+                try {
+                    openprofile(event, tmp);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+            hBox.setAlignment(Pos.CENTER_LEFT);
+            VBox vBox = new VBox(hBox);
+            vBox.getStyleClass().add("posts");
+            hBoxs.add(vBox);
+        }
+        vContacts.getChildren().addAll(hBoxs);
     }
 }

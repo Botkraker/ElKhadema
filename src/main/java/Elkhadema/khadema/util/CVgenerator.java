@@ -1,8 +1,12 @@
 package Elkhadema.khadema.util;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.List;
+
+import org.xhtmlrenderer.pdf.ITextRenderer;
 
 import com.itextpdf.io.font.FontConstants;
 import com.itextpdf.io.image.ImageData;
@@ -58,9 +62,9 @@ public class CVgenerator {
         image.setWidth(100);
         image.setHeight(100);
         image.setBorder(new SolidBorder(1));
-        canvas.roundRectangle(100, PageSize.A4.getHeight()-110, 100, 100, 50);
+        canvas.roundRectangle(100, PageSize.A4.getHeight() - 110, 100, 100, 50);
         canvas.clip();
-        canvas.addImage(imageData, 100, (float)(PageSize.A4.getHeight()*0.85) ,100, false);
+        canvas.addImage(imageData, 100, (float) (PageSize.A4.getHeight() * 0.85), 100, false);
         canvas.release();
         document.add(header);
 
@@ -107,6 +111,25 @@ public class CVgenerator {
         float g = (float) (color1.getColorValue()[1] * (1 - ratio) + color2.getColorValue()[1] * ratio);
         float b = (float) (color1.getColorValue()[2] * (1 - ratio) + color2.getColorValue()[2] * ratio);
         return new DeviceRgb(r, g, b);
+    }
+
+    public static void GenerateCvFromHTML(Person person, String path, List<Competance> comp,
+            List<Experience> experience) {
+        try {
+            // Create a renderer and set the input source to the HTML string
+            ITextRenderer renderer = new ITextRenderer();
+            renderer.setDocumentFromString(HTMLGenerator.firstModelCV(person, path, comp, experience));
+
+            // Render the PDF
+            renderer.layout();
+            try (OutputStream os = new FileOutputStream(path)) {
+                renderer.createPDF(os);
+            }
+
+            System.out.println("PDF created successfully.");
+        } catch (Exception e) {
+            System.err.println("Error creating PDF: " + e.getMessage());
+        }
     }
 
     public static void main(String[] args) throws IOException {

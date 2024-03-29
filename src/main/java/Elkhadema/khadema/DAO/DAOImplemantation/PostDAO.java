@@ -6,9 +6,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -25,7 +22,6 @@ import Elkhadema.khadema.domain.Media;
 import Elkhadema.khadema.domain.Post;
 import Elkhadema.khadema.domain.User;
 import Elkhadema.khadema.util.ConexDB;
-// TODO pls add a way to get posts by parent post to replace comments
 public class PostDAO {
 	private static Connection connection = ConexDB.getInstance();
 
@@ -58,7 +54,7 @@ public class PostDAO {
 		try {
 			rs = connection.createStatement().executeQuery(sql);
 			while (rs.next()) {
-				media.add(new Media(post, rs.getBytes("image"),"img"));
+				media.add(new Media(post,(rs.getBytes("image")),"img"));
 			}
 
 		} catch (Exception e) {
@@ -89,8 +85,7 @@ public class PostDAO {
 			while (rs.next()) {
 				temPost=new Post(
 						new User(rs.getInt("user_id"), null, null, rs.getString("username"), rs.getDate("creationdate"),
-								rs.getDate("last_login"),new Media(null, rs.getBytes(
-										"photo"),"img"), rs.getBoolean("banned"),
+								rs.getDate("last_login"),new Media(null,(rs.getBytes("photo")),"img"), rs.getBoolean("banned"),
 								rs.getBoolean("is_active")),
 						rs.getString("content"), null, rs.getInt("post_parent"), rs.getString("type"), rs.getTimestamp("posts.creationdate"),
 						rs.getLong("post_id"));

@@ -16,7 +16,6 @@ import Elkhadema.khadema.domain.Post;
 import Elkhadema.khadema.domain.Reaction;
 import Elkhadema.khadema.domain.User;
 import Elkhadema.khadema.util.Session;
-import javafx.geometry.Pos;
 
 public class PostServiceImp implements PostService {
     PostDAO postDAO = new PostDAO();
@@ -27,6 +26,7 @@ public class PostServiceImp implements PostService {
     public List<Post> getPostsByUser(User user) {
         return postDAO.getPostsById(user.getId());
     }
+    @Override
     public Post getPostById(Post post) {
 		return postDAO.get(post.getId()).get();
 	}

@@ -33,7 +33,6 @@ public class FollowDAO  {
 
 	public void save(Follow t) {
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		try {
 			pstmt = connection.prepareStatement(
 					"INSERT INTO `khademadb`.`followers` (`follower_id`, `followed_id`) VALUES (?, ?);",
@@ -49,7 +48,7 @@ public class FollowDAO  {
 
 	public void delete(Follow t) {
 		try {
-			connection.createStatement().execute("DELETE FROM `followers` WHERE  `followers`.`follower_id` =" + t.getFollower().getId()+" and `followers`.`followed_id`"+t.getFollowing().getId());
+			connection.createStatement().execute("DELETE FROM `followers` WHERE  `followers`.`follower_id` =" + t.getFollower().getId()+" and `followers`.`followed_id`="+t.getFollowing().getId());
 
 		} catch (Exception e) {
 			System.out.println(e);

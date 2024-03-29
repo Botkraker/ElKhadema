@@ -62,9 +62,7 @@ public class CommentDAO implements Dao<Comment> {
 	@Override
 	public void save(Comment t) {
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		try {
-			int cfid = 0;
 			pstmt = connection.prepareStatement(
 					"INSERT INTO `khademadb`.`comments` (`comment_id`, `post_id`, `user_id`, `content`, `typecontent`) VALUES (NULL, ?,?,?);",
 					Statement.RETURN_GENERATED_KEYS);

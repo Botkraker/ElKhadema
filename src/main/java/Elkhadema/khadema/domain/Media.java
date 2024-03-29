@@ -4,10 +4,8 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 
@@ -55,8 +53,7 @@ public class Media {
 	        try {
 	            return new Image(new ByteArrayInputStream(media));
 	        } catch (Exception e) {
-	            e.printStackTrace();
-	            return null;
+	            return new Image("file:src//main//resources//images//user.png");
 	        }
 		}
 		else {

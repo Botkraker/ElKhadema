@@ -1,6 +1,7 @@
 package Elkhadema.khadema.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import Elkhadema.khadema.App;
@@ -24,6 +25,8 @@ import javafx.event.ActionEvent;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Separator;
@@ -31,6 +34,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -67,6 +71,8 @@ public class ResumeController extends NavbarController {
     @FXML
     VBox competanceVBox;
     @FXML
+    VBox vContacts;
+    @FXML
     Button changeImgbtn;
     @FXML
     Button addExperiancebtn;
@@ -81,14 +87,14 @@ public class ResumeController extends NavbarController {
     @FXML
     Button generateCVbutton;
     @FXML void confirmEdit() {
-    	
+
     }
     @FXML
     void cancelEdit() {
-		
+
 	}
-         
-    
+
+
     @FXML
     public void postMsg() {
         //ignore
@@ -128,7 +134,7 @@ public class ResumeController extends NavbarController {
                 e.printStackTrace();
             }
         });
-
+        initContacts();
         afficheBio(person);
         afficheabout(person);
         List<Experience> experiences = experienceDAO.getAll(user);
@@ -181,7 +187,7 @@ public class ResumeController extends NavbarController {
             }
         });
     }
-    
+
     private Button getChatButton() {
         Button chatButton = new Button("chat");
         chatButton.getStyleClass().add("postButton");
@@ -252,7 +258,7 @@ public class ResumeController extends NavbarController {
         if (currentUser.getId() == session.getId()) {
             addEditButtonExperience(titleBox, experience);
         }
-        
+
         vBox.getChildren().add(innerVBox);
     }
 
@@ -357,9 +363,10 @@ public class ResumeController extends NavbarController {
             return;
         }
         experience = editExperienceController.getExperience();
+        Separator separator = new Separator();
         afficheExperience(experience, vBox);
         experienceDAO.save(experience, currentUser);
-        experienceVBox.getChildren().add(vBox);
+        experienceVBox.getChildren().addAll(separator,vBox);
     }
 
     @FXML
@@ -381,8 +388,9 @@ public class ResumeController extends NavbarController {
         }
         competance = editCompetanceController.getCompetance();
         afficheCompetance(competance, vBox);
+        Separator separator = new Separator();
         competanceDAO.save(competance, currentUser);
-        competanceVBox.getChildren().add(vBox);
+        competanceVBox.getChildren().addAll(separator,vBox);
     }
 
     @FXML
@@ -426,5 +434,34 @@ public class ResumeController extends NavbarController {
     private void editAbout() {
         aboutTextArea.setDisable(false);
 
+    }
+        private void initContacts() {
+        List<User> follwing = followService.getfollowing(Session.getUser());
+        List<VBox> hBoxs = new ArrayList<>();
+
+        for (User user : follwing) {
+            User tmp = userService.getUserById(user);
+            Text text = new Text(tmp.getUserName());
+            text.setStyle("-fx-fill:white;-fx-font-size:15px;");
+            ImageView imageView = new ImageView(new Image("file:src//main//resources//images//user.png"));
+            imageView.setFitHeight(46);
+            imageView.setFitWidth(46);
+            imageView.setTranslateX(5);
+            text.setTranslateX(10);
+            HBox hBox = new HBox(imageView, text);
+            hBox.setPadding(new Insets(5, 0, 5, 0));
+            hBox.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+                try {
+                    openprofile(event, tmp);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+            hBox.setAlignment(Pos.CENTER_LEFT);
+            VBox vBox = new VBox(hBox);
+            vBox.getStyleClass().add("posts");
+            hBoxs.add(vBox);
+        }
+        vContacts.getChildren().addAll(hBoxs);
     }
 }

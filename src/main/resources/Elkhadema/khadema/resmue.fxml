@@ -288,146 +288,17 @@
                                           <Insets left="7.0" top="6.0" />
                                        </VBox.margin>
                                     </Text>
-                                    <VBox prefHeight="50.0" prefWidth="593.0" styleClass="posts">
+                                    <VBox fx:id="vContacts" prefHeight="50.0" prefWidth="593.0" styleClass="posts">
                                        <children>
                                           <ButtonBar styleClass="friendlist">
-                                             <buttons>
-                                                <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="593.0">
-                                                   <children>
-                                                      <ImageView fitHeight="46.0" fitWidth="46.0">
-                                                         <image>
-                                                            <Image url="@user.jpg.png" />
-                                                         </image>
-                                                         <HBox.margin>
-                                                            <Insets left="5.0" />
-                                                         </HBox.margin>
-                                                      </ImageView>
-                                                      <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text=" User Name" wrappingWidth="106.13671875">
-                                                         <font>
-                                                            <Font name="SansSerif Regular" size="15.0" />
-                                                         </font>
-                                                         <HBox.margin>
-                                                            <Insets left="5.0" />
-                                                         </HBox.margin>
-                                                      </Text>
-                                                   </children>
-                                                   <padding>
-                                                      <Insets bottom="5.0" top="5.0" />
-                                                   </padding>
-                                                </HBox>
-                                             </buttons>
                                              <VBox.margin>
                                                 <Insets bottom="5.0" top="5.0" />
                                              </VBox.margin>
                                           </ButtonBar>
-                                          <ButtonBar styleClass="friendlist">
-                                             <buttons>
-                                                <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="593.0">
-                                                   <children>
-                                                      <ImageView fitHeight="46.0" fitWidth="46.0">
-                                                         <image>
-                                                            <Image url="@user.jpg.png" />
-                                                         </image>
-                                                         <HBox.margin>
-                                                            <Insets left="5.0" />
-                                                         </HBox.margin>
-                                                      </ImageView>
-                                                      <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text=" User Name" wrappingWidth="106.13671875">
-                                                         <font>
-                                                            <Font name="SansSerif Regular" size="15.0" />
-                                                         </font>
-                                                         <HBox.margin>
-                                                            <Insets left="5.0" />
-                                                         </HBox.margin>
-                                                      </Text>
-                                                   </children>
-                                                   <padding>
-                                                      <Insets bottom="5.0" top="5.0" />
-                                                   </padding>
-                                                </HBox>
-                                             </buttons>
-                                          </ButtonBar>
-                                          <ButtonBar styleClass="friendlist">
-                                             <buttons>
-                                                <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="593.0">
-                                                   <children>
-                                                      <ImageView fitHeight="46.0" fitWidth="46.0">
-                                                         <image>
-                                                            <Image url="@user.jpg.png" />
-                                                         </image>
-                                                         <HBox.margin>
-                                                            <Insets left="5.0" />
-                                                         </HBox.margin>
-                                                      </ImageView>
-                                                      <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text=" User Name" wrappingWidth="106.13671875">
-                                                         <font>
-                                                            <Font name="SansSerif Regular" size="15.0" />
-                                                         </font>
-                                                         <HBox.margin>
-                                                            <Insets left="5.0" />
-                                                         </HBox.margin>
-                                                      </Text>
-                                                   </children>
-                                                   <padding>
-                                                      <Insets bottom="5.0" top="5.0" />
-                                                   </padding>
-                                                </HBox>
-                                             </buttons>
-                                          </ButtonBar>
-                                          <ButtonBar styleClass="friendlist">
-                                             <buttons>
-                                                <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="593.0">
-                                                   <children>
-                                                      <ImageView fitHeight="46.0" fitWidth="46.0">
-                                                         <image>
-                                                            <Image url="@user.jpg.png" />
-                                                         </image>
-                                                         <HBox.margin>
-                                                            <Insets left="5.0" />
-                                                         </HBox.margin>
-                                                      </ImageView>
-                                                      <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text=" User Name" wrappingWidth="106.13671875">
-                                                         <font>
-                                                            <Font name="SansSerif Regular" size="15.0" />
-                                                         </font>
-                                                         <HBox.margin>
-                                                            <Insets left="5.0" />
-                                                         </HBox.margin>
-                                                      </Text>
-                                                   </children>
-                                                   <padding>
-                                                      <Insets bottom="5.0" top="5.0" />
-                                                   </padding>
-                                                </HBox>
-                                             </buttons>
-                                          </ButtonBar>
-                                          <ButtonBar styleClass="friendlist">
-                                             <buttons>
-                                                <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="593.0">
-                                                   <children>
-                                                      <ImageView fitHeight="46.0" fitWidth="46.0">
-                                                         <image>
-                                                            <Image url="@user.jpg.png" />
-                                                         </image>
-                                                         <HBox.margin>
-                                                            <Insets left="5.0" />
-                                                         </HBox.margin>
-                                                      </ImageView>
-                                                      <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text=" User Name" wrappingWidth="106.13671875">
-                                                         <font>
-                                                            <Font name="SansSerif Regular" size="15.0" />
-                                                         </font>
-                                                         <HBox.margin>
-                                                            <Insets left="5.0" />
-                                                         </HBox.margin>
-                                                      </Text>
-                                                   </children>
-                                                   <padding>
-                                                      <Insets bottom="5.0" top="5.0" />
-                                                   </padding>
-                                                </HBox>
-                                             </buttons>
-                                          </ButtonBar>
+                                          <ButtonBar styleClass="friendlist" />
+                                          <ButtonBar styleClass="friendlist" />
+                                          <ButtonBar styleClass="friendlist" />
+                                          <ButtonBar styleClass="friendlist" />
                                        </children>
                                        <VBox.margin>
                                           <Insets bottom="5.0" top="5.0" />
@@ -546,5 +417,30 @@
             </VBox>
          </top>
       </BorderPane>
+      <VBox fx:id="notifList" layoutX="890.0" layoutY="51.0" prefHeight="464.0" prefWidth="289.0">
+         <children>
+            <ScrollPane fitToWidth="true" styleClass="notificationPannel">
+               <content>
+                  <VBox  prefHeight="461.0" prefWidth="286.0">
+                     <children>
+                        <Text fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-effect: dropshadow(three-pass-box, #444444e8, 10, 0.5, 3, 3);;" text="Your Notifications" wrappingWidth="165.13671875">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="7.0" top="5.0" />
+                           </VBox.margin>
+                        </Text>
+                        <VBox fx:id="notifBox" prefHeight="154.0" prefWidth="591.0">
+                           <padding>
+                              <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                           </padding>
+                        </VBox>
+                     </children>
+                  </VBox>
+               </content>
+            </ScrollPane>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>

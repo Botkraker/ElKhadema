@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 
 import Elkhadema.khadema.App;
 import Elkhadema.khadema.DAO.DAOImplemantation.PersonDAO;
-import Elkhadema.khadema.DAO.DAOImplemantation.UserDAO;
 import Elkhadema.khadema.Service.ServiceImplemantation.CompanyServiceImp;
 import Elkhadema.khadema.Service.ServiceImplemantation.FollowServiceImp;
 import Elkhadema.khadema.Service.ServiceImplemantation.UserServiceImp;
@@ -31,13 +30,9 @@ import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Label;
@@ -56,13 +51,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.control.TextArea;
-import javafx.scene.effect.BlurType;
-import javafx.scene.effect.DropShadow;
 
-public class MainPageController extends NavbarController implements Initializable {
+public class MainPageController extends NavbarController {
     private Parent root;
 
     FollowService followService = new FollowServiceImp();
@@ -127,10 +119,11 @@ public class MainPageController extends NavbarController implements Initializabl
 
     private boolean isPlayed = false;
 
-    
+
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
+        super.initialize(arg0, arg1);
     	if(personDAO.get(Session.getUser().getId()).isPresent()) {
         	miniprofilesetup();
         	forperson.setVisible(true);
@@ -175,8 +168,8 @@ public class MainPageController extends NavbarController implements Initializabl
          imgholder.setMinWidth(120);
          imgholder.setPrefWidth(120);
     	 youricon.getChildren().add(imgholder);
-    	
-    	
+
+
 	}
 
 	@FXML
@@ -218,15 +211,6 @@ public class MainPageController extends NavbarController implements Initializabl
         ps.feed().forEach(t -> showpost(t));
     }
 
-    public void addPostTop(Post post) {
-        postholder.getChildren().add(0, showpost(post));
-        loadPosts++;
-        if (loadPosts >= 20) {
-            postholder.getChildren().remove(postholder.getChildren().size() - 1);
-            loadPosts--;
-            postindex--;
-        }
-    }
 
     public void initPostShow() {
         List<Post> posts = ps.feed();
@@ -342,13 +326,15 @@ public class MainPageController extends NavbarController implements Initializabl
 
         });
         Platform.runLater(() -> {
+            if (posts.localToScreen(0, 0) ==null) {
+                return;
+            }
             if (posts.localToScreen(0, 0).getY() < (posts.getScene().getHeight() * 1.2)) {
                 profileimg.setVisible(true);
                 displayedimges.forEach(t -> {
                     t.setVisible(true);
                 });
                 mediaView.setVisible(true);
-
             }
         });
         CC.vvalueProperty().addListener((observable, oldValue, newValue) -> {

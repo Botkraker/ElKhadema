@@ -18,7 +18,6 @@ public class MessageServiceIMP implements MessageService {
 	@Override
 	public void sendMessage(User reciever, Message message) {
 		message.setCreationDate(new Date());
-		Date date=new Date();
 		MessageReceiver mr = new MessageReceiver(message, reciever, 0, 0);
 		try {
 			mdao.save(message, mr);

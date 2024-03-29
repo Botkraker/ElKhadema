@@ -2,6 +2,8 @@ module Elkhadema.khadema {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;
+    requires org.jsoup;
+    requires flying.saucer.pdf;
     requires transitive javafx.graphics;
 	requires kernel;
 	requires io;

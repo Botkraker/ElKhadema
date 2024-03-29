@@ -58,9 +58,7 @@ public class ReactionCommentDAO {
 
 	public void save(CommentReaction t) {
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		try {
-			int cfid = 0;
 			pstmt = connection.prepareStatement(
 					"INSERT INTO `khademadb`.`comment_reaction` (`comment_id`, `user_id`, `reactiontype`, `creationdate`) VALUES (?,?,?,?)",
 					Statement.RETURN_GENERATED_KEYS);

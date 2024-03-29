@@ -6,9 +6,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLType;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,8 +31,7 @@ public class UserDAO  {
 				user = new User(rs.getInt("user_id"), rs.getString("password_encrypted"),
 						new ContactInfo(rs.getInt("contact_info_id")),
 						rs.getString("userName"), rs.getDate("creationdate"),
-						rs.getDate("last_login"),new Media(null, rs.getBytes(
-								"photo"),"img"),
+						Date.from(rs.getTimestamp("last_login").toInstant())	,new Media(null,(rs.getBytes("photo")),"img"),
 						rs.getBoolean("banned"), rs.getBoolean("is_active"));
 			}
 
@@ -55,8 +54,8 @@ public class UserDAO  {
 				users.add(new User(rs.getInt("user_id"), rs.getString("password_encrypted"),
 						new ContactInfo(rs.getInt("contact_info_id")),
 						rs.getString("userName"), rs.getDate("creationdate"),
-						rs.getDate("last_login"),new Media(null, rs.getBytes(
-								"photo"),"img"),
+						Date.from(rs.getTimestamp("last_login")
+								.toInstant()),new Media(null,(rs.getBytes("photo")),"img"),
 						rs.getBoolean("banned"), rs.getBoolean("is_active")));
 			}
 		} catch (SQLException e) {
@@ -80,7 +79,7 @@ public class UserDAO  {
 			pstmt.setString(1, t.getPassword());
 			pstmt.setDate(4,new java.sql.Date(t.getCreationDate().getTime()));
 			pstmt.setLong(2, t.getContactInfo().getId());
-			pstmt.setDate(5, new java.sql.Date(t.getLastloginDate().getTime()));
+			pstmt.setTimestamp(5, new java.sql.Timestamp(t.getLastloginDate().getTime()));
 			pstmt.setBoolean(6, false);
 			pstmt.setBoolean(7, false);
 			if (t.getPhoto()==null) {
@@ -110,7 +109,7 @@ public class UserDAO  {
 			p.setString(2, newT.getUserName());
 			p.setString(1, newT.getPassword());
 			p.setDate(3, new java.sql.Date(t.getCreationDate().getTime()));
-			p.setDate(4,new java.sql.Date(t.getLastloginDate().getTime()));
+			p.setTimestamp(4,new java.sql.Timestamp(t.getLastloginDate().getTime()));
 			p.setBoolean(5, newT.is_banned);
 			p.setBoolean(6, newT.is_active);
 			p.setBlob(7,  new ByteArrayInputStream(t.getPhoto().ImageCompression()));
@@ -141,8 +140,7 @@ public class UserDAO  {
 				user = new User(rs.getInt("user_id"), rs.getString("password_encrypted"),
 						new ContactInfo(rs.getInt("contact_info_id")),
 						rs.getString("userName"), rs.getDate("creationdate"),
-						rs.getDate("last_login"),new Media(null, rs.getBytes(
-								"photo"),"img"),
+						rs.getDate("last_login"),new Media(null,(rs.getBytes("photo")),"img"),
 						rs.getBoolean("banned"), rs.getBoolean("is_active"));
 						  }
 

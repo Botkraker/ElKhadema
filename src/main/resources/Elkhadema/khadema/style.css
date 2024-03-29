@@ -115,3 +115,16 @@
     -fx-background : transparent;
     -fx-effect: dropshadow(three-pass-box, #444444a4, 10, 0.5, 3, 3);
 }
+.scroll-bar:vertical {
+    -fx-background-color: transparent;
+
+
+}
+.aceeptbutton {
+    -fx-background-color: #14A44D;
+}
+
+.rejectButton {
+    -fx-background-color: #DC4C64;
+
+}

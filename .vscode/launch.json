@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "HTMLGenerator",
+            "request": "launch",
+            "mainClass": "Elkhadema.khadema/Elkhadema.khadema.util.HTMLGenerator",
+            "projectName": "khadema"
+        },
+        {
+            "type": "java",
             "name": "Test2",
             "request": "launch",
             "mainClass": "Elkhadema.khadema/Elkhadema.khadema.Test2",

@@ -1,5 +1,6 @@
 package Elkhadema.khadema.Service.ServiceImplemantation;
 
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -29,7 +30,7 @@ public class NotificationServiceImp implements NotificationService {
                 .filter(message -> message.getCreationDate().after(user.getLastloginDate()))
                 .sorted(Comparator.comparing(Message::getCreationDate))
                 .map(message -> new Notification("message", message.getContent(), message.getSender(),
-                        message.getCreationDate(),message.getId()))
+                        message.getCreationDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),message.getId()))
                 .collect(Collectors.toList());
     }
 
@@ -41,7 +42,7 @@ public class NotificationServiceImp implements NotificationService {
                 .flatMap(user2 -> postDAO.getPostsById(user2.getId()).stream())
                 .filter(post -> post.getCreationDate().after(user.getLastloginDate()))
                 .sorted(Comparator.comparing(Post::getCreationDate))
-                .map(post -> new Notification("post", post.getContent(), post.getUser(), post.getCreationDate(),post.getId()))
+                .map(post -> new Notification("post", post.getContent(), post.getUser(), post.getCreationDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),post.getId()))
                 .collect(Collectors.toList());
 
     }

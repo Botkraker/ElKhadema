@@ -1,6 +1,5 @@
 package Elkhadema.khadema.domain;
 
-import java.util.Date;
 
 public class JobRequest {
     private User user;

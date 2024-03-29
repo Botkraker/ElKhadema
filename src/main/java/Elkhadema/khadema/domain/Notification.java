@@ -1,12 +1,12 @@
 package Elkhadema.khadema.domain;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Notification {
     private String type;
     private int id;
     private String content;
-    private Date date;
+    private LocalDate date;
     private User user;
     public int getId() {
         return id;
@@ -15,7 +15,7 @@ public class Notification {
         this.id = id;
     }
 
-    public Notification(String type, String string, User user, Date date, long l) {
+    public Notification(String type, String string, User user, LocalDate date, long l) {
         this.type = type;
         this.id = (int)l;
         this.content = string;
@@ -40,10 +40,10 @@ public class Notification {
     public void setUser(User user) {
         this.user = user;
     }
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

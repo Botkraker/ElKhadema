@@ -124,6 +124,7 @@ public class MainPageController extends NavbarController implements Initializabl
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
+        super.initialize(arg0, arg1);
     	if(personDAO.get(Session.getUser().getId()).isPresent()) {
         	miniprofilesetup();
         	forperson.setVisible(true);

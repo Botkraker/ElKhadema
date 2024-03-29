@@ -13,6 +13,8 @@ public interface PostService {
 
     void makePost(Post post);
     List<Post> feed();
+    public Post getPostById(Post post) ;
+
     void addCommentToPost(Post post, Post comment);
 
     void removeCommentFromPost(Post post, Post comment);

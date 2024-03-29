@@ -1,32 +1,47 @@
 package Elkhadema.khadema.controller;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import Elkhadema.khadema.App;
 import Elkhadema.khadema.Service.ServiceImplemantation.CompanyServiceImp;
+import Elkhadema.khadema.Service.ServiceImplemantation.NotificationServiceImp;
+import Elkhadema.khadema.Service.ServiceImplemantation.PostServiceImp;
 import Elkhadema.khadema.Service.ServiceImplemantation.UserServiceImp;
 import Elkhadema.khadema.Service.ServiceInterfaces.CompanyService;
+import Elkhadema.khadema.Service.ServiceInterfaces.NotificationService;
+import Elkhadema.khadema.Service.ServiceInterfaces.PostService;
 import Elkhadema.khadema.Service.ServiceInterfaces.UserService;
+import Elkhadema.khadema.domain.Notification;
+import Elkhadema.khadema.domain.Post;
 import Elkhadema.khadema.domain.User;
 import Elkhadema.khadema.util.Session;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
-public class NavbarController {
+public class NavbarController implements Initializable {
 
 	private UserService userService = new UserServiceImp();
 	private CompanyService companyService = new CompanyServiceImp();
+	private NotificationService notificationService = new NotificationServiceImp();
+	PostService postService = new PostServiceImp();
 	Stage stage;
 	Scene scene;
 	Parent root;
@@ -77,7 +92,66 @@ public class NavbarController {
 
 	@FXML
 	public void goNotifications() {
-		// App.setRoot(null);
+		if (notfifList.isVisible()) {
+			notfifList.setVisible(false);
+			notfifList.setDisable(true);
+			notifBox.getChildren().clear();
+			return;
+		}
+		notfifList.setVisible(true);
+		notfifList.setDisable(false);
+		initNotif();
+	}
+
+	private void initNotif() {
+		notificationService.allNotifications(Session.getUser()).forEach(notification -> afficheNotif(notification));
+	}
+
+	private void afficheNotif(Notification notification) {
+		Text titleText = new Text();
+		TextArea contentArea = new TextArea();
+		contentArea.setDisable(true);
+		contentArea.getStyleClass().add("postTxtField");
+		titleText.setFill(Color.WHITE);
+		titleText.setFont(new Font("SansSerif", 14));
+		switch (notification.getType()) {
+			case "post":
+				titleText.setText("new " + notification.getType() + " from " + notification.getUser().getUserName());
+				contentArea.setText(limitString(notification.getContent()));
+				break;
+			case "message":
+				titleText.setText("new " + notification.getType() + " from " + notification.getUser().getUserName());
+				contentArea.setText(limitString(notification.getContent()));
+				break;
+			default:
+				break;
+		}
+		VBox vBox = new VBox(titleText, contentArea);
+		switch (notification.getType()) {
+			case "post":
+				vBox.setOnMouseClicked(event -> {
+					CommentsPageController.setCommentedpost(postService.getPostById(new Post(notification.getId())));
+					try {
+						App.setRoot("comment");
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				});
+				break;
+			case "message":
+				vBox.setOnMouseClicked(event -> {
+					try {
+						goChat(null, notification.getUser());
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				});
+
+			default:
+				break;
+		}
+		notifBox.getChildren().add(vBox);
+
 	}
 
 	@FXML
@@ -91,7 +165,7 @@ public class NavbarController {
 		root = loader.load();
 		ChatRoomController chatRoomController = loader.getController();
 		chatRoomController.init(user);
-		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		stage = App.stage;
 		scene = new Scene(root);
 		stage.setScene(scene);
 		stage.show();
@@ -145,11 +219,23 @@ public class NavbarController {
 	public void sessionOpenProfile(MouseEvent event) throws IOException {
 		openprofile(event, Session.getUser());
 	}
+
 	@FXML
 	VBox notfifList;
 	@FXML
 	VBox notifBox;
-	
 
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		notfifList.setVisible(true);
+		notfifList.setVisible(false);
+	}
+
+	private String limitString(String string) {
+		if (string.length() <= 50)
+			return string;
+		else
+			return string.substring(0, 50).concat("...");
+	}
 
 }

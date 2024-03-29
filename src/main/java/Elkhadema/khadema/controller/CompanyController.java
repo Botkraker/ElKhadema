@@ -97,6 +97,7 @@ public class CompanyController extends NavbarController {
 
     @FXML
     public void init(User user) {
+        super.initialize(null, null);
         company = companyDAO.get(user.getId()).get();
         if (company.getId() != session.getId()) {
             Button followbutton = getFollowbutton();
@@ -104,6 +105,10 @@ public class CompanyController extends NavbarController {
             btnVbox.getChildren().addAll(followbutton, chatButton);
             initButttons();
         }
+        cancelOverviewEdit.setDisable(true);
+        cancelOverviewEdit.setVisible(false);
+        confirmOverviewEdit.setDisable(true);
+        confirmOverviewEdit.setVisible(false);
         nameText.setText(company.getUserName());
         profileImg.setImage(company.getPhoto().getImage());
         profileImg.getStyleClass().add("round-image");
@@ -122,7 +127,6 @@ public class CompanyController extends NavbarController {
             showText.setDisable(true);
             showText.setVisible(false);
         }
-        // TODO continue after this
     }
 
     private void initButttons() {
@@ -134,15 +138,13 @@ public class CompanyController extends NavbarController {
         editBioBtn.setVisible(false);
         editAboutBtn.setDisable(true);
         editAboutBtn.setVisible(false);
-        cancelOverviewEdit.setDisable(true);
-        cancelOverviewEdit.setVisible(false);
-        confirmOverviewEdit.setDisable(true);
-        confirmOverviewEdit.setVisible(false);
     }
 
     @FXML
     public void cancelEdit() {
         initOverview();
+        editAboutBtn.setDisable(false);
+        editAboutBtn.setVisible(true);
         cancelOverviewEdit.setDisable(true);
         cancelOverviewEdit.setVisible(false);
         confirmOverviewEdit.setDisable(true);
@@ -153,18 +155,22 @@ public class CompanyController extends NavbarController {
     public void confirmEdit() throws UserNotFoundException {
         Company newCompany = new Company(company.getId(), company.getPassword(), company.getUserName());
         if (aboutField.getText().strip().isEmpty()) {
+            invalidText.setText("industry invalid");
             return;
         }
         newCompany.setDescription(aboutField.getText());
         if (!UrlValidator.validateURL(websiteField.getText())) {
+            invalidText.setText("website url invalid");
             return;
         }
         newCompany.setWebsite(websiteField.getText());
         if (!JobNameValidator.isValidJobName(industryField.getText())) {
+            invalidText.setText("invalid industry name");
             return;
         }
         newCompany.setIndustry(industryField.getText());
         if (!Specialityalidator.validateText(specialityField.getText())) {
+            invalidText.setText("invalid specialities");
             return;
         }
         newCompany.setSpeciality(specialityField.getText());
@@ -174,6 +180,8 @@ public class CompanyController extends NavbarController {
         cancelOverviewEdit.setVisible(false);
         confirmOverviewEdit.setDisable(true);
         confirmOverviewEdit.setVisible(false);
+        editAboutBtn.setDisable(false);
+        editAboutBtn.setVisible(true);
 
     }
 
@@ -254,7 +262,7 @@ public class CompanyController extends NavbarController {
 
     private void afficheBio(Company company) {
         if (company.getMoto() == null || company.getMoto().strip().isEmpty()) {
-            motoField.setVisible(false);
+            motoField.setText("");
         } else
             motoField.setText(company.getMoto());
         String description = company.getIndustry().concat(" · ");
@@ -286,8 +294,11 @@ public class CompanyController extends NavbarController {
     @FXML
     private void editBio() throws IOException, UserNotFoundException {
         motoField.setDisable(false);
+        motoField.setVisible(true);
+        motoField.requestFocus();
     }
-
+    @FXML
+    Text invalidText;
     @FXML
     private void editAbout() {
         editAboutBtn.setDisable(true);
@@ -296,6 +307,12 @@ public class CompanyController extends NavbarController {
         confirmOverviewEdit.setVisible(true);
         cancelOverviewEdit.setDisable(false);
         cancelOverviewEdit.setVisible(true);
+        aboutField.setDisable(false);
+        websiteField.setDisable(false);
+        industryField.setDisable(false);
+        locationField.setDisable(false);
+        specialityField.setDisable(false);
+        aboutField.requestFocus();
     }
 
     private void initContacts() {

@@ -80,6 +80,7 @@ public class JobsPageController extends NavbarController {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		super.initialize(location, resources);
 		postholder.setVisible(false);
 		applybutton.setDisable(true);
 		if (pd.get(Session.getUser().getId()).isPresent()) {

@@ -462,6 +462,7 @@ public class CommentsPageController extends NavbarController  {
 	}
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		super.initialize(arg0, arg1);
 		System.out.println("test");
 		setupparentpost();
 		initContacts();

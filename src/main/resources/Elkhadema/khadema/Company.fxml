@@ -111,7 +111,7 @@
                                        <children>
                                           <VBox prefHeight="174.0" prefWidth="889.0">
                                              <children>
-                                                <HBox prefHeight="49.0" prefWidth="890.0">
+                                                <HBox alignment="CENTER_LEFT" prefHeight="49.0" prefWidth="890.0">
                                                    <children>
                                                       <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="OverView: ">
                                                          <font>
@@ -151,6 +151,7 @@
                                                             <Insets bottom="-10.0" left="-10.0" right="-10.0" top="-10.0" />
                                                          </padding>
                                                       </Button>
+                                                      <Text fx:id="invalidText" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="194.93670082092285" />
                                                    </children>
                                                 </HBox>
                                                 <TextArea fx:id="aboutField" disable="true" maxWidth="600.0" minHeight="100.0" prefHeight="146.0" prefWidth="600.0" styleClass="postTxtField" />
@@ -383,7 +384,7 @@
             </VBox>
          </top>
       </BorderPane>
-      <VBox fx:id="notifList" layoutX="890.0" layoutY="51.0" prefHeight="464.0" prefWidth="289.0">
+      <VBox fx:id="notifList" layoutX="890.0" layoutY="51.0" prefHeight="464.0" prefWidth="289.0" visible="false">
          <children>
             <ScrollPane fitToWidth="true" styleClass="notificationPannel">
                <content>

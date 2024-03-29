@@ -171,15 +171,16 @@ public class ChatRoomController extends NavbarController  {
                         "-fx-background : transparent;" +
                         "-fx-background-radius: 10px;");
         // ahawa kifech t addi image
+        VBox vBox = new VBox(hBox, contentText);
         if (message.getImage()!=null) {
             ImageView iv = new ImageView(message.getImage().getImage());
             VBox vboxforimage = new VBox(iv);
-            VBox vBox = new VBox(hBox, contentText, vboxforimage);
             iv.setFitWidth(500);
             iv.setPreserveRatio(true);
-            vboxforimage.setAlignment(Pos.TOP_RIGHT);// houni image right 3ala 5ater titb3ath twali left ki recieved
-            messageVBox.getChildren().add(vBox);
+            vboxforimage.setAlignment(Pos.TOP_RIGHT);
+            vBox.getChildren().add(vboxforimage);// houni image right 3ala 5ater titb3ath twali left ki recieved
         }
+        messageVBox.getChildren().add(vBox);
         // end houni
         if (message.getSender() != Session.getUser()) {
             messageService.MessageRead(message, Session.getUser());

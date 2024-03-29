@@ -27,7 +27,7 @@ public class PersonDAO {
 				person =  new Person(rs.getInt("user_id"), rs.getString("password_encrypted"),
 						new ContactInfo(rs.getInt("contact_info_id")),
 						rs.getString("userName"), rs.getDate("creationdate"),
-						rs.getDate("last_login"), new Media(null, Media.ImageDecompress(rs.getBytes("photo")), "img"),
+						rs.getDate("last_login"), new Media(null, (rs.getBytes("photo")), "img"),
 						rs.getBoolean("banned"), rs.getBoolean("is_active"),
 						rs.getString("first_name"), rs.getString("last_name"), rs.getInt("age"), rs.getString("job"),
 						rs.getString("sexe"),rs.getString("about"));
@@ -52,7 +52,7 @@ public class PersonDAO {
 				Person person = new Person(rs.getInt("user_id"), rs.getString("password_encrypted"),
 						new ContactInfo(rs.getInt("contact_info_id")),
 						rs.getString("userName"), rs.getDate("creationdate"),
-						rs.getDate("last_login"), new Media(null, Media.ImageDecompress(rs.getBytes("photo")), "img"),
+						rs.getDate("last_login"), new Media(null, (rs.getBytes("photo")), "img"),
 						rs.getBoolean("banned"), rs.getBoolean("is_active"),
 						rs.getString("first_name"), rs.getString("last_name"), rs.getInt("age"), rs.getString("job"),
 						rs.getString("sexe"),rs.getString("about"));

@@ -31,7 +31,7 @@ public class UserDAO  {
 				user = new User(rs.getInt("user_id"), rs.getString("password_encrypted"),
 						new ContactInfo(rs.getInt("contact_info_id")),
 						rs.getString("userName"), rs.getDate("creationdate"),
-						rs.getDate("last_login"),new Media(null,Media.ImageDecompress(rs.getBytes("photo")),"img"),
+						rs.getDate("last_login"),new Media(null,(rs.getBytes("photo")),"img"),
 						rs.getBoolean("banned"), rs.getBoolean("is_active"));
 			}
 
@@ -54,7 +54,7 @@ public class UserDAO  {
 				users.add(new User(rs.getInt("user_id"), rs.getString("password_encrypted"),
 						new ContactInfo(rs.getInt("contact_info_id")),
 						rs.getString("userName"), rs.getDate("creationdate"),
-						rs.getDate("last_login"),new Media(null,Media.ImageDecompress(rs.getBytes("photo")),"img"),
+						rs.getDate("last_login"),new Media(null,(rs.getBytes("photo")),"img"),
 						rs.getBoolean("banned"), rs.getBoolean("is_active")));
 			}
 		} catch (SQLException e) {
@@ -139,7 +139,7 @@ public class UserDAO  {
 				user = new User(rs.getInt("user_id"), rs.getString("password_encrypted"),
 						new ContactInfo(rs.getInt("contact_info_id")),
 						rs.getString("userName"), rs.getDate("creationdate"),
-						rs.getDate("last_login"),new Media(null,Media.ImageDecompress(rs.getBytes("photo")),"img"),
+						rs.getDate("last_login"),new Media(null,(rs.getBytes("photo")),"img"),
 						rs.getBoolean("banned"), rs.getBoolean("is_active"));
 						  }
 

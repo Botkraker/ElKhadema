@@ -29,13 +29,22 @@ public class NavbarController {
 	Stage stage;
 	Scene scene;
 	Parent root;
+	@FXML
+    void postMsg(MouseEvent event) {
 
+    }
 	@FXML
 	public void goJobsList() throws IOException {
 		App.setRoot("jobs");
 	}
 	@FXML TextField searchbar;
-
+	@FXML
+	public void GoSearch() throws IOException {
+		if (searchbar.getText().length()>0) {
+			SearchPage.searchString=searchbar.getText();
+			App.setRoot("saechplace");
+		}
+	}
 	@FXML
 	public void goResume() throws IOException {
 		Stage stage=(Stage)App.scene.getWindow();

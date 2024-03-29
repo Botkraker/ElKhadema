@@ -58,7 +58,7 @@ public class PostDAO {
 		try {
 			rs = connection.createStatement().executeQuery(sql);
 			while (rs.next()) {
-				media.add(new Media(post,Media.ImageDecompress(rs.getBytes("image")),"img"));
+				media.add(new Media(post,(rs.getBytes("image")),"img"));
 			}
 
 		} catch (Exception e) {
@@ -89,7 +89,7 @@ public class PostDAO {
 			while (rs.next()) {
 				temPost=new Post(
 						new User(rs.getInt("user_id"), null, null, rs.getString("username"), rs.getDate("creationdate"),
-								rs.getDate("last_login"),new Media(null,Media.ImageDecompress(rs.getBytes("photo")),"img"), rs.getBoolean("banned"),
+								rs.getDate("last_login"),new Media(null,(rs.getBytes("photo")),"img"), rs.getBoolean("banned"),
 								rs.getBoolean("is_active")),
 						rs.getString("content"), null, rs.getInt("post_parent"), rs.getString("type"), rs.getTimestamp("posts.creationdate"),
 						rs.getLong("post_id"));

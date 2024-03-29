@@ -218,15 +218,6 @@ public class MainPageController extends NavbarController implements Initializabl
         ps.feed().forEach(t -> showpost(t));
     }
 
-    public void addPostTop(Post post) {
-        postholder.getChildren().add(0, showpost(post));
-        loadPosts++;
-        if (loadPosts >= 20) {
-            postholder.getChildren().remove(postholder.getChildren().size() - 1);
-            loadPosts--;
-            postindex--;
-        }
-    }
 
     public void initPostShow() {
         List<Post> posts = ps.feed();

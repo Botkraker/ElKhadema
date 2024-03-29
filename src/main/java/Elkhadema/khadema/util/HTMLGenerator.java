@@ -1,5 +1,6 @@
 package Elkhadema.khadema.util;
 
+import java.io.FileWriter;
 import java.util.List;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -18,7 +19,7 @@ public class HTMLGenerator {
         Element html = doc.appendElement("hmtl");
         Element head = html.appendElement("head");
         head.appendElement("title").text("test");
-        head.append("<link rel=\"stylesheet\" type=\"text/css\" href=\"your_stylesheet.css\">");
+        head.append("<link rel=\"stylesheet\" type=\"text/css\" href=\"first.css\">");
         head.append("<script src=\"https://kit.fontawesome.com/3ef3559250.js\" crossorigin=\"anonymous\"></script>");
 
         Element body = html.appendElement("body");
@@ -76,17 +77,27 @@ public class HTMLGenerator {
                 text.appendElement("p").append(experience.getDescription());
             });
         }
-
         return doc.outerHtml();
-
+    }
+        public static void writeHTMLFile(String htmlContent, String filePath) {
+        try (FileWriter writer = new FileWriter(filePath)) {
+            writer.write(htmlContent);
+            System.out.println("HTML file has been created successfully at: " + filePath);
+        } catch (IOException e) {
+            System.err.println("An error occurred while writing the file: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {
         PersonDAO personDAO = new PersonDAO();
         ContactInfoDAO contactInfoDAO = new ContactInfoDAO();
         CompetanceDAO competanceDAO = new CompetanceDAO();
+        ExperienceDAO experienceDAO =new ExperienceDAO();
         Person person = personDAO.get(5).get();
         person.setContactInfo(contactInfoDAO.get(13).get());
         System.out.println(firstModelCV(person, "./aaa.html", competanceDAO.getAll(person), null));
+        writeHTMLFile(firstModelCV(person, "./aaa.html", competanceDAO.getAll(person), ));
+
     }
 }

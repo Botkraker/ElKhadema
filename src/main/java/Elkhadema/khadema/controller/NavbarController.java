@@ -122,4 +122,8 @@ public class NavbarController {
         stage.setScene(scene);
         stage.show();
     }
+        @FXML
+   	 public void sessionOpenProfile(MouseEvent event) throws IOException {
+   	        openprofile(event, Session.getUser());
+   	 }
 }

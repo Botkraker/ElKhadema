@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import Elkhadema.khadema.App;
 import Elkhadema.khadema.DAO.DAOImplemantation.PersonDAO;
 import Elkhadema.khadema.Service.ServiceImplemantation.CompanyServiceImp;
+import Elkhadema.khadema.Service.ServiceImplemantation.FollowServiceImp;
 import Elkhadema.khadema.Service.ServiceImplemantation.PostServiceImp;
 import Elkhadema.khadema.Service.ServiceImplemantation.SearchServiceImp;
 import Elkhadema.khadema.Service.ServiceImplemantation.UserServiceImp;
@@ -57,6 +58,9 @@ public class SearchPage extends NavbarController implements Initializable{
 	CompanyServiceImp Cs=new CompanyServiceImp();
 	PersonDAO personDAO=new PersonDAO();
 	PostServiceImp ps=new PostServiceImp();
+	FollowServiceImp fs=new FollowServiceImp();
+	UserServiceImp us=new UserServiceImp();
+	
     @FXML
     private ButtonBar listContact;
     @FXML
@@ -80,7 +84,8 @@ public class SearchPage extends NavbarController implements Initializable{
     private VBox vContacts;
     @FXML
     private ImageView yourpicture;
-
+    @FXML
+    private VBox forperson;
     @FXML
     private Text sexe;
 
@@ -93,15 +98,18 @@ public class SearchPage extends NavbarController implements Initializable{
     private VBox youricon;
     @FXML
     private Text age;
-    @FXML
-    void sessionOpenProfile(MouseEvent event) {
-
-    }
+    
     static String searchString;
-
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		miniprofilesetup();
+		if(personDAO.get(Session.getUser().getId()).isPresent()) {
+        	miniprofilesetup();
+        	forperson.setVisible(true);
+    	}
+    	else {
+    		forperson.setVisible(false);
+		}
+		initContacts();
 		ss.searchByUsers(searchString).forEach((t)->{
 			showUser(t);
 		});;
@@ -138,13 +146,9 @@ public class SearchPage extends NavbarController implements Initializable{
          imgholder.setMinWidth(120);
          imgholder.setPrefWidth(120);
     	 youricon.getChildren().add(imgholder);
-    	
-    	
 	}
 
 	private void showUser(User user) {
-
-		
 		VBox bigVBox=new VBox();
 		HBox headBox=new HBox();
 		HBox btnBox=new HBox();
@@ -156,13 +160,24 @@ public class SearchPage extends NavbarController implements Initializable{
             profileimg = new ImageView(image);
         }
         profileimg.setVisible(true);
+        
 		VBox imgholder = makeicon(profileimg);
+		imgholder.setOnMouseClicked( event -> {
+	                try {
+	                    openprofile(event, user);
+	                } catch (IOException e) {
+	                    e.printStackTrace();
+	                }});
 		Text username=new Text();
 		Button Followbtn=new Button("+");
 		Text abouttext=new Text();
 		ScrollPane about=new ScrollPane(abouttext);
 		btnBox.getChildren().add(Followbtn);
+		if (fs.isFollowing(Session.getUser(),user )) {
+			Followbtn.setText("-");
+		} 
 		headBox.getChildren().addAll(imgholder,username,btnBox);
+		Followbtn.setOnAction(event -> followuser(user,Followbtn));
 		bigVBox.getChildren().addAll(headBox,about);
 		postholder.getChildren().add(bigVBox);
 		if (personDAO.get(user.getId()).isPresent()) {
@@ -183,6 +198,13 @@ public class SearchPage extends NavbarController implements Initializable{
 		username.setFill(Color.WHITE);
 		username.setStyle("-fx-font-family: \"SansSerif bold\";"
 				+ "-fx-font-size: 15px;");
+		username.setOnMouseClicked( event -> {
+	                try {
+	                    openprofile(event, user);
+	                } catch (IOException e) {
+	                    e.printStackTrace();
+	                }});
+		
 		abouttext.setStyle("-fx-font-family: \"SansSerif bold\";"
 				+ "-fx-font-size: 15px;");
 		abouttext.setFill(Color.WHITE);
@@ -240,6 +262,17 @@ public class SearchPage extends NavbarController implements Initializable{
 		about.widthProperty().addListener((observable, oldValue, newValue) -> abouttext.setWrappingWidth(bigVBox.getWidth()-40));
 		bigVBox.getStyleClass().add("posts");
 		bigVBox.setPadding(new Insets(0, 0, 25, 0));
+	}
+	private void followuser(User user,Button btn) {
+		if (fs.isFollowing(Session.getUser(),user)) {
+			fs.unFollow(user,Session.getUser());
+			btn.setText("+");
+		}
+		else {
+			fs.Follow(user, Session.getUser());
+			btn.setText("-");
+		}
+		
 	}
 	public VBox showpost(Post post) {
         Image image = post.getUser().getPhoto().getImage();
@@ -556,5 +589,34 @@ public class SearchPage extends NavbarController implements Initializable{
 	        imgholder.setPrefWidth(46);
 	        return imgholder;
 	    }
+	 
+	 private void initContacts() {
+	        List<User> follwing = fs.getfollowing(Session.getUser());
+	        List<VBox> hBoxs = new ArrayList<>();
 
+	        for (User user : follwing) {
+	            User tmp = us.getUserById(user);
+	            Text text = new Text(tmp.getUserName());
+	            text.setStyle("-fx-fill:white;-fx-font-size:15px;");
+	            ImageView imageView = new ImageView(new Image("file:src//main//resources//images//user.png"));
+	            imageView.setFitHeight(46);
+	            imageView.setFitWidth(46);
+	            imageView.setTranslateX(5);
+	            text.setTranslateX(10);
+	            HBox hBox = new HBox(imageView, text);
+	            hBox.setPadding(new Insets(5, 0, 5, 0));
+	            hBox.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+	                try {
+	                    openprofile(event, tmp);
+	                } catch (IOException e) {
+	                    e.printStackTrace();
+	                }
+	            });
+	            hBox.setAlignment(Pos.CENTER_LEFT);
+	            VBox vBox = new VBox(hBox);
+	            vBox.getStyleClass().add("posts");
+	            hBoxs.add(vBox);
+	        }
+	        vContacts.getChildren().addAll(hBoxs);
+	    }
 }

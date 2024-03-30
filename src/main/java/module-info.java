@@ -4,6 +4,7 @@ module Elkhadema.khadema {
     requires java.sql;
     requires org.jsoup;
     requires flying.saucer.pdf;
+    requires itextpdf;
     requires transitive javafx.graphics;
 	requires kernel;
 	requires io;

@@ -262,11 +262,11 @@ public class SearchPage extends NavbarController {
 	}
 	private void followuser(User user,Button btn) {
 		if (fs.isFollowing(Session.getUser(),user)) {
-			fs.unFollow(user,Session.getUser());
+			fs.unFollow(Session.getUser(),user);
 			btn.setText("+");
 		}
 		else {
-			fs.Follow(user, Session.getUser());
+			fs.Follow(Session.getUser(), user);
 			btn.setText("-");
 		}
 

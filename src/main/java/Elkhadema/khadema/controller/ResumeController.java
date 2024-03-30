@@ -130,7 +130,6 @@ public class ResumeController extends NavbarController {
             try {
                 cvService.generateCV(person);
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         });

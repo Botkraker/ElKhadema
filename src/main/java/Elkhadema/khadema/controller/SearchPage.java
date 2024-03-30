@@ -1,12 +1,10 @@
 package Elkhadema.khadema.controller;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
@@ -27,7 +25,6 @@ import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -118,7 +115,7 @@ public class SearchPage extends NavbarController {
 
 	}
 	private void miniprofilesetup() {
-    	Person person=personDAO.get(Session.getUser().getId()).get();
+    	Person person=((Person)us.getUserById(new User(Session.getUser().getId(), null, null)));
     	username.setText(person.getUserName());
     	age.setText(""+person.getAge());
     	sexe.setText(person.getSexe());
@@ -173,7 +170,9 @@ public class SearchPage extends NavbarController {
 		Button Followbtn=new Button("+");
 		Text abouttext=new Text();
 		ScrollPane about=new ScrollPane(abouttext);
-		btnBox.getChildren().add(Followbtn);
+        if (user.getId()!=Session.getUser().getId()) {
+            btnBox.getChildren().add(Followbtn);
+        }
 		if (fs.isFollowing(Session.getUser(),user )) {
 			Followbtn.setText("-");
 		}

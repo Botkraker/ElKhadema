@@ -6,9 +6,11 @@ import java.util.List;
 import Elkhadema.khadema.App;
 import Elkhadema.khadema.DAO.DAOImplemantation.CompetanceDAO;
 import Elkhadema.khadema.DAO.DAOImplemantation.ExperienceDAO;
+import Elkhadema.khadema.Service.ServiceImplemantation.AdminServiceImp;
 import Elkhadema.khadema.Service.ServiceImplemantation.FollowServiceImp;
 import Elkhadema.khadema.Service.ServiceImplemantation.GenerateCVServiceImp;
 import Elkhadema.khadema.Service.ServiceImplemantation.UserServiceImp;
+import Elkhadema.khadema.Service.ServiceInterfaces.AdminService;
 import Elkhadema.khadema.Service.ServiceInterfaces.FollowService;
 import Elkhadema.khadema.Service.ServiceInterfaces.GenerateCVService;
 import Elkhadema.khadema.Service.ServiceInterfaces.UserService;
@@ -49,6 +51,7 @@ public class ResumeController extends NavbarController {
     CompetanceDAO competanceDAO = new CompetanceDAO();
     FollowService followService =new FollowServiceImp();
     GenerateCVService cvService = new GenerateCVServiceImp();
+    AdminService adminService=new AdminServiceImp();
 
     @FXML
     ImageView profileImg;
@@ -96,6 +99,13 @@ public class ResumeController extends NavbarController {
     }
 
     @FXML
+    private Button reportButton;
+
+    @FXML
+    public void report() {
+        // TODO later
+    }
+    @FXML
     public void init(User user) {
         Person person = ((Person)userService.getUserById(user));
 
@@ -117,6 +127,10 @@ public class ResumeController extends NavbarController {
             addExperiancebtn.setVisible(false);
             addSkillsbtn.setDisable(true);
             addSkillsbtn.setVisible(false);
+            if (adminService.isAdmin(session)) {
+                reportButton.setVisible(true);
+                reportButton.setDisable(false);
+            }
         }
         nameText.setText(person.getUserName());
         profileImg.setImage(person.getPhoto().getImage());

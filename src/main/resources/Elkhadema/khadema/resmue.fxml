@@ -136,6 +136,14 @@
                                                             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                                          </HBox.margin>
                                                       </Button>
+                                                      <Button fx:id="reportButton" mnemonicParsing="false" onAction="#report" prefHeight="46.0" prefWidth="70.0" styleClass="postButton" text="report" textFill="WHITE">
+                                                         <font>
+                                                            <Font name="SansSerif Regular" size="20.0" />
+                                                         </font>
+                                                         <padding>
+                                                            <Insets bottom="-10.0" left="-10.0" right="-10.0" top="-10.0" />
+                                                         </padding>
+                                                      </Button>
                                                    </children>
                                                 </HBox>
                                              </children></HBox>
@@ -421,7 +429,7 @@
          <children>
             <ScrollPane fitToWidth="true" styleClass="notificationPannel">
                <content>
-                  <VBox  prefHeight="461.0" prefWidth="286.0">
+                  <VBox prefHeight="461.0" prefWidth="286.0">
                      <children>
                         <Text fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-effect: dropshadow(three-pass-box, #444444e8, 10, 0.5, 3, 3);;" text="Your Notifications" wrappingWidth="165.13671875">
                            <font>

@@ -7,10 +7,12 @@ import Elkhadema.khadema.DAO.DAOImplemantation.CompanyDAO;
 import Elkhadema.khadema.DAO.DAOImplemantation.CompetanceDAO;
 import Elkhadema.khadema.DAO.DAOImplemantation.ExperienceDAO;
 import Elkhadema.khadema.DAO.DAOImplemantation.PersonDAO;
+import Elkhadema.khadema.Service.ServiceImplemantation.AdminServiceImp;
 import Elkhadema.khadema.Service.ServiceImplemantation.FollowServiceImp;
 import Elkhadema.khadema.Service.ServiceImplemantation.GenerateCVServiceImp;
 import Elkhadema.khadema.Service.ServiceImplemantation.JobServiceImp;
 import Elkhadema.khadema.Service.ServiceImplemantation.UserServiceImp;
+import Elkhadema.khadema.Service.ServiceInterfaces.AdminService;
 import Elkhadema.khadema.Service.ServiceInterfaces.FollowService;
 import Elkhadema.khadema.Service.ServiceInterfaces.GenerateCVService;
 import Elkhadema.khadema.Service.ServiceInterfaces.JobService;
@@ -50,6 +52,7 @@ public class CompanyController extends NavbarController {
     ExperienceDAO experienceDAO = new ExperienceDAO();
     CompetanceDAO competanceDAO = new CompetanceDAO();
     GenerateCVService cvService = new GenerateCVServiceImp();
+    AdminService adminService=new AdminServiceImp();
 
     @FXML
     ImageView profileImg;
@@ -88,16 +91,25 @@ public class CompanyController extends NavbarController {
     private Button confirmOverviewEdit;
     @FXML
     private Text showText;
-
+    @FXML
+    private Button reportButton;
+    @FXML
+    public void report(){
+        //TODO later
+    }
     @FXML
     public void init(User user) {
         super.initialize(null, null);
         company = companyDAO.get(user.getId()).get();
-        if (company.getId() != session.getId()) {
+        if (!company.equals(session)) {
             Button followbutton = getFollowbutton();
             Button chatButton = getChatButton();
             btnVbox.getChildren().addAll(followbutton, chatButton);
             initButttons();
+            if (adminService.isAdmin(session)) {
+                reportButton.setVisible(true);
+                reportButton.setDisable(false);
+            }
         }
         cancelOverviewEdit.setDisable(true);
         cancelOverviewEdit.setVisible(false);

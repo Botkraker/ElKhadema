@@ -216,7 +216,7 @@ public class ApplicationreviewPageController extends NavbarController {
 		headBox.setAlignment(Pos.CENTER_LEFT);
 		HBox.setHgrow(btnBox, Priority.ALWAYS);
 		username.setTextFill(Color.WHITE);
-		username.setStyle("-fx-font-family: \"SansSerif bold\";" + "-fx-font-size: 15px;");
+		username.setStyle("-fx-font-family: \"SansSerif bold\";" + "-fx-font-size: 1em;");
 		username.setOnMouseClicked(event -> {
 			try {
 				openprofile(event, person);
@@ -225,21 +225,21 @@ public class ApplicationreviewPageController extends NavbarController {
 			}
 		});
 
-		jobappliction.setStyle("-fx-font-family: \"SansSerif bold\";" + "-fx-font-size: 15px;");
+		jobappliction.setStyle("-fx-font-family: \"SansSerif bold\";" + "-fx-font-size: 1em;");
 		jobappliction.setFill(Color.WHITE);
 		Acceptbutton.setTextFill(Color.WHITE);
 		Acceptbutton
-				.setStyle("-fx-font-family: \"SansSerif bold\";" + "-fx-font-size: 15px;" + "-fx-font-weight: 900;");
+				.setStyle("-fx-font-family: \"SansSerif bold\";" + "-fx-font-size: 1em;" + "-fx-font-weight: 900;");
 		Rejectbutton.setTextFill(Color.WHITE);
 		Rejectbutton
-				.setStyle("-fx-font-family: \"SansSerif bold\";" + "-fx-font-size: 15px;" + "-fx-font-weight: 900;");
+				.setStyle("-fx-font-family: \"SansSerif bold\";" + "-fx-font-size: 1em;" + "-fx-font-weight: 900;");
 		downloadpdfButton.setTextFill(Color.WHITE);
 		downloadpdfButton
-				.setStyle("-fx-font-family: \"SansSerif bold\";" + "-fx-font-size: 15px;" + "-fx-font-weight: 900;");
+				.setStyle("-fx-font-family: \"SansSerif bold\";" + "-fx-font-size: 1em;" + "-fx-font-weight: 900;");
 		saveButton.setTextFill(Color.WHITE);
-		saveButton.setStyle("-fx-font-family: \"SansSerif bold\";" + "-fx-font-size: 15px;" + "-fx-font-weight: 900;");
+		saveButton.setStyle("-fx-font-family: \"SansSerif bold\";" + "-fx-font-size: 1em;" + "-fx-font-weight: 900;");
 		fireButton.setTextFill(Color.WHITE);
-		fireButton.setStyle("-fx-font-family: \"SansSerif bold\";" + "-fx-font-size: 15px;" + "-fx-font-weight: 900;");
+		fireButton.setStyle("-fx-font-family: \"SansSerif bold\";" + "-fx-font-size: 1em;" + "-fx-font-weight: 900;");
 		HBox.setMargin(Acceptbutton, new Insets(5, 10, 5, 5));
 		HBox.setMargin(Rejectbutton, new Insets(5, 10, 5, 5));
 		HBox.setMargin(saveButton, new Insets(5, 10, 5, 5));
@@ -318,7 +318,7 @@ public class ApplicationreviewPageController extends NavbarController {
 		headBox.setAlignment(Pos.CENTER_LEFT);
 		HBox.setHgrow(btnBox, Priority.ALWAYS);
 		username.setTextFill(Color.WHITE);
-		username.setStyle("-fx-font-family: \"SansSerif bold\";" + "-fx-font-size: 15px;");
+		username.setStyle("-fx-font-family: \"SansSerif bold\";" + "-fx-font-size: 1em;");
 		username.setOnMouseClicked(event -> {
 			try {
 				openprofile(event, jr.getJobOffre().getCompany());
@@ -327,14 +327,14 @@ public class ApplicationreviewPageController extends NavbarController {
 			}
 		});
 
-		jobappliction.setStyle("-fx-font-family: \"SansSerif bold\";" + "-fx-font-size: 15px;");
+		jobappliction.setStyle("-fx-font-family: \"SansSerif bold\";" + "-fx-font-size: 1em;");
 		jobappliction.setFill(Color.WHITE);
 		cancelButton.setTextFill(Color.WHITE);
 		cancelButton
-				.setStyle("-fx-font-family: \"SansSerif bold\";" + "-fx-font-size: 15px;" + "-fx-font-weight: 900;");
+				.setStyle("-fx-font-family: \"SansSerif bold\";" + "-fx-font-size: 1em;" + "-fx-font-weight: 900;");
 		downloadpdfButton.setTextFill(Color.WHITE);
 		downloadpdfButton
-				.setStyle("-fx-font-family: \"SansSerif bold\";" + "-fx-font-size: 15px;" + "-fx-font-weight: 900;");
+				.setStyle("-fx-font-family: \"SansSerif bold\";" + "-fx-font-size: 1em;" + "-fx-font-weight: 900;");
 
 		HBox.setMargin(cancelButton, new Insets(5, 10, 5, 5));
 

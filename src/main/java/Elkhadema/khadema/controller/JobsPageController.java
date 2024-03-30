@@ -131,7 +131,7 @@ public class JobsPageController extends NavbarController {
 		img.setFitHeight(50);
 		img.setPreserveRatio(true);
 		bigVBox.setStyle("-fx-font-family: \"SansSerif bold\";"
-				+ "-fx-font-size: 15px;");
+				+ "-fx-font-size: 1em;");
 		jobtitle.setFill(Color.WHITE);
 		company.setFill(Color.WHITE);
 		location.setFill(Color.WHITE);

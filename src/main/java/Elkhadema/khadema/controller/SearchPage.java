@@ -193,7 +193,7 @@ public class SearchPage extends NavbarController {
 		VBox.setVgrow(btnBox, Priority.ALWAYS);
 		username.setFill(Color.WHITE);
 		username.setStyle("-fx-font-family: \"SansSerif bold\";"
-				+ "-fx-font-size: 15px;");
+				+ "-fx-font-size: 1em;");
 		username.setOnMouseClicked( event -> {
 	                try {
 	                    openprofile(event, user);
@@ -202,11 +202,11 @@ public class SearchPage extends NavbarController {
 	                }});
 
 		abouttext.setStyle("-fx-font-family: \"SansSerif bold\";"
-				+ "-fx-font-size: 15px;");
+				+ "-fx-font-size: 1em;");
 		abouttext.setFill(Color.WHITE);
 		Followbtn.setTextFill(Color.WHITE);
 		Followbtn.setStyle("-fx-font-family: \"SansSerif bold\";"
-				+ "-fx-font-size: 15px;"
+				+ "-fx-font-size: 1em;"
 				+ "-fx-font-weight: 900;"
 				+ "-fx-background-radius:50;");
 		Followbtn.setPrefWidth(30);

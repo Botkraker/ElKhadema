@@ -152,7 +152,7 @@ public class ChatRoomController extends NavbarController  {
         contentText.setOpacity(1);
         contentText.setStyle(
                 "-fx-font-family: 'Helvetica';" +
-                        "-fx-font-size: 14px;" +
+                        "-fx-font-size: 0.875 em" +
                         "-fx-padding: 10px;" +
                         "-fx-background-color: #f5f6f7;" +
                         "-fx-border-width: 1px;" +

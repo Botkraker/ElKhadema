@@ -136,7 +136,7 @@
                                                             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                                          </HBox.margin>
                                                       </Button>
-                                                      <Button fx:id="reportButton" mnemonicParsing="false" onAction="#report" prefHeight="46.0" prefWidth="70.0" styleClass="postButton" text="report" textFill="WHITE">
+                                                      <Button fx:id="banButton" disable="true" mnemonicParsing="false" onAction="#ban" prefHeight="46.0" prefWidth="70.0" styleClass="postButton" text="ban" textFill="WHITE" visible="false">
                                                          <font>
                                                             <Font name="SansSerif Regular" size="20.0" />
                                                          </font>

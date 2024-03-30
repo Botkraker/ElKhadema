@@ -99,10 +99,10 @@ public class ResumeController extends NavbarController {
     }
 
     @FXML
-    private Button reportButton;
+    private Button banButton;
 
     @FXML
-    public void report() {
+    public void ban() {
         // TODO later
     }
     @FXML
@@ -128,8 +128,8 @@ public class ResumeController extends NavbarController {
             addSkillsbtn.setDisable(true);
             addSkillsbtn.setVisible(false);
             if (adminService.isAdmin(session)) {
-                reportButton.setVisible(true);
-                reportButton.setDisable(false);
+                banButton.setVisible(true);
+                banButton.setDisable(false);
             }
         }
         nameText.setText(person.getUserName());

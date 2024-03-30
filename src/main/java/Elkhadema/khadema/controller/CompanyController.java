@@ -92,9 +92,9 @@ public class CompanyController extends NavbarController {
     @FXML
     private Text showText;
     @FXML
-    private Button reportButton;
+    private Button banButton;
     @FXML
-    public void report(){
+    public void ban(){
         //TODO later
     }
     @FXML
@@ -107,8 +107,8 @@ public class CompanyController extends NavbarController {
             btnVbox.getChildren().addAll(followbutton, chatButton);
             initButttons();
             if (adminService.isAdmin(session)) {
-                reportButton.setVisible(true);
-                reportButton.setDisable(false);
+                banButton.setVisible(true);
+                banButton.setDisable(false);
             }
         }
         cancelOverviewEdit.setDisable(true);

@@ -65,8 +65,15 @@ public class NavbarController implements Initializable {
 	@FXML
 	public void GoSearch() throws IOException {
 		if (searchbar.getText().length() > 0) {
-			SearchPage.searchString = searchbar.getText();
-			App.setRoot("saechplace");
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/saechplace.fxml"));
+		root = loader.load();
+		SearchPage searchPage = loader.getController();
+        searchPage.init(searchbar.getText());
+		stage = App.stage;
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
+        App.setRoot("comment");
 		}
 	}
 

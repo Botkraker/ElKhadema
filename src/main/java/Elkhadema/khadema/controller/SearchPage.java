@@ -26,9 +26,11 @@ import Elkhadema.khadema.util.Session;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Label;
@@ -97,10 +99,10 @@ public class SearchPage extends NavbarController {
     @FXML
     private Text age;
 
-    static String searchString;
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-        super.initialize(location, resources);
+    String searchString;
+	public void init(String string) {
+        searchString=string;
+        super.initialize(null, null);
 		if(personDAO.get(Session.getUser().getId()).isPresent()) {
         	miniprofilesetup();
         	forperson.setVisible(true);
@@ -556,8 +558,15 @@ public class SearchPage extends NavbarController {
 	        }
 	    }
 	 public void commentToPost(Post post) throws IOException {
-	        CommentsPageController.setCommentedpost(post);
-	        App.setRoot("comment");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/comment.fxml"));
+		root = loader.load();
+		CommentsPageController commentsPageController = loader.getController();
+        commentsPageController.init(post);
+		stage = App.stage;
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
+        App.setRoot("comment");
 	    }
 	 private VBox makeicon(ImageView profileimg) {
 		 	double width;

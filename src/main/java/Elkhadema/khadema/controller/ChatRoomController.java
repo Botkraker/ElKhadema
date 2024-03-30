@@ -1,16 +1,11 @@
 package Elkhadema.khadema.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-
 import Elkhadema.khadema.Service.ServiceImplemantation.FollowServiceImp;
 import Elkhadema.khadema.Service.ServiceImplemantation.MessageServiceIMP;
-import Elkhadema.khadema.Service.ServiceImplemantation.UserServiceImp;
 import Elkhadema.khadema.Service.ServiceInterfaces.FollowService;
 import Elkhadema.khadema.Service.ServiceInterfaces.MessageService;
-import Elkhadema.khadema.Service.ServiceInterfaces.UserService;
 import Elkhadema.khadema.domain.Media;
 import Elkhadema.khadema.domain.Message;
 import Elkhadema.khadema.domain.User;
@@ -22,9 +17,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -32,7 +25,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -49,12 +41,9 @@ public class ChatRoomController extends NavbarController  {
     private long lastMessageId = 0;
     private MessageService messageService = new MessageServiceIMP();
     private FollowService followService = new FollowServiceImp();
-    private UserService userService = new UserServiceImp();
     private List<User> contacts = followService.getfollowing(Session.getUser());
     private int parentMessageId;
 
-    @FXML
-    VBox vContacts;
     @FXML
     TextArea messageText;
     @FXML
@@ -191,36 +180,6 @@ public class ChatRoomController extends NavbarController  {
             if (tmp)
                 messagePane.setVvalue(1.0);
         });
-    }
-
-    private void initContacts() {
-        List<VBox> hBoxs = new ArrayList<>();
-        contacts = contacts.stream().map(user -> userService.getUserById(user)).collect(Collectors.toList());
-        for (User user : contacts) {
-            Text text = new Text(user.getUserName());
-            text.setStyle("-fx-fill:white;-fx-font-size:15px;");
-            ImageView imageView = new ImageView(new Image("file:src//main//resources//images//user.png"));
-            imageView.setFitHeight(46);
-            imageView.setFitWidth(46);
-            imageView.setTranslateX(5);
-            text.setTranslateX(10);
-            HBox hBox = new HBox(imageView, text);
-            hBox.setPadding(new Insets(5, 0, 5, 0));
-            hBox.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-                currentMessageReciver = user;
-                messageVBox.getChildren().clear();
-                loadMessages(currentMessageReciver);
-            });
-            // add event handler
-            hBox.setAlignment(Pos.CENTER_LEFT);
-            VBox vBox = new VBox(hBox);
-            vBox.getStyleClass().add("posts");
-            vBox.setCursor(Cursor.HAND);
-            vBox.setOnMouseEntered(e -> vBox.setStyle("-fx-background-color: #0099ff93; -fx-text-fill: white;"));
-            vBox.setOnMouseExited(e -> vBox.setStyle("-fx-background-color:#0000002a ; -fx-text-fill: white;"));
-            hBoxs.add(vBox);
-        }
-        vContacts.getChildren().addAll(hBoxs);
     }
 
     @FXML

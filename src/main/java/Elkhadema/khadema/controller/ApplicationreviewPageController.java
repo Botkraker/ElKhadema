@@ -52,7 +52,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class ApplicationreviewPageController extends NavbarController implements Initializable {
+public class ApplicationreviewPageController extends NavbarController {
 	JobServiceImp js = new JobServiceImp();
 	PersonDAO pDao = new PersonDAO();
 	JobsDAO jDao = new JobsDAO();
@@ -93,8 +93,6 @@ public class ApplicationreviewPageController extends NavbarController implements
 	@FXML
 	private Text username;
 
-	@FXML
-	private VBox vContacts;
 
 	@FXML
 	private VBox youricon;
@@ -124,7 +122,7 @@ public class ApplicationreviewPageController extends NavbarController implements
 			j.stream().filter(t -> t.getEtat().equals("Fire")).forEach(t -> showRequestForUser(t));
 			j.stream().filter(t -> t.getEtat().equals("Waiting"))
 					.forEach(t -> showRequestForUser(t));
-			
+
 		}
 		else {
 			List<JobRequest> j=js.getAllJobRequestByCompany(new Company(Session.getUser().getId(), null, null));
@@ -277,7 +275,7 @@ public class ApplicationreviewPageController extends NavbarController implements
 			btnBox.getChildren().addAll(saveButton, fireButton);
 		}
 	}
-	
+
 	private void showRequestForUser(JobRequest jr) {
 		jr.setJobOffre(jDao.getJobOfferByid(jr.getJobOffre().getId()).get());
 		VBox bigVBox = new VBox();
@@ -367,7 +365,7 @@ public class ApplicationreviewPageController extends NavbarController implements
 		bigVBox.setPadding(new Insets(0, 0, 25, 0));
 		if (jr.getEtat().equals("Waiting")) {
 			btnBox.getChildren().addAll(cancelButton);
-		} 
+		}
 		username.setText(username.getText()+"->"+jr.getEtat());
 
 	}
@@ -470,35 +468,6 @@ public class ApplicationreviewPageController extends NavbarController implements
 		imgholder.setPrefWidth(46);
 		return imgholder;
 	}
-	private void initContacts() {
-        List<User> follwing = new FollowServiceImp().getfollowing(Session.getUser());
-        List<VBox> hBoxs = new ArrayList<>();
-
-        for (User user : follwing) {
-            User tmp =new UserServiceImp().getUserById(user);
-            Text text = new Text(tmp.getUserName());
-            text.setStyle("-fx-fill:white;-fx-font-size:15px;");
-            ImageView imageView = new ImageView(new Image("file:src//main//resources//images//user.png"));
-            imageView.setFitHeight(46);
-            imageView.setFitWidth(46);
-            imageView.setTranslateX(5);
-            text.setTranslateX(10);
-            HBox hBox = new HBox(imageView, text);
-            hBox.setPadding(new Insets(5, 0, 5, 0));
-            hBox.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-                try {
-                    openprofile(event, tmp);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
-            hBox.setAlignment(Pos.CENTER_LEFT);
-            VBox vBox = new VBox(hBox);
-            vBox.getStyleClass().add("posts");
-            hBoxs.add(vBox);
-        }
-        vContacts.getChildren().addAll(hBoxs);
-    }
 
 
 }

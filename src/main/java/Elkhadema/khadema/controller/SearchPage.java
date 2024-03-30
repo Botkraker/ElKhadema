@@ -168,7 +168,9 @@ public class SearchPage extends NavbarController {
 		Button Followbtn=new Button("+");
 		Text abouttext=new Text();
 		ScrollPane about=new ScrollPane(abouttext);
-		btnBox.getChildren().add(Followbtn);
+        if (user.getId()!=Session.getUser().getId()) {
+            btnBox.getChildren().add(Followbtn);
+        }
 		if (fs.isFollowing(Session.getUser(),user )) {
 			Followbtn.setText("-");
 		}

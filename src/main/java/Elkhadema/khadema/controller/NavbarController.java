@@ -53,9 +53,18 @@ public class NavbarController implements Initializable {
 	Parent root;
 
 	@FXML
-	void postMsg(MouseEvent event) {
+	TextField searchbar;
 
-	}
+	@FXML
+	VBox notifList;
+
+	@FXML
+	VBox notifBox;
+
+	FollowService followService = new FollowServiceImp();
+
+	@FXML
+	VBox vContacts;
 
 	@FXML
 	public void goJobsList() throws IOException {
@@ -67,9 +76,6 @@ public class NavbarController implements Initializable {
 		stage.setScene(scene);
 		stage.show();
 	}
-
-	@FXML
-	TextField searchbar;
 
 	@FXML
 	public void GoSearch() throws IOException {
@@ -120,6 +126,106 @@ public class NavbarController implements Initializable {
 		notifList.setVisible(true);
 		notifList.setDisable(false);
 		initNotif();
+	}
+
+	@FXML
+	public void goChat(ActionEvent event) throws IOException {
+		goChat(event, null);
+	}
+
+	@FXML
+	public void goChat(ActionEvent event, User user) throws IOException {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/chatroom.fxml"));
+		root = loader.load();
+		ChatRoomController chatRoomController = loader.getController();
+		chatRoomController.init(user);
+		stage = App.stage;
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
+	}
+
+	@FXML
+	public void goHome() throws IOException {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/mainpage.fxml"));
+		root = loader.load();
+		MainPageController mainPageController = loader.getController();
+		stage = App.stage;
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
+
+	}
+
+	public void logout() {
+		Stage stage = App.stage;
+		App.logout(stage);
+		stage.close();
+	}
+
+	public void openprofile(MouseEvent event, User tmp) throws IOException {
+		User user = tmp;
+		if (companyService.isCompany(user)) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/company.fxml"));
+			root = loader.load();
+			CompanyController companyController = loader.getController();
+			companyController.init(user);
+
+		} else {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/resmue.fxml"));
+			root = loader.load();
+			ResumeController resumeController = loader.getController();
+			resumeController.init(user);
+		}
+		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
+	}
+
+	@FXML
+	public void sessionOpenProfile(MouseEvent event) throws IOException {
+		openprofile(event, Session.getUser());
+	}
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		notifList.setVisible(true);
+		notifList.setVisible(false);
+	}
+
+	public void initContacts() {
+		List<User> follwing = followService.getfollowing(Session.getUser());
+		List<VBox> hBoxs = new ArrayList<>();
+
+		for (User user : follwing) {
+			User tmp = userService.getUserById(user);
+			Text text = new Text(tmp.getUserName());
+			text.setStyle("-fx-fill:white;-fx-font-size:15px;");
+			ImageView imageView = new ImageView(new Image("file:src//main//resources//images//user.png"));
+			imageView.setFitHeight(46);
+			imageView.setFitWidth(46);
+			imageView.setTranslateX(5);
+			text.setTranslateX(10);
+			HBox hBox = new HBox(imageView, text);
+			hBox.setPadding(new Insets(5, 0, 5, 0));
+			hBox.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+				try {
+					openprofile(event, tmp);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			});
+			hBox.setAlignment(Pos.CENTER_LEFT);
+			VBox vBox = new VBox(hBox);
+			vBox.getStyleClass().add("posts");
+			hBoxs.add(vBox);
+		}
+		vContacts.getChildren().addAll(hBoxs);
+	}
+
+	@FXML
+	void postMsg(MouseEvent event) {
+
 	}
 
 	private void initNotif() {
@@ -185,117 +291,11 @@ public class NavbarController implements Initializable {
 
 	}
 
-	@FXML
-	public void goChat(ActionEvent event) throws IOException {
-		goChat(event, null);
-	}
-
-	@FXML
-	public void goChat(ActionEvent event, User user) throws IOException {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/chatroom.fxml"));
-		root = loader.load();
-		ChatRoomController chatRoomController = loader.getController();
-		chatRoomController.init(user);
-		stage = App.stage;
-		scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();
-	}
-
-	@FXML
-	public void goHome() throws IOException {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/mainpage.fxml"));
-		root = loader.load();
-		MainPageController mainPageController = loader.getController();
-		stage = App.stage;
-		scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();
-
-	}
-
-	public void logout() {
-		Stage stage = App.stage;
-		App.logout(stage);
-		stage.close();
-	}
-
-	public void openprofile(MouseEvent event, User tmp) throws IOException {
-		User user = tmp;
-		if (companyService.isCompany(user)) {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/company.fxml"));
-			root = loader.load();
-			CompanyController companyController = loader.getController();
-			companyController.init(user);
-
-		} else {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/resmue.fxml"));
-			root = loader.load();
-			ResumeController resumeController = loader.getController();
-			resumeController.init(user);
-		}
-		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();
-	}
-
-	@FXML
-	public void sessionOpenProfile(MouseEvent event) throws IOException {
-		openprofile(event, Session.getUser());
-	}
-
-	@FXML
-	VBox notifList;
-	@FXML
-	VBox notifBox;
-
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-		notifList.setVisible(true);
-		notifList.setVisible(false);
-	}
-
 	private String limitString(String string) {
 		if (string.length() <= 50)
 			return string;
 		else
 			return string.substring(0, 50).concat("...");
 	}
-
-	FollowService followService = new FollowServiceImp();
-
-	public void initContacts() {
-		List<User> follwing = followService.getfollowing(Session.getUser());
-		List<VBox> hBoxs = new ArrayList<>();
-
-		for (User user : follwing) {
-			User tmp = userService.getUserById(user);
-			Text text = new Text(tmp.getUserName());
-			text.setStyle("-fx-fill:white;-fx-font-size:15px;");
-			ImageView imageView = new ImageView(new Image("file:src//main//resources//images//user.png"));
-			imageView.setFitHeight(46);
-			imageView.setFitWidth(46);
-			imageView.setTranslateX(5);
-			text.setTranslateX(10);
-			HBox hBox = new HBox(imageView, text);
-			hBox.setPadding(new Insets(5, 0, 5, 0));
-			hBox.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-				try {
-					openprofile(event, tmp);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			});
-			hBox.setAlignment(Pos.CENTER_LEFT);
-			VBox vBox = new VBox(hBox);
-			vBox.getStyleClass().add("posts");
-			hBoxs.add(vBox);
-		}
-		vContacts.getChildren().addAll(hBoxs);
-	}
-
-	@FXML
-	VBox vContacts;
 
 }

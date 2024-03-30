@@ -84,21 +84,6 @@ public class CommentsPageController extends NavbarController {
 	@FXML
 	private VBox comment_holder;
 
-	@FXML
-	void likePost(MouseEvent event) {
-
-	}
-
-	@FXML
-	void logout(MouseEvent event) {
-
-	}
-
-	@FXML
-	void postMsg(MouseEvent event) {
-
-	}
-
 	boolean loadingMorePosts = false;
 	int postindex = 15;
 	int maxPosts = 20;

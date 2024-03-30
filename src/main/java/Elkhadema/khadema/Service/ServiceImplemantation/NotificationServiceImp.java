@@ -1,5 +1,6 @@
 package Elkhadema.khadema.Service.ServiceImplemantation;
 
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -30,19 +31,22 @@ public class NotificationServiceImp implements NotificationService {
                 .filter(message -> message.getCreationDate().after(user.getLastloginDate()))
                 .sorted(Comparator.comparing(Message::getCreationDate))
                 .map(message -> new Notification("message", message.getContent(), message.getSender(),
-                        message.getCreationDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),message.getId()))
+                        LocalDate.parse(message.getCreationDate()
+                                .toString()),
+                        message.getId()))
                 .collect(Collectors.toList());
     }
 
     @Override
     public List<Notification> postNotifications(User user) {
         List<Follow> followings = followDAO.getfollowingByid(Session.getUser().getId());
-        List<User> users = followings.stream().map(Follow::getFollowing).collect(Collectors.toList());
+        List<User> users = followings.stream().map(Follow::getFollower).collect(Collectors.toList());
         return users.stream()
                 .flatMap(user2 -> postDAO.getPostsById(user2.getId()).stream())
                 .filter(post -> post.getCreationDate().after(user.getLastloginDate()))
                 .sorted(Comparator.comparing(Post::getCreationDate))
-                .map(post -> new Notification("post", post.getContent(), post.getUser(), post.getCreationDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),post.getId()))
+                .map(post -> new Notification("post", post.getContent(), post.getUser(),
+                        post.getCreationDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), post.getId()))
                 .collect(Collectors.toList());
 
     }

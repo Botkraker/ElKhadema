@@ -14,7 +14,7 @@ public class FollowServiceImp implements FollowService {
     UserDAO userDAO=new UserDAO();
     @Override
     public List<User> getFollowers(User user) {
-        return followDAO.getAllFollowersById(user.getId()).stream().map(Follow::getFollower).collect(Collectors.toList());
+        return followDAO.getAllFollowersById(user.getId()).stream().map(Follow::getFollowing).collect(Collectors.toList());
     }
 
     @Override
@@ -24,9 +24,8 @@ public class FollowServiceImp implements FollowService {
 
     @Override
     public boolean isFollowing(User user, User following) {
-        List<User> s= followDAO.getfollowingByid(user.getId()).stream().map(Follow::getFollower).collect(Collectors.toList());
-        s.forEach(t -> System.out.println(t.getId()+" "+following.getId()));
-        return  s.stream().anyMatch(t -> following.getId()==t.getId());
+        List<User> s= getfollowing(following);
+        return  s.stream().anyMatch(t -> user.getId()==t.getId());
     }
 
     @Override

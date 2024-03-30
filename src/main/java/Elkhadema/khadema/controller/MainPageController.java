@@ -428,7 +428,6 @@ public class MainPageController extends NavbarController {
             ps.addReactionPost(post, r);
             likenumber.setText("" + ps.getPostReactions(post).size());
             isliked.set(true);
-            ;
         }
     }
 

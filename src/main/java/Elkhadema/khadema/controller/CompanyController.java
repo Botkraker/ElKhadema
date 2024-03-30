@@ -202,11 +202,10 @@ public class CompanyController extends NavbarController {
         Button followbutton = new Button("follow");
         if (followService.isFollowing(session, company)) {
             followbutton.setText("unfollow");
-
         }
         followbutton.getStyleClass().add("postButton");
         followbutton.setOnAction(event -> {
-            if (followService.isFollowing(session, company)) {
+            if (!followService.isFollowing(session, company)) {
                 followService.Follow(session, company);
                 followbutton.setText("unfollow");
             } else {

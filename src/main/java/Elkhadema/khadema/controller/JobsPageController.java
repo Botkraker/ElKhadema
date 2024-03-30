@@ -5,9 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 
@@ -19,7 +17,6 @@ import Elkhadema.khadema.domain.Company;
 import Elkhadema.khadema.domain.JobOffre;
 import Elkhadema.khadema.domain.JobRequest;
 import Elkhadema.khadema.domain.Person;
-import Elkhadema.khadema.domain.User;
 import Elkhadema.khadema.util.Session;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

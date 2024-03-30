@@ -9,6 +9,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 import Elkhadema.khadema.App;
+import Elkhadema.khadema.DAO.DAOImplemantation.ReportDAO;
+import Elkhadema.khadema.Service.ServiceImplemantation.AdminServiceImp;
 import Elkhadema.khadema.Service.ServiceImplemantation.CompanyServiceImp;
 import Elkhadema.khadema.Service.ServiceImplemantation.FollowServiceImp;
 import Elkhadema.khadema.Service.ServiceImplemantation.PostServiceImp;
@@ -27,13 +29,17 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -54,6 +60,7 @@ public class SearchPage extends NavbarController {
 	PostServiceImp ps=new PostServiceImp();
 	FollowServiceImp fs=new FollowServiceImp();
 	UserServiceImp us=new UserServiceImp();
+    AdminServiceImp as=new AdminServiceImp();
 
     @FXML
     private ButtonBar listContact;
@@ -169,7 +176,7 @@ public class SearchPage extends NavbarController {
         if (!user.equals(Session.getUser())) {
             btnBox.getChildren().add(Followbtn);
         }
-		if (fs.isFollowing(Session.getUser(),user )) {
+		if (fs.isFollowing(user,Session.getUser())) {
 			Followbtn.setText("-");
 		}
 		headBox.getChildren().addAll(imgholder,username,btnBox);
@@ -260,12 +267,12 @@ public class SearchPage extends NavbarController {
 		bigVBox.setPadding(new Insets(0, 0, 25, 0));
 	}
 	private void followuser(User user,Button btn) {
-		if (fs.isFollowing(Session.getUser(),user)) {
-			fs.unFollow(Session.getUser(),user);
+		if (fs.isFollowing(user,Session.getUser())) {
+			fs.unFollow(user,Session.getUser());
 			btn.setText("+");
 		}
 		else {
-			fs.Follow(Session.getUser(), user);
+			fs.Follow(user, Session.getUser());
 			btn.setText("-");
 		}
 
@@ -305,7 +312,19 @@ public class SearchPage extends NavbarController {
         iMGHOLDER.getStyleClass().add("postTxtField");
         iMGHOLDER.setAlignment(Pos.CENTER);
         iMGHOLDER.setSpacing(5);
+        Button SettingsButton=new Button();
+        HBox Settinghbox=new HBox(SettingsButton);
+        HBox.setHgrow(Settinghbox,Priority.ALWAYS);
+        Settinghbox.setAlignment(Pos.CENTER_RIGHT);
+        SettingsButton.setStyle("-fx-background-color:white;"
+        		+ "-fx-background-radius:50;"
+        		+ "-fx-font-size:1.4em;"
+        		+ "-fx-font-weight:900;");
 
+        HBox.setMargin(SettingsButton, new Insets(0,5,0,0));
+       
+        profilebar.getChildren().add(Settinghbox);
+        
         Optional<MediaPlayer> mediaPlayer = post.getPostMedias().stream().filter(t -> t.getMediatype().equals("vid"))
                 .map(Elkhadema.khadema.domain.Media::getVideo).findFirst();
         MediaPlayer mp[] = { null };
@@ -401,9 +420,53 @@ public class SearchPage extends NavbarController {
                 mediaView.setVisible(false);
             }
         });
+        if (!as.isAdmin(Session.getUser())) {
+        	SettingsButton.setText("REPORT");
+        	SettingsButton.setTextFill(Color.valueOf("#0095fe"));
+        	 SettingsButton.setOnAction(event -> report(post));
+        }
+        else {
+        	SettingsButton.setText("DELETE");
+        	SettingsButton.setTextFill(Color.RED);
+        	SettingsButton.setOnAction(event -> delete(post,posts));
+		}
         postholder.getChildren().add(posts);
         return posts;
     }
+    private void delete(Post post,VBox posts) {
+    	Alert popup=new Alert(AlertType.CONFIRMATION);
+    	System.out.println("houni");
+    	popup.setTitle("ARE YOU SURE");
+    	popup.setHeaderText("ARE YOU SURE TO DELETE THIS POST");
+    	popup.setContentText("");
+    	Optional<ButtonType> r=popup.showAndWait();
+    	if (r.isPresent()) {
+    		if (r.get()==ButtonType.OK) {
+    	    	
+				ps.removePost(post);
+				posts.setVisible(false);
+				posts.setMinHeight(0);
+				posts.setMaxHeight(0);
+				posts.setPrefHeight(0);
+			}
+    	}
+	}
+
+	private void  report(Post post) {
+    	TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Reporting");
+        dialog.setHeaderText("Please Tell us what is wrong:");
+        dialog.setContentText("Description:");
+        Optional<String> result = dialog.showAndWait();
+        if(result.isPresent()) {
+        	try {
+				ReportDAO.save(post, result.get());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+        }
+	}
+	
 	boolean isPlayed;
 	private void playVideo(MediaPlayer mp) {
         VBox background = new VBox();

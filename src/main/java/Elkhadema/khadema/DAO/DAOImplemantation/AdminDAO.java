@@ -17,7 +17,7 @@ public class AdminDAO {
 	 * @return the user as optional of Admin else empty optional
 	 */
 	public Optional<Admin> isAdmin(User user) {
-		String sql = "SELECT *  FROM `user`,`admin` WHERE `user_id` = " + user.getId();
+		String sql = "SELECT *  FROM `user` u,`admin` a WHERE u.user_id=a.user_id and u.`user_id` = " + user.getId();
 		Admin admin = null;
 		try {
 			ResultSet rs = connection.createStatement().executeQuery(sql);

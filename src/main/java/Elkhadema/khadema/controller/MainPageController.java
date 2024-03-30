@@ -10,8 +10,12 @@ import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
+import com.itextpdf.io.font.FontWeight;
+
 import Elkhadema.khadema.App;
 import Elkhadema.khadema.DAO.DAOImplemantation.PersonDAO;
+import Elkhadema.khadema.DAO.DAOImplemantation.ReportDAO;
+import Elkhadema.khadema.Service.ServiceImplemantation.AdminServiceImp;
 import Elkhadema.khadema.Service.ServiceImplemantation.CompanyServiceImp;
 import Elkhadema.khadema.Service.ServiceImplemantation.FollowServiceImp;
 import Elkhadema.khadema.Service.ServiceImplemantation.UserServiceImp;
@@ -29,14 +33,19 @@ import Elkhadema.khadema.util.Session;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
@@ -55,6 +64,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextInputDialog;
 
 public class MainPageController extends NavbarController {
     private Parent root;
@@ -63,6 +73,7 @@ public class MainPageController extends NavbarController {
 
     UserService userService = new UserServiceImp();
     CompanyService companyService = new CompanyServiceImp();
+    AdminServiceImp as=new AdminServiceImp();
     PersonDAO personDAO=new PersonDAO();
     @FXML
     private ScrollPane CC;
@@ -235,7 +246,32 @@ public class MainPageController extends NavbarController {
         profilename.setFont(Font.font("SansSerif", 15));
         profilename.setTranslateX(5);
         profilename.setFill(Color.WHITE);
-        HBox profilebar = new HBox(imgholder, profilename);
+
+        //Menhouni
+        Button SettingsButton=new Button();
+        HBox Settinghbox=new HBox(SettingsButton);
+        HBox.setHgrow(Settinghbox,Priority.ALWAYS);
+        Settinghbox.setAlignment(Pos.CENTER_RIGHT);
+        SettingsButton.setStyle("-fx-background-color:white;"
+        		+ "-fx-background-radius:50;"
+        		+ "-fx-font-size:1.4em;"
+        		+ "-fx-font-weight:900;");
+
+        HBox.setMargin(SettingsButton, new Insets(0,5,0,0));
+       
+        if (!as.isAdmin(Session.getUser())) {
+        	SettingsButton.setText("REPORT");
+        	SettingsButton.setTextFill(Color.valueOf("#0095fe"));
+        	 SettingsButton.setOnAction(event -> report(post));
+        }
+        else {
+        	SettingsButton.setText("DELETE");
+        	SettingsButton.setTextFill(Color.RED);
+        	SettingsButton.setOnAction(event -> delete(post));
+		}
+        
+		//Lehouni
+        HBox profilebar = new HBox(imgholder, profilename,Settinghbox);
         profilebar.setSpacing(5);
         profilebar.setAlignment(Pos.CENTER_LEFT);
         Text postscontent = new Text(post.getContent());
@@ -256,6 +292,8 @@ public class MainPageController extends NavbarController {
         iMGHOLDER.getStyleClass().add("postTxtField");
         iMGHOLDER.setAlignment(Pos.CENTER);
         iMGHOLDER.setSpacing(5);
+        
+        
 
         Optional<MediaPlayer> mediaPlayer = post.getPostMedias().stream().filter(t -> t.getMediatype().equals("vid"))
                 .map(Elkhadema.khadema.domain.Media::getVideo).findFirst();
@@ -358,7 +396,38 @@ public class MainPageController extends NavbarController {
         return posts;
     }
 
-    public void commentToPost(Post post) throws IOException {
+    private void delete(Post post) {
+    	Alert popup=new Alert(AlertType.CONFIRMATION);
+    	System.out.println("houni");
+    	popup.setTitle("ARE YOU SURE");
+    	popup.setHeaderText("ARE YOU SURE TO DELETE THIS POST");
+    	popup.setContentText("");
+    	Optional<ButtonType> r=popup.showAndWait();
+    	if (r.isPresent()) {
+    		if (r.get()==ButtonType.OK) {
+    	    	
+				ps.removePost(post);
+				resetfeed();
+			}
+    	}
+	}
+
+	private void  report(Post post) {
+    	TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Reporting");
+        dialog.setHeaderText("Please Tell us what is wrong:");
+        dialog.setContentText("Description:");
+        Optional<String> result = dialog.showAndWait();
+        if(result.isPresent()) {
+        	try {
+				ReportDAO.save(post, result.get());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+        }
+	}
+
+	public void commentToPost(Post post) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/comment.fxml"));
 		root = loader.load();
 		CommentsPageController commentsPageController = loader.getController();

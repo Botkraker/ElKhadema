@@ -11,7 +11,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 import Elkhadema.khadema.App;
-import Elkhadema.khadema.DAO.DAOImplemantation.PersonDAO;
 import Elkhadema.khadema.Service.ServiceImplemantation.CompanyServiceImp;
 import Elkhadema.khadema.Service.ServiceImplemantation.FollowServiceImp;
 import Elkhadema.khadema.Service.ServiceImplemantation.PostServiceImp;
@@ -55,8 +54,7 @@ import javafx.util.Duration;
 
 public class SearchPage extends NavbarController {
 	SearchServiceImp ss=new SearchServiceImp();
-	CompanyServiceImp Cs=new CompanyServiceImp();
-	PersonDAO personDAO=new PersonDAO();
+	CompanyServiceImp cs=new CompanyServiceImp();
 	PostServiceImp ps=new PostServiceImp();
 	FollowServiceImp fs=new FollowServiceImp();
 	UserServiceImp us=new UserServiceImp();
@@ -103,7 +101,7 @@ public class SearchPage extends NavbarController {
 	public void init(String string) {
         searchString=string;
         super.initialize(null, null);
-		if(personDAO.get(Session.getUser().getId()).isPresent()) {
+		if(!cs.isCompany(Session.getUser())) {
         	miniprofilesetup();
         	forperson.setVisible(true);
     	}
@@ -118,7 +116,7 @@ public class SearchPage extends NavbarController {
 
 	}
 	private void miniprofilesetup() {
-    	Person person=personDAO.get(Session.getUser().getId()).get();
+    	Person person=((Person)us.getUserById(Session.getUser()));
     	username.setText(person.getUserName());
     	age.setText(""+person.getAge());
     	sexe.setText(person.getSexe());
@@ -181,13 +179,13 @@ public class SearchPage extends NavbarController {
 		Followbtn.setOnAction(event -> followuser(user,Followbtn));
 		bigVBox.getChildren().addAll(headBox,about);
 		postholder.getChildren().add(bigVBox);
-		if (personDAO.get(user.getId()).isPresent()) {
-			Person p=personDAO.get(user.getId()).get();
+		if (!cs.isCompany(user)) {
+			Person p= (Person) us.getUserById(user);
 			username.setText(p.getUserName());
 			abouttext.setText(p.getAbout());
 		}
 		else {
-			Company c=Cs.getCompanyInfo(new Company(user.getId(), null, null));
+			Company c=cs.getCompanyInfo(new Company(user.getId(), null, null));
 			username.setText(c.getUserName()+"(Company)");
 			abouttext.setText(c.getDescription());
 		}

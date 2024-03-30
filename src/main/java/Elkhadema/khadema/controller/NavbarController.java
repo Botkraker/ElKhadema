@@ -2,14 +2,18 @@ package Elkhadema.khadema.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import Elkhadema.khadema.App;
 import Elkhadema.khadema.Service.ServiceImplemantation.CompanyServiceImp;
+import Elkhadema.khadema.Service.ServiceImplemantation.FollowServiceImp;
 import Elkhadema.khadema.Service.ServiceImplemantation.NotificationServiceImp;
 import Elkhadema.khadema.Service.ServiceImplemantation.PostServiceImp;
 import Elkhadema.khadema.Service.ServiceImplemantation.UserServiceImp;
 import Elkhadema.khadema.Service.ServiceInterfaces.CompanyService;
+import Elkhadema.khadema.Service.ServiceInterfaces.FollowService;
 import Elkhadema.khadema.Service.ServiceInterfaces.NotificationService;
 import Elkhadema.khadema.Service.ServiceInterfaces.PostService;
 import Elkhadema.khadema.Service.ServiceInterfaces.UserService;
@@ -21,12 +25,17 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -65,15 +74,15 @@ public class NavbarController implements Initializable {
 	@FXML
 	public void GoSearch() throws IOException {
 		if (searchbar.getText().length() > 0) {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/saechplace.fxml"));
-		root = loader.load();
-		SearchPage searchPage = loader.getController();
-        searchPage.init(searchbar.getText());
-		stage = App.stage;
-		scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();
-        App.setRoot("comment");
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/saechplace.fxml"));
+			root = loader.load();
+			SearchPage searchPage = loader.getController();
+			searchPage.init(searchbar.getText());
+			stage = App.stage;
+			scene = new Scene(root);
+			stage.setScene(scene);
+			stage.show();
+			App.setRoot("comment");
 		}
 	}
 
@@ -206,9 +215,9 @@ public class NavbarController implements Initializable {
 	}
 
 	public void logout() {
-        Stage stage = App.stage;
+		Stage stage = App.stage;
 		App.logout(stage);
-        stage.close();
+		stage.close();
 	}
 
 	public void openprofile(MouseEvent event, User tmp) throws IOException {
@@ -253,5 +262,40 @@ public class NavbarController implements Initializable {
 		else
 			return string.substring(0, 50).concat("...");
 	}
+
+	FollowService followService = new FollowServiceImp();
+
+	public void initContacts() {
+		List<User> follwing = followService.getfollowing(Session.getUser());
+		List<VBox> hBoxs = new ArrayList<>();
+
+		for (User user : follwing) {
+			User tmp = userService.getUserById(user);
+			Text text = new Text(tmp.getUserName());
+			text.setStyle("-fx-fill:white;-fx-font-size:15px;");
+			ImageView imageView = new ImageView(new Image("file:src//main//resources//images//user.png"));
+			imageView.setFitHeight(46);
+			imageView.setFitWidth(46);
+			imageView.setTranslateX(5);
+			text.setTranslateX(10);
+			HBox hBox = new HBox(imageView, text);
+			hBox.setPadding(new Insets(5, 0, 5, 0));
+			hBox.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+				try {
+					openprofile(event, tmp);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			});
+			hBox.setAlignment(Pos.CENTER_LEFT);
+			VBox vBox = new VBox(hBox);
+			vBox.getStyleClass().add("posts");
+			hBoxs.add(vBox);
+		}
+		vContacts.getChildren().addAll(hBoxs);
+	}
+
+	@FXML
+	VBox vContacts;
 
 }

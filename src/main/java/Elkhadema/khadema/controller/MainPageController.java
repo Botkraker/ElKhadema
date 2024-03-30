@@ -72,8 +72,7 @@ public class MainPageController extends NavbarController {
     private StackPane bigstack;
     @FXML
     private VBox forperson;
-    @FXML
-    VBox vContacts;
+
     @FXML
     HBox mother;
     @FXML
@@ -567,36 +566,4 @@ public class MainPageController extends NavbarController {
         bigstack.getChildren().add(background);
         System.out.println(mediaView.getFitWidth());
     }
-
-    private void initContacts() {
-        List<User> follwing = followService.getfollowing(Session.getUser());
-        List<VBox> hBoxs = new ArrayList<>();
-
-        for (User user : follwing) {
-            User tmp = userService.getUserById(user);
-            Text text = new Text(tmp.getUserName());
-            text.setStyle("-fx-fill:white;-fx-font-size:15px;");
-            ImageView imageView = new ImageView(new Image("file:src//main//resources//images//user.png"));
-            imageView.setFitHeight(46);
-            imageView.setFitWidth(46);
-            imageView.setTranslateX(5);
-            text.setTranslateX(10);
-            HBox hBox = new HBox(imageView, text);
-            hBox.setPadding(new Insets(5, 0, 5, 0));
-            hBox.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-                try {
-                    openprofile(event, tmp);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
-            hBox.setAlignment(Pos.CENTER_LEFT);
-            VBox vBox = new VBox(hBox);
-            vBox.getStyleClass().add("posts");
-            hBoxs.add(vBox);
-        }
-        vContacts.getChildren().addAll(hBoxs);
-    }
-
-
 }

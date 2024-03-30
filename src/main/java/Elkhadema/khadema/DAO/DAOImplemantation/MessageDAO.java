@@ -169,6 +169,27 @@ public class MessageDAO {
 		}
 		return messages;
 	}
+	public List<Message> getMessageByReciverId(int id) {
+
+		String sql = "SELECT * FROM `messages`m ,`message_receiver` mr,`user` WHERE mr.message_id=m.message_id and	and user.user_id=mr.user_id  `user_id`=" + id;
+		List<Message> messages = new ArrayList<>();
+		try {
+			ResultSet rs = connection.createStatement().executeQuery(sql);
+			while (rs.next()) {
+				Message message=new Message(rs.getLong("message_id"), new User(rs.getInt("sender_id"), "", rs.getString("username")),
+						rs.getString("content"), rs.getDate("creation_date"), rs.getInt("parent_message_id"));
+						message.setRead(rs.getInt("is_read"));
+				message.setImage(new Media(null,rs.getBytes("image"),"img"));
+
+				messages.add(message);
+			}
+
+		} catch (Exception e) {
+			System.out.println(e);
+
+		}
+		return messages;
+	}
 
 	public List<User> getlistofChatsByUserId(int id) {
 		String sql = "SELECT DISTINCT m.user_id FROM message_receiver m JOIN messages e ON e.message_id = m.message_id WHERE e.sender_id ="

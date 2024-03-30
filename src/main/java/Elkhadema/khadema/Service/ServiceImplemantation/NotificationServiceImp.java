@@ -27,7 +27,7 @@ public class NotificationServiceImp implements NotificationService {
 
     @Override
     public List<Notification> messageNotifications(User user) {
-        return messageDAO.getMessageByUserId(user.getId()).stream()
+        return messageDAO.getMessageByReciverId(user.getId()).stream()
                 .filter(message -> message.getCreationDate().after(user.getLastloginDate()))
                 .sorted(Comparator.comparing(Message::getCreationDate))
                 .map(message -> new Notification("message", message.getContent(), message.getSender(),

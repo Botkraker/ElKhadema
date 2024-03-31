@@ -171,7 +171,7 @@ public class MessageDAO {
 	}
 	public List<Message> getMessageByReciverId(int id) {
 
-		String sql = "SELECT * FROM `messages`m ,`message_receiver` mr,`user` WHERE mr.message_id=m.message_id and	and `user`.user_id=mr.user_id  `user_id`=" + id;
+		String sql = "SELECT * FROM `messages`m ,`message_receiver` mr,`user` WHERE mr.message_id=m.message_id and `user`.user_id=mr.user_id  `user_id`=" + id;
 		List<Message> messages = new ArrayList<>();
 		try {
 			ResultSet rs = connection.createStatement().executeQuery(sql);

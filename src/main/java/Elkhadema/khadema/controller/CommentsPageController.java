@@ -9,7 +9,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 import Elkhadema.khadema.App;
+import Elkhadema.khadema.DAO.DAOImplemantation.ReportDAO;
 import Elkhadema.khadema.DAO.DAOImplemantation.UserDAO;
+import Elkhadema.khadema.Service.ServiceImplemantation.AdminServiceImp;
 import Elkhadema.khadema.Service.ServiceImplemantation.FollowServiceImp;
 import Elkhadema.khadema.Service.ServiceImplemantation.PostServiceImp;
 import Elkhadema.khadema.Service.ServiceImplemantation.UserServiceImp;
@@ -32,11 +34,15 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -60,6 +66,7 @@ public class CommentsPageController extends NavbarController {
 	private Parent root;
 	FollowService followService = new FollowServiceImp();
 	UserService userService = new UserServiceImp();
+    AdminServiceImp as=new AdminServiceImp();
 	UserDAO userDAO = new UserDAO();
 	User session = Session.getUser();
 	PostServiceImp ps = new PostServiceImp();
@@ -182,7 +189,28 @@ public class CommentsPageController extends NavbarController {
 		iMGHOLDER.getStyleClass().add("postTxtField");
 		iMGHOLDER.setAlignment(Pos.CENTER);
 		iMGHOLDER.setSpacing(5);
-
+		Button SettingsButton=new Button();
+        HBox Settinghbox=new HBox(SettingsButton);
+        HBox.setHgrow(Settinghbox,Priority.ALWAYS);
+        Settinghbox.setAlignment(Pos.CENTER_RIGHT);
+        SettingsButton.setStyle("-fx-background-color:white;"
+        		+ "-fx-background-radius:50;"
+        		+ "-fx-font-size:1.4em;"
+        		+ "-fx-font-weight:900;");
+        profilebar.getChildren().add(Settinghbox);
+        HBox.setMargin(SettingsButton, new Insets(0,5,0,0));
+       
+        if (!as.isAdmin(Session.getUser())) {
+        	SettingsButton.setText("REPORT");
+        	SettingsButton.setTextFill(Color.valueOf("#0095fe"));
+        	 SettingsButton.setOnAction(event -> report(post));
+        }
+        else {
+        	SettingsButton.setText("DELETE");
+        	SettingsButton.setTextFill(Color.RED);
+        	SettingsButton.setOnAction(event -> {if(delete(post))resetComment();});
+		}
+        
 		Optional<MediaPlayer> mediaPlayer = post.getPostMedias().stream().filter(t -> t.getMediatype().equals("vid"))
 				.map(Elkhadema.khadema.domain.Media::getVideo).findFirst();
 		MediaPlayer mp[] = { null };
@@ -281,6 +309,37 @@ public class CommentsPageController extends NavbarController {
 		comment_holder.getChildren().add(posts);
 		return posts;
 
+	}
+    private boolean delete(Post post) {
+    	Alert popup=new Alert(AlertType.CONFIRMATION);
+    	System.out.println("houni");
+    	popup.setTitle("ARE YOU SURE");
+    	popup.setHeaderText("ARE YOU SURE TO DELETE THIS POST");
+    	popup.setContentText("");
+    	Optional<ButtonType> r=popup.showAndWait();
+    	if (r.isPresent()) {
+    		if (r.get()==ButtonType.OK) {
+    	    	
+				ps.removePost(post);
+				return true;
+			}
+    	}
+    	return false;
+	}
+
+	private void  report(Post post) {
+    	TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Reporting");
+        dialog.setHeaderText("Please Tell us what is wrong:");
+        dialog.setContentText("Description:");
+        Optional<String> result = dialog.showAndWait();
+        if(result.isPresent()) {
+        	try {
+				ReportDAO.save(post, result.get());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+        }
 	}
 
 	private boolean isPlayed = false;
@@ -497,6 +556,34 @@ public class CommentsPageController extends NavbarController {
 			t.setAlignment(Pos.TOP_CENTER);
 			t.setVisible(false);
 		});
+		Button SettingsButton=new Button();
+        HBox Settinghbox=new HBox(SettingsButton);
+        HBox.setHgrow(Settinghbox,Priority.ALWAYS);
+        Settinghbox.setAlignment(Pos.CENTER_RIGHT);
+        SettingsButton.setStyle("-fx-background-color:white;"
+        		+ "-fx-background-radius:50;"
+        		+ "-fx-font-size:1.4em;"
+        		+ "-fx-font-weight:900;");
+        profilebar.getChildren().add(Settinghbox);
+        HBox.setMargin(SettingsButton, new Insets(0,5,0,0));
+       
+        if (!as.isAdmin(Session.getUser())) {
+        	SettingsButton.setText("REPORT");
+        	SettingsButton.setTextFill(Color.valueOf("#0095fe"));
+        	 SettingsButton.setOnAction(event -> report(commentedpost));
+        }
+        else {
+        	SettingsButton.setText("DELETE");
+        	SettingsButton.setTextFill(Color.RED);
+        	SettingsButton.setOnAction(event -> {if(delete(commentedpost))
+				try {
+					goHome();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}});
+
+		}
+        
 		VBox iMGHOLDER = new VBox(displayedimges.toArray(new HBox[0]));
 		iMGHOLDER.getStyleClass().add("postTxtField");
 		iMGHOLDER.setAlignment(Pos.CENTER);

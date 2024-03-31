@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import Elkhadema.khadema.App;
+import Elkhadema.khadema.Service.ServiceImplemantation.AdminServiceImp;
 import Elkhadema.khadema.Service.ServiceImplemantation.CompanyServiceImp;
 import Elkhadema.khadema.Service.ServiceImplemantation.FollowServiceImp;
 import Elkhadema.khadema.Service.ServiceImplemantation.NotificationServiceImp;
@@ -30,6 +31,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -48,6 +50,7 @@ public class NavbarController implements Initializable {
 	private CompanyService companyService = new CompanyServiceImp();
 	private NotificationService notificationService = new NotificationServiceImp();
 	PostService postService = new PostServiceImp();
+	private AdminServiceImp as=new AdminServiceImp();
 	Stage stage;
 	Scene scene;
 	Parent root;
@@ -65,6 +68,8 @@ public class NavbarController implements Initializable {
 
 	@FXML
 	VBox vContacts;
+	@FXML
+	Button foradmin;
 
 	@FXML
 	public void goJobsList() throws IOException {
@@ -189,6 +194,14 @@ public class NavbarController implements Initializable {
 	}
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		if(!as.isAdmin(Session.getUser())) {
+			foradmin.setDisable(true);
+			foradmin.setVisible(false);
+			foradmin.setMinWidth(0);
+			foradmin.setPrefWidth(0);
+			foradmin.setMaxWidth(0);
+		}
+		//foradmin.getParent().getChildrenUnmodifiable().remove(foradmin);
 		notifList.setVisible(true);
 		notifList.setVisible(false);
 	}
@@ -296,6 +309,17 @@ public class NavbarController implements Initializable {
 			return string;
 		else
 			return string.substring(0, 50).concat("...");
+	}
+	@FXML
+	private void GoReports() throws IOException {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/Elkhadema/khadema/AdminReportView.fxml"));
+		root = loader.load();
+		ReportPageController reportPageController = loader.getController();
+		stage = App.stage;
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
+
 	}
 
 }

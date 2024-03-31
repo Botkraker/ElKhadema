@@ -1,12 +1,8 @@
 package Elkhadema.khadema.util;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.List;
-
-import org.xhtmlrenderer.pdf.ITextRenderer;
 
 import com.itextpdf.io.font.FontConstants;
 import com.itextpdf.io.image.ImageData;
@@ -29,6 +25,7 @@ import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.TextAlignment;
 import Elkhadema.khadema.domain.Competance;
 import Elkhadema.khadema.domain.Experience;
+import Elkhadema.khadema.domain.Media;
 import Elkhadema.khadema.domain.Person;
 
 public class CVgenerator {
@@ -57,7 +54,11 @@ public class CVgenerator {
                 .setTextAlignment(TextAlignment.CENTER)
                 .setBold()
                 .setFont(PdfFontFactory.createFont(FontConstants.COURIER_BOLD));
-        ImageData imageData = ImageDataFactory.create(person.getPhoto().getMedia());
+        ImageData imageData;
+        if (person.getPhoto() == null) {
+            imageData=ImageDataFactory.create("src/main/resources/Elkhadema/khadema/user.jpg");
+        } else
+            imageData = ImageDataFactory.create(person.getPhoto().getMedia());
         Image image = new Image(imageData);
         image.setWidth(100);
         image.setHeight(100);
@@ -113,29 +114,13 @@ public class CVgenerator {
         return new DeviceRgb(r, g, b);
     }
 
-    public static void GenerateCvFromHTML(Person person, String path, List<Competance> comp,
-            List<Experience> experience) {
-        try {
-            HTMLGenerator htmlGenerator=new HTMLGenerator();
-            ITextRenderer renderer = new ITextRenderer();
-            renderer.setDocumentFromString(htmlGenerator.firstModelCV(person, path, comp, experience),path);
-            renderer.layout();
-            try (OutputStream outputStream = new FileOutputStream(path)) {
-                renderer.createPDF(outputStream);
-            }
-
-            System.out.println("PDF created successfully.");
-        } catch (Exception e) {
-            System.err.println("Error creating PDF: " + e.getMessage());
-        }
-    }
-
     public static void main(String[] args) throws IOException {
         List<Competance> comp = Arrays.asList(new Competance(0, "AI", null, null, 0),
                 new Competance(0, "Busnesss", null, null, 0), new Competance(0, "Software engeneer", null, null, 0));
         List<Experience> expe = Arrays.asList(new Experience(0, "descriptions1", "experience1", null, null),
                 new Experience(0, "descriptions2", "experience2", null, null),
                 new Experience(0, "descriptions3", "experience3", null, null));
-        CVgenerator.Generate(new Person(0, "wassim", "nefzi"), "CV.pdf", comp, expe);
+        Person person = new Person(0, "wassim", "nefzi");
+        CVgenerator.Generate(person, "CV.pdf", comp, expe);
     }
 }

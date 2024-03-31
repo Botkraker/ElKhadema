@@ -17,9 +17,8 @@ public class GenerateCVServiceImp implements GenerateCVService {
     @Override
     public void generateCV(Person person) throws IOException {
         person.setContactInfo(contactInfoDAO.get(person.getContactInfo().getId()).get());
-        // CVgenerator.Generate(person, "CV.pdf", competanceDAO.getAll(person),
-        // experienceDAO.getAll(person) );
-        CVgenerator.GenerateCvFromHTML(person, "CV.pdf", competanceDAO.getAll(person), experienceDAO.getAll(person));
+        CVgenerator.Generate(person, "CV.pdf", competanceDAO.getAll(person),
+                experienceDAO.getAll(person));
     }
 
 }
